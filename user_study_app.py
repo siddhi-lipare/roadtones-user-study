@@ -141,7 +141,7 @@ def save_response(user_id, age, gender, data_sample, choice, attempts_taken, was
         # Connect to Google Sheets using the secrets
         gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
         # Open the sheet by its name. Make sure this matches your sheet's name exactly.
-        spreadsheet = gc.open("Your Google Sheet Name Here") 
+        spreadsheet = gc.open("roadtones-streamlit-userstudy-responses") 
         worksheet = spreadsheet.sheet1
 
         # If the sheet is empty, add the headers first
