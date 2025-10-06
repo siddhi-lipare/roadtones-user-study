@@ -4,11 +4,14 @@ import pandas as pd
 import os
 import random
 import time
+import re # Import the regular expression module
 
 # --- Configuration ---
 RESPONSES_PATH = 'responses/study_results.csv'
 TOTAL_ATTEMPTS = 2
-INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
+INTRO_VIDEO_PATH = "media/start_video.mp4"
+# Regex for basic email validation
+EMAIL_REGEX = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
 # --- Central Dictionary for Definitions ---
 DEFINITIONS = {
@@ -88,6 +91,7 @@ STUDY_DATA_BY_PART = {
     ]
 }
 
+
 # --- Helper Functions ---
 @st.cache_data
 def load_data():
@@ -102,58 +106,20 @@ def load_data():
         return None
     return STUDY_DATA_BY_PART
 
-# def save_response(user_id, age, gender, data_sample, choice, attempts_taken, was_correct, part, question_text="N/A"):
-#     """Saves the user's response."""
-#     new_response = {
-#         'user_id': user_id, 'age': age, 'gender': gender, 'timestamp': time.time(), 'part': part,
-#         'sample_id': data_sample['sample_id'],
-#         'question_text': question_text,
-#         'caption_shown': data_sample.get('caption', f"A:{data_sample.get('caption_A')}//B:{data_sample.get('caption_B')}"),
-#         'user_choice': choice, 'was_correct': was_correct, 'attempts_taken': attempts_taken
-#     }
-#     df = pd.DataFrame([new_response])
-#     if not os.path.exists(RESPONSES_PATH):
-#         os.makedirs(os.path.dirname(RESPONSES_PATH), exist_ok=True)
-#         df.to_csv(RESPONSES_PATH, index=False)
-#     else:
-#         df.to_csv(RESPONSES_PATH, mode='a', header=False, index=False)
-
-# (Place this in your Helper Functions section)
-import gspread
-
-def save_response(user_id, age, gender, data_sample, choice, attempts_taken, was_correct, part, question_text="N/A"):
-    """Saves a single response to your Google Sheet."""
-
-    # Get the current time for the timestamp
-    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-
-    # Create a dictionary of the response
-    response_data = {
-        'user_id': user_id, 'age': age, 'gender': gender, 'timestamp': timestamp, 'part': part,
+def save_response(email, age, gender, data_sample, choice, attempts_taken, was_correct, part, question_text="N/A"):
+    """Saves the user's response."""
+    new_response = {
+        'email': email, 'age': age, 'gender': gender, 'timestamp': time.time(), 'part': part,
         'sample_id': data_sample['sample_id'], 'question_text': question_text,
         'caption_shown': data_sample.get('caption', f"A:{data_sample.get('caption_A')}//B:{data_sample.get('caption_B')}"),
-        'user_choice': str(choice), # Convert list to string for sheets
-        'was_correct': was_correct, 
-        'attempts_taken': attempts_taken
+        'user_choice': choice, 'was_correct': was_correct, 'attempts_taken': attempts_taken
     }
-
-    try:
-        # Connect to Google Sheets using the secrets
-        gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
-        # Open the sheet by its name. Make sure this matches your sheet's name exactly.
-        spreadsheet = gc.open("roadtones-streamlit-userstudy-responses") 
-        worksheet = spreadsheet.sheet1
-
-        # If the sheet is empty, add the headers first
-        if not worksheet.get_all_records():
-            worksheet.append_row(list(response_data.keys()))
-
-        # Append the new response as a new row
-        worksheet.append_row(list(response_data.values()))
-
-    except Exception as e:
-        # If it fails, show an error on the app itself for debugging
-        st.error(f"Failed to write to Google Sheet: {e}")
+    df = pd.DataFrame([new_response])
+    if not os.path.exists(RESPONSES_PATH):
+        os.makedirs(os.path.dirname(RESPONSES_PATH), exist_ok=True)
+        df.to_csv(RESPONSES_PATH, index=False)
+    else:
+        df.to_csv(RESPONSES_PATH, mode='a', header=False, index=False)
 
 def go_to_next_question():
     """Saves response and advances state to the next question or part."""
@@ -176,7 +142,7 @@ def go_to_next_question():
         question_text = rating_question["question_text"]
 
     save_response(
-        st.session_state.user_id, st.session_state.age, st.session_state.gender,
+        st.session_state.email, st.session_state.age, st.session_state.gender,
         sample, st.session_state.last_choice, attempts_taken, was_correct, current_part_key, question_text
     )
     
@@ -204,14 +170,13 @@ def jump_to_part(part_index):
 
 def restart_quiz():
     """Resets the quiz to start again from Part 1, keeping user info."""
-    st.session_state.page = 'study' # Jumps directly to the quiz
+    st.session_state.page = 'study' 
     st.session_state.current_part_index = 0
     st.session_state.current_sample_index = 0
     st.session_state.current_rating_question_index = 0
     st.session_state.attempts_left = TOTAL_ATTEMPTS
     st.session_state.show_feedback = False
     st.session_state.score = 0
-    # User ID, age, and gender are preserved from the session
 
 def format_options_with_info(option_name):
     """Formats a string to include the definition for display in a widget."""
@@ -238,7 +203,7 @@ if st.session_state.page == 'demographics':
     st.title("Tone-aware Captioning 📝")
     st.header("Before you begin, please provide some basic information:")
 
-    user_id = st.text_input("Please paste your assigned User ID here:")
+    email = st.text_input("Please enter your email address:")
     age = st.selectbox("Age:", options=list(range(18, 51)), index=None, placeholder="Select your age...")
     gender = st.selectbox("Gender:", options=["Male", "Female", "Other / Prefer not to say"], index=None, placeholder="Select your gender...")
     
@@ -246,10 +211,12 @@ if st.session_state.page == 'demographics':
     
     if st.checkbox("I am over 18 and I agree to participate in this study."):
         if st.button("Next"):
-            if not all([user_id, age, gender]):
+            if not all([email, age, gender]):
                 st.error("Please fill in all fields to continue.")
+            elif not re.match(EMAIL_REGEX, email):
+                st.error("Please enter a valid email address.")
             else:
-                st.session_state.user_id = user_id
+                st.session_state.email = email
                 st.session_state.age = age
                 st.session_state.gender = gender
                 st.session_state.page = 'intro_video'
@@ -360,33 +327,45 @@ elif st.session_state.page == 'study':
 
         if st.session_state.show_feedback:
             # --- FEEDBACK VIEW ---
-            # REMOVED the redundant "Correct!"/"Incorrect." messages
-            
-            user_choice = st.session_state.last_choice
-            correct_answer = question_data.get('correct_answer')
-            if not isinstance(user_choice, list): user_choice = [user_choice]
-            if not isinstance(correct_answer, list): correct_answer = [correct_answer]
-
-            st.write("**Your Answer vs Correct Answer:**")
-            for option in question_data['options']:
-                is_correct_option = option in correct_answer
-                is_selected_option = option in user_choice
-
-                if is_correct_option:
-                    st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
-                elif is_selected_option and not is_correct_option:
-                    st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
+            if st.session_state.is_correct:
+                st.success("Correct!")
+            else:
+                if is_single_attempt_level or st.session_state.attempts_left <= 0:
+                    st.error("Incorrect.")
                 else:
-                    st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
+                    st.warning(f"Not quite. You have {st.session_state.attempts_left} attempt(s) left.")
 
-            st.write("---")
-            st.info(f"**Explanation:** {question_data['explanation']}")
+            if st.session_state.is_correct or is_single_attempt_level or st.session_state.attempts_left <= 0:
+                st.write("---")
+                user_choice = st.session_state.last_choice
+                correct_answer = question_data.get('correct_answer')
+                if not isinstance(user_choice, list): user_choice = [user_choice]
+                if not isinstance(correct_answer, list): correct_answer = [correct_answer]
 
-            is_last_question_of_quiz = (st.session_state.current_part_index == len(part_keys) - 1) and \
-                                       ("Caption Quality" in current_part_key and st.session_state.current_rating_question_index == len(sample["questions"]) - 1 or \
-                                        "Caption Quality" not in current_part_key and current_index == len(questions_for_part) - 1)
-            button_label = "Finish Quiz" if is_last_question_of_quiz else "Next Question"
-            st.button(button_label, on_click=go_to_next_question)
+                st.write("**Your Answer vs Correct Answer:**")
+                for option in question_data['options']:
+                    is_correct_option = option in correct_answer
+                    is_selected_option = option in user_choice
+
+                    if is_correct_option:
+                        st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
+                    elif is_selected_option and not is_correct_option:
+                        st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
+                    else:
+                        st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
+
+                st.write("---")
+                st.info(f"**Explanation:** {question_data['explanation']}")
+
+                is_last_question_of_quiz = (st.session_state.current_part_index == len(part_keys) - 1) and \
+                                           ("Caption Quality" in current_part_key and st.session_state.current_rating_question_index == len(sample["questions"]) - 1 or \
+                                            "Caption Quality" not in current_part_key and current_index == len(questions_for_part) - 1)
+                button_label = "Finish Quiz" if is_last_question_of_quiz else "Next Question"
+                st.button(button_label, on_click=go_to_next_question)
+            else:
+                if st.button("Try Again"):
+                    st.session_state.show_feedback = False
+                    st.rerun()
 
         else:
             # --- QUESTION FORM VIEW ---
@@ -399,7 +378,7 @@ elif st.session_state.page == 'study':
                         choice = st.multiselect("Select all that apply:", options_list, key=f"ms_{current_index}", format_func=format_options_with_info)
                     else:
                         choice = st.radio("Select one option:", options_list, key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
-                else: # For Parts 2 and 3, no special formatting
+                else:
                     choice = st.radio("Select one option:", options_list, key=f"radio_{current_part_key}_{current_index}", index=None)
                 
                 submitted = st.form_submit_button("Submit Answer")
