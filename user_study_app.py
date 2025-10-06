@@ -9,7 +9,7 @@ import re # Import the regular expression module
 # --- Configuration ---
 RESPONSES_PATH = 'responses/study_results.csv'
 TOTAL_ATTEMPTS = 2
-INTRO_VIDEO_PATH = "media/start_video.mp4"
+INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
 # Regex for basic email validation
 EMAIL_REGEX = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
