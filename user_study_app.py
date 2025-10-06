@@ -4,14 +4,13 @@ import pandas as pd
 import os
 import random
 import time
-import re # Import the regular expression module
+import re # Import the regular expression module for email validation
+import gspread
 
 # --- Configuration ---
 RESPONSES_PATH = 'responses/study_results.csv'
 TOTAL_ATTEMPTS = 2
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
-# Regex for basic email validation
-EMAIL_REGEX = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
 # --- Central Dictionary for Definitions ---
 DEFINITIONS = {
@@ -91,7 +90,6 @@ STUDY_DATA_BY_PART = {
     ]
 }
 
-
 # --- Helper Functions ---
 @st.cache_data
 def load_data():
@@ -107,19 +105,38 @@ def load_data():
     return STUDY_DATA_BY_PART
 
 def save_response(email, age, gender, data_sample, choice, attempts_taken, was_correct, part, question_text="N/A"):
-    """Saves the user's response."""
-    new_response = {
-        'email': email, 'age': age, 'gender': gender, 'timestamp': time.time(), 'part': part,
+    """Saves a single response to your Google Sheet."""
+
+    # Get the current time for the timestamp
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Create a dictionary of the response
+    response_data = {
+        'email': email, 'age': age, 'gender': gender, 'timestamp': timestamp, 'part': part,
         'sample_id': data_sample['sample_id'], 'question_text': question_text,
         'caption_shown': data_sample.get('caption', f"A:{data_sample.get('caption_A')}//B:{data_sample.get('caption_B')}"),
-        'user_choice': choice, 'was_correct': was_correct, 'attempts_taken': attempts_taken
+        'user_choice': str(choice), # Convert list to string for sheets
+        'was_correct': was_correct,
+        'attempts_taken': attempts_taken
     }
-    df = pd.DataFrame([new_response])
-    if not os.path.exists(RESPONSES_PATH):
-        os.makedirs(os.path.dirname(RESPONSES_PATH), exist_ok=True)
-        df.to_csv(RESPONSES_PATH, index=False)
-    else:
-        df.to_csv(RESPONSES_PATH, mode='a', header=False, index=False)
+
+    try:
+        # Connect to Google Sheets using the secrets
+        gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
+        # Open the sheet by its name. Make sure this matches your sheet's name exactly.
+        spreadsheet = gc.open("roadtones-streamlit-userstudy-responses")
+        worksheet = spreadsheet.sheet1
+
+        # If the sheet is empty, add the headers first
+        if not worksheet.get_all_records():
+            worksheet.append_row(list(response_data.keys()))
+
+        # Append the new response as a new row
+        worksheet.append_row(list(response_data.values()))
+
+    except Exception as e:
+        # If it fails, show an error on the app itself for debugging
+        st.error(f"Failed to write to Google Sheet: {e}")
 
 def go_to_next_question():
     """Saves response and advances state to the next question or part."""
@@ -127,14 +144,14 @@ def go_to_next_question():
     current_part_key = part_keys[st.session_state.current_part_index]
     questions_for_part = st.session_state.all_data[current_part_key]
     sample = questions_for_part[st.session_state.current_sample_index]
-    
+
     was_correct = st.session_state.is_correct
     attempts_taken = TOTAL_ATTEMPTS - st.session_state.get('attempts_left', 0)
     question_text = "N/A"
 
     if "Tone Controllability" in current_part_key or "Caption Quality" in current_part_key:
         attempts_taken = 1
-    
+
     if "Tone Controllability" in current_part_key:
         question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
     elif "Caption Quality" in current_part_key:
@@ -145,7 +162,7 @@ def go_to_next_question():
         st.session_state.email, st.session_state.age, st.session_state.gender,
         sample, st.session_state.last_choice, attempts_taken, was_correct, current_part_key, question_text
     )
-    
+
     if "Caption Quality" in current_part_key:
         st.session_state.current_rating_question_index += 1
         if st.session_state.current_rating_question_index >= len(sample["questions"]):
@@ -156,7 +173,7 @@ def go_to_next_question():
         if st.session_state.current_sample_index >= len(questions_for_part):
             st.session_state.current_part_index += 1
             st.session_state.current_sample_index = 0
-            
+
     st.session_state.show_feedback = False
     st.session_state.attempts_left = TOTAL_ATTEMPTS
 
@@ -170,13 +187,14 @@ def jump_to_part(part_index):
 
 def restart_quiz():
     """Resets the quiz to start again from Part 1, keeping user info."""
-    st.session_state.page = 'study' 
+    st.session_state.page = 'study' # Jumps directly to the quiz
     st.session_state.current_part_index = 0
     st.session_state.current_sample_index = 0
     st.session_state.current_rating_question_index = 0
     st.session_state.attempts_left = TOTAL_ATTEMPTS
     st.session_state.show_feedback = False
     st.session_state.score = 0
+    # Email, age, and gender are preserved from the session
 
 def format_options_with_info(option_name):
     """Formats a string to include the definition for display in a widget."""
@@ -206,14 +224,17 @@ if st.session_state.page == 'demographics':
     email = st.text_input("Please enter your email address:")
     age = st.selectbox("Age:", options=list(range(18, 51)), index=None, placeholder="Select your age...")
     gender = st.selectbox("Gender:", options=["Male", "Female", "Other / Prefer not to say"], index=None, placeholder="Select your gender...")
-    
+
     st.write("---")
-    
+
     if st.checkbox("I am over 18 and I agree to participate in this study."):
         if st.button("Next"):
+            # A simple regex for email validation
+            email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
             if not all([email, age, gender]):
                 st.error("Please fill in all fields to continue.")
-            elif not re.match(EMAIL_REGEX, email):
+            elif not re.match(email_regex, email):
                 st.error("Please enter a valid email address.")
             else:
                 st.session_state.email = email
@@ -226,7 +247,7 @@ if st.session_state.page == 'demographics':
 elif st.session_state.page == 'intro_video':
     st.title("Introductory Video")
     st.info("Please watch this short video before proceeding to the instructions.")
-    
+
     _ , vid_col, _ = st.columns([1, 3, 1])
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
@@ -274,7 +295,7 @@ elif st.session_state.page == 'study':
     sample = questions_for_part[current_index]
 
     st.header(current_part_key)
-    
+
     if "Caption Quality" in current_part_key:
         total_rating_questions = len(sample["questions"])
         current_rating_q_index = st.session_state.current_rating_question_index
@@ -316,7 +337,7 @@ elif st.session_state.page == 'study':
             st.subheader("Which tone(s) are most dominant in the caption?")
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5} .stMultiSelect [data-baseweb="tag"] {background-color: #0d6efd !important;}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
-        
+
         st.write("")
         st.markdown("""<style>
             .feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;}
@@ -327,60 +348,46 @@ elif st.session_state.page == 'study':
 
         if st.session_state.show_feedback:
             # --- FEEDBACK VIEW ---
-            if st.session_state.is_correct:
-                st.success("Correct!")
-            else:
-                if is_single_attempt_level or st.session_state.attempts_left <= 0:
-                    st.error("Incorrect.")
+            user_choice = st.session_state.last_choice
+            correct_answer = question_data.get('correct_answer')
+            if not isinstance(user_choice, list): user_choice = [user_choice]
+            if not isinstance(correct_answer, list): correct_answer = [correct_answer]
+
+            st.write("**Your Answer vs Correct Answer:**")
+            for option in question_data['options']:
+                is_correct_option = option in correct_answer
+                is_selected_option = option in user_choice
+
+                if is_correct_option:
+                    st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
+                elif is_selected_option and not is_correct_option:
+                    st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
                 else:
-                    st.warning(f"Not quite. You have {st.session_state.attempts_left} attempt(s) left.")
+                    st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
 
-            if st.session_state.is_correct or is_single_attempt_level or st.session_state.attempts_left <= 0:
-                st.write("---")
-                user_choice = st.session_state.last_choice
-                correct_answer = question_data.get('correct_answer')
-                if not isinstance(user_choice, list): user_choice = [user_choice]
-                if not isinstance(correct_answer, list): correct_answer = [correct_answer]
+            st.write("---")
+            st.info(f"**Explanation:** {question_data['explanation']}")
 
-                st.write("**Your Answer vs Correct Answer:**")
-                for option in question_data['options']:
-                    is_correct_option = option in correct_answer
-                    is_selected_option = option in user_choice
-
-                    if is_correct_option:
-                        st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
-                    elif is_selected_option and not is_correct_option:
-                        st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
-                    else:
-                        st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
-
-                st.write("---")
-                st.info(f"**Explanation:** {question_data['explanation']}")
-
-                is_last_question_of_quiz = (st.session_state.current_part_index == len(part_keys) - 1) and \
-                                           ("Caption Quality" in current_part_key and st.session_state.current_rating_question_index == len(sample["questions"]) - 1 or \
-                                            "Caption Quality" not in current_part_key and current_index == len(questions_for_part) - 1)
-                button_label = "Finish Quiz" if is_last_question_of_quiz else "Next Question"
-                st.button(button_label, on_click=go_to_next_question)
-            else:
-                if st.button("Try Again"):
-                    st.session_state.show_feedback = False
-                    st.rerun()
+            is_last_question_of_quiz = (st.session_state.current_part_index == len(part_keys) - 1) and \
+                                       ("Caption Quality" in current_part_key and st.session_state.current_rating_question_index == len(sample["questions"]) - 1 or \
+                                        "Caption Quality" not in current_part_key and current_index == len(questions_for_part) - 1)
+            button_label = "Finish Quiz" if is_last_question_of_quiz else "Next Question"
+            st.button(button_label, on_click=go_to_next_question)
 
         else:
             # --- QUESTION FORM VIEW ---
             with st.form("quiz_form"):
                 choice = None
                 options_list = question_data['options']
-                
+
                 if "Tone Identification" in current_part_key:
                     if question_data.get("question_type") == "multi":
                         choice = st.multiselect("Select all that apply:", options_list, key=f"ms_{current_index}", format_func=format_options_with_info)
                     else:
                         choice = st.radio("Select one option:", options_list, key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
-                else:
+                else: # For Parts 2 and 3, no special formatting
                     choice = st.radio("Select one option:", options_list, key=f"radio_{current_part_key}_{current_index}", index=None)
-                
+
                 submitted = st.form_submit_button("Submit Answer")
 
                 if submitted:
@@ -389,23 +396,23 @@ elif st.session_state.page == 'study':
                     else:
                         st.session_state.last_choice = choice
                         correct_answer = question_data.get('correct_answer')
-                        
+
                         if isinstance(correct_answer, list):
                             is_correct = (set(choice) == set(correct_answer))
                         else:
                             is_correct = (choice == correct_answer)
-                        
+
                         st.session_state.is_correct = is_correct
 
                         if st.session_state.attempts_left == TOTAL_ATTEMPTS and is_correct:
                             st.session_state.score += 1
-                        
+
                         if not is_correct:
                             st.session_state.attempts_left -= 1
-                        
+
                         st.session_state.show_feedback = True
                         st.rerun()
-                                
+
 # --- Page 5: Thank You ---
 elif st.session_state.page == 'thank_you':
     st.title("Thank You! 🎉")
@@ -417,9 +424,9 @@ elif st.session_state.page == 'thank_you':
             total_scorable_questions += len(questions[0]["questions"])
         else:
             total_scorable_questions += len(questions)
-    
+
     passing_score = 8
-    
+
     st.header(f"Your Final Score: {st.session_state.score} / {total_scorable_questions}")
 
     if st.session_state.score >= passing_score:
