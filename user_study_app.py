@@ -541,6 +541,7 @@ elif st.session_state.page == 'user_study_main':
             st.subheader("Video Summary"); st.info(current_video["video_summary"])
 
         with col2:
+            st.subheader("Caption:")
             colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
             highlight_color = colors[caption_idx % len(colors)]
             
@@ -606,7 +607,7 @@ elif st.session_state.page == 'user_study_main':
                         st.rerun()
 
     elif st.session_state.study_part == 2:
-        st.header("User Study Part 2: Which one is better?")
+        st.header("User Study Part 2: Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
         comp_idx = st.session_state.current_comparison_index
 
@@ -725,7 +726,7 @@ elif st.session_state.page == 'user_study_main':
                     choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
 
                 with q_cols[1]:
-                    q2_text = "Is the core factual content consistent across both captions?"
+                    q2_text = "Is the core factual content preserved across both captions?"
                     st.markdown(f"**2. {q2_text}**")
                     choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
                 
@@ -741,4 +742,5 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+    st.markdown("You may now close this browser tab.")
 
