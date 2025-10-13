@@ -12,7 +12,6 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 # --- Configuration ---
-# REMOVED local CSV configuration
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
 STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
