@@ -1,0 +1,70 @@
+{
+  "Part 1: Tone Identification": [
+    {
+      "sample_id": "770719942027145220",
+      "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
+      "caption": "Guess I'll use my psychic powers, since that turn signal is clearly too complicated for you.",
+      "options": ["Advisory", "Sarcastic", "Appreciative", "Considerate"],
+      "correct_answer": "Sarcastic",
+      "explanation": "The caption uses irony to criticize the driver, which is a key element of sarcasm.",
+      "question_type": "single"
+    },
+    {
+      "sample_id": "1696360086518776040",
+      "video_path": "media/v_1696360086518776040_DStI4BjOrtDhkLua.mp4",
+      "caption": "So apparently, sunset is when Mercedes drivers test just how close they can get to my Tesla. Smooth move, @TeslaRoadWatch.",
+      "options": ["Critical", "Appreciative", "Sarcastic", "Advisory"],
+      "correct_answer": ["Critical", "Sarcastic"],
+      "explanation": "The phrase 'Smooth move' is used sarcastically to criticize the other driver's dangerous action.",
+      "question_type": "multi"
+    }
+  ],
+  "Part 2: Tone Controllability Evaluation": [
+    {
+      "sample_id": "intensity_001",
+      "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
+      "caption_A": "That wasn't a very smart move by the other driver.",
+      "caption_B": "It takes a special kind of genius to make a move that stupid.",
+      "tone_to_compare": "Sarcastic",
+      "comparison_type": "increased",
+      "options": ["Yes", "No"],
+      "correct_answer": "Yes",
+      "explanation": "Yes, the intensity of sarcasm increases significantly from a simple statement to an exaggerated, ironic compliment."
+    },
+    {
+        "sample_id": "intensity_002",
+        "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
+        "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
+        "caption_B": "Drivers should be more careful at intersections.",
+        "tone_to_compare": "Advisory",
+        "comparison_type": "decreased",
+        "options": ["Yes", "No"],
+        "correct_answer": "Yes",
+        "explanation": "Yes, the intensity decreases from a strong, direct command in Caption A to a more general suggestion in Caption B."
+    }
+  ],
+  "Part 3: Caption Quality": [
+    {
+      "sample_id": "rating_001",
+      "video_path": "media/v_1692102872706765068_GjAx5c9hRZP-JBsr.mp4",
+      "caption": "I witnessed a cab attempt a dangerous overtake on a blind curve, nearly leading to a head-on collision with an oncoming vehicle. A bus also overtook unsafely. Overtaking without clear visibility is extremely risky—please drive with caution and patience. #RoadSafety #DriveResponsibly",
+      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime, likely afternoon. The key road event was an unsafe overtaking attempt by a cab that nearly resulted in a head-on collision with an oncoming vehicle. The cab attempted to overtake on a curve with limited visibility, forcing it to brake and swerve to avoid the collision. A bus was also involved, performing an unsafe overtake. The traffic violations included unsafe overtaking by both the cab and the bus, and the cab's overtaking on a curve with limited visibility.",
+      "questions": [
+        {
+          "heading": "Tone Relevance",
+          "question_text": "Is the tone of the caption relevant to the video?",
+          "options": ["Yes", "No"],
+          "correct_answer": "Yes",
+          "explanation": "The caption's alarmed and advisory tone is highly relevant to the dangerous event shown in the video."
+        },
+        {
+          "heading": "Factual Accuracy",
+          "question_text": "As per the video summary, is the information provided in the caption factually accurate?",
+          "options": ["Yes", "No"],
+          "correct_answer": "Yes",
+          "explanation": "The caption accurately describes the unsafe overtaking by a cab on a curve, which matches the video summary."
+        }
+      ]
+    }
+  ]
+}

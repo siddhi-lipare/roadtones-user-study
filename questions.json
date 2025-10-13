@@ -1,0 +1,51 @@
+{
+  "part1_questions": [
+    {
+      "id": "persona_relevance",
+      "text": "How much does the author's persona projected in the caption come across as {}?"
+    },
+    {
+      "id": "style_relevance",
+      "text": "How strongly does the caption's writing style reflect {} tones?"
+    },
+    {
+      "id": "overall_relevance",
+      "text": "To what extent is the author's personality and writing style relevant for the given video content?"
+    },
+    {
+      "id": "factual_consistency",
+      "text": "To what extent is the factual information in the caption consistent with the video summary?"
+    },
+    {
+      "id": "usefulness",
+      "text": "How useful do you think this caption is for {}?"
+    },
+    {
+      "id": "shareability",
+      "text": "Would you share this caption (e.g. with a friend/on social media/in a report)?"
+    }
+  ],
+  "part2_questions": [
+    {
+      "id": "q1_personality",
+      "text": "Which caption better conveys the author's {} persona?"
+    },
+    {
+      "id": "q2_style",
+      "text": "Which caption better conveys the author's {} writing style?"
+    },
+    {
+      "id": "q3_accuracy",
+      "text": "Which caption is more factually accurate based on the video summary?"
+    },
+    {
+      "id": "q4_preference",
+      "text": "Which caption would you prefer for this video?"
+    }
+  ],
+  "part3_questions": {
+    "Personality": "Has the {} level {change_type} from Caption A to B?",
+    "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
+  }
+}
+

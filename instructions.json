@@ -1,0 +1,17 @@
+{
+  "quiz_instructions": {
+    "title": "Part 1: Qualification Quiz Instructions",
+    "body": "- **Purpose:** To assess the tonal content and quality of the generated video captions.\n- You will be provided with a total of 6 questions across 3 sections.\n- **Steps to Follow:**\n    1. **Watch the video** and **read the caption carefully** to understand the context before answering the questions.\n    2. **Read the explanation carefully** after submitting every answer.\n- **Look for specific wording, phrasings, hashtags, emojis, and other expressive markers** to deduce the tone from the caption.\n- **Scoring:**\n    - For quiz sections, you get **1 point** for each question answered correctly.\n    - You are required to obtain a score of **6 or above** out of 6 to proceed for the user study.\n- **Time:** The study will take approximately 5-7 minutes.\n- **Confidentiality:** Your responses will be kept anonymous."
+  },
+  "user_study_instructions": {
+    "title": "Main User Study Instructions",
+    "intro": "Thank you for participating! Your feedback is crucial for helping us evaluate our model's ability to generate high-quality video captions. This study should take approximately **5-10 minutes** to complete.\n\nPlease read the instructions for each part carefully before you begin.",
+    "part1_title": "Part 1: Rating Caption Quality",
+    "part1_body": "In this first section, you will evaluate the overall quality of individual captions.\n\n* **Your Task:** You will be shown a video followed by 2-3 different captions. For **each caption**, you will be asked to provide four ratings:\n    1.  **Tone Relevance:** Is the caption's tone (e.g., sarcastic, advisory, angry) appropriate for the events shown in the video?\n    2.  **Factual Accuracy:** Does the caption accurately describe what happened?\n    3.  **Usefulness:** How helpful is the caption in understanding the event or its context?\n    4.  **Shareability:** How likely would you be to share this video with this specific caption on social media?",
+    "part2_title": "Part 2: Comparing Captions",
+    "part2_body": "Next, you will compare two captions against each other to determine which one is better.\n\n* **Your Task:** You will see a video with two captions displayed: **Caption A** and **Caption B**. Your goal is to decide which caption you believe is superior overall. ",
+    "part3_title": "Part 3: Identifying Changes in Tone",
+    "part3_body": "The final section tests the model's ability to control the *intensity* of a specific tone.\n\n* **Your Task:** You will be shown two captions, A and B, and asked to focus on a **single, specified tone** (for example, *'Angry'* or *'Sarcastic'*). You will then be asked to answer based on whether you perceived that specific change.",
+    "note": "**Important Note:** There are no right or wrong answers in this study. We are interested in your genuine assessment and personal judgment. Thank you again for your valuable contribution!"
+  }
+}

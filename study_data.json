@@ -1,0 +1,392 @@
+{
+    "part1_ratings":[
+    {
+        "video_id": "video_001",
+        "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
+        "video_summary": "A dashcam captured a biker weaving through heavy traffic, riding hands-free, and hiding their license plate. This demonstrates extremely reckless behavior on a busy road.",
+        "captions": [
+        {
+            "caption_id": "video_001_caption1",
+            "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
+            "control_scores": {
+                "personality": {
+                    "Critical": "Strong",
+                    "Angry": "Very Strong"                 
+                },
+                "writing_style": {
+                    "Advisory": "Very Strong",
+                    "Factual": "Strong",
+                    "Instructional": "Very Strong"
+                }
+            },
+            "application": "public safety awareness"
+        },
+        {
+            "caption_id": "video_001_caption2",
+            "text": "OMG, can you believe this guy?! No hands, weaving through cars... some people just want to watch the world burn. #RoadFails #CrazyBiker",
+            "control_scores": {
+                "personality": {
+                    "Amused": "Strong",
+                    "Sarcastic": "Very Strong"
+                },
+                "writing_style": {
+                    "Conversational": "Very Strong"
+                }
+            },
+            "application": "ADAS applications"
+        },
+        {
+            "caption_id": "video_001_caption3",
+            "text": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Neutral",
+                    "Observant": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "public safety awareness"
+        }
+        ]
+    },
+    {
+        "video_id": "video_002",
+        "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
+        "video_summary": "The video, captured by multiple cameras showing various scenes and angles, depicts dangerous and reckless driving by a motorcyclist in India. The primary road event involves a motorcyclist in black performing stunts, specifically wheelies, on a busy public road. This motorcyclist was observed riding recklessly and leaving accident scenes. Other road entities, including other motorcyclists, cars, trucks, and pedestrians, were present, with pedestrians observing the events. The motorcyclist's actions appear to be motivated by thrill-seeking and a desire to show off or impress others. Evident traffic violations include reckless driving, performing stunts on public roads, leaving accident scenes, and potentially speeding.",
+        "captions": [
+        {
+            "caption_id": "video_002_caption1",
+            "text": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Strong"
+                },
+                "writing_style": {
+                    "Instructional": "Strong"
+                }
+            },
+            "application": "ADAS applications"
+        },
+        {
+            "caption_id": "video_002_caption2",
+            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Strong",
+                    "Critical": "Strong"
+                },
+                "writing_style": {
+                    "Conversational": "Very Strong"
+                }
+            },
+            "application": "public safety awareness"
+        },
+        {
+            "caption_id": "video_002_caption3",
+            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
+            "control_scores": {
+                "personality": {
+                    "Neutral": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "ADAS applications"
+        }
+        ]
+    },
+    {
+        "video_id": "video_003",
+        "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+        "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
+        "captions": [
+        {
+            "caption_id": "video_003_caption1",
+            "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
+            "control_scores": {
+                "personality": {
+                    "Serious": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "public safety awareness"
+        },
+        {
+            "caption_id": "video_003_caption2",
+            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Strong",
+                    "Critical": "Strong"
+                },
+                "writing_style": {
+                    "Conversational": "Very Strong"
+                }
+            },
+            "application": "ADAS applications"
+        },
+        {
+            "caption_id": "video_003_caption3",
+            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
+            "control_scores": {
+                "personality": {
+                    "Neutral": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "public safety awareness"
+        }
+        ]
+    },
+    {
+        "video_id": "video_004",
+        "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
+        "video_summary": "The video, captured by multiple cameras showing various scenes and angles, depicts dangerous and reckless driving by a motorcyclist in India. The primary road event involves a motorcyclist in black performing stunts, specifically wheelies, on a busy public road. This motorcyclist was observed riding recklessly and leaving accident scenes. Other road entities, including other motorcyclists, cars, trucks, and pedestrians, were present, with pedestrians observing the events. The motorcyclist's actions appear to be motivated by thrill-seeking and a desire to show off or impress others. Evident traffic violations include reckless driving, performing stunts on public roads, leaving accident scenes, and potentially speeding.",
+        "captions": [
+        {
+            "caption_id": "video_004_caption1",
+            "text": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
+            "control_scores": {
+                "personality": {
+                    "Advisory": "Strong"
+                },
+                "writing_style": {
+                    "Instructional": "Strong"
+                }
+            },
+            "application": "ADAS applications"
+        },
+        {
+            "caption_id": "video_004_caption2",
+            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Strong",
+                    "Critical": "Strong"
+                },
+                "writing_style": {
+                    "Conversational": "Very Strong"
+                }
+            },
+            "application": "public safety awareness"
+        },
+        {
+            "caption_id": "video_004_caption3",
+            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
+            "control_scores": {
+                "personality": {
+                    "Neutral": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "ADAS applications"
+        }
+        ]
+    },
+    {
+        "video_id": "video_005",
+        "video_path": "media/v_1732331854483628531_NykG7NgfkL7IMl8U.mp4",
+        "video_summary": "A vehicle-mounted camera captured typical urban commuting in Hyderabad, India, during the daytime, focusing on road safety awareness and proper lane discipline. The road event involved various entities including cars of different colors (red, maroon, white, yellow), motorcycles (some riders wearing helmets, others not), yellow auto-rickshaws with decorative patterns (one with license plate 'TS 106'), trucks, concrete barriers with alternating yellow and black stripes, overhead electrical cables, and an elevated roadway. Vehicles were observed moving in traffic, with flow varying from slow-moving congestion to a moderate, steady pace, including an instance where a red car and motorcycles ahead braked, indicating a temporary slowdown. Observed traffic rule violations included tailgating, improper lane usage, not maintaining a safe distance, and motorcycle riders not wearing helmets.",
+        "captions": [
+        {
+            "caption_id": "video_005_caption1",
+            "text": "Urban commuting requires attention to road safety and proper lane discipline. Avoid tailgating, maintain safe distances, and always wear a helmet when riding motorcycles. Small actions help prevent accidents and keep everyone safe. #RoadSafety #DriveResponsibly",
+            "control_scores": {
+                "personality": {
+                    "Advisory": "Strong"
+                },
+                "writing_style": {
+                    "Instructional": "Strong"
+                }
+            },
+            "application": "public safety awareness"
+        },
+        {
+            "caption_id": "video_005_caption2",
+            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Strong",
+                    "Critical": "Strong"
+                },
+                "writing_style": {
+                    "Conversational": "Very Strong"
+                }
+            },
+            "application": "ADAS applications"
+        },
+        {
+            "caption_id": "video_005_caption3",
+            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
+            "control_scores": {
+                "personality": {
+                    "Neutral": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "public safety awareness"
+        }
+        ]
+    },
+    {
+        "video_id": "video_006",
+        "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+        "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
+        "captions": [
+        {
+            "caption_id": "video_006_caption1",
+            "text": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another. 🚫🏍️🚗 #RoadSafety #DriveResponsibly",
+            "control_scores": {
+                "personality": {
+                    "Advisory": "Strong"
+                },
+                "writing_style": {
+                    "Instructional": "Strong"
+                }
+            },
+            "application": "ADAS applications"
+        },
+        {
+            "caption_id": "video_006_caption2",
+            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
+            "control_scores": {
+                "personality": {
+                    "Anxious": "Strong",
+                    "Critical": "Strong"
+                },
+                "writing_style": {
+                    "Conversational": "Very Strong"
+                }
+            },
+            "application": "public safety awareness"
+        },
+        {
+            "caption_id": "video_006_caption3",
+            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
+            "control_scores": {
+                "personality": {
+                    "Neutral": "Strong"
+                },
+                "writing_style": {
+                    "Factual": "Strong"
+                }
+            },
+            "application": "ADAS applications"
+        }
+        ]
+    }
+    ],
+  "part2_comparisons": [
+    {
+      "comparison_id": "comp_001",
+      "video_id": "video_002",
+      "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
+      "video_summary": "The video depicts a motorcyclist performing dangerous wheelies on a busy public road, weaving through traffic, and leaving accident scenes.",
+      "control_scores": {
+        "personality": {
+            "Critical": "Strong",
+            "Advisory": "Very Strong"
+        },
+        "writing_style": {
+            "Instructional": "Strong"
+        }
+      },
+      "caption_A": "This rider's reckless stunts put everyone in danger. Authorities must take action against such behavior to ensure road safety for all.",
+      "caption_B": "Look at this absolute clown trying to be a movie star. Someone's going to get hurt because of this idiot."
+    },
+    {
+      "comparison_id": "comp_002",
+      "video_id": "video_003",
+      "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+      "video_summary": "A dashcam video captured a near-miss accident where a semi-trailer truck performs an unsafe lane change, nearly colliding with another vehicle.",
+       "control_scores": {
+        "personality": {
+            "Critical": "Strong",
+            "Anxious": "Very Strong"
+        },
+        "writing_style": {
+            "Conversational": "Very Strong"
+        }
+      },
+      "caption_A": "A close call in Ontario! Always double-check your blind spots, especially in large vehicles. A safe lane change is a smart lane change.",
+      "caption_B": "Who gave this truck driver a license?! He almost took that car right off the road. Unbelievable."
+    },
+    {
+      "comparison_id": "comp_003",
+      "video_id": "video_005",
+      "video_path": "media/v_1732331854483628531_NykG7NgfkL7IMl8U.mp4",
+      "video_summary": "A vehicle-mounted camera captured typical urban commuting in Hyderabad, India, during the daytime, focusing on road safety awareness and proper lane discipline.",
+      "control_scores": {
+        "personality": {
+            "Advisory": "Strong"
+        },
+        "writing_style": {
+            "Instructional": "Strong"
+        }
+      },
+      "caption_A": "Just another day in city traffic. So much chaos, you have to have eyes on the back of your head to get anywhere.",
+      "caption_B": "Reminder: Lane discipline and safe following distances are not optional. Let's make our roads safer by being more considerate drivers."
+    },
+    {
+      "comparison_id": "comp_004",
+      "video_id": "video_006",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend.",
+      "control_scores": {
+        "personality": {
+            "Critical": "Strong",
+            "Advisory": "Very Strong"
+        },
+        "writing_style": {
+            "Factual": "Strong"
+        }
+      },
+      "caption_A": "Overtaking on a hairpin turn is a recipe for disaster. This was way too close. #RoadSafety",
+      "caption_B": "Some drivers have zero patience and zero brains. What a stupid move, could've ended so badly."
+    }
+  ],
+  "part3_intensity_change": [
+    {
+      "change_id": "change_001",
+      "video_id": "video_001",
+      "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
+      "video_summary": "A vehicle-mounted camera on a motorcycle captured a key road event during daytime in Bangalore, India, depicting reckless and dangerous driving behavior by the motorcycle rider in heavy traffic.",
+      "caption_A": "That biker is not being very safe.",
+      "caption_B": "That biker's reckless stunting is an absolute menace to public safety. Unbelievable arrogance.",
+      "field_to_change": {"Personality": "Angry"},
+      "change_type": "increased"
+    },
+    {
+      "change_id": "change_002",
+      "video_id": "video_006",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend.",
+      "caption_A": "Warning: Overtaking on hairpin bends is extremely dangerous and can lead to severe accidents. Always wait for a straight road with clear visibility.",
+      "caption_B": "You should probably be careful when overtaking on turns like this.",
+      "field_to_change": {"Writing Style": "Advisory"},
+      "change_type": "decreased"
+    },
+    {
+      "change_id": "change_003",
+      "video_id": "video_003",
+      "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+      "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, nearly colliding with another vehicle.",
+      "caption_A": "Oh, great move. Using the side of another car as your lane marker is a fantastic new driving technique.",
+      "caption_B": "Yeah, that truck driver definitely checked his mirrors. Flawless execution.",
+      "field_to_change": {"Personality": "Sarcasm"},
+      "change_type": "increased"
+    }
+  ]
+}
+
