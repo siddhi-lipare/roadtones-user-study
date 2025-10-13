@@ -80,18 +80,20 @@ st.markdown("""
     color: #111827; /* Darkest gray for max contrast */
 }
 
-/* Part 1 Caption Box (custom red box) */
+/* Part 1 Caption Box (colored backgrounds) */
 .part1-caption-box {
-    background-color: #f8d7da; /* Light Red */
-    border: 1px solid #f5c6cb;
-    color: #721c24; /* Dark red text for contrast */
-    border-radius: 0.5rem;
-    padding: 1rem;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
     margin-bottom: 20px;
 }
+.part1-caption-box strong {
+    font-size: 18px;
+    color: #111827;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
 .part1-caption-box .caption-text {
-    margin: 0;
-    color: #721c24; /* Override base color for this specific box */
+    margin: 0.5em 0 0 0;
 }
 
 
@@ -546,10 +548,13 @@ elif st.session_state.page == 'user_study_main':
             st.subheader("Video Summary"); st.info(current_video["video_summary"])
 
         with col2:
-            st.subheader("Caption:")
+            colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
+            highlight_color = colors[caption_idx % len(colors)]
             
+            caption_box_style = f"background-color: {highlight_color};"
             caption_text_html = f'''
-                <div class="part1-caption-box">
+                <div class="part1-caption-box" style="{caption_box_style}">
+                    <strong>Caption:</strong>
                     <p class="caption-text">{current_caption["text"]}</p>
                 </div>
             '''
