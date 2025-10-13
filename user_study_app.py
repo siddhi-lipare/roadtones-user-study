@@ -74,21 +74,26 @@ st.markdown("""
 /* Base style for all caption text */
 .caption-text {
     font-family: 'Inter', sans-serif;
-    font-weight: 600; /* Bolder for more prominence */
-    font-size: 21px !important; /* Adjusted font size, !important overrides Streamlit defaults */
+    font-weight: 500; /* Semi-bold */
+    font-size: 19px !important; /* Slightly larger font */
     line-height: 1.6;
     color: #111827; /* Darkest gray for max contrast */
 }
 
-/* Part 1 Caption Box (colored backgrounds) */
+/* Part 1 Caption Box (custom red box) */
 .part1-caption-box {
-    border-radius: 10px;
-    padding: 15px 20px;
+    background-color: #f8d7da; /* Light Red */
+    border: 1px solid #f5c6cb;
+    color: #721c24; /* Dark red text for contrast */
+    border-radius: 0.5rem;
+    padding: 1rem;
     margin-bottom: 20px;
 }
 .part1-caption-box .caption-text {
     margin: 0;
+    color: #721c24; /* Override base color for this specific box */
 }
+
 
 /* Part 2 & 3 Caption Box (for comparisons) */
 .comparison-caption-box {
@@ -542,12 +547,9 @@ elif st.session_state.page == 'user_study_main':
 
         with col2:
             st.subheader("Caption:")
-            colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
-            highlight_color = colors[caption_idx % len(colors)]
             
-            caption_box_style = f"background-color: {highlight_color};"
             caption_text_html = f'''
-                <div class="part1-caption-box" style="{caption_box_style}">
+                <div class="part1-caption-box">
                     <p class="caption-text">{current_caption["text"]}</p>
                 </div>
             '''
