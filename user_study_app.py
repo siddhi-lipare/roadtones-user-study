@@ -731,8 +731,8 @@ elif st.session_state.page == 'user_study_main':
                     dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
                 elif field_type == 'writing_style':
                     dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
-                else: # Fallback just in case
-                    dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
+                # else: # Fallback just in case
+                #     dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
                 # --- END CORRECTED LOGIC ---
 
                 q_cols = st.columns(2)
