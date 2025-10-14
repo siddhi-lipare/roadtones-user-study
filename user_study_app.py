@@ -55,7 +55,7 @@ st.markdown("""
 /* Target the Streamlit video container */
 div[data-testid="stVideo"] {
     /* Set the maximum height boundary for the container */
-    max-height: 450px;
+    max-height: 200px;
     /* Use flexbox to center the video element within the container */
     display: flex;
     justify-content: center;
