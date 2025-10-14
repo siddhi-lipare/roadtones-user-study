@@ -46,6 +46,7 @@ WORKSHEET = connect_to_gsheet()
 
 
 # --- Custom CSS and JavaScript for better UI/UX ---
+# --- Custom CSS and JavaScript for better UI/UX ---
 st.markdown("""
 <style>
 /* Import Google Font 'Inter' for a more modern, prominent look */
@@ -146,7 +147,6 @@ div[data-testid="stSlider"] {
     window.parent.document.querySelector('section.main').scrollTo(0, 0);
 </script>
 """, unsafe_allow_html=True)
-
 
 # --- Central Dictionary for Definitions ---
 DEFINITIONS = {
