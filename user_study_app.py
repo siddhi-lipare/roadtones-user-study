@@ -514,13 +514,13 @@ elif st.session_state.page == 'user_study_main':
         st.stop()
         
     with st.sidebar:
-        st.header("User Study Sections")
+        st.header("Study Sections")
         st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
         st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
         st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
     
     if st.session_state.study_part == 1:
-        st.header("User Study Part 1: Caption Quality Rating")
+        st.header("Caption Quality Rating")
         all_videos = st.session_state.all_data['study']['part1_ratings']
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
         
@@ -614,7 +614,7 @@ elif st.session_state.page == 'user_study_main':
                         st.rerun()
 
     elif st.session_state.study_part == 2:
-        st.header("User Study Part 2: Which caption is better?")
+        st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
         comp_idx = st.session_state.current_comparison_index
 
@@ -657,9 +657,9 @@ elif st.session_state.page == 'user_study_main':
 
                 part2_questions = [
                     {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(f"<b class='highlight-trait'>{personality_str}</b>")},
-                    {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(f"<b class='highlight-trait'>{style_str}</b>")},
+                    {"id": q_templates[1]["id"], "text": "Which caption better conveys a {} style of writing?".format(f"<b class='highlight-trait'>{style_str}</b>")},
                     {"id": q_templates[2]["id"], "text": q_templates[2]["text"]},
-                    {"id": q_templates[3]["id"], "text": q_templates[3]["text"]}
+                    {"id": q_templates[3]["id"], "text": "Which caption would you prefer using?"}
                 ]
                 options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
                 responses = {}
@@ -681,7 +681,6 @@ elif st.session_state.page == 'user_study_main':
                         st.rerun()
     
     elif st.session_state.study_part == 3:
-        st.header("User Study Part 3: Compare the intensities of author's personality/writing style")
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
         change_idx = st.session_state.current_change_index
 
@@ -689,6 +688,14 @@ elif st.session_state.page == 'user_study_main':
             st.session_state.page = 'final_thank_you'; st.rerun()
 
         current_change = all_changes[change_idx]
+        
+        # --- DYNAMIC TITLE LOGIC ---
+        field_to_change = current_change['field_to_change']
+        field_type = list(field_to_change.keys())[0] # this will be 'personality' or 'writing_style'
+        dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
+        st.header(dynamic_title)
+        # --- END DYNAMIC TITLE LOGIC ---
+
         col1, col2 = st.columns([1, 1.8])
 
         with col1:
@@ -715,9 +722,7 @@ elif st.session_state.page == 'user_study_main':
             
             with st.form(key=f"study_form_change_{change_idx}"):
                 
-                field_to_change = current_change['field_to_change']
                 change_type = current_change['change_type']
-                field_type = list(field_to_change.keys())[0] 
                 trait = field_to_change[field_type] 
 
                 q_template = st.session_state.all_data['questions']['part3_questions'][field_type]
@@ -750,4 +755,3 @@ elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
     st.markdown("You may now close this browser tab.")
-
