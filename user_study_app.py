@@ -111,7 +111,7 @@ st.markdown("""
     margin: 0.5em 0 0 0;
 }
 
-/* --- NEW QUIZ CAPTION BOX STYLE --- */
+/* --- UPDATED QUIZ CAPTION BOX STYLE --- */
 .quiz-caption-box {
     background-color: #F0F2F6; /* Light grey */
     border-radius: 0.5rem;
@@ -119,14 +119,16 @@ st.markdown("""
     margin-bottom: 1rem;
 }
 .quiz-caption-box strong {
-    font-size: 18px; /* Slightly larger */
+    font-size: 19px; /* Increased font size */
     font-weight: 600; /* Bold */
     color: #111827;
     display: block;
     margin-bottom: 0.5em;
 }
 .quiz-caption-box p {
-    font-size: 17px;
+    font-family: 'Inter', sans-serif; /* Added for consistency */
+    font-size: 18px;   /* Increased font size */
+    font-weight: 500; /* Added semi-bold weight */
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -486,6 +488,7 @@ elif st.session_state.page == 'quiz':
                         st.rerun()
 
 elif st.session_state.page == 'quiz_results':
+    st.title("Quiz Completed! 🎉")
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
     for part_name, questions_list in quiz_data.items():
@@ -686,3 +689,4 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+    st.markdown("You may now close this browser tab.")
