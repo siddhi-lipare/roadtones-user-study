@@ -8,7 +8,7 @@
       "category": "personality trait",
       "options": ["Observant", "Sarcastic", "Amusing", "Critical"],
       "correct_answer": "Sarcastic",
-      "explanation": "**Phrase:** '...since that turn signal is clearly too complicated for you.'\n\n**Explanation:** This is an ironic statement that says the opposite of what is meant to criticize the driver's simple mistake, which is a key element of sarcasm.",
+      "explanation": "The phrase \"...since that turn signal is clearly too complicated for you\" displays sarcasm by ironically stating the opposite of what is meant to criticize the driver's simple mistake.",
       "question_type": "single"
     },
     {
@@ -19,7 +19,7 @@
       "category": "writing style",
       "options": ["Conversational", "Factual", "Advisory", "Judgemental"],
       "correct_answer": "Advisory",
-      "explanation": "**Phrase:** 'Please remember, overtaking on sharp curves puts lives at risk.'\n\n**Explanation:** This phrase directly gives advice and a warning to other drivers, which defines an advisory writing style.",
+      "explanation": "The phrase \"Please remember, overtaking on sharp curves puts lives at risk\" highlights an advisory style by directly giving a warning and advice to other drivers.",
       "question_type": "single"
     },
     {
@@ -30,7 +30,7 @@
       "category": "personality trait",
       "options": ["Critical", "Appreciative", "Sarcastic", "Considerate"],
       "correct_answer": ["Critical", "Sarcastic"],
-      "explanation": "**For Sarcastic:** The phrase 'Smooth move' is used ironically to mean the opposite, mocking the driver's dangerous action.\n\n**For Critical:** The entire caption, from 'test just how close they can get' to the sarcastic sign-off, serves as a disapproving judgment of the other driver's behavior.",
+      "explanation": "The phrase \"Smooth move\" displays sarcasm by ironically praising a dangerous action to mock the driver. The phrase \"test just how close they can get\" highlights a critical tone by framing the driver's action as a reckless experiment.",
       "question_type": "multi"
     }
   ],
@@ -45,7 +45,7 @@
       "comparison_type": "increased",
       "options": ["Yes", "No"],
       "correct_answer": "Yes",
-      "explanation": "**Comparison:** Caption B ('special kind of genius') uses much stronger ironic language than the simple understatement in Caption A ('wasn't a very smart move'), significantly increasing the sarcastic intensity."
+      "explanation": "Yes, the intensity increases. The phrase \"special kind of genius\" in Caption B displays a much stronger sarcastic tone than the milder phrase \"wasn't a very smart move\" in Caption A."
     },
     {
         "sample_id": "intensity_002",
@@ -57,7 +57,7 @@
         "comparison_type": "decreased",
         "options": ["Yes", "No"],
         "correct_answer": "Yes",
-        "explanation": "**Comparison:** Caption A ('A crucial reminder... Always stop') is a direct, strong command. Caption B ('should be more careful') is a general, weaker suggestion. Therefore, the advisory intensity decreases."
+        "explanation": "Yes, the intensity decreases. The phrase \"Always stop at red lights\" in Caption A is a strong, direct command, while the phrase \"should be more careful\" in Caption B is a much weaker, general suggestion."
     }
   ],
   "Part 3: Caption Quality": [
