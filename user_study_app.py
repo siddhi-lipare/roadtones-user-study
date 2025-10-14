@@ -49,8 +49,6 @@ st.markdown("""
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
-/* --- Sizing is now handled by st.columns in the python code --- */
-
 /* For help text tooltips */
 [data-testid="stTooltipContent"] {
     max-width: 300px;
@@ -351,7 +349,16 @@ elif st.session_state.page == 'quiz':
     questions_for_part = st.session_state.all_data['quiz'][current_part_key]
     current_index = st.session_state.current_sample_index
     sample = questions_for_part[current_index]
-    st.header(current_part_key)
+
+    # --- DYNAMIC QUIZ TITLE LOGIC ---
+    if "Tone Identification" in current_part_key:
+        category = sample.get('category', 'Tone').title()
+        display_title = f"{category} Identification"
+    else:
+        display_title = re.sub(r'Part \d+: ', '', current_part_key)
+    st.header(display_title)
+    # --- END DYNAMIC TITLE LOGIC ---
+
     if "Caption Quality" in current_part_key:
         total_rating_questions = len(sample["questions"])
         current_rating_q_index = st.session_state.current_rating_question_index
@@ -362,9 +369,11 @@ elif st.session_state.page == 'quiz':
     with col1:
         st.video(sample['video_path'], autoplay=True, muted=True)
         st.caption("Video is muted for autoplay. You can unmute it using the controls.")
-        if "Caption Quality" in current_part_key:
+        # --- DISPLAY VIDEO SUMMARY FOR ALL QUIZ PARTS ---
+        if "video_summary" in sample:
             st.subheader("Video Summary")
             st.info(sample["video_summary"])
+        # --- END SUMMARY DISPLAY ---
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         if "Tone Controllability" in current_part_key:
@@ -624,4 +633,3 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
-    st.markdown("You may now close this browser tab.")

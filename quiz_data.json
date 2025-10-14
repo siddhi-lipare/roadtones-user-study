@@ -3,8 +3,10 @@
     {
       "sample_id": "770719942027145220",
       "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
+      "video_summary": "A bike-mounted camera captures a near-miss at a UK roundabout where a car fails to indicate, nearly causing a collision with the cyclist.",
       "caption": "Guess I'll use my psychic powers, since that turn signal is clearly too complicated for you.",
-      "options": ["Advisory", "Sarcastic", "Appreciative", "Considerate"],
+      "category": "Personality",
+      "options": ["Observant", "Sarcastic", "Amusing", "Critical"],
       "correct_answer": "Sarcastic",
       "explanation": "The caption uses irony to criticize the driver, which is a key element of sarcasm.",
       "question_type": "single"
@@ -12,8 +14,10 @@
     {
       "sample_id": "1696360086518776040",
       "video_path": "media/v_1696360086518776040_DStI4BjOrtDhkLua.mp4",
+      "video_summary": "A Tesla's camera records a Mercedes driving dangerously close to it at sunset, highlighting aggressive or inattentive driving.",
       "caption": "So apparently, sunset is when Mercedes drivers test just how close they can get to my Tesla. Smooth move, @TeslaRoadWatch.",
-      "options": ["Critical", "Appreciative", "Sarcastic", "Advisory"],
+      "category": "Personality",
+      "options": ["Critical", "Observant", "Sarcastic", "Amusing"],
       "correct_answer": ["Critical", "Sarcastic"],
       "explanation": "The phrase 'Smooth move' is used sarcastically to criticize the other driver's dangerous action.",
       "question_type": "multi"
@@ -23,6 +27,7 @@
     {
       "sample_id": "intensity_001",
       "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
+      "video_summary": "A bike-mounted camera captures a near-miss at a UK roundabout where a car fails to indicate, nearly causing a collision with the cyclist.",
       "caption_A": "That wasn't a very smart move by the other driver.",
       "caption_B": "It takes a special kind of genius to make a move that stupid.",
       "tone_to_compare": "Sarcastic",
@@ -32,15 +37,16 @@
       "explanation": "Yes, the intensity of sarcasm increases significantly from a simple statement to an exaggerated, ironic compliment."
     },
     {
-        "sample_id": "intensity_002",
-        "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
-        "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
-        "caption_B": "Drivers should be more careful at intersections.",
-        "tone_to_compare": "Advisory",
-        "comparison_type": "decreased",
-        "options": ["Yes", "No"],
-        "correct_answer": "Yes",
-        "explanation": "Yes, the intensity decreases from a strong, direct command in Caption A to a more general suggestion in Caption B."
+      "sample_id": "intensity_002",
+      "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
+      "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light and collided with the side of a Suzuki Carry light truck.",
+      "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
+      "caption_B": "Drivers should be more careful at intersections.",
+      "tone_to_compare": "Advisory",
+      "comparison_type": "decreased",
+      "options": ["Yes", "No"],
+      "correct_answer": "Yes",
+      "explanation": "Yes, the intensity decreases from a strong, direct command in Caption A to a more general suggestion in Caption B."
     }
   ],
   "Part 3: Caption Quality": [
