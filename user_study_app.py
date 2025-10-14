@@ -5,7 +5,6 @@ import os
 import time
 import re
 import json
-# import base64 # --- PERFORMANCE FIX: No longer needed
 import cv2
 import math
 import gspread
@@ -468,10 +467,16 @@ elif st.session_state.page == 'user_study_main':
         current_caption = current_video['captions'][caption_idx]
         col1, col2 = st.columns([1, 1.8])
         with col1:
-            # --- VIDEO SIZING FIX: Use nested columns to control video width ---
-            _ , vid_col, _ = st.columns([1, 5, 1])
-            with vid_col:
+            # --- FINAL VIDEO LAYOUT FIX ---
+            if current_video.get("orientation") == "portrait":
+                # For portrait videos, use nested columns to create a narrower, centered view
+                _ , vid_col, _ = st.columns([1, 5, 1])
+                with vid_col:
+                    st.video(current_video['video_path'], autoplay=True, muted=True)
+            else:
+                # For landscape videos, use the column directly to allow it to fill the width
                 st.video(current_video['video_path'], autoplay=True, muted=True)
+            # --- END FIX ---
             st.caption("Video is muted for autoplay.")
             st.subheader("Video Summary"); st.info(current_video["video_summary"])
         with col2:
@@ -527,10 +532,14 @@ elif st.session_state.page == 'user_study_main':
         current_comp = all_comparisons[comp_idx]
         col1, col2 = st.columns([1, 1.8])
         with col1:
-            # --- VIDEO SIZING FIX: Use nested columns to control video width ---
-            _ , vid_col, _ = st.columns([1, 5, 1])
-            with vid_col:
+            # --- FINAL VIDEO LAYOUT FIX ---
+            if current_comp.get("orientation") == "portrait":
+                _ , vid_col, _ = st.columns([1, 5, 1])
+                with vid_col:
+                    st.video(current_comp['video_path'], autoplay=True, muted=True)
+            else:
                 st.video(current_comp['video_path'], autoplay=True, muted=True)
+            # --- END FIX ---
             st.caption("Video is muted for autoplay.")
             st.subheader("Video Summary"); st.info(current_comp["video_summary"])
         with col2:
@@ -575,15 +584,19 @@ elif st.session_state.page == 'user_study_main':
         st.header(dynamic_title)
         col1, col2 = st.columns([1, 1.8])
         with col1:
-            # --- VIDEO SIZING FIX: Use nested columns to control video width ---
-            _ , vid_col, _ = st.columns([1, 5, 1])
-            with vid_col:
+            # --- FINAL VIDEO LAYOUT FIX ---
+            if current_change.get("orientation") == "portrait":
+                _ , vid_col, _ = st.columns([1, 5, 1])
+                with vid_col:
+                    st.video(current_change['video_path'], autoplay=True, muted=True)
+            else:
                 st.video(current_change['video_path'], autoplay=True, muted=True)
+            # --- END FIX ---
             st.caption("Video is muted for autoplay.")
             st.subheader("Video Summary"); st.info(current_change["video_summary"])
         with col2:
             caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>"""
-            caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
+            caption_b_html = f"""<div class.comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             st.write("---")
