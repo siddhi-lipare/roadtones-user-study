@@ -16,7 +16,7 @@ INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
 STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
-QUESTIONS_DATA_PATH = "questions.json" 
+QUESTIONS_DATA_PATH = "questions.json"
 PORTRAIT_VIDEO_MAX_HEIGHT = 450 #  Adjust the max height of portrait videos in pixels
 
 # --- GOOGLE SHEETS CONNECTION ---
@@ -60,7 +60,7 @@ st.markdown("""
 /* For aligning slider question text */
 .slider-label {
     min-height: 80px; /* Increased height to ensure alignment even with text wrapping */
-    margin-bottom: 0.5rem; 
+    margin-bottom: 0.5rem;
 }
 
 /* Style for highlighting traits in questions */
@@ -165,11 +165,11 @@ def get_video_orientation(path):
         cap = cv2.VideoCapture(path)
         if not cap.isOpened():
             return "landscape"
-        
+
         width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         cap.release()
-        
+
         if height > width:
             return "portrait"
         else:
@@ -184,7 +184,7 @@ def load_data():
     Loads all data from external JSON files.
     """
     data = {}
-    
+
     # Load instructions
     if not os.path.exists(INSTRUCTIONS_PATH):
         st.error(f"Error: Instructions file not found at '{INSTRUCTIONS_PATH}'.")
@@ -205,7 +205,7 @@ def load_data():
         return None
     with open(STUDY_DATA_PATH, 'r', encoding='utf-8') as f:
         study_data = json.load(f)
-        
+
     # Load Questions
     if not os.path.exists(QUESTIONS_DATA_PATH):
         st.error(f"Error: Questions file not found at '{QUESTIONS_DATA_PATH}'.")
@@ -220,7 +220,7 @@ def load_data():
                 item['orientation'] = get_video_orientation(item['video_path'])
             else:
                 item['orientation'] = 'landscape'
-    
+
     data['study'] = study_data
 
     # Check for media file existence
@@ -237,7 +237,7 @@ def load_data():
     if not os.path.exists(INTRO_VIDEO_PATH):
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
         return None
-        
+
     return data
 
 def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
@@ -257,12 +257,12 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
             str(was_correct) if was_correct is not None else 'N/A',
             1 if study_phase == 'quiz' else 'N/A'
         ]
-        
+
         # Ensure header row exists
         if len(WORKSHEET.get_all_values()) == 0:
              header = ['email', 'age', 'gender', 'timestamp', 'study_phase', 'video_id', 'sample_id', 'question_text', 'user_choice', 'was_correct', 'attempts_taken']
              WORKSHEET.append_row(header)
-        
+
         # Append the new response
         WORKSHEET.append_row(response_data)
 
@@ -288,7 +288,7 @@ def go_to_next_quiz_question():
 
     dummy_video_data = {'video_id': sample.get('sample_id')}
     dummy_caption_data = {'caption_id': sample.get('sample_id'), 'text': sample.get('caption', 'N/A')}
-    
+
     save_response(
         st.session_state.email, st.session_state.age, st.session_state.gender,
         dummy_video_data, dummy_caption_data, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct
@@ -438,7 +438,7 @@ elif st.session_state.page == 'quiz':
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5} .stMultiSelect [data-baseweb="tag"] {background-color: #0d6efd !important;}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
-        
+
         if st.session_state.show_feedback:
             user_choice = st.session_state.last_choice
             correct_answer = question_data.get('correct_answer')
@@ -473,7 +473,7 @@ elif st.session_state.page == 'quiz':
                         correct_answer = question_data.get('correct_answer')
                         is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
                         st.session_state.is_correct = is_correct
-                        
+
                         if is_correct:
                             st.session_state.score += 1
 
@@ -490,10 +490,10 @@ elif st.session_state.page == 'quiz_results':
                 total_scorable_questions += len(item.get("questions", []))
         else:
             total_scorable_questions += len(questions_list)
-    
+
     passing_score_percentage = 0.80
     passing_score = math.ceil(total_scorable_questions * passing_score_percentage) if total_scorable_questions > 0 else 1
-    
+
     st.header(f"Your Final Score: {st.session_state.score} / {total_scorable_questions}")
     if st.session_state.score >= passing_score:
         st.success("**Status: Passed**")
@@ -512,24 +512,24 @@ elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data:
         st.error("Data could not be loaded. Please check file paths and permissions.")
         st.stop()
-        
+
     with st.sidebar:
         st.header("Study Sections")
         st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
         st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
         st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
-    
+
     if st.session_state.study_part == 1:
         st.header("Caption Quality Rating")
         all_videos = st.session_state.all_data['study']['part1_ratings']
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
-        
+
         if video_idx >= len(all_videos):
             st.session_state.study_part = 2; st.rerun()
-            
+
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
-        
+
         col1, col2 = st.columns([1, 1.8])
 
         with col1:
@@ -550,7 +550,7 @@ elif st.session_state.page == 'user_study_main':
         with col2:
             colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
             highlight_color = colors[caption_idx % len(colors)]
-            
+
             caption_box_style = f"background-color: {highlight_color};"
             caption_text_html = f'''
                 <div class="part1-caption-box" style="{caption_box_style}">
@@ -569,7 +569,7 @@ elif st.session_state.page == 'user_study_main':
             style_str = ", ".join(style_traits)
 
             q_templates = st.session_state.all_data['questions']['part1_questions']
-            
+
             questions_to_ask = [
                 {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(f'<b class="highlight-trait">{personality_str}</b>')},
                 {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(f'<b class="highlight-trait">{style_str}</b>')},
@@ -578,7 +578,7 @@ elif st.session_state.page == 'user_study_main':
                 {"id": q_templates[4]["id"], "text": q_templates[4]["text"].format(f'<b class="highlight-trait">{application_text}</b>')},
                 {"id": q_templates[5]["id"], "text": q_templates[5]["text"]}
             ]
-            
+
             with st.form(key=f"study_form_rating_{video_idx}_{caption_idx}"):
                 responses = {}
 
@@ -597,7 +597,7 @@ elif st.session_state.page == 'user_study_main':
                             responses[q['id']] = st.radio(f"q_{q_num}", ["Yes", "No"], index=None, horizontal=True, key=f"{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed")
                         else:
                             responses[q['id']] = st.slider(f"q_{q_num}", 1, 5, 3, key=f"{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed")
-                
+
                 if st.form_submit_button("Submit Ratings"):
                     if responses.get('shareability') is None:
                         st.error("Please answer all 6 questions before submitting.")
@@ -605,7 +605,7 @@ elif st.session_state.page == 'user_study_main':
                         for q_id, choice in responses.items():
                             full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                             save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice, 'user_study_part1', full_q_text)
-                        
+
                         if st.session_state.current_caption_index < len(current_video['captions']) - 1:
                             st.session_state.current_caption_index += 1
                         else:
@@ -644,15 +644,15 @@ elif st.session_state.page == 'user_study_main':
             caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
-            
+
             with st.form(key=f"study_form_comparison_{comp_idx}"):
                 control_scores = current_comp.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
                 style_traits = list(control_scores.get("writing_style", {}).keys())
-                
+
                 personality_str = ", ".join(personality_traits)
                 style_str = ", ".join(style_traits)
-                
+
                 q_templates = st.session_state.all_data['questions']['part2_questions']
 
                 part2_questions = [
@@ -679,7 +679,7 @@ elif st.session_state.page == 'user_study_main':
                             save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', question_text)
                         st.session_state.current_comparison_index += 1
                         st.rerun()
-    
+
     elif st.session_state.study_part == 3:
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
         change_idx = st.session_state.current_change_index
@@ -688,11 +688,13 @@ elif st.session_state.page == 'user_study_main':
             st.session_state.page = 'final_thank_you'; st.rerun()
 
         current_change = all_changes[change_idx]
-        
+
+        # --- DYNAMIC TITLE LOGIC ---
         field_to_change = current_change['field_to_change']
-        field_type = list(field_to_change.keys())[0] 
+        field_type = list(field_to_change.keys())[0] # this will be 'personality' or 'writing_style'
         dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
         st.header(dynamic_title)
+        # --- END DYNAMIC TITLE LOGIC ---
 
         col1, col2 = st.columns([1, 1.8])
 
@@ -717,22 +719,21 @@ elif st.session_state.page == 'user_study_main':
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             st.write("---")
-            
+
             with st.form(key=f"study_form_change_{change_idx}"):
-                
+
                 change_type = current_change['change_type']
-                trait = field_to_change[field_type] 
+                trait = field_to_change[field_type]
                 highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                
-                # --- MODIFIED SECTION: Dynamic Question Generation ---
+
+                # --- NEW: Question logic based on field_type ---
                 if field_type == 'personality':
                     dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
                 elif field_type == 'writing_style':
                     dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
-                else:
-                    # Fallback for any other unexpected types
+                else: # Fallback for any other type
                     dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
-                # --- END OF MODIFIED SECTION ---
+                # --- END NEW LOGIC ---
 
                 q_cols = st.columns(2)
                 with q_cols[0]:
@@ -743,7 +744,7 @@ elif st.session_state.page == 'user_study_main':
                     q2_text = "Is the core factual content consistent across both captions?"
                     st.markdown(f"**2. {q2_text}**")
                     choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
-                
+
                 if st.form_submit_button("Submit Answers"):
                     if choice1 is None or choice2 is None:
                         st.error("Please answer both questions.")
@@ -756,3 +757,4 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+    st.markdown("You may now close this browser tab.")
