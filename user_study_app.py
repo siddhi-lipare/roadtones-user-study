@@ -689,12 +689,10 @@ elif st.session_state.page == 'user_study_main':
 
         current_change = all_changes[change_idx]
         
-        # --- DYNAMIC TITLE LOGIC ---
         field_to_change = current_change['field_to_change']
-        field_type = list(field_to_change.keys())[0] # this will be 'personality' or 'writing_style'
+        field_type = list(field_to_change.keys())[0] 
         dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
         st.header(dynamic_title)
-        # --- END DYNAMIC TITLE LOGIC ---
 
         col1, col2 = st.columns([1, 1.8])
 
@@ -724,13 +722,17 @@ elif st.session_state.page == 'user_study_main':
                 
                 change_type = current_change['change_type']
                 trait = field_to_change[field_type] 
-
-                q_template = st.session_state.all_data['questions']['part3_questions'][field_type]
-                
                 highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
                 
-                dynamic_question = q_template.format(highlighted_trait, change_type=change_type)
-
+                # --- MODIFIED SECTION: Dynamic Question Generation ---
+                if field_type == 'personality':
+                    dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
+                elif field_type == 'writing_style':
+                    dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
+                else:
+                    # Fallback for any other unexpected types
+                    dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
+                # --- END OF MODIFIED SECTION ---
 
                 q_cols = st.columns(2)
                 with q_cols[0]:
@@ -754,4 +756,3 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
-    st.markdown("You may now close this browser tab.")
