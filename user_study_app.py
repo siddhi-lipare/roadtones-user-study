@@ -468,7 +468,6 @@ elif st.session_state.page == 'quiz':
                         st.rerun()
 
 elif st.session_state.page == 'quiz_results':
-    st.title("Quiz Completed! 🎉")
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
     for part_name, questions_list in quiz_data.items():
@@ -669,4 +668,3 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
-    st.markdown("You may now close this browser tab.")
