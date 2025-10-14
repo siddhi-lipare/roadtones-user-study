@@ -356,6 +356,9 @@ elif st.session_state.page == 'quiz':
     if "Tone Identification" in current_part_key:
         category = sample.get('category', 'Tone').replace(' ', '_').title().replace('_', ' ')
         display_title = f"{category} Identification"
+    elif "Tone Controllability" in current_part_key:
+        category = sample.get('category', 'Tone').title()
+        display_title = f"{category} Comparison"
     else:
         display_title = re.sub(r'Part \d+: ', '', current_part_key)
     st.header(display_title)
@@ -371,31 +374,40 @@ elif st.session_state.page == 'quiz':
     with col1:
         st.video(sample['video_path'], autoplay=True, muted=True)
         st.caption("Video is muted for autoplay. You can unmute it using the controls.")
-        # --- DISPLAY VIDEO SUMMARY FOR ALL QUIZ PARTS ---
         if "video_summary" in sample:
             st.subheader("Video Summary")
             st.info(sample["video_summary"])
-        # --- END SUMMARY DISPLAY ---
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
+        
+        # --- DYNAMIC QUESTION DISPLAY FOR QUIZ ---
         if "Tone Controllability" in current_part_key:
-            st.subheader(f"Do you think the intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']} from Caption A to B?")
+            category = sample.get('category', '').lower()
+            trait = sample['tone_to_compare']
+            change = sample['comparison_type']
+            
+            if 'style' in category:
+                question = f"Has the author's {trait} writing style {change} from Caption A to B?"
+            else: # Defaults to persona
+                question = f"Has the author's {trait} persona {change} from Caption A to B?"
+            st.subheader(question)
+            
             st.markdown("""<style>.styled-caption-small{font-size:18px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.4; margin-bottom: 10px;}</style>""", unsafe_allow_html=True)
             st.markdown("**Caption A:**"); st.markdown(f'<div class="styled-caption-small">{sample["caption_A"]}</div>', unsafe_allow_html=True)
             st.markdown("**Caption B:**"); st.markdown(f'<div class="styled-caption-small">{sample["caption_B"]}</div>', unsafe_allow_html=True)
+        
         elif "Caption Quality" in current_part_key:
             st.subheader(question_data["heading"])
             st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
+        
         else: # This block handles "Tone Identification"
-            # --- DYNAMIC QUESTION LOGIC ---
             if question_data.get("question_type") == "multi":
                 st.subheader("Identify 2 dominant personality traits projected by the captioner")
             else:
                 category_text = sample.get('category', 'tone').lower()
                 st.subheader(f"Identify the most dominant {category_text} projected by the captioner")
-            # --- END DYNAMIC QUESTION LOGIC ---
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5} .stMultiSelect [data-baseweb="tag"] {background-color: #0d6efd !important;}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
         
