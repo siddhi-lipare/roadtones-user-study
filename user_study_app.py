@@ -51,10 +51,27 @@ st.markdown("""
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
-/* --- PERFORMANCE & UI FIX: Set a max height for ALL video players --- */
+/* --- NEW, CORRECTED VIDEO SIZING AND CENTERING --- */
+/* Target the Streamlit video container */
 div[data-testid="stVideo"] {
+    /* Set the maximum height boundary for the container */
     max-height: 450px;
+    /* Use flexbox to center the video element within the container */
+    display: flex;
+    justify-content: center;
 }
+
+/* Target the actual <video> element itself */
+div[data-testid="stVideo"] video {
+    /* The video's height will not exceed its container's height */
+    max-height: 100%;
+    /* The width will now adjust automatically to maintain the aspect ratio */
+    width: auto;
+    /* Ensures the video is centered if its auto-width is less than the column width */
+    margin: 0 auto;
+}
+/* --- END VIDEO FIX --- */
+
 
 /* For help text tooltips */
 [data-testid="stTooltipContent"] {
@@ -73,8 +90,6 @@ div[data-testid="stVideo"] {
     color: #4f46e5; /* Indigo color for prominence */
     font-weight: 600;
 }
-
-/* --- NEW CAPTION STYLES --- */
 
 /* Base style for all caption text */
 .caption-text {
