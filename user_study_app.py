@@ -49,6 +49,8 @@ st.markdown("""
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
+/* Sizing is now handled by st.columns in the python code */
+
 /* For help text tooltips */
 [data-testid="stTooltipContent"] {
     max-width: 300px;
@@ -352,7 +354,7 @@ elif st.session_state.page == 'quiz':
 
     # --- DYNAMIC QUIZ TITLE LOGIC ---
     if "Tone Identification" in current_part_key:
-        category = sample.get('category', 'Tone').title()
+        category = sample.get('category', 'Tone').replace(' ', '_').title().replace('_', ' ')
         display_title = f"{category} Identification"
     else:
         display_title = re.sub(r'Part \d+: ', '', current_part_key)
@@ -386,10 +388,17 @@ elif st.session_state.page == 'quiz':
             st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
-        else:
-            st.subheader("Which tone(s) are most dominant in the caption?")
+        else: # This block handles "Tone Identification"
+            # --- DYNAMIC QUESTION LOGIC ---
+            if question_data.get("question_type") == "multi":
+                st.subheader("Identify 2 dominant personality traits projected by the captioner")
+            else:
+                category_text = sample.get('category', 'tone').lower()
+                st.subheader(f"Identify the most dominant {category_text} projected by the captioner")
+            # --- END DYNAMIC QUESTION LOGIC ---
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5} .stMultiSelect [data-baseweb="tag"] {background-color: #0d6efd !important;}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
+        
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
         if st.session_state.show_feedback:
             user_choice = st.session_state.last_choice
@@ -597,7 +606,6 @@ elif st.session_state.page == 'user_study_main':
             st.subheader("Video Summary"); st.info(current_change["video_summary"])
         with col2:
             caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>"""
-            # --- TYPO FIX: Changed class. to class= ---
             caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
@@ -633,3 +641,4 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+    st.markdown("You may now close this browser tab.")

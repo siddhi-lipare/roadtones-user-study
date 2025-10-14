@@ -1,7 +1,7 @@
 {
   "quiz_instructions": {
-    "title": "Part 1: Qualification Quiz Instructions",
-    "body": "- **Purpose:** To assess the tonal content and quality of the generated video captions.\n- You will be provided with a total of 6 questions across 3 sections.\n- **Steps to Follow:**\n    1. **Watch the video** and **read the caption carefully** to understand the context before answering the questions.\n    2. **Read the explanation carefully** after submitting every answer.\n- **Look for specific wording, phrasings, hashtags, emojis, and other expressive markers** to deduce the tone from the caption.\n- **Scoring:**\n    - For quiz sections, you get **1 point** for each question answered correctly.\n    - You are required to obtain a score of **6 or above** out of 6 to proceed for the user study.\n- **Time:** The study will take approximately 5-7 minutes.\n- **Confidentiality:** Your responses will be kept anonymous."
+    "title": "Qualification Quiz Instructions",
+    "body": "- **Purpose:** To assess the tonal content and quality of the generated video captions.\n- You will be provided with a total of 7 questions across 3 sections.\n- **Steps to Follow:**\n    1. **Watch the video** and **read the caption carefully** to understand the context before answering the questions.\n    2. **Read the explanation carefully** after submitting every answer.\n- **Look for specific wording, phrasings, hashtags, emojis, and other expressive markers** to deduce the tone from the caption.\n- **Scoring:**\n    - For quiz sections, you get **1 point** for each question answered correctly.\n    - You are required to obtain a score of **5 or above** out of 7 to proceed for the user study.\n- **Time:** The study will take approximately 5-7 minutes.\n- **Confidentiality:** Your responses will be kept anonymous."
   },
   "user_study_instructions": {
     "title": "Main User Study Instructions",

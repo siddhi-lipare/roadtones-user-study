@@ -5,10 +5,21 @@
       "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
       "video_summary": "A bike-mounted camera captures a near-miss at a UK roundabout where a car fails to indicate, nearly causing a collision with the cyclist.",
       "caption": "Guess I'll use my psychic powers, since that turn signal is clearly too complicated for you.",
-      "category": "Personality",
+      "category": "personality trait",
       "options": ["Observant", "Sarcastic", "Amusing", "Critical"],
       "correct_answer": "Sarcastic",
-      "explanation": "The caption uses irony to criticize the driver, which is a key element of sarcasm.",
+      "explanation": "**Phrase:** '...since that turn signal is clearly too complicated for you.'\n\n**Explanation:** This is an ironic statement that says the opposite of what is meant to criticize the driver's simple mistake, which is a key element of sarcasm.",
+      "question_type": "single"
+    },
+    {
+      "sample_id": "advisory_quiz_001",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend.",
+      "caption": "Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another. #RoadSafety",
+      "category": "writing style",
+      "options": ["Conversational", "Factual", "Advisory", "Judgemental"],
+      "correct_answer": "Advisory",
+      "explanation": "**Phrase:** 'Please remember, overtaking on sharp curves puts lives at risk.'\n\n**Explanation:** This phrase directly gives advice and a warning to other drivers, which defines an advisory writing style.",
       "question_type": "single"
     },
     {
@@ -16,10 +27,10 @@
       "video_path": "media/v_1696360086518776040_DStI4BjOrtDhkLua.mp4",
       "video_summary": "A Tesla's camera records a Mercedes driving dangerously close to it at sunset, highlighting aggressive or inattentive driving.",
       "caption": "So apparently, sunset is when Mercedes drivers test just how close they can get to my Tesla. Smooth move, @TeslaRoadWatch.",
-      "category": "Personality",
-      "options": ["Critical", "Observant", "Sarcastic", "Amusing"],
+      "category": "personality trait",
+      "options": ["Critical", "Appreciative", "Sarcastic", "Considerate"],
       "correct_answer": ["Critical", "Sarcastic"],
-      "explanation": "The phrase 'Smooth move' is used sarcastically to criticize the other driver's dangerous action.",
+      "explanation": "**For Sarcastic:** The phrase 'Smooth move' is used ironically to mean the opposite, mocking the driver's dangerous action.\n\n**For Critical:** The entire caption, from 'test just how close they can get' to the sarcastic sign-off, serves as a disapproving judgment of the other driver's behavior.",
       "question_type": "multi"
     }
   ],
@@ -34,19 +45,19 @@
       "comparison_type": "increased",
       "options": ["Yes", "No"],
       "correct_answer": "Yes",
-      "explanation": "Yes, the intensity of sarcasm increases significantly from a simple statement to an exaggerated, ironic compliment."
+      "explanation": "**Comparison:** Caption B ('special kind of genius') uses much stronger ironic language than the simple understatement in Caption A ('wasn't a very smart move'), significantly increasing the sarcastic intensity."
     },
     {
-      "sample_id": "intensity_002",
-      "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
-      "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light and collided with the side of a Suzuki Carry light truck.",
-      "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
-      "caption_B": "Drivers should be more careful at intersections.",
-      "tone_to_compare": "Advisory",
-      "comparison_type": "decreased",
-      "options": ["Yes", "No"],
-      "correct_answer": "Yes",
-      "explanation": "Yes, the intensity decreases from a strong, direct command in Caption A to a more general suggestion in Caption B."
+        "sample_id": "intensity_002",
+        "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
+        "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light and collided with the side of a Suzuki Carry light truck.",
+        "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
+        "caption_B": "Drivers should be more careful at intersections.",
+        "tone_to_compare": "Advisory",
+        "comparison_type": "decreased",
+        "options": ["Yes", "No"],
+        "correct_answer": "Yes",
+        "explanation": "**Comparison:** Caption A ('A crucial reminder... Always stop') is a direct, strong command. Caption B ('should be more careful') is a general, weaker suggestion. Therefore, the advisory intensity decreases."
     }
   ],
   "Part 3: Caption Quality": [
