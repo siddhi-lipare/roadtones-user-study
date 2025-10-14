@@ -134,6 +134,12 @@ st.markdown("""
     line-height: 1.6;
 }
 
+/* --- STYLE FOR MULTI-SELECT PILLS --- */
+.stMultiSelect [data-baseweb="tag"] {
+    background-color: #F8D7DA !important; /* Light Red */
+    color: #721c24 !important; /* Dark Red Text */
+}
+
 /* Make sliders in part 1 smaller */
 div[data-testid="stSlider"] {
     max-width: 250px;
