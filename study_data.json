@@ -95,57 +95,6 @@
         }
         ]
     },
-        {
-        "video_id": "video_001",
-        "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
-        "video_summary": "A dashcam captured a biker weaving through heavy traffic, riding hands-free, and hiding their license plate. This demonstrates extremely reckless behavior on a busy road.",
-        "captions": [
-        {
-            "caption_id": "video_001_caption1",
-            "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
-            "control_scores": {
-                "personality": {
-                    "Critical": "Strong",
-                    "Angry": "Very Strong"                 
-                },
-                "writing_style": {
-                    "Advisory": "Very Strong",
-                    "Factual": "Strong",
-                    "Instructional": "Very Strong"
-                }
-            },
-            "application": "public safety awareness"
-        },
-        {
-            "caption_id": "video_001_caption2",
-            "text": "OMG, can you believe this guy?! No hands, weaving through cars... some people just want to watch the world burn. #RoadFails #CrazyBiker",
-            "control_scores": {
-                "personality": {
-                    "Amused": "Strong",
-                    "Sarcastic": "Very Strong"
-                },
-                "writing_style": {
-                    "Conversational": "Very Strong"
-                }
-            },
-            "application": "ADAS applications"
-        },
-        {
-            "caption_id": "video_001_caption3",
-            "text": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
-            "control_scores": {
-                "personality": {
-                    "Anxious": "Neutral",
-                    "Observant": "Strong"
-                },
-                "writing_style": {
-                    "Factual": "Strong"
-                }
-            },
-            "application": "public safety awareness"
-        }
-        ]
-    },
     {
         "video_id": "video_004",
         "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
@@ -358,16 +307,6 @@
     }
   ],
   "part3_intensity_change": [
-    {
-      "change_id": "change_001",
-      "video_id": "video_001",
-      "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
-      "video_summary": "A vehicle-mounted camera on a motorcycle captured a key road event during daytime in Bangalore, India, depicting reckless and dangerous driving behavior by the motorcycle rider in heavy traffic.",
-      "caption_A": "That biker is not being very safe.",
-      "caption_B": "That biker's reckless stunting is an absolute menace to public safety. Unbelievable arrogance.",
-      "field_to_change": {"Personality": "Angry"},
-      "change_type": "increased"
-    },
     {
       "change_id": "change_002",
       "video_id": "video_006",
