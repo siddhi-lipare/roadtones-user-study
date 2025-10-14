@@ -49,8 +49,6 @@ st.markdown("""
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
-/* Sizing is now handled by st.columns in the python code */
-
 /* For help text tooltips */
 [data-testid="stTooltipContent"] {
     max-width: 300px;
@@ -111,6 +109,27 @@ st.markdown("""
 }
 .comparison-caption-box .caption-text {
     margin: 0.5em 0 0 0;
+}
+
+/* --- NEW QUIZ CAPTION BOX STYLE --- */
+.quiz-caption-box {
+    background-color: #EBF5FF; /* Light blue */
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+}
+.quiz-caption-box strong {
+    font-size: 18px; /* Slightly larger */
+    font-weight: 600; /* Bold */
+    color: #111827;
+    display: block;
+    margin-bottom: 0.5em;
+}
+.quiz-caption-box p {
+    font-size: 17px;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
 /* Make sliders in part 1 smaller */
@@ -392,15 +411,14 @@ elif st.session_state.page == 'quiz':
                 question = f"Has the author's {trait} persona {change} from Caption A to B?"
             st.subheader(question)
             
-            st.markdown("""<style>.styled-caption-small{font-size:18px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.4; margin-bottom: 10px;}</style>""", unsafe_allow_html=True)
-            st.markdown("**Caption A:**"); st.markdown(f'<div class="styled-caption-small">{sample["caption_A"]}</div>', unsafe_allow_html=True)
-            st.markdown("**Caption B:**"); st.markdown(f'<div class="styled-caption-small">{sample["caption_B"]}</div>', unsafe_allow_html=True)
+            caption_a_html = f"""<div class="quiz-caption-box"><strong>Caption A:</strong><p>{sample["caption_A"]}</p></div>"""
+            caption_b_html = f"""<div class="quiz-caption-box"><strong>Caption B:</strong><p>{sample["caption_B"]}</p></div>"""
+            st.markdown(caption_a_html, unsafe_allow_html=True)
+            st.markdown(caption_b_html, unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
-            # Display the question text
             st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
 
-            # If this is the first question ("relevance"), display the traits
             if st.session_state.current_rating_question_index == 0:
                 control_scores = sample.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
@@ -412,11 +430,10 @@ elif st.session_state.page == 'quiz':
                     st.markdown(f"**Personality:** {personality_str}")
                 if style_str:
                     st.markdown(f"**Writing Style:** {style_str}")
-                st.write("") # Add some space
+                st.write("")
             
-            # Display the caption
-            st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5}</style>""", unsafe_allow_html=True)
-            st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
+            caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
+            st.markdown(caption_html, unsafe_allow_html=True)
         
         else: # This block handles "Tone Identification"
             if question_data.get("question_type") == "multi":
@@ -424,8 +441,9 @@ elif st.session_state.page == 'quiz':
             else:
                 category_text = sample.get('category', 'tone').lower()
                 st.subheader(f"Identify the most dominant {category_text} projected by the captioner")
-            st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5} .stMultiSelect [data-baseweb="tag"] {background-color: #0d6efd !important;}</style>""", unsafe_allow_html=True)
-            st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
+
+            caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
+            st.markdown(caption_html, unsafe_allow_html=True)
         
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
         if st.session_state.show_feedback:
@@ -468,6 +486,7 @@ elif st.session_state.page == 'quiz':
                         st.rerun()
 
 elif st.session_state.page == 'quiz_results':
+    st.title("Quiz Completed! 🎉")
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
     for part_name, questions_list in quiz_data.items():
@@ -668,3 +687,4 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+    st.markdown("You may now close this browser tab.")
