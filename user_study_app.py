@@ -397,8 +397,24 @@ elif st.session_state.page == 'quiz':
             st.markdown("**Caption B:**"); st.markdown(f'<div class="styled-caption-small">{sample["caption_B"]}</div>', unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
-            st.subheader(question_data["heading"])
+            # Display the question text
             st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
+
+            # If this is the first question ("relevance"), display the traits
+            if st.session_state.current_rating_question_index == 0:
+                control_scores = sample.get("control_scores", {})
+                personality_traits = list(control_scores.get("personality", {}).keys())
+                style_traits = list(control_scores.get("writing_style", {}).keys())
+                personality_str = ", ".join(personality_traits)
+                style_str = ", ".join(style_traits)
+
+                if personality_str:
+                    st.markdown(f"**Personality:** {personality_str}")
+                if style_str:
+                    st.markdown(f"**Writing Style:** {style_str}")
+                st.write("") # Add some space
+            
+            # Display the caption
             st.markdown("""<style>.styled-caption{font-size:20px;background-color:#f0f2f6;border-radius:0.5rem;padding:1rem;line-height:1.5}</style>""", unsafe_allow_html=True)
             st.markdown(f'<div class="styled-caption">{sample["caption"]}</div>', unsafe_allow_html=True)
         

@@ -46,7 +46,7 @@
       "comparison_type": "increased",
       "options": ["Yes", "No"],
       "correct_answer": "Yes",
-      "explanation": "Yes, the intensity increases. The phrase \"special kind of genius\" in Caption B displays a much stronger sarcastic tone than the milder phrase \"wasn't a very smart move\" in Caption A."
+      "explanation": "The phrase \"special kind of genius\" in Caption B displays a much stronger sarcastic tone than the milder phrase \"wasn't a very smart move\" in Caption A."
     },
     {
         "sample_id": "intensity_002",
@@ -59,7 +59,7 @@
         "comparison_type": "decreased",
         "options": ["Yes", "No"],
         "correct_answer": "Yes",
-        "explanation": "Yes, the intensity decreases. The phrase \"Always stop at red lights\" in Caption A is a strong, direct command, while the phrase \"should be more careful\" in Caption B is a much weaker, general suggestion."
+        "explanation": "The phrase \"Always stop at red lights\" in Caption A is a strong, direct command, while the phrase \"should be more careful\" in Caption B is a much weaker, general suggestion."
     }
   ],
   "Part 3: Caption Quality": [
@@ -67,18 +67,20 @@
       "sample_id": "rating_001",
       "video_path": "media/v_1692102872706765068_GjAx5c9hRZP-JBsr.mp4",
       "caption": "I witnessed a cab attempt a dangerous overtake on a blind curve, nearly leading to a head-on collision with an oncoming vehicle. A bus also overtook unsafely. Overtaking without clear visibility is extremely risky—please drive with caution and patience. #RoadSafety #DriveResponsibly",
-      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime, likely afternoon. The key road event was an unsafe overtaking attempt by a cab that nearly resulted in a head-on collision with an oncoming vehicle. The cab attempted to overtake on a curve with limited visibility, forcing it to brake and swerve to avoid the collision. A bus was also involved, performing an unsafe overtake. The traffic violations included unsafe overtaking by both the cab and the bus, and the cab's overtaking on a curve with limited visibility.",
+      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime. An unsafe overtaking attempt by a cab nearly resulted in a head-on collision. A bus also performed an unsafe overtake.",
+      "control_scores": {
+        "personality": { "Serious": "Strong", "Caring": "Strong" },
+        "writing_style": { "Advisory": "Very Strong", "Instructional": "Strong" }
+      },
       "questions": [
         {
-          "heading": "Tone Relevance",
-          "question_text": "Is the tone of the caption relevant to the video?",
+          "question_text": "Is the author's personality and writing style relevant for the given video content?",
           "options": ["Yes", "No"],
           "correct_answer": "Yes",
-          "explanation": "The caption's alarmed and advisory tone is highly relevant to the dangerous event shown in the video."
+          "explanation": "The caption's serious, caring, and advisory tone is highly relevant to the dangerous event shown in the video."
         },
         {
-          "heading": "Factual Accuracy",
-          "question_text": "As per the video summary, is the information provided in the caption factually accurate?",
+          "question_text": "Is the factual information in the caption consistent with the video summary?",
           "options": ["Yes", "No"],
           "correct_answer": "Yes",
           "explanation": "The caption accurately describes the unsafe overtaking by a cab on a curve, which matches the video summary."
