@@ -1,33 +1,30 @@
 {
     "part1_ratings":[
-    {
-        "video_id": "video_001",
-        "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
-        "video_summary": "A dashcam captured a biker weaving through heavy traffic, riding hands-free, and hiding their license plate. This demonstrates extremely reckless behavior on a busy road.",
+        {
+        "video_id": "video_003",
+        "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+        "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
         "captions": [
         {
-            "caption_id": "video_001_caption1",
-            "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
+            "caption_id": "video_003_caption1",
+            "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
             "control_scores": {
                 "personality": {
-                    "Critical": "Strong",
-                    "Angry": "Very Strong"                 
+                    "Serious": "Strong"
                 },
                 "writing_style": {
-                    "Advisory": "Very Strong",
-                    "Factual": "Strong",
-                    "Instructional": "Very Strong"
+                    "Factual": "Strong"
                 }
             },
             "application": "public safety awareness"
         },
         {
-            "caption_id": "video_001_caption2",
-            "text": "OMG, can you believe this guy?! No hands, weaving through cars... some people just want to watch the world burn. #RoadFails #CrazyBiker",
+            "caption_id": "video_003_caption2",
+            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
             "control_scores": {
                 "personality": {
-                    "Amused": "Strong",
-                    "Sarcastic": "Very Strong"
+                    "Anxious": "Strong",
+                    "Critical": "Strong"
                 },
                 "writing_style": {
                     "Conversational": "Very Strong"
@@ -36,12 +33,11 @@
             "application": "ADAS applications"
         },
         {
-            "caption_id": "video_001_caption3",
-            "text": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
+            "caption_id": "video_003_caption3",
+            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
             "control_scores": {
                 "personality": {
-                    "Anxious": "Neutral",
-                    "Observant": "Strong"
+                    "Neutral": "Strong"
                 },
                 "writing_style": {
                     "Factual": "Strong"
@@ -51,6 +47,7 @@
         }
         ]
     },
+
     {
         "video_id": "video_002",
         "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
@@ -98,31 +95,34 @@
         }
         ]
     },
-    {
-        "video_id": "video_003",
-        "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
-        "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
+        {
+        "video_id": "video_001",
+        "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
+        "video_summary": "A dashcam captured a biker weaving through heavy traffic, riding hands-free, and hiding their license plate. This demonstrates extremely reckless behavior on a busy road.",
         "captions": [
         {
-            "caption_id": "video_003_caption1",
-            "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
+            "caption_id": "video_001_caption1",
+            "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
             "control_scores": {
                 "personality": {
-                    "Serious": "Strong"
+                    "Critical": "Strong",
+                    "Angry": "Very Strong"                 
                 },
                 "writing_style": {
-                    "Factual": "Strong"
+                    "Advisory": "Very Strong",
+                    "Factual": "Strong",
+                    "Instructional": "Very Strong"
                 }
             },
             "application": "public safety awareness"
         },
         {
-            "caption_id": "video_003_caption2",
-            "text": "That cab driver has a death wish. Seriously, who thinks that's a good idea? My heart was in my throat watching this.",
+            "caption_id": "video_001_caption2",
+            "text": "OMG, can you believe this guy?! No hands, weaving through cars... some people just want to watch the world burn. #RoadFails #CrazyBiker",
             "control_scores": {
                 "personality": {
-                    "Anxious": "Strong",
-                    "Critical": "Strong"
+                    "Amused": "Strong",
+                    "Sarcastic": "Very Strong"
                 },
                 "writing_style": {
                     "Conversational": "Very Strong"
@@ -131,11 +131,12 @@
             "application": "ADAS applications"
         },
         {
-            "caption_id": "video_003_caption3",
-            "text": "This is a dummy caption for the dangerous overtaking video. Please rate its qualities based on the video content.",
+            "caption_id": "video_001_caption3",
+            "text": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
             "control_scores": {
                 "personality": {
-                    "Neutral": "Strong"
+                    "Anxious": "Neutral",
+                    "Observant": "Strong"
                 },
                 "writing_style": {
                     "Factual": "Strong"
