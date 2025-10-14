@@ -733,7 +733,7 @@ elif st.session_state.page == 'user_study_main':
                     choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
 
                 with q_cols[1]:
-                    q2_text = "Is the core factual content preserved across both captions?"
+                    q2_text = "Is the core factual content consistent across both captions?"
                     st.markdown(f"**2. {q2_text}**")
                     choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
                 
