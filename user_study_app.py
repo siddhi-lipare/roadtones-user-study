@@ -46,30 +46,28 @@ WORKSHEET = connect_to_gsheet()
 
 
 # --- Custom CSS and JavaScript for better UI/UX ---
-# --- Custom CSS and JavaScript for better UI/UX ---
 st.markdown("""
 <style>
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
-/* --- FINAL, ROBUST VIDEO SIZING SOLUTION --- */
-/* Target the Streamlit video container and make it a flexbox */
+/* --- AGGRESSIVE VIDEO SIZING SOLUTION --- */
+/* Target the Streamlit video container */
 div[data-testid="stVideo"] {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Target the actual <video> element inside the container */
+/* Target the actual <video> element */
 div[data-testid="stVideo"] video {
-    /* The hard rule: Fix the height to 450px. Change this value as needed. */
-    height: 450px;
-
-    /* Let the width adjust automatically to maintain the aspect ratio */
-    width: auto;
-
-    /* A safety net: ensures landscape videos don't overflow the column width */
-    max-width: 100%;
+    /*
+    The !important rule forces this style to override everything else.
+    This is the definitive fix. Adjust the 450px value as needed.
+    */
+    height: 450px !important;
+    width: auto !important; /* Let width adjust to the new fixed height */
+    max-width: 100%; /* Safety for landscape videos */
 }
 /* --- END VIDEO FIX --- */
 
