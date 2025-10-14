@@ -5,7 +5,6 @@ import os
 import time
 import re
 import json
-import base64
 import cv2
 import math
 import gspread
@@ -17,7 +16,7 @@ STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
 QUESTIONS_DATA_PATH = "questions.json"
-PORTRAIT_VIDEO_MAX_HEIGHT = 450 #  Adjust the max height of portrait videos in pixels
+PORTRAIT_VIDEO_MAX_HEIGHT = 450  # Adjust the max height of portrait videos in pixels
 
 # --- GOOGLE SHEETS CONNECTION ---
 @st.cache_resource
@@ -96,7 +95,6 @@ st.markdown("""
     margin: 0.5em 0 0 0;
 }
 
-
 /* Part 2 & 3 Caption Box (for comparisons) */
 .comparison-caption-box {
     background-color: #f9fafb; /* Lighter gray */
@@ -124,7 +122,11 @@ div[data-testid="stSlider"] {
 
 <script>
     // Automatically scroll to top on page rerun
-    window.parent.document.querySelector('section.main').scrollTo(0, 0);
+    try {
+        window.parent.document.querySelector('section.main').scrollTo(0, 0);
+    } catch(e) {
+        // ignore if not available
+    }
 </script>
 """, unsafe_allow_html=True)
 
@@ -144,18 +146,8 @@ DEFINITIONS = {
     'Conversational': {'desc': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.'}
 }
 
-# --- Helper Functions ---
-@st.cache_data
-def get_video_as_base64(path):
-    """Reads a video file and returns its base64 encoded string."""
-    try:
-        with open(path, "rb") as f:
-            data = f.read()
-        return base64.b64encode(data).decode()
-    except FileNotFoundError:
-        st.error(f"Video file not found at {path}")
-        return None
 
+# --- Helper Functions ---
 @st.cache_data
 def get_video_orientation(path):
     """
@@ -240,6 +232,7 @@ def load_data():
 
     return data
 
+
 def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
     """Saves a single response to the connected Google Sheet."""
     if WORKSHEET is None:
@@ -268,6 +261,7 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
 
     except Exception as e:
         st.error(f"Failed to write to Google Sheet: {e}")
+
 
 def go_to_next_quiz_question():
     part_keys = list(st.session_state.all_data['quiz'].keys())
@@ -307,11 +301,13 @@ def go_to_next_quiz_question():
 
     st.session_state.show_feedback = False
 
+
 def jump_to_part(part_index):
     st.session_state.current_part_index = part_index
     st.session_state.current_sample_index = 0
     st.session_state.current_rating_question_index = 0
     st.session_state.show_feedback = False
+
 
 def jump_to_study_part(part_number):
     st.session_state.study_part = part_number
@@ -319,6 +315,7 @@ def jump_to_study_part(part_number):
     st.session_state.current_caption_index = 0
     st.session_state.current_comparison_index = 0
     st.session_state.current_change_index = 0
+
 
 def restart_quiz():
     st.session_state.page = 'quiz'
@@ -329,11 +326,13 @@ def restart_quiz():
     st.session_state.score = 0
     st.session_state.score_saved = False
 
+
 def format_options_with_info(option_name):
     if option_name in DEFINITIONS:
         info = DEFINITIONS[option_name]
         return f"{option_name} ({info['desc']})"
     return option_name
+
 
 # --- Main App ---
 st.set_page_config(layout="wide", page_title="Tone-aware Captioning Study")
@@ -363,7 +362,7 @@ if st.session_state.page == 'demographics':
         st.session_state.email = "debug@test.com"
         st.session_state.age = 25
         st.session_state.gender = "Prefer not to say"
-        st.session_state.page = 'user_study_main' # SKIP TO MAIN
+        st.session_state.page = 'user_study_main'  # SKIP TO MAIN
         st.rerun()
     st.header("Welcome! Before you begin, please provide some basic information:")
     email = st.text_input("Please enter your email address:")
@@ -391,7 +390,7 @@ elif st.session_state.page == 'intro_video':
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
     if st.button("Next"):
-        st.session_state.page = 'quiz' # SKIP INSTRUCTIONS
+        st.session_state.page = 'quiz'  # SKIP INSTRUCTIONS
         st.rerun()
 
 elif st.session_state.page == 'quiz':
@@ -499,7 +498,7 @@ elif st.session_state.page == 'quiz_results':
         st.success("**Status: Passed**")
         st.markdown("Congratulations! You have qualified for the main user study.")
         if st.button("Proceed to User Study"):
-            st.session_state.page = 'user_study_main' # SKIP TO MAIN
+            st.session_state.page = 'user_study_main'  # SKIP TO MAIN
             st.rerun()
     else:
         st.error("**Status: Failed**")
@@ -531,17 +530,19 @@ elif st.session_state.page == 'user_study_main':
         current_caption = current_video['captions'][caption_idx]
 
         col1, col2 = st.columns([1, 1.8])
-
         with col1:
+            # Portrait -> use HTML video tag with object-fit:contain and max-height
             if current_video.get("orientation") == "portrait":
-                video_base64 = get_video_as_base64(current_video['video_path'])
-                if video_base64:
-                    video_html = f"""
-                        <video controls autoplay muted loop style="max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px; margin: 0 auto; display: block; border-radius: 10px;">
-                            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                        </video>
-                    """
-                    st.markdown(video_html, unsafe_allow_html=True)
+                st.markdown(
+                    f"""
+                    <video controls autoplay muted loop
+                        style="width: 100%; max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px;
+                               object-fit: contain; border-radius: 10px; display: block; margin: 0 auto;">
+                        <source src="{current_video['video_path']}" type="video/mp4">
+                    </video>
+                    """,
+                    unsafe_allow_html=True,
+                )
             else:
                 st.video(current_video['video_path'], autoplay=True, muted=True)
             st.caption("Video is muted for autoplay.")
@@ -626,14 +627,16 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             if current_comp.get("orientation") == "portrait":
-                video_base64 = get_video_as_base64(current_comp['video_path'])
-                if video_base64:
-                    video_html = f"""
-                        <video controls autoplay muted loop style="max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px; margin: 0 auto; display: block; border-radius: 10px;">
-                            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                        </video>
-                    """
-                    st.markdown(video_html, unsafe_allow_html=True)
+                st.markdown(
+                    f"""
+                    <video controls autoplay muted loop
+                        style="width: 100%; max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px;
+                               object-fit: contain; border-radius: 10px; display: block; margin: 0 auto;">
+                        <source src="{current_comp['video_path']}" type="video/mp4">
+                    </video>
+                    """,
+                    unsafe_allow_html=True,
+                )
             else:
                 st.video(current_comp['video_path'], autoplay=True, muted=True)
             st.caption("Video is muted for autoplay.")
@@ -691,7 +694,7 @@ elif st.session_state.page == 'user_study_main':
 
         # --- DYNAMIC TITLE LOGIC ---
         field_to_change = current_change['field_to_change']
-        field_type = list(field_to_change.keys())[0] # this will be 'personality' or 'writing_style'
+        field_type = list(field_to_change.keys())[0]  # this will be 'personality' or 'writing_style'
         dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
         st.header(dynamic_title)
         # --- END DYNAMIC TITLE LOGIC ---
@@ -700,14 +703,16 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             if current_change.get("orientation") == "portrait":
-                video_base64 = get_video_as_base64(current_change['video_path'])
-                if video_base64:
-                    video_html = f"""
-                        <video controls autoplay muted loop style="max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px; margin: 0 auto; display: block; border-radius: 10px;">
-                            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                        </video>
-                    """
-                    st.markdown(video_html, unsafe_allow_html=True)
+                st.markdown(
+                    f"""
+                    <video controls autoplay muted loop
+                        style="width: 100%; max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px;
+                               object-fit: contain; border-radius: 10px; display: block; margin: 0 auto;">
+                        <source src="{current_change['video_path']}" type="video/mp4">
+                    </video>
+                    """,
+                    unsafe_allow_html=True,
+                )
             else:
                 st.video(current_change['video_path'], autoplay=True, muted=True)
             st.caption("Video is muted for autoplay.")
@@ -731,9 +736,6 @@ elif st.session_state.page == 'user_study_main':
                     dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
                 elif field_type == 'writing_style':
                     dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
-                # else: # Fallback just in case
-                #     dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
-                # --- END CORRECTED LOGIC ---
 
                 q_cols = st.columns(2)
                 with q_cols[0]:
