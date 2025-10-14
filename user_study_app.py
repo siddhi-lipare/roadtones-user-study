@@ -681,79 +681,78 @@ elif st.session_state.page == 'user_study_main':
                         st.rerun()
 
     elif st.session_state.study_part == 3:
-            all_changes = st.session_state.all_data['study']['part3_intensity_change']
-            change_idx = st.session_state.current_change_index
+        all_changes = st.session_state.all_data['study']['part3_intensity_change']
+        change_idx = st.session_state.current_change_index
 
-            if change_idx >= len(all_changes):
-                st.session_state.page = 'final_thank_you'; st.rerun()
+        if change_idx >= len(all_changes):
+            st.session_state.page = 'final_thank_you'; st.rerun()
 
-            current_change = all_changes[change_idx]
+        current_change = all_changes[change_idx]
 
-            # --- DYNAMIC TITLE LOGIC ---
-            field_to_change = current_change['field_to_change']
-            field_type = list(field_to_change.keys())[0] # this will be 'personality' or 'writing_style'
-            dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
-            st.header(dynamic_title)
-            # --- END DYNAMIC TITLE LOGIC ---
+        # --- DYNAMIC TITLE LOGIC ---
+        field_to_change = current_change['field_to_change']
+        field_type = list(field_to_change.keys())[0] # this will be 'personality' or 'writing_style'
+        dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
+        st.header(dynamic_title)
+        # --- END DYNAMIC TITLE LOGIC ---
 
-            col1, col2 = st.columns([1, 1.8])
+        col1, col2 = st.columns([1, 1.8])
 
-            with col1:
-                if current_change.get("orientation") == "portrait":
-                    video_base64 = get_video_as_base64(current_change['video_path'])
-                    if video_base64:
-                        video_html = f"""
-                            <video controls autoplay muted loop style="max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px; margin: 0 auto; display: block; border-radius: 10px;">
-                                <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                            </video>
-                        """
-                        st.markdown(video_html, unsafe_allow_html=True)
-                else:
-                    st.video(current_change['video_path'], autoplay=True, muted=True)
-                st.caption("Video is muted for autoplay.")
-                st.subheader("Video Summary"); st.info(current_change["video_summary"])
+        with col1:
+            if current_change.get("orientation") == "portrait":
+                video_base64 = get_video_as_base64(current_change['video_path'])
+                if video_base64:
+                    video_html = f"""
+                        <video controls autoplay muted loop style="max-height: {PORTRAIT_VIDEO_MAX_HEIGHT}px; margin: 0 auto; display: block; border-radius: 10px;">
+                            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
+                        </video>
+                    """
+                    st.markdown(video_html, unsafe_allow_html=True)
+            else:
+                st.video(current_change['video_path'], autoplay=True, muted=True)
+            st.caption("Video is muted for autoplay.")
+            st.subheader("Video Summary"); st.info(current_change["video_summary"])
 
-            with col2:
-                caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>"""
-                caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
-                st.markdown(caption_a_html, unsafe_allow_html=True)
-                st.markdown(caption_b_html, unsafe_allow_html=True)
-                st.write("---")
+        with col2:
+            caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>"""
+            caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
+            st.markdown(caption_a_html, unsafe_allow_html=True)
+            st.markdown(caption_b_html, unsafe_allow_html=True)
+            st.write("---")
 
-                with st.form(key=f"study_form_change_{change_idx}"):
+            with st.form(key=f"study_form_change_{change_idx}"):
 
-                    change_type = current_change['change_type']
-                    trait = field_to_change[field_type]
-                    highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
+                change_type = current_change['change_type']
+                trait = field_to_change[field_type]
+                highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
 
-                    # --- CORRECTED QUESTION LOGIC ---
-                    if field_type == 'personality':
-                        dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
-                    elif field_type == 'writing_style':
-                        dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
-                    else: # Fallback just in case
-                        dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
-                    # --- END CORRECTION ---
+                # --- CORRECTED QUESTION LOGIC ---
+                if field_type == 'personality':
+                    dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
+                elif field_type == 'writing_style':
+                    dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
+                else: # Fallback just in case
+                    dynamic_question = f"Has the intensity of {highlighted_trait} {change_type} from Caption A to B?"
+                # --- END CORRECTED LOGIC ---
 
-                    q_cols = st.columns(2)
-                    with q_cols[0]:
-                        st.markdown(f"**1. {dynamic_question}**", unsafe_allow_html=True)
-                        choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
+                q_cols = st.columns(2)
+                with q_cols[0]:
+                    st.markdown(f"**1. {dynamic_question}**", unsafe_allow_html=True)
+                    choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
 
-                    with q_cols[1]:
-                        q2_text = "Is the core factual content consistent across both captions?"
-                        st.markdown(f"**2. {q2_text}**")
-                        choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
+                with q_cols[1]:
+                    q2_text = "Is the core factual content consistent across both captions?"
+                    st.markdown(f"**2. {q2_text}**")
+                    choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
 
-                    if st.form_submit_button("Submit Answers"):
-                        if choice1 is None or choice2 is None:
-                            st.error("Please answer both questions.")
-                        else:
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                            st.session_state.current_change_index += 1
-                            st.rerun()
-
+                if st.form_submit_button("Submit Answers"):
+                    if choice1 is None or choice2 is None:
+                        st.error("Please answer both questions.")
+                    else:
+                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
+                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                        st.session_state.current_change_index += 1
+                        st.rerun()
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
