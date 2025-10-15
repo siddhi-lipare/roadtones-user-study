@@ -134,13 +134,14 @@ st.markdown("""
     line-height: 1.6;
 }
 
-/* --- STYLE FOR QUIZ QUESTIONS --- */
+/* --- STYLE FOR QUIZ QUESTIONS (inside a form) --- */
 .quiz-question {
     font-family: 'Inter', sans-serif;
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 19px !important;
+    font-weight: 600 !important;
     color: #111827;
     margin-bottom: 1rem;
+    line-height: 1.5;
 }
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
@@ -208,6 +209,7 @@ APPLICATIONS_DEFINITIONS = {
     'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.',
     'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
 }
+
 
 # --- Helper Functions ---
 @st.cache_data
