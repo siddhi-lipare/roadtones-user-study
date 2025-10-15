@@ -113,13 +113,17 @@ st.markdown("""
     margin: 0.5em 0 0 0;
 }
 
-/* --- NEW QUIZ QUESTION BOX STYLING --- */
+/* --- QUIZ QUESTION BOX STYLING (CORRECTED FOR LIGHT THEME) --- */
 .quiz-question-box {
-    background-color: var(--secondary-background-color);
+    background-color: #F0F2F6; /* Light Grey for Light Theme by default */
     padding: 1rem 1.5rem;
     border: 1px solid var(--gray-300);
     border-bottom: none; 
     border-radius: 0.5rem 0.5rem 0 0; 
+}
+/* Override for Dark Theme */
+body[theme="dark"] .quiz-question-box {
+    background-color: var(--secondary-background-color);
 }
 
 .quiz-question-box > strong {
