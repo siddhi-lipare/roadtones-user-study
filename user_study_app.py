@@ -448,59 +448,31 @@ elif st.session_state.page == 'quiz':
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         
-        # --- DYNAMIC QUESTION DISPLAY FOR QUIZ ---
+        # --- RESTRUCTURED QUIZ QUESTION DISPLAY ---
         if "Tone Controllability" in current_part_key:
-            category = sample.get('category', '').lower()
-            trait = sample['tone_to_compare']
-            change = sample['comparison_type']
-            
             caption_a_html = f"""<div class="quiz-caption-box"><strong>Caption A:</strong><p>{sample["caption_A"]}</p></div>"""
             caption_b_html = f"""<div class="quiz-caption-box"><strong>Caption B:</strong><p>{sample["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
-            
-            if 'style' in category:
-                question = f"Has the author's {trait} writing style {change} from Caption A to B?"
-            else: # Defaults to persona
-                question = f"Has the author's {trait} persona {change} from Caption A to B?"
-            st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
-            
-            if st.session_state.current_rating_question_index == 0:
-                control_scores = sample.get("control_scores", {})
-                personality_traits = list(control_scores.get("personality", {}).keys())
-                style_traits = list(control_scores.get("writing_style", {}).keys())
-                
-                p_str = f"<b class='highlight-trait'>{', '.join(personality_traits)}</b>" if personality_traits else ""
-                s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
-                
-                question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
-                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-            else:
-                question_text = question_data["question_text"]
-                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
         
         else: # This block handles "Tone Identification"
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
-
-            if question_data.get("question_type") == "multi":
-                question_text = "Identify 2 dominant personality traits projected by the captioner"
-            else:
-                category_text = sample.get('category', 'tone').lower()
-                question_text = f"Identify the most dominant {category_text} projected by the captioner"
-            st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
         
-        st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
+        
         if st.session_state.show_feedback:
+            # When showing feedback, the layout is simpler
+            st.write("---")
+            st.write("**Your Answer vs Correct Answer:**")
             user_choice = st.session_state.last_choice
             correct_answer = question_data.get('correct_answer')
             if not isinstance(user_choice, list): user_choice = [user_choice]
             if not isinstance(correct_answer, list): correct_answer = [correct_answer]
-            st.write("**Your Answer vs Correct Answer:**")
+
             for option in question_data['options']:
                 is_correct_option = option in correct_answer
                 is_selected_option = option in user_choice
@@ -510,17 +482,50 @@ elif st.session_state.page == 'quiz':
             st.info(f"**Explanation:** {question_data['explanation']}")
             st.button("Next Question", on_click=go_to_next_quiz_question)
         else:
-            with st.form("quiz_form"):
+             with st.form("quiz_form"):
+                # --- This block now contains the questions AND the options ---
+                if "Tone Controllability" in current_part_key:
+                    category = sample.get('category', '').lower()
+                    trait = sample['tone_to_compare']
+                    change = sample['comparison_type']
+                    if 'style' in category:
+                        question = f"Has the author's {trait} writing style {change} from Caption A to B?"
+                    else:
+                        question = f"Has the author's {trait} persona {change} from Caption A to B?"
+                    st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
+                
+                elif "Caption Quality" in current_part_key:
+                    if st.session_state.current_rating_question_index == 0:
+                        control_scores = sample.get("control_scores", {})
+                        personality_traits = list(control_scores.get("personality", {}).keys())
+                        style_traits = list(control_scores.get("writing_style", {}).keys())
+                        p_str = f"<b class='highlight-trait'>{', '.join(personality_traits)}</b>" if personality_traits else ""
+                        s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
+                        question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
+                        st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+                    else:
+                        question_text = question_data["question_text"]
+                        st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+                
+                else: # "Tone Identification"
+                    if question_data.get("question_type") == "multi":
+                        question_text = "Identify 2 dominant personality traits projected by the captioner"
+                    else:
+                        category_text = sample.get('category', 'tone').lower()
+                        question_text = f"Identify the most dominant {category_text} projected by the captioner"
+                    st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+                
                 choice = None
                 options_list = question_data['options']
                 if "Tone Identification" in current_part_key:
                     if question_data.get("question_type") == "multi":
-                        choice = st.multiselect("Select all that apply:", options_list, key=f"ms_{current_index}", format_func=format_options_with_info)
-                        st.markdown("<br><br>", unsafe_allow_html=True)
+                        choice = st.multiselect("Select all that apply:", options_list, key=f"ms_{current_index}", format_func=format_options_with_info, label_visibility="collapsed")
+                        st.markdown("<br>", unsafe_allow_html=True)
                     else:
-                        choice = st.radio("Select one option:", options_list, key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
+                        choice = st.radio("Select one option:", options_list, key=f"radio_{current_index}", index=None, format_func=format_options_with_info, label_visibility="collapsed")
                 else:
-                    choice = st.radio("Select one option:", options_list, key=f"radio_{current_part_key}_{current_index}", index=None)
+                    choice = st.radio("Select one option:", options_list, key=f"radio_{current_part_key}_{current_index}", index=None, label_visibility="collapsed")
+                
                 if st.form_submit_button("Submit Answer"):
                     if not choice:
                         st.error("Please select an option.")
