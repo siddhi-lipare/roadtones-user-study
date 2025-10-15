@@ -112,6 +112,19 @@ st.markdown("""
     margin: 0.5em 0 0 0;
 }
 
+/* --- NEW Quiz Question Styling --- */
+.quiz-question-container {
+    padding-left: 1.5rem; /* Aligns with the text inside the caption box */
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.quiz-question-container strong {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;      /* Increased font size to match caption labels */
+    font-weight: 600;     /* Bold */
+    color: #111827;       /* Dark gray for consistency */
+}
+
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
     background-color: #BDE0FE !important; /* Soft Blue */
@@ -152,7 +165,6 @@ div[data-testid="stSlider"] {
     window.parent.document.querySelector('section.main').scrollTo(0, 0);
 </script>
 """, unsafe_allow_html=True)
-
 
 # --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
@@ -442,6 +454,7 @@ elif st.session_state.page == 'quiz':
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         
         # --- DYNAMIC QUESTION DISPLAY FOR QUIZ (NEW UI) ---
+        question_text = ""
         if "Tone Controllability" in current_part_key:
             category = sample.get('category', '').lower()
             trait = sample['tone_to_compare']
@@ -456,7 +469,6 @@ elif st.session_state.page == 'quiz':
                 question_text = f"Has the author's <b>{trait}</b> writing style <b>{change}</b> from Caption A to B?"
             else: # Defaults to persona
                 question_text = f"Has the author's <b>{trait}</b> persona <b>{change}</b> from Caption A to B?"
-            st.markdown(f"<strong>{question_text}</strong>", unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
@@ -473,7 +485,6 @@ elif st.session_state.page == 'quiz':
                 question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
             else:
                 question_text = question_data["question_text"]
-            st.markdown(f"<strong>{question_text}</strong>", unsafe_allow_html=True)
         
         else: # This block handles "Tone Identification"
             caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
@@ -484,8 +495,11 @@ elif st.session_state.page == 'quiz':
             else:
                 category_text = sample.get('category', 'tone').lower()
                 question_text = f"Identify the most dominant {category_text} projected by the captioner"
-            st.markdown(f"<strong>{question_text}</strong>", unsafe_allow_html=True)
+
+        # --- Render the Question using the new style ---
+        st.markdown(f'<div class="quiz-question-container"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
         
+        # --- Feedback and Form logic remains the same ---
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
         if st.session_state.show_feedback:
             user_choice = st.session_state.last_choice
@@ -525,6 +539,8 @@ elif st.session_state.page == 'quiz':
                             st.session_state.score += 1
                         st.session_state.show_feedback = True
                         st.rerun()
+
+
                         
 elif st.session_state.page == 'quiz_results':
     st.title("Quiz Completed! 🎉")
