@@ -126,7 +126,7 @@ st.markdown("""
 /* Styles the question text itself */
 .quiz-question-container .question-text-part { 
     font-family: 'Inter', sans-serif;
-    font-size: 17px; /* Slightly smaller than "Question:" */
+    font-size: 19px; /* Increased to match caption text size */
     font-weight: 500; 
     color: #111827;
     margin-left: 0.5em; /* Space after the colon */
@@ -173,6 +173,7 @@ div[data-testid="stSlider"] {
     window.parent.document.querySelector('section.main').scrollTo(0, 0);
 </script>
 """, unsafe_allow_html=True)
+
 
 # --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
@@ -473,11 +474,11 @@ elif st.session_state.page == 'quiz':
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             
-            # Apply 'highlight-trait' class for indigo color
+            # Apply 'highlight-trait' class for indigo color to both trait and change
             if 'style' in category:
-                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> writing style <b>{change}</b> from Caption A to B?"
+                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> writing style <b class='highlight-trait'>{change}</b> from Caption A to B?"
             else: # Defaults to persona
-                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> persona <b>{change}</b> from Caption A to B?"
+                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> persona <b class='highlight-trait'>{change}</b> from Caption A to B?"
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
@@ -548,7 +549,6 @@ elif st.session_state.page == 'quiz':
                             st.session_state.score += 1
                         st.session_state.show_feedback = True
                         st.rerun()
-
 
 
 elif st.session_state.page == 'quiz_results':
