@@ -75,20 +75,23 @@ st.markdown("""
     color: var(--text-color);
 }
 
-/* Part 1 Caption Box (colored backgrounds) */
+/* --- PART 1 CAPTION BOX (CORRECTED FOR DARK THEME) --- */
 .part1-caption-box {
     border-radius: 10px;
     padding: 1rem 1.5rem;
     margin-bottom: 20px;
 }
+/* Force dark text color for the "Caption:" label */
 .part1-caption-box strong {
     font-size: 18px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    color: var(--text-color);
+    color: #111827 !important; /* Force dark text */
 }
+/* Force dark text color for the caption text itself */
 .part1-caption-box .caption-text {
     margin: 0.5em 0 0 0;
+    color: #111827 !important; /* Force dark text */
 }
 
 
@@ -209,7 +212,6 @@ div[data-testid="stSlider"] {
     window.parent.document.querySelector('section.main').scrollTo(0, 0);
 </script>
 """, unsafe_allow_html=True)
-
 
 # --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
