@@ -544,8 +544,7 @@ elif st.session_state.page == 'quiz_results':
                 total_scorable_questions += len(item.get("questions", []))
         else:
             total_scorable_questions += len(questions_list)
-    passing_score_percentage = 0.80
-    passing_score = math.ceil(total_scorable_questions * passing_score_percentage) if total_scorable_questions > 0 else 1
+    passing_score = 5
     st.header(f"Your Final Score: {st.session_state.score} / {total_scorable_questions}")
     if st.session_state.score >= passing_score:
         st.success("**Status: Passed**")
