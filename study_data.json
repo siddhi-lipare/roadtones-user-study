@@ -334,25 +334,25 @@
   "part3_intensity_change": [
     {
       "change_id": "change_002",
-      "video_id": "video_009",
-      "video_path": "media/v_1747712099269112051_wb-5J8En0_dkcMM6.mp4",
-      "video_summary": "A road rage incident involving a violent exchange between tow truck drivers occurred during the daytime in winter, likely in Brampton, Ontario, Canada. The unstable footage, captured by a hand-held camera or cell phone, depicts tow truck drivers engaged in fighting and possibly attempting to run over other individuals on snow-covered roads, with pedestrians also present. Suspected motives for this aggressive behavior include territorial disputes over towing rights, competition for customers, and potential gang-related activities within the towing industry.",
-      "caption_A": "Tow truck drivers brawl in the snow\u2014territory drama or just business? \u2744\ufe0f",
-      "caption_B": "Tow truck drivers brawling in the snow — is this a rescue or a reality show? ❄️😂",
+      "video_id": "video_001",
+      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
+      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
+      "caption_A": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
+      "caption_B": "My heart races watching this—out of nowhere, a car comes crashing over a fence, metal everywhere, people running. It’s so overwhelming. #CarCrash 😰",
       "field_to_change": {
-        "personality": "Amusing"
+        "personality": "Emotional"
       },
       "change_type": "increased"
     },
     {
       "change_id": "change_003",
-      "video_id": "video_003",
-      "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
-      "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, nearly colliding with another vehicle.",
-      "caption_A": "Yeah, that truck driver definitely checked his mirrors. Flawless execution.",
-      "caption_B": "Oh, great move. Using the side of another car as your lane marker is a fantastic new driving technique.",
+      "video_id": "video_001",
+      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
+      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
+      "caption_A": "Speeding and reckless driving can lead to devastating crashes. Always stay alert and drive responsibly. 🚨 #RoadSafety #DrivingTips",
+      "caption_B": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
       "field_to_change": {
-        "personality": "Sarcastic"
+        "writing_style": "Advisory"
       },
       "change_type": "decreased"
     }
