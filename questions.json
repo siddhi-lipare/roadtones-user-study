@@ -6,7 +6,7 @@
     },
     {
       "id": "style_relevance",
-      "text": "How strongly does the caption's writing style reflect {} tones?"
+      "text": "How strongly does the caption's writing style reflect {} tone(s)?"
     },
     {
       "id": "overall_relevance",
