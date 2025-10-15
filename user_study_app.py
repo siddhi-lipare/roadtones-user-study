@@ -483,11 +483,12 @@ elif st.session_state.page == 'quiz':
     current_index = st.session_state.current_sample_index
     sample = questions_for_part[current_index]
 
-    # --- DYNAMIC QUIZ TITLE LOGIC ---
+    # --- DYNAMIC QUIZ TITLE LOGIC (CORRECTED) ---
     if "Tone Identification" in current_part_key:
         category = sample.get('category', 'Tone').replace(' ', '_').title().replace('_', ' ')
         display_title = f"{category} Identification"
     elif "Tone Controllability" in current_part_key:
+        # THIS SECTION IS CORRECTED
         category = sample.get('category', 'Tone').title()
         display_title = f"{category} Comparison"
     else:
@@ -558,7 +559,6 @@ elif st.session_state.page == 'quiz':
         st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
         
         # --- Feedback and Form logic remains the same ---
-        # REMOVED the conflicting inline <style> block that was here
         if st.session_state.show_feedback:
             user_choice = st.session_state.last_choice
             correct_answer = question_data.get('correct_answer')
@@ -598,6 +598,7 @@ elif st.session_state.page == 'quiz':
                         st.session_state.show_feedback = True
                         st.rerun()
 
+                        
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
