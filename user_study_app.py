@@ -145,6 +145,28 @@ div[data-testid="stSlider"] {
     max-width: 250px;
 }
 
+/* --- NEW REFERENCE BOX STYLE --- */
+.reference-box {
+    background-color: #FEFCE8; /* Light Yellow */
+    border: 1px solid #FDE047; /* Darker Yellow Border */
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+}
+.reference-box h3 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+.reference-box ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+.reference-box li {
+    margin-bottom: 0.5rem;
+}
+
+
 </style>
 
 <script>
@@ -177,7 +199,6 @@ APPLICATIONS_DEFINITIONS = {
     'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.',
     'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
 }
-
 
 # --- Helper Functions ---
 @st.cache_data
@@ -603,11 +624,7 @@ elif st.session_state.page == 'user_study_main':
                 submitted = st.form_submit_button("Submit Ratings")
                 
             if submitted:
-                is_valid = True
-                for q in questions_to_ask:
-                    if responses.get(q['id']) is None:
-                        is_valid = False
-                        break
+                is_valid = all(responses.get(q['id']) is not None for q in questions_to_ask)
                 
                 if not is_valid:
                     st.error("Please answer all 6 questions before submitting.")
@@ -622,12 +639,13 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state.current_caption_index = 0
                     st.rerun()
             
-            st.markdown("---")
-            with st.expander("Reference"):
-                for term in sorted(list(terms_to_define)):
-                    desc = DEFINITIONS.get(term, {}).get('desc') or APPLICATIONS_DEFINITIONS.get(term)
-                    if desc:
-                        st.markdown(f"- **{term}:** {desc}")
+            st.markdown('<div class="reference-box">', unsafe_allow_html=True)
+            st.markdown("<h3>Reference</h3>", unsafe_allow_html=True)
+            for term in sorted(list(terms_to_define)):
+                desc = DEFINITIONS.get(term, {}).get('desc') or APPLICATIONS_DEFINITIONS.get(term)
+                if desc:
+                    st.markdown(f"- **{term}:** {desc}")
+            st.markdown('</div>', unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
@@ -693,12 +711,13 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state.current_comparison_index += 1
                     st.rerun()
             
-            st.markdown("---")
-            with st.expander("Reference"):
-                for term in sorted(list(terms_to_define)):
-                    desc = DEFINITIONS.get(term, {}).get('desc')
-                    if desc:
-                        st.markdown(f"- **{term}:** {desc}")
+            st.markdown('<div class="reference-box">', unsafe_allow_html=True)
+            st.markdown("<h3>Reference</h3>", unsafe_allow_html=True)
+            for term in sorted(list(terms_to_define)):
+                desc = DEFINITIONS.get(term, {}).get('desc')
+                if desc:
+                    st.markdown(f"- **{term}:** {desc}")
+            st.markdown('</div>', unsafe_allow_html=True)
 
     elif st.session_state.study_part == 3:
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
@@ -728,7 +747,6 @@ elif st.session_state.page == 'user_study_main':
             caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
-            st.write("---")
             
             trait = field_to_change[field_type]
             terms_to_define.add(trait)
@@ -763,13 +781,13 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state.current_change_index += 1
                     st.rerun()
 
-            st.markdown("---")
-            with st.expander("Reference"):
-                for term in sorted(list(terms_to_define)):
-                    desc = DEFINITIONS.get(term, {}).get('desc')
-                    if desc:
-                        st.markdown(f"- **{term}:** {desc}")
-
+            st.markdown('<div class="reference-box">', unsafe_allow_html=True)
+            st.markdown("<h3>Reference</h3>", unsafe_allow_html=True)
+            for term in sorted(list(terms_to_define)):
+                desc = DEFINITIONS.get(term, {}).get('desc')
+                if desc:
+                    st.markdown(f"- **{term}:** {desc}")
+            st.markdown('</div>', unsafe_allow_html=True)
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
