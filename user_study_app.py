@@ -514,7 +514,6 @@ elif st.session_state.page == 'quiz_results':
         st.error("**Status: Failed**")
         st.markdown(f"Unfortunately, you did not meet the passing score of {passing_score}. You can try again.")
         st.button("Take Quiz Again", on_click=restart_quiz)
-    st.info("Scoring is based on answering correctly on your first attempt.")
 
 # --- Page 7: The Main User Study ---
 elif st.session_state.page == 'user_study_main':
