@@ -134,11 +134,11 @@ st.markdown("""
     line-height: 1.6;
 }
 
-/* --- STYLE FOR QUIZ QUESTIONS (inside a form) --- */
+/* --- STYLE FOR QUIZ QUESTIONS --- */
 .quiz-question {
     font-family: 'Inter', sans-serif;
-    font-size: 19px !important;
-    font-weight: 600 !important;
+    font-size: 19px;
+    font-weight: 600;
     color: #111827;
     margin-bottom: 1rem;
     line-height: 1.5;
@@ -484,39 +484,40 @@ elif st.session_state.page == 'quiz':
             st.info(f"**Explanation:** {question_data['explanation']}")
             st.button("Next Question", on_click=go_to_next_quiz_question)
         else:
-             with st.form("quiz_form"):
-                # --- This block now contains the questions AND the options ---
-                if "Tone Controllability" in current_part_key:
-                    category = sample.get('category', '').lower()
-                    trait = sample['tone_to_compare']
-                    change = sample['comparison_type']
-                    if 'style' in category:
-                        question = f"Has the author's {trait} writing style {change} from Caption A to B?"
-                    else:
-                        question = f"Has the author's {trait} persona {change} from Caption A to B?"
-                    st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
-                
-                elif "Caption Quality" in current_part_key:
-                    if st.session_state.current_rating_question_index == 0:
-                        control_scores = sample.get("control_scores", {})
-                        personality_traits = list(control_scores.get("personality", {}).keys())
-                        style_traits = list(control_scores.get("writing_style", {}).keys())
-                        p_str = f"<b class='highlight-trait'>{', '.join(personality_traits)}</b>" if personality_traits else ""
-                        s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
-                        question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
-                        st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-                    else:
-                        question_text = question_data["question_text"]
-                        st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-                
-                else: # "Tone Identification"
-                    if question_data.get("question_type") == "multi":
-                        question_text = "Identify 2 dominant personality traits projected by the captioner"
-                    else:
-                        category_text = sample.get('category', 'tone').lower()
-                        question_text = f"Identify the most dominant {category_text} projected by the captioner"
+            # --- STANDALONE QUESTION LOGIC (OUTSIDE FORM) ---
+            if "Tone Controllability" in current_part_key:
+                category = sample.get('category', '').lower()
+                trait = sample['tone_to_compare']
+                change = sample['comparison_type']
+                if 'style' in category:
+                    question = f"Has the author's {trait} writing style {change} from Caption A to B?"
+                else:
+                    question = f"Has the author's {trait} persona {change} from Caption A to B?"
+                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
+            
+            elif "Caption Quality" in current_part_key:
+                if st.session_state.current_rating_question_index == 0:
+                    control_scores = sample.get("control_scores", {})
+                    personality_traits = list(control_scores.get("personality", {}).keys())
+                    style_traits = list(control_scores.get("writing_style", {}).keys())
+                    p_str = f"<b class='highlight-trait'>{', '.join(personality_traits)}</b>" if personality_traits else ""
+                    s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
+                    question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
                     st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-                
+                else:
+                    question_text = question_data["question_text"]
+                    st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+            
+            else: # "Tone Identification"
+                if question_data.get("question_type") == "multi":
+                    question_text = "Identify 2 dominant personality traits projected by the captioner"
+                else:
+                    category_text = sample.get('category', 'tone').lower()
+                    question_text = f"Identify the most dominant {category_text} projected by the captioner"
+                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+            
+            # --- FORM CONTAINS ONLY THE OPTIONS ---
+            with st.form("quiz_form"):
                 choice = None
                 options_list = question_data['options']
                 if "Tone Identification" in current_part_key:
