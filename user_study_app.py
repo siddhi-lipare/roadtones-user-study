@@ -134,6 +134,15 @@ st.markdown("""
     line-height: 1.6;
 }
 
+/* --- STYLE FOR QUIZ QUESTIONS --- */
+.quiz-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
     background-color: #BDE0FE !important; /* Soft Blue */
@@ -147,25 +156,25 @@ div[data-testid="stSlider"] {
 
 /* --- NEW REFERENCE BOX STYLE --- */
 .reference-box {
-    background-color: #FEFCE8; /* Light Yellow */
-    border: 1px solid #FDE047; /* Darker Yellow Border */
+    background-color: #FFFBEB; /* Lighter Yellow */
+    border: 1px solid #FEF3C7; /* Darker Yellow Border */
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     margin-top: 1.5rem;
 }
 .reference-box h3 {
     margin-top: 0;
+    padding-bottom: 0.5rem;
     font-size: 18px;
     font-weight: 600;
 }
 .reference-box ul {
     padding-left: 20px;
-    margin-bottom: 0;
+    margin: 0;
 }
 .reference-box li {
     margin-bottom: 0.5rem;
 }
-
 
 </style>
 
@@ -199,6 +208,7 @@ APPLICATIONS_DEFINITIONS = {
     'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.',
     'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
 }
+
 
 # --- Helper Functions ---
 @st.cache_data
@@ -445,18 +455,21 @@ elif st.session_state.page == 'quiz':
             trait = sample['tone_to_compare']
             change = sample['comparison_type']
             
-            if 'style' in category:
-                question = f"Has the author's {trait} writing style {change} from Caption A to B?"
-            else: # Defaults to persona
-                question = f"Has the author's {trait} persona {change} from Caption A to B?"
-            st.subheader(question)
-            
             caption_a_html = f"""<div class="quiz-caption-box"><strong>Caption A:</strong><p>{sample["caption_A"]}</p></div>"""
             caption_b_html = f"""<div class="quiz-caption-box"><strong>Caption B:</strong><p>{sample["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
+
+            if 'style' in category:
+                question = f"Has the author's {trait} writing style {change} from Caption A to B?"
+            else: # Defaults to persona
+                question = f"Has the author's {trait} persona {change} from Caption A to B?"
+            st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
+            caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
+            st.markdown(caption_html, unsafe_allow_html=True)
+            
             # --- UPDATED LOGIC FOR QUIZ PART 3 ---
             if st.session_state.current_rating_question_index == 0:
                 control_scores = sample.get("control_scores", {})
@@ -467,23 +480,22 @@ elif st.session_state.page == 'quiz':
                 s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
                 
                 question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
-                st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_text}</p>', unsafe_allow_html=True)
+                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
             else:
-                 st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
+                question_text = question_data["question_text"]
+                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
             # --- END UPDATED LOGIC ---
-            
-            caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
-            st.markdown(caption_html, unsafe_allow_html=True)
         
         else: # This block handles "Tone Identification"
-            if question_data.get("question_type") == "multi":
-                st.subheader("Identify 2 dominant personality traits projected by the captioner")
-            else:
-                category_text = sample.get('category', 'tone').lower()
-                st.subheader(f"Identify the most dominant {category_text} projected by the captioner")
-
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
+
+            if question_data.get("question_type") == "multi":
+                question_text = "Identify 2 dominant personality traits projected by the captioner"
+            else:
+                category_text = sample.get('category', 'tone').lower()
+                question_text = f"Identify the most dominant {category_text} projected by the captioner"
+            st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
         
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
         if st.session_state.show_feedback:
@@ -639,13 +651,14 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state.current_caption_index = 0
                     st.rerun()
             
-            st.markdown('<div class="reference-box">', unsafe_allow_html=True)
-            st.markdown("<h3>Reference</h3>", unsafe_allow_html=True)
+            reference_html = '<div class="reference-box">'
+            reference_html += "<h3>Reference</h3><ul>"
             for term in sorted(list(terms_to_define)):
                 desc = DEFINITIONS.get(term, {}).get('desc') or APPLICATIONS_DEFINITIONS.get(term)
                 if desc:
-                    st.markdown(f"- **{term}:** {desc}")
-            st.markdown('</div>', unsafe_allow_html=True)
+                    reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
+            reference_html += "</ul></div>"
+            st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
@@ -711,13 +724,15 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state.current_comparison_index += 1
                     st.rerun()
             
-            st.markdown('<div class="reference-box">', unsafe_allow_html=True)
-            st.markdown("<h3>Reference</h3>", unsafe_allow_html=True)
+            reference_html = '<div class="reference-box">'
+            reference_html += "<h3>Reference</h3><ul>"
             for term in sorted(list(terms_to_define)):
                 desc = DEFINITIONS.get(term, {}).get('desc')
                 if desc:
-                    st.markdown(f"- **{term}:** {desc}")
-            st.markdown('</div>', unsafe_allow_html=True)
+                    reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
+            reference_html += "</ul></div>"
+            st.markdown(reference_html, unsafe_allow_html=True)
+
 
     elif st.session_state.study_part == 3:
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
@@ -781,13 +796,14 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state.current_change_index += 1
                     st.rerun()
 
-            st.markdown('<div class="reference-box">', unsafe_allow_html=True)
-            st.markdown("<h3>Reference</h3>", unsafe_allow_html=True)
+            reference_html = '<div class="reference-box">'
+            reference_html += "<h3>Reference</h3><ul>"
             for term in sorted(list(terms_to_define)):
                 desc = DEFINITIONS.get(term, {}).get('desc')
                 if desc:
-                    st.markdown(f"- **{term}:** {desc}")
-            st.markdown('</div>', unsafe_allow_html=True)
+                    reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
+            reference_html += "</ul></div>"
+            st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
