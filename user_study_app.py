@@ -426,7 +426,7 @@ if st.session_state.all_data is None:
 
 # --- Page 1-6 (Demographics, Quiz, Instructions) ---
 if st.session_state.page == 'demographics':
-    st.title("Tone-aware Captioning Study 📝")
+    st.title("Tone-controlled Video Captioning")
     if st.button("DEBUG: Skip to Main Study"):
         st.session_state.email = "debug@test.com"
         st.session_state.age = 25
