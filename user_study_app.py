@@ -463,13 +463,12 @@ elif st.session_state.page == 'intro_video':
     _ , vid_col, _ = st.columns([1, 3, 1])
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
-    # NEW: Added the hyperlinked guide below the info box
-    st.markdown("##### [Additional user study guide](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing)")
+        # NEW: Added the hyperlinked guide below the info box
+        st.markdown("##### [Additional user study guide](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing)")
 
     if st.button("Next"):
         st.session_state.page = 'quiz'
         st.rerun()
-
 
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
