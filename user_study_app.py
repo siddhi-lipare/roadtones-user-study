@@ -113,7 +113,7 @@ st.markdown("""
 
 /* --- UPDATED QUIZ CAPTION BOX STYLE --- */
 .quiz-caption-box {
-    background-color: #D1E8FF; /* Change this value */
+    background-color: #F0F2F6; /* Light grey */
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     margin-bottom: 1rem;
@@ -136,8 +136,8 @@ st.markdown("""
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
-    background-color: #f9fafb !important; /* Light Red */
-    color: #721c24 !important; /* Dark Red Text */
+    background-color: #BDE0FE !important; /* Soft Blue */
+    color: #003366 !important; /* Dark Blue Text */
 }
 
 /* Make sliders in part 1 smaller */
