@@ -60,19 +60,19 @@ st.markdown("""
     margin-bottom: 0.5rem;
 }
 
-/* Style for highlighting traits in questions */
+/* Style for highlighting traits in questions - Kept as a brand color */
 .highlight-trait {
-    color: #4f46e5; /* Indigo color for prominence */
+    color: #4f46e5; 
     font-weight: 600;
 }
 
 /* Base style for all caption text */
 .caption-text {
     font-family: 'Inter', sans-serif;
-    font-weight: 500; /* Semi-bold */
-    font-size: 19px !important; /* Slightly larger font */
+    font-weight: 500; 
+    font-size: 19px !important; 
     line-height: 1.6;
-    color: #111827; /* Darkest gray for max contrast */
+    color: var(--text-color); /* CHANGED: Was hardcoded black */
 }
 
 /* Part 1 Caption Box (colored backgrounds) */
@@ -83,9 +83,9 @@ st.markdown("""
 }
 .part1-caption-box strong {
     font-size: 18px;
-    color: #111827;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
+    color: var(--text-color); /* CHANGED: Was hardcoded black */
 }
 .part1-caption-box .caption-text {
     margin: 0.5em 0 0 0;
@@ -94,64 +94,61 @@ st.markdown("""
 
 /* Part 2 & 3 Caption Box (for comparisons) - NOW USED BY QUIZ */
 .comparison-caption-box {
-    background-color: #f9fafb; /* Lighter gray */
-    border-left: 5px solid #6366f1; /* Indigo color */
+    background-color: var(--secondary-background-color); /* CHANGED: Was light grey */
+    border-left: 5px solid #6366f1; /* Kept as brand color */
     padding: 1rem 1.5rem;
     margin: 1rem 0;
     border-radius: 0.25rem;
 }
 .comparison-caption-box strong {
     font-size: 18px;
-    color: #111827;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
+    color: var(--text-color); /* CHANGED: Was hardcoded black */
 }
 .comparison-caption-box .caption-text {
     margin: 0.5em 0 0 0;
 }
 
 /* --- NEW QUIZ QUESTION BOX STYLING --- */
-/* The top part of the box, containing the question */
 .quiz-question-box {
-    background-color: #F0F2F6; /* Light Grey */
+    background-color: var(--secondary-background-color); /* CHANGED: Was light grey */
     padding: 1rem 1.5rem;
-    border: 1px solid #d1d5db; /* A slightly darker grey for definition */
-    border-bottom: none; /* Remove bottom border to merge with form */
-    border-radius: 0.5rem 0.5rem 0 0; /* Round top corners */
+    border: 1px solid var(--gray-300); /* CHANGED: Was hardcoded grey */
+    border-bottom: none; 
+    border-radius: 0.5rem 0.5rem 0 0; 
 }
 
-/* Styles the "Question:" prefix inside the new box */
 .quiz-question-box > strong {
     font-family: 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 600;
-    color: #111827;
+    color: var(--text-color); /* CHANGED: Was hardcoded black */
 }
 
-/* Styles the question text itself */
 .quiz-question-box .question-text-part {
     font-family: 'Inter', sans-serif;
     font-size: 19px;
     font-weight: 500;
-    color: #111827;
+    color: var(--text-color); /* CHANGED: Was hardcoded black */
     margin-left: 0.5em;
 }
 
 /* Target the form element directly to connect it to the question box */
 [data-testid="stForm"] {
-    border: 1px solid #d1d5db; /* Matching border */
-    border-top: none; /* Remove top border to merge */
-    border-radius: 0 0 0.5rem 0.5rem; /* Round bottom corners */
-    padding: 1.5rem 1.5rem 0.5rem 1.5rem; /* Give options some space */
-    margin-top: 0 !important; /* Force it to stick to the question box */
-    background-color: white;
+    border: 1px solid var(--gray-300); /* CHANGED: Was hardcoded grey */
+    border-top: none; 
+    border-radius: 0 0 0.5rem 0.5rem; 
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem; 
+    margin-top: 0 !important; 
+    background-color: var(--background-color); /* CHANGED: Was white */
 }
 
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
-    background-color: #BDE0FE !important; /* Soft Blue */
-    color: #003366 !important; /* Dark Blue Text */
+    background-color: #BDE0FE !important; 
+    color: #003366 !important; 
 }
 
 /* Make sliders in part 1 smaller */
@@ -159,10 +156,10 @@ div[data-testid="stSlider"] {
     max-width: 250px;
 }
 
-/* --- NEW REFERENCE BOX STYLE --- */
+/* --- THEME-AWARE REFERENCE BOX STYLE --- */
 .reference-box {
-    background-color: #FFFBEB; /* Lighter Yellow */
-    border: 1px solid #FEF3C7; /* Darker Yellow Border */
+    background-color: var(--secondary-background-color); /* CHANGED: Was light yellow */
+    border: 1px solid #eab308; /* A visible amber border for both themes */
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     margin-top: 1.5rem;
@@ -172,6 +169,7 @@ div[data-testid="stSlider"] {
     padding-bottom: 0.5rem;
     font-size: 18px;
     font-weight: 600;
+    color: var(--text-color); /* CHANGED: Was hardcoded black */
 }
 .reference-box ul {
     padding-left: 20px;
