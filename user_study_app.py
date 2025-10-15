@@ -136,7 +136,7 @@ st.markdown("""
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
-    background-color: #F8D7DA !important; /* Light Red */
+    background-color: #f9fafb !important; /* Light Red */
     color: #721c24 !important; /* Dark Red Text */
 }
 
