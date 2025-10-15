@@ -144,6 +144,24 @@ st.markdown("""
     background-color: var(--background-color); /* CHANGED: Was white */
 }
 
+/* --- NEW: THEME-AWARE FEEDBACK BOX STYLING --- */
+.feedback-option {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-width: 1px;
+    border-style: solid;
+}
+/* Light Theme Colors (Default) */
+.correct-answer { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+.wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+.normal-answer { background-color: var(--secondary-background-color); border-color: var(--gray-300); }
+
+/* Dark Theme Overrides */
+body[theme="dark"] .correct-answer { background-color: #064e3b; border-color: #10b981; color: #a7f3d0; }
+body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4444; color: #fecaca; }
+body[theme="dark"] .normal-answer { background-color: var(--secondary-background-color); border-color: var(--gray-700); }
+
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
