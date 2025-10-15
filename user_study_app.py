@@ -44,6 +44,7 @@ WORKSHEET = connect_to_gsheet()
 
 
 # --- Custom CSS and JavaScript for better UI/UX ---
+# --- Custom CSS and JavaScript for better UI/UX ---
 st.markdown("""
 <style>
 /* Import Google Font 'Inter' for a more modern, prominent look */
@@ -93,7 +94,7 @@ st.markdown("""
 }
 
 
-/* Part 2 & 3 Caption Box (for comparisons) */
+/* Part 2 & 3 Caption Box (for comparisons) - NOW USED BY QUIZ */
 .comparison-caption-box {
     background-color: #f9fafb; /* Lighter gray */
     border-left: 5px solid #6366f1; /* Indigo color */
@@ -109,41 +110,6 @@ st.markdown("""
 }
 .comparison-caption-box .caption-text {
     margin: 0.5em 0 0 0;
-}
-
-/* --- UPDATED QUIZ CAPTION BOX STYLE --- */
-.quiz-caption-box {
-    background-color: #F0F2F6; /* Light grey */
-    border-radius: 0.5rem;
-    padding: 1rem 1.5rem;
-    margin-bottom: 1rem;
-}
-.quiz-caption-box strong {
-    font-size: 19px; /* Increased font size */
-    font-weight: 600; /* Bold */
-    color: #000080;
-    display: block;
-    margin-bottom: 0.5em;
-}
-.quiz-caption-box p {
-    font-family: 'Inter', sans-serif; /* Added for consistency */
-    font-size: 18px;   /* Increased font size */
-    font-weight: 500; /* Added semi-bold weight */
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
-
-/* --- STYLE FOR QUIZ QUESTIONS (UPDATED) --- */
-.quiz-question {
-    font-family: 'Inter', sans-serif;
-    font-size: 19px;
-    font-weight: 600;
-    color: #000080; /* Navy Blue */
-    margin-top: 1.5rem;
-    margin-bottom: 0.25rem; /* Reduced space to the options box below */
-    padding-left: 1.5rem;   /* Added to align with the caption text */
-    box-sizing: border-box; /* Ensures padding behaves predictably */
 }
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
@@ -186,6 +152,7 @@ div[data-testid="stSlider"] {
     window.parent.document.querySelector('section.main').scrollTo(0, 0);
 </script>
 """, unsafe_allow_html=True)
+
 
 # --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
@@ -474,25 +441,25 @@ elif st.session_state.page == 'quiz':
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         
-        # --- DYNAMIC QUESTION DISPLAY FOR QUIZ ---
+        # --- DYNAMIC QUESTION DISPLAY FOR QUIZ (NEW UI) ---
         if "Tone Controllability" in current_part_key:
             category = sample.get('category', '').lower()
             trait = sample['tone_to_compare']
             change = sample['comparison_type']
             
-            caption_a_html = f"""<div class="quiz-caption-box"><strong>Caption A:</strong><p>{sample["caption_A"]}</p></div>"""
-            caption_b_html = f"""<div class="quiz-caption-box"><strong>Caption B:</strong><p>{sample["caption_B"]}</p></div>"""
+            caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>"""
+            caption_b_html = f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             
             if 'style' in category:
-                question = f"Has the author's {trait} writing style {change} from Caption A to B?"
+                question_text = f"Has the author's <b>{trait}</b> writing style <b>{change}</b> from Caption A to B?"
             else: # Defaults to persona
-                question = f"Has the author's {trait} persona {change} from Caption A to B?"
-            st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question}</div>', unsafe_allow_html=True)
+                question_text = f"Has the author's <b>{trait}</b> persona <b>{change}</b> from Caption A to B?"
+            st.markdown(f"<strong>{question_text}</strong>", unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
-            caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
+            caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
             
             if st.session_state.current_rating_question_index == 0:
@@ -504,13 +471,12 @@ elif st.session_state.page == 'quiz':
                 s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
                 
                 question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
-                st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
             else:
                 question_text = question_data["question_text"]
-                st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
+            st.markdown(f"<strong>{question_text}</strong>", unsafe_allow_html=True)
         
         else: # This block handles "Tone Identification"
-            caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
+            caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
 
             if question_data.get("question_type") == "multi":
@@ -518,7 +484,7 @@ elif st.session_state.page == 'quiz':
             else:
                 category_text = sample.get('category', 'tone').lower()
                 question_text = f"Identify the most dominant {category_text} projected by the captioner"
-            st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
+            st.markdown(f"<strong>{question_text}</strong>", unsafe_allow_html=True)
         
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
         if st.session_state.show_feedback:
@@ -559,7 +525,7 @@ elif st.session_state.page == 'quiz':
                             st.session_state.score += 1
                         st.session_state.show_feedback = True
                         st.rerun()
-
+                        
 elif st.session_state.page == 'quiz_results':
     st.title("Quiz Completed! 🎉")
     total_scorable_questions = 0
