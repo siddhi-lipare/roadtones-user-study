@@ -139,9 +139,11 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
     font-size: 19px;
     font-weight: 600;
-    color:  #000080;
-    margin-top: 1.5rem; /* Increased top margin for spacing */
-    margin-bottom: 1rem;
+    color: #000080; /* Navy Blue */
+    margin-top: 1.5rem;
+    margin-bottom: 0.25rem; /* Reduced space to the options box below */
+    padding-left: 1.5rem;   /* Added to align with the caption text */
+    box-sizing: border-box; /* Ensures padding behaves predictably */
 }
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
