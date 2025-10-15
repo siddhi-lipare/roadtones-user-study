@@ -113,7 +113,7 @@ st.markdown("""
 
 /* --- UPDATED QUIZ CAPTION BOX STYLE --- */
 .quiz-caption-box {
-    background-color: #F0F2F6; /* Light grey */
+    background-color: #D1E8FF; /* Change this value */
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     margin-bottom: 1rem;
