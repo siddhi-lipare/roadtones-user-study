@@ -121,7 +121,7 @@ st.markdown("""
 .quiz-caption-box strong {
     font-size: 19px; /* Increased font size */
     font-weight: 600; /* Bold */
-    color: #111827;
+    color: #4f46e5;
     display: block;
     margin-bottom: 0.5em;
 }
@@ -139,7 +139,7 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
     font-size: 19px;
     font-weight: 600;
-    color: #111827;
+    color: #4f46e5;
     margin-top: 1.5rem; /* Increased top margin for spacing */
     margin-bottom: 1rem;
 }
