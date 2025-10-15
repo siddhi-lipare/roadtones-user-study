@@ -467,10 +467,22 @@ elif st.session_state.page == 'quiz':
         
         
         if st.session_state.show_feedback:
-            # When showing feedback, the form isn't present, so just display the question text
-            # This logic avoids nesting issues with st.form
-            # ... feedback display logic follows ...
-            pass
+            # When showing feedback, the form isn't present, so the layout is simpler
+            st.write("---")
+            st.write("**Your Answer vs Correct Answer:**")
+            user_choice = st.session_state.last_choice
+            correct_answer = question_data.get('correct_answer')
+            if not isinstance(user_choice, list): user_choice = [user_choice]
+            if not isinstance(correct_answer, list): correct_answer = [correct_answer]
+
+            for option in question_data['options']:
+                is_correct_option = option in correct_answer
+                is_selected_option = option in user_choice
+                if is_correct_option: st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
+                elif is_selected_option: st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
+                else: st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
+            st.info(f"**Explanation:** {question_data['explanation']}")
+            st.button("Next Question", on_click=go_to_next_quiz_question)
         else:
              with st.form("quiz_form"):
                 if "Tone Controllability" in current_part_key:
@@ -528,24 +540,6 @@ elif st.session_state.page == 'quiz':
                             st.session_state.score += 1
                         st.session_state.show_feedback = True
                         st.rerun()
-
-        if st.session_state.show_feedback:
-            st.write("---")
-            st.write("**Your Answer vs Correct Answer:**")
-            user_choice = st.session_state.last_choice
-            correct_answer = question_data.get('correct_answer')
-            if not isinstance(user_choice, list): user_choice = [user_choice]
-            if not isinstance(correct_answer, list): correct_answer = [correct_answer]
-
-            for option in question_data['options']:
-                is_correct_option = option in correct_answer
-                is_selected_option = option in user_choice
-                if is_correct_option: st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
-                elif is_selected_option: st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
-                else: st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
-            st.info(f"**Explanation:** {question_data['explanation']}")
-            st.button("Next Question", on_click=go_to_next_quiz_question)
-
 
 elif st.session_state.page == 'quiz_results':
     st.title("Quiz Completed! 🎉")
