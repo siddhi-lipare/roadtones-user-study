@@ -611,7 +611,7 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             if current_video.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([2, 3, 2])
+                _ , vid_col, _ = st.columns([1, 3, 1])
                 with vid_col:
                     st.video(current_video['video_path'], autoplay=True, muted=True)
             else:
@@ -700,7 +700,7 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             if current_comp.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([2, 3, 2])
+                _ , vid_col, _ = st.columns([1, 3, 1])
                 with vid_col:
                     st.video(current_comp['video_path'], autoplay=True, muted=True)
             else:
@@ -777,7 +777,7 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             if current_change.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([2, 3, 2])
+                _ , vid_col, _ = st.columns([1, 3, 1])
                 with vid_col:
                     st.video(current_change['video_path'], autoplay=True, muted=True)
             else:
