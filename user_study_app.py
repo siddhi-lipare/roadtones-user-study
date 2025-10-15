@@ -110,26 +110,41 @@ st.markdown("""
     margin: 0.5em 0 0 0;
 }
 
-/* --- NEW Quiz Question Styling --- */
-.quiz-question-container {
-    padding-left: 1.5rem; /* Aligns with the text inside the caption box */
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
+/* --- NEW QUIZ QUESTION BOX STYLING --- */
+/* The top part of the box, containing the question */
+.quiz-question-box {
+    background-color: #F0F2F6; /* Light Grey */
+    padding: 1rem 1.5rem;
+    border: 1px solid #d1d5db; /* A slightly darker grey for definition */
+    border-bottom: none; /* Remove bottom border to merge with form */
+    border-radius: 0.5rem 0.5rem 0 0; /* Round top corners */
 }
-/* Styles the "Question:" prefix */
-.quiz-question-container > strong { 
+
+/* Styles the "Question:" prefix inside the new box */
+.quiz-question-box > strong {
     font-family: 'Inter', sans-serif;
-    font-size: 18px;      
-    font-weight: 600;     
-    color: #111827;       
-}
-/* Styles the question text itself */
-.quiz-question-container .question-text-part { 
-    font-family: 'Inter', sans-serif;
-    font-size: 19px; /* Increased to match caption text size */
-    font-weight: 500; 
+    font-size: 18px;
+    font-weight: 600;
     color: #111827;
-    margin-left: 0.5em; /* Space after the colon */
+}
+
+/* Styles the question text itself */
+.quiz-question-box .question-text-part {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: #111827;
+    margin-left: 0.5em;
+}
+
+/* Target the form element directly to connect it to the question box */
+[data-testid="stForm"] {
+    border: 1px solid #d1d5db; /* Matching border */
+    border-top: none; /* Remove top border to merge */
+    border-radius: 0 0 0.5rem 0.5rem; /* Round bottom corners */
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem; /* Give options some space */
+    margin-top: 0 !important; /* Force it to stick to the question box */
+    background-color: white;
 }
 
 
@@ -474,7 +489,6 @@ elif st.session_state.page == 'quiz':
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             
-            # Apply 'highlight-trait' class for indigo color to both trait and change
             if 'style' in category:
                 question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> writing style <b class='highlight-trait'>{change}</b> from Caption A to B?"
             else: # Defaults to persona
@@ -506,8 +520,8 @@ elif st.session_state.page == 'quiz':
                 category_text = sample.get('category', 'tone').lower()
                 question_text = f"Identify the most dominant {category_text} projected by the captioner"
 
-        # --- Render the Question using the new structure ---
-        st.markdown(f'<div class="quiz-question-container"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
+        # --- Render the Question in the new styled box ---
+        st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
         
         # --- Feedback and Form logic remains the same ---
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
@@ -549,7 +563,6 @@ elif st.session_state.page == 'quiz':
                             st.session_state.score += 1
                         st.session_state.show_feedback = True
                         st.rerun()
-
 
 elif st.session_state.page == 'quiz_results':
     st.title("Quiz Completed! 🎉")
