@@ -404,7 +404,7 @@ def format_options_with_info(option_name):
     return option_name
 
 # --- Main App ---
-st.set_page_config(layout="wide", page_title="Tone-aware Captioning Study")
+st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 
 if 'page' not in st.session_state:
     st.session_state.page = 'demographics'
