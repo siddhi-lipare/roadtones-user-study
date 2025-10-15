@@ -1,8 +1,8 @@
 {
   "part1_questions": [
     {
-      "id": "persona_relevance",
-      "text": "How much does the author's persona projected in the caption come across as {}?"
+      "id": "personality_relevance",
+      "text": "How much does the author's personality projected in the caption come across as {}?"
     },
     {
       "id": "style_relevance",
