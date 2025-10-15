@@ -154,18 +154,57 @@ div[data-testid="stSlider"] {
 """, unsafe_allow_html=True)
 
 # --- Central Dictionary for Definitions ---
+# DEFINITIONS = {
+#     'Advisory': {'desc': 'Gives advice, suggestions, or warnings about a situation.'},
+#     'Sarcastic': {'desc': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.'},
+#     'Appreciative': {'desc': 'Expresses gratitude, admiration, or praise for an action or event.'},
+#     'Considerate': {'desc': 'Shows careful thought and concern for the well-being or safety of others.'},
+#     'Critical': {'desc': 'Expresses disapproving comments or judgments about an action or behavior.'},
+#     'Amusing': {'desc': 'Causes lighthearted laughter or provides entertainment in a playful way.'},
+#     'Angry': {'desc': 'Expresses strong annoyance, displeasure, or hostility towards an event.'},
+#     'Anxious': {'desc': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.'},
+#     'Enthusiastic': {'desc': 'Shows intense and eager enjoyment or interest in an event.'},
+#     'Judgmental': {'desc': 'Displays an overly critical or moralizing point of view on actions shown.'},
+#     'Conversational': {'desc': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.'}
+# }
+
 DEFINITIONS = {
-    'Advisory': {'desc': 'Gives advice, suggestions, or warnings about a situation.'},
-    'Sarcastic': {'desc': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.'},
-    'Appreciative': {'desc': 'Expresses gratitude, admiration, or praise for an action or event.'},
-    'Considerate': {'desc': 'Shows careful thought and concern for the well-being or safety of others.'},
-    'Critical': {'desc': 'Expresses disapproving comments or judgments about an action or behavior.'},
-    'Amusing': {'desc': 'Causes lighthearted laughter or provides entertainment in a playful way.'},
-    'Angry': {'desc': 'Expresses strong annoyance, displeasure, or hostility towards an event.'},
-    'Anxious': {'desc': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.'},
-    'Enthusiastic': {'desc': 'Shows intense and eager enjoyment or interest in an event.'},
-    'Judgmental': {'desc': 'Displays an overly critical or moralizing point of view on actions shown.'},
-    'Conversational': {'desc': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.'}
+    'Advisory': {
+        'desc': "e.g., 'Always check your mirrors.'"
+    },
+    'Sarcastic': {
+        'desc': "e.g., 'Great parking job.'"
+    },
+    'Appreciative': {
+        'desc': "e.g., 'Thankful that driver stopped.'"
+    },
+    'Considerate': {
+        'desc': "e.g., 'Let's slow down to keep everyone safe.'"
+    },
+    'Critical': {
+        'desc': "e.g., 'That driver is being so reckless.'"
+    },
+    'Amusing': {
+        'desc': "e.g., 'Is this a traffic jam or a parking lot?'"
+    },
+    'Angry': {
+        'desc': "e.g., 'I can't believe that idiot cut me off!'"
+    },
+    'Anxious': {
+        'desc': "e.g., 'My heart skipped a beat after that.'"
+    },
+    'Enthusiastic': {
+        'desc': "e.g., 'What an amazing drive!'"
+    },
+    'Judgmental': {
+        'desc': "e.g., 'Only a bad person would drive like that.'"
+    },
+    'Conversational': {
+        'desc': "e.g., 'You guys won't believe what just happened...'"
+    },
+    'Observant': {
+        'desc': "e.g., 'A white sedan turned left without signaling.'"
+    }
 }
 
 # --- Helper Functions ---
