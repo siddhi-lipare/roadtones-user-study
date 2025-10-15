@@ -204,6 +204,9 @@ DEFINITIONS = {
     },
     'Observant': {
         'desc': "e.g., 'A white sedan turned left without signaling.'"
+    },
+    'Factual': {
+        'desc': "e.g., 'A red car ran the stop sign at 2:30 PM.'"
     }
 }
 
