@@ -42,7 +42,7 @@
       "caption_A": "That wasn't a very smart move by the driver.",
       "caption_B": "It takes a special kind of genius to make a move that stupid.",
       "tone_to_compare": "Sarcastic",
-      "category": "Personality Trait",
+      "category": "personality trait",
       "comparison_type": "increased",
       "options": ["Yes", "No"],
       "correct_answer": "Yes",
