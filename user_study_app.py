@@ -450,7 +450,9 @@ if st.session_state.page == 'demographics':
 
 elif st.session_state.page == 'intro_video':
     st.title("Introductory Video")
-    st.info("Please watch this short video before proceeding to the instructions.")
+    # UPDATED this line to include the markdown link
+    st.info("Please watch this short video before proceeding to the instructions. To get familiar with the terms used in this study, you can refer to this [**document**](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing).")
+    
     _ , vid_col, _ = st.columns([1, 3, 1])
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
@@ -547,7 +549,7 @@ elif st.session_state.page == 'quiz':
         st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
         
         # --- Feedback and Form logic remains the same ---
-        st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
+        # REMOVED the conflicting inline <style> block that was here
         if st.session_state.show_feedback:
             user_choice = st.session_state.last_choice
             correct_answer = question_data.get('correct_answer')
