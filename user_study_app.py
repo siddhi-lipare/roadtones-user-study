@@ -209,7 +209,6 @@ APPLICATIONS_DEFINITIONS = {
     'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
 }
 
-
 # --- Helper Functions ---
 @st.cache_data
 def get_video_orientation(path):
@@ -459,7 +458,7 @@ elif st.session_state.page == 'quiz':
             caption_b_html = f"""<div class="quiz-caption-box"><strong>Caption B:</strong><p>{sample["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
-
+            
             if 'style' in category:
                 question = f"Has the author's {trait} writing style {change} from Caption A to B?"
             else: # Defaults to persona
@@ -470,7 +469,6 @@ elif st.session_state.page == 'quiz':
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
             
-            # --- UPDATED LOGIC FOR QUIZ PART 3 ---
             if st.session_state.current_rating_question_index == 0:
                 control_scores = sample.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
@@ -484,7 +482,6 @@ elif st.session_state.page == 'quiz':
             else:
                 question_text = question_data["question_text"]
                 st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-            # --- END UPDATED LOGIC ---
         
         else: # This block handles "Tone Identification"
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
