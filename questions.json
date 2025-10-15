@@ -28,7 +28,7 @@
   "part2_questions": [
     {
       "id": "q1_personality",
-      "text": "Which caption better conveys the author's {} persona?"
+      "text": "Which caption better conveys the author's {} personality?"
     },
     {
       "id": "q2_style",
