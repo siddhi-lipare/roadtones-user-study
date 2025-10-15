@@ -69,21 +69,21 @@
       "caption": "I witnessed a cab attempt a dangerous overtake on a blind curve, nearly leading to a head-on collision with an oncoming vehicle. A bus also overtook unsafely. Overtaking without clear visibility is extremely risky—please drive with caution and patience. #RoadSafety #DriveResponsibly",
       "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime. An unsafe overtaking attempt by a cab nearly resulted in a head-on collision. A bus also performed an unsafe overtake.",
       "control_scores": {
-        "personality": { "Serious": "Strong", "Caring": "Strong" },
-        "writing_style": { "Advisory": "Very Strong", "Instructional": "Strong" }
+        "personality": { "Serious": "Strong"},
+        "writing_style": { "Advisory": "Very Strong"}
       },
       "questions": [
         {
           "question_text": "Is the author's personality and writing style relevant for the given video content?",
           "options": ["Yes", "No"],
           "correct_answer": "Yes",
-          "explanation": "Yes, the caption's tones are relevant. The phrase 'please drive with caution and patience' highlights an Advisory writing style appropriate for a dangerous situation, and the overall description shows a Serious and Caring personality."
+          "explanation": "The phrase 'I witnessed a cab attempt a dangerous overtake... nearly leading to a head-on collision' highlights a Serious personality by directly stating the gravity of the event. The phrase 'please drive with caution and patience' shows an Advisory writing style by giving direct safety advice."
         },
         {
           "question_text": "Is the factual information in the caption consistent with the video summary?",
           "options": ["Yes", "No"],
           "correct_answer": "Yes",
-          "explanation": "The caption accurately describes the unsafe overtaking by a cab on a curve, which matches the video summary."
+          "explanation": "The caption phrases '...cab attempt a dangerous overtake...' and 'A bus also overtook unsafely' directly match the key events described in the video summary."
         }
       ]
     }
