@@ -134,13 +134,20 @@ st.markdown("""
     line-height: 1.6;
 }
 
-/* --- STYLE FOR QUIZ QUESTIONS --- */
+/* --- NEW QUESTION BLOCK STYLE --- */
+.question-block {
+    background-color: #F9FAFB; /* Very light grey */
+    border: 1px solid #E5E7EB; /* Subtle border */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
 .quiz-question {
     font-family: 'Inter', sans-serif;
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 19px !important;
+    font-weight: 600 !important;
     color: #111827;
     margin-bottom: 1rem;
+    line-height: 1.5;
 }
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
@@ -208,6 +215,7 @@ APPLICATIONS_DEFINITIONS = {
     'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.',
     'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
 }
+
 
 # --- Helper Functions ---
 @st.cache_data
@@ -448,58 +456,62 @@ elif st.session_state.page == 'quiz':
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         
-        # --- DYNAMIC QUESTION DISPLAY FOR QUIZ ---
+        # --- RESTRUCTURED QUIZ QUESTION DISPLAY ---
         if "Tone Controllability" in current_part_key:
-            category = sample.get('category', '').lower()
-            trait = sample['tone_to_compare']
-            change = sample['comparison_type']
-            
             caption_a_html = f"""<div class="quiz-caption-box"><strong>Caption A:</strong><p>{sample["caption_A"]}</p></div>"""
             caption_b_html = f"""<div class="quiz-caption-box"><strong>Caption B:</strong><p>{sample["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             
+            st.markdown('<div class="question-block">', unsafe_allow_html=True)
+            category = sample.get('category', '').lower()
+            trait = sample['tone_to_compare']
+            change = sample['comparison_type']
             if 'style' in category:
                 question = f"Has the author's {trait} writing style {change} from Caption A to B?"
-            else: # Defaults to persona
+            else:
                 question = f"Has the author's {trait} persona {change} from Caption A to B?"
             st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
-            
+
+            st.markdown('<div class="question-block">', unsafe_allow_html=True)
             if st.session_state.current_rating_question_index == 0:
                 control_scores = sample.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
                 style_traits = list(control_scores.get("writing_style", {}).keys())
-                
                 p_str = f"<b class='highlight-trait'>{', '.join(personality_traits)}</b>" if personality_traits else ""
                 s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
-                
                 question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
                 st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
             else:
                 question_text = question_data["question_text"]
                 st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-        
+
         else: # This block handles "Tone Identification"
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
 
+            st.markdown('<div class="question-block">', unsafe_allow_html=True)
             if question_data.get("question_type") == "multi":
                 question_text = "Identify 2 dominant personality traits projected by the captioner"
             else:
                 category_text = sample.get('category', 'tone').lower()
                 question_text = f"Identify the most dominant {category_text} projected by the captioner"
             st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
-        
-        st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
+
+        # --- This block now contains the form and feedback logic ---
         if st.session_state.show_feedback:
             user_choice = st.session_state.last_choice
             correct_answer = question_data.get('correct_answer')
             if not isinstance(user_choice, list): user_choice = [user_choice]
             if not isinstance(correct_answer, list): correct_answer = [correct_answer]
+            
+            # Close the question-block div for feedback display
+            st.markdown('</div>', unsafe_allow_html=True) 
+            st.write("---")
             st.write("**Your Answer vs Correct Answer:**")
             for option in question_data['options']:
                 is_correct_option = option in correct_answer
@@ -515,12 +527,13 @@ elif st.session_state.page == 'quiz':
                 options_list = question_data['options']
                 if "Tone Identification" in current_part_key:
                     if question_data.get("question_type") == "multi":
-                        choice = st.multiselect("Select all that apply:", options_list, key=f"ms_{current_index}", format_func=format_options_with_info)
+                        choice = st.multiselect("Select all that apply:", options_list, key=f"ms_{current_index}", format_func=format_options_with_info, label_visibility="collapsed")
                         st.markdown("<br><br>", unsafe_allow_html=True)
                     else:
-                        choice = st.radio("Select one option:", options_list, key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
+                        choice = st.radio("Select one option:", options_list, key=f"radio_{current_index}", index=None, format_func=format_options_with_info, label_visibility="collapsed")
                 else:
-                    choice = st.radio("Select one option:", options_list, key=f"radio_{current_part_key}_{current_index}", index=None)
+                    choice = st.radio("Select one option:", options_list, key=f"radio_{current_part_key}_{current_index}", index=None, label_visibility="collapsed")
+                
                 if st.form_submit_button("Submit Answer"):
                     if not choice:
                         st.error("Please select an option.")
@@ -533,6 +546,7 @@ elif st.session_state.page == 'quiz':
                             st.session_state.score += 1
                         st.session_state.show_feedback = True
                         st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True) # Close the question-block div
 
 elif st.session_state.page == 'quiz_results':
     st.title("Quiz Completed! 🎉")
