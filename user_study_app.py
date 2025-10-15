@@ -525,8 +525,8 @@ elif st.session_state.page == 'quiz':
             
             if 'style' in category:
                 question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> writing style <b class='highlight-trait'>{change}</b> from Caption A to B?"
-            else: # Defaults to persona
-                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> persona <b class='highlight-trait'>{change}</b> from Caption A to B?"
+            else: # Defaults to personality
+                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> personality <b class='highlight-trait'>{change}</b> from Caption A to B?"
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
@@ -830,7 +830,7 @@ elif st.session_state.page == 'user_study_main':
                 change_type = current_change['change_type']
                 highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
                 if field_type == 'personality':
-                    dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
+                    dynamic_question = f"Has the author's {highlighted_trait} personality {change_type} from Caption A to B?"
                 elif field_type == 'writing_style':
                     dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
                 else:
