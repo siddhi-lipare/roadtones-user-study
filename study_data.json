@@ -60,7 +60,7 @@
           "control_scores": {
             "personality": {
               "Serious": "Strong",
-              "Objective": "Moderate"
+              "Objective (Detached, Impartial)": "Moderate"
             },
             "writing_style": {
               "Factual": "Very Strong"
