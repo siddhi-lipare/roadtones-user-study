@@ -578,7 +578,7 @@ elif st.session_state.page == 'user_study_main':
         col1, col2 = st.columns([1, 1.8])
         with col1:
             if current_video.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([2, 3, 2])
+                _ , vid_col, _ = st.columns([4, 3, 4])
                 with vid_col:
                     st.video(current_video['video_path'], autoplay=True, muted=True)
             else:
