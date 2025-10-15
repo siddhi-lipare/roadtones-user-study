@@ -21,8 +21,8 @@
       "text": "How useful do you think this caption is for {}?"
     },
     {
-      "id": "shareability",
-      "text": "Would you share this caption (e.g. with a friend/on social media/in a report)?"
+      "id": "human_likeness",
+      "text": "How human-like does this caption sound?"
     }
   ],
   "part2_questions": [
@@ -48,4 +48,3 @@
     "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
   }
 }
-

@@ -67,17 +67,17 @@
       "sample_id": "rating_001",
       "video_path": "media/v_1692102872706765068_GjAx5c9hRZP-JBsr.mp4",
       "caption": "I witnessed a cab attempt a dangerous overtake on a blind curve, nearly leading to a head-on collision with an oncoming vehicle. A bus also overtook unsafely. Overtaking without clear visibility is extremely risky—please drive with caution and patience. #RoadSafety #DriveResponsibly",
-      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime, likely afternoon. The key road event was an unsafe overtaking attempt by a cab that nearly resulted in a head-on collision with an oncoming vehicle. The cab attempted to overtake on a curve with limited visibility, forcing it to brake and swerve to avoid the collision. A bus was also involved, performing an unsafe overtake. The traffic violations included unsafe overtaking by both the cab and the bus, and the cab's overtaking on a curve with limited visibility.",
+      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime. An unsafe overtaking attempt by a cab nearly resulted in a head-on collision. A bus also performed an unsafe overtake.",
       "control_scores": {
-        "personality": { "Serious": "Strong", "Articulate": "Strong" },
-        "writing_style": { "Advisory": "Very Strong", "Instructional": "Strong", "Factual": "Very Strong" }
+        "personality": { "Serious": "Strong", "Caring": "Strong" },
+        "writing_style": { "Advisory": "Very Strong", "Instructional": "Strong" }
       },
       "questions": [
         {
           "question_text": "Is the author's personality and writing style relevant for the given video content?",
           "options": ["Yes", "No"],
           "correct_answer": "Yes",
-          "explanation": "The caption's serious, caring, and advisory tone is highly relevant to the dangerous event shown in the video."
+          "explanation": "Yes, the caption's tones are relevant. The phrase 'please drive with caution and patience' highlights an Advisory writing style appropriate for a dangerous situation, and the overall description shows a Serious and Caring personality."
         },
         {
           "question_text": "Is the factual information in the caption consistent with the video summary?",

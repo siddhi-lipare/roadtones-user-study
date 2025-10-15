@@ -154,61 +154,30 @@ div[data-testid="stSlider"] {
 """, unsafe_allow_html=True)
 
 # --- Central Dictionary for Definitions ---
-# DEFINITIONS = {
-#     'Advisory': {'desc': 'Gives advice, suggestions, or warnings about a situation.'},
-#     'Sarcastic': {'desc': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.'},
-#     'Appreciative': {'desc': 'Expresses gratitude, admiration, or praise for an action or event.'},
-#     'Considerate': {'desc': 'Shows careful thought and concern for the well-being or safety of others.'},
-#     'Critical': {'desc': 'Expresses disapproving comments or judgments about an action or behavior.'},
-#     'Amusing': {'desc': 'Causes lighthearted laughter or provides entertainment in a playful way.'},
-#     'Angry': {'desc': 'Expresses strong annoyance, displeasure, or hostility towards an event.'},
-#     'Anxious': {'desc': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.'},
-#     'Enthusiastic': {'desc': 'Shows intense and eager enjoyment or interest in an event.'},
-#     'Judgmental': {'desc': 'Displays an overly critical or moralizing point of view on actions shown.'},
-#     'Conversational': {'desc': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.'}
-# }
-
 DEFINITIONS = {
-    'Advisory': {
-        'desc': "e.g., 'Always check your mirrors.'"
-    },
-    'Sarcastic': {
-        'desc': "e.g., 'Great parking job.'"
-    },
-    'Appreciative': {
-        'desc': "e.g., 'Thankful that driver stopped.'"
-    },
-    'Considerate': {
-        'desc': "e.g., 'Let's slow down to keep everyone safe.'"
-    },
-    'Critical': {
-        'desc': "e.g., 'That driver is being so reckless.'"
-    },
-    'Amusing': {
-        'desc': "e.g., 'Is this a traffic jam or a parking lot?'"
-    },
-    'Angry': {
-        'desc': "e.g., 'I can't believe that idiot cut me off!'"
-    },
-    'Anxious': {
-        'desc': "e.g., 'My heart skipped a beat after that.'"
-    },
-    'Enthusiastic': {
-        'desc': "e.g., 'What an amazing drive!'"
-    },
-    'Judgemental': {
-        'desc': "e.g., 'Only a bad person would drive like that.'"
-    },
-    'Conversational': {
-        'desc': "e.g., 'You guys won't believe what just happened...'"
-    },
-    'Observant': {
-        'desc': "e.g., 'A white sedan turned left without signaling.'"
-    },
-    'Factual': {
-        'desc': "e.g., 'A red car ran the stop sign at 2:30 PM.'"
-    }
+    'Advisory': {'desc': 'Gives advice, suggestions, or warnings about a situation.'},
+    'Sarcastic': {'desc': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.'},
+    'Appreciative': {'desc': 'Expresses gratitude, admiration, or praise for an action or event.'},
+    'Considerate': {'desc': 'Shows careful thought and concern for the well-being or safety of others.'},
+    'Critical': {'desc': 'Expresses disapproving comments or judgments about an action or behavior.'},
+    'Amusing': {'desc': 'Causes lighthearted laughter or provides entertainment in a playful way.'},
+    'Angry': {'desc': 'Expresses strong annoyance, displeasure, or hostility towards an event.'},
+    'Anxious': {'desc': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.'},
+    'Enthusiastic': {'desc': 'Shows intense and eager enjoyment or interest in an event.'},
+    'Judgmental': {'desc': 'Displays an overly critical or moralizing point of view on actions shown.'},
+    'Conversational': {'desc': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.'},
+    'Observant': {'desc': 'States facts or details about an event in a neutral, notice-based way.'},
+    'Factual': {'desc': 'Presents information objectively and accurately, like a news report.'}
 }
+
+APPLICATIONS_DEFINITIONS = {
+    'Public Safety Alert': 'Intended to inform the public about potential dangers or safety issues.',
+    'Social Media Update': 'A casual post for sharing personal experiences or observations with friends and followers.',
+    'Driver Behavior Monitoring': 'Used in systems that track and analyze driving patterns for insurance or fleet management.',
+    'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.',
+    'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
+}
+
 
 # --- Helper Functions ---
 @st.cache_data
@@ -467,20 +436,20 @@ elif st.session_state.page == 'quiz':
             st.markdown(caption_b_html, unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
-            st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
-
+            # --- UPDATED LOGIC FOR QUIZ PART 3 ---
             if st.session_state.current_rating_question_index == 0:
                 control_scores = sample.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
                 style_traits = list(control_scores.get("writing_style", {}).keys())
-                personality_str = ", ".join(personality_traits)
-                style_str = ", ".join(style_traits)
-
-                if personality_str:
-                    st.markdown(f"**Personality:** {personality_str}")
-                if style_str:
-                    st.markdown(f"**Writing Style:** {style_str}")
-                st.write("")
+                
+                p_str = f"<b class='highlight-trait'>{', '.join(personality_traits)}</b>" if personality_traits else ""
+                s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
+                
+                question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
+                st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_text}</p>', unsafe_allow_html=True)
+            else:
+                 st.markdown(f'<p style="font-size: 22px; font-weight: 600;">{question_data["question_text"]}</p>', unsafe_allow_html=True)
+            # --- END UPDATED LOGIC ---
             
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
             st.markdown(caption_html, unsafe_allow_html=True)
@@ -536,6 +505,7 @@ elif st.session_state.page == 'quiz':
                         st.rerun()
 
 elif st.session_state.page == 'quiz_results':
+    st.title("Quiz Completed! 🎉")
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
     for part_name, questions_list in quiz_data.items():
@@ -576,9 +546,12 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
         col1, col2 = st.columns([1, 1.8])
+        
+        terms_to_define = set()
+
         with col1:
             if current_video.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([1, 3, 1])
+                _ , vid_col, _ = st.columns([2, 3, 2])
                 with vid_col:
                     st.video(current_video['video_path'], autoplay=True, muted=True)
             else:
@@ -595,10 +568,24 @@ elif st.session_state.page == 'user_study_main':
             personality_traits = list(control_scores.get("personality", {}).keys())
             style_traits = list(control_scores.get("writing_style", {}).keys())
             application_text = current_caption.get("application", "the intended application")
-            personality_str = ", ".join(personality_traits)
-            style_str = ", ".join(style_traits)
+            
+            terms_to_define.update(personality_traits)
+            terms_to_define.update(style_traits)
+            terms_to_define.add(application_text)
+
+            personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
+            style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+            
             q_templates = st.session_state.all_data['questions']['part1_questions']
-            questions_to_ask = [{"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(f'<b class="highlight-trait">{personality_str}</b>')}, {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(f'<b class="highlight-trait">{style_str}</b>')}, {"id": q_templates[2]["id"], "text": q_templates[2]["text"]}, {"id": q_templates[3]["id"], "text": q_templates[3]["text"]}, {"id": q_templates[4]["id"], "text": q_templates[4]["text"].format(f'<b class="highlight-trait">{application_text}</b>')}, {"id": q_templates[5]["id"], "text": q_templates[5]["text"]}]
+            questions_to_ask = [
+                {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(personality_str)},
+                {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(style_str)},
+                {"id": q_templates[2]["id"], "text": q_templates[2]["text"]},
+                {"id": q_templates[3]["id"], "text": q_templates[3]["text"]},
+                {"id": q_templates[4]["id"], "text": q_templates[4]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
+                {"id": q_templates[5]["id"], "text": q_templates[5]["text"]}
+            ]
+            
             with st.form(key=f"study_form_rating_{video_idx}_{caption_idx}"):
                 responses = {}
                 row1_cols = st.columns(3)
@@ -611,23 +598,36 @@ elif st.session_state.page == 'user_study_main':
                     q_num = i + 4
                     with row2_cols[i]:
                         st.markdown(f"<div class='slider-label'><strong>{q_num}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        if q['id'] == 'shareability':
-                            responses[q['id']] = st.radio(f"q_{q_num}", ["Yes", "No"], index=None, horizontal=True, key=f"{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed")
-                        else:
-                            responses[q['id']] = st.slider(f"q_{q_num}", 1, 5, 3, key=f"{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed")
-                if st.form_submit_button("Submit Ratings"):
-                    if responses.get('shareability') is None:
-                        st.error("Please answer all 6 questions before submitting.")
+                        responses[q['id']] = st.slider(f"q_{q_num}", 1, 5, 3, key=f"{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed")
+                
+                submitted = st.form_submit_button("Submit Ratings")
+                
+            if submitted:
+                is_valid = True
+                for q in questions_to_ask:
+                    if responses.get(q['id']) is None:
+                        is_valid = False
+                        break
+                
+                if not is_valid:
+                    st.error("Please answer all 6 questions before submitting.")
+                else:
+                    for q_id, choice in responses.items():
+                        full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
+                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice, 'user_study_part1', full_q_text)
+                    if st.session_state.current_caption_index < len(current_video['captions']) - 1:
+                        st.session_state.current_caption_index += 1
                     else:
-                        for q_id, choice in responses.items():
-                            full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice, 'user_study_part1', full_q_text)
-                        if st.session_state.current_caption_index < len(current_video['captions']) - 1:
-                            st.session_state.current_caption_index += 1
-                        else:
-                            st.session_state.current_video_index += 1
-                            st.session_state.current_caption_index = 0
-                        st.rerun()
+                        st.session_state.current_video_index += 1
+                        st.session_state.current_caption_index = 0
+                    st.rerun()
+            
+            st.markdown("---")
+            with st.expander("Reference"):
+                for term in sorted(list(terms_to_define)):
+                    desc = DEFINITIONS.get(term, {}).get('desc') or APPLICATIONS_DEFINITIONS.get(term)
+                    if desc:
+                        st.markdown(f"- **{term}:** {desc}")
 
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
@@ -637,9 +637,12 @@ elif st.session_state.page == 'user_study_main':
             st.session_state.study_part = 3; st.rerun()
         current_comp = all_comparisons[comp_idx]
         col1, col2 = st.columns([1, 1.8])
+        
+        terms_to_define = set()
+
         with col1:
             if current_comp.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([1, 3, 1])
+                _ , vid_col, _ = st.columns([2, 3, 2])
                 with vid_col:
                     st.video(current_comp['video_path'], autoplay=True, muted=True)
             else:
@@ -651,14 +654,25 @@ elif st.session_state.page == 'user_study_main':
             caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>"""
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
+            
+            control_scores = current_comp.get("control_scores", {})
+            personality_traits = list(control_scores.get("personality", {}).keys())
+            style_traits = list(control_scores.get("writing_style", {}).keys())
+            
+            terms_to_define.update(personality_traits)
+            terms_to_define.update(style_traits)
+
+            personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
+            style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+
             with st.form(key=f"study_form_comparison_{comp_idx}"):
-                control_scores = current_comp.get("control_scores", {})
-                personality_traits = list(control_scores.get("personality", {}).keys())
-                style_traits = list(control_scores.get("writing_style", {}).keys())
-                personality_str = ", ".join(personality_traits)
-                style_str = ", ".join(style_traits)
                 q_templates = st.session_state.all_data['questions']['part2_questions']
-                part2_questions = [{"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(f"<b class='highlight-trait'>{personality_str}</b>")}, {"id": q_templates[1]["id"], "text": "Which caption better conveys a {} style of writing?".format(f"<b class='highlight-trait'>{style_str}</b>")}, {"id": q_templates[2]["id"], "text": q_templates[2]["text"]}, {"id": q_templates[3]["id"], "text": "Which caption would you prefer using?"}]
+                part2_questions = [
+                    {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(personality_str)},
+                    {"id": q_templates[1]["id"], "text": "Which caption better conveys a {} style of writing?".format(style_str)},
+                    {"id": q_templates[2]["id"], "text": q_templates[2]["text"]},
+                    {"id": q_templates[3]["id"], "text": "Which caption would you prefer using?"}
+                ]
                 options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
                 responses = {}
                 question_cols = st.columns(4)
@@ -666,15 +680,25 @@ elif st.session_state.page == 'user_study_main':
                     with question_cols[i]:
                         st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}")
-                if st.form_submit_button("Submit Comparison"):
-                    if any(choice is None for choice in responses.values()):
-                        st.error("Please answer all four questions.")
-                    else:
-                        for q_id, choice in responses.items():
-                            question_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', question_text)
-                        st.session_state.current_comparison_index += 1
-                        st.rerun()
+                
+                submitted = st.form_submit_button("Submit Comparison")
+
+            if submitted:
+                if any(choice is None for choice in responses.values()):
+                    st.error("Please answer all four questions.")
+                else:
+                    for q_id, choice in responses.items():
+                        question_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
+                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', question_text)
+                    st.session_state.current_comparison_index += 1
+                    st.rerun()
+            
+            st.markdown("---")
+            with st.expander("Reference"):
+                for term in sorted(list(terms_to_define)):
+                    desc = DEFINITIONS.get(term, {}).get('desc')
+                    if desc:
+                        st.markdown(f"- **{term}:** {desc}")
 
     elif st.session_state.study_part == 3:
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
@@ -687,9 +711,12 @@ elif st.session_state.page == 'user_study_main':
         dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
         st.header(dynamic_title)
         col1, col2 = st.columns([1, 1.8])
+
+        terms_to_define = set()
+
         with col1:
             if current_change.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([1, 3, 1])
+                _ , vid_col, _ = st.columns([2, 3, 2])
                 with vid_col:
                     st.video(current_change['video_path'], autoplay=True, muted=True)
             else:
@@ -702,9 +729,12 @@ elif st.session_state.page == 'user_study_main':
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             st.write("---")
+            
+            trait = field_to_change[field_type]
+            terms_to_define.add(trait)
+            
             with st.form(key=f"study_form_change_{change_idx}"):
                 change_type = current_change['change_type']
-                trait = field_to_change[field_type]
                 highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
                 if field_type == 'personality':
                     dynamic_question = f"Has the author's {highlighted_trait} persona {change_type} from Caption A to B?"
@@ -721,14 +751,25 @@ elif st.session_state.page == 'user_study_main':
                     q2_text = "Is the core factual content consistent across both captions?"
                     st.markdown(f"**2. {q2_text}**")
                     choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
-                if st.form_submit_button("Submit Answers"):
-                    if choice1 is None or choice2 is None:
-                        st.error("Please answer both questions.")
-                    else:
-                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
-                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                        st.session_state.current_change_index += 1
-                        st.rerun()
+                
+                submitted = st.form_submit_button("Submit Answers")
+            
+            if submitted:
+                if choice1 is None or choice2 is None:
+                    st.error("Please answer both questions.")
+                else:
+                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
+                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                    st.session_state.current_change_index += 1
+                    st.rerun()
+
+            st.markdown("---")
+            with st.expander("Reference"):
+                for term in sorted(list(terms_to_define)):
+                    desc = DEFINITIONS.get(term, {}).get('desc')
+                    if desc:
+                        st.markdown(f"- **{term}:** {desc}")
+
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! 🙏")
