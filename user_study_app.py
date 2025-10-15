@@ -42,8 +42,6 @@ def connect_to_gsheet():
 
 WORKSHEET = connect_to_gsheet()
 
-
-# --- Custom CSS and JavaScript for better UI/UX ---
 # --- Custom CSS and JavaScript for better UI/UX ---
 st.markdown("""
 <style>
@@ -118,12 +116,22 @@ st.markdown("""
     margin-top: 1.25rem;
     margin-bottom: 0.5rem;
 }
-.quiz-question-container strong {
+/* Styles the "Question:" prefix */
+.quiz-question-container > strong { 
     font-family: 'Inter', sans-serif;
-    font-size: 18px;      /* Increased font size to match caption labels */
-    font-weight: 600;     /* Bold */
-    color: #111827;       /* Dark gray for consistency */
+    font-size: 18px;      
+    font-weight: 600;     
+    color: #111827;       
 }
+/* Styles the question text itself */
+.quiz-question-container .question-text-part { 
+    font-family: 'Inter', sans-serif;
+    font-size: 17px; /* Slightly smaller than "Question:" */
+    font-weight: 500; 
+    color: #111827;
+    margin-left: 0.5em; /* Space after the colon */
+}
+
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
 .stMultiSelect [data-baseweb="tag"] {
@@ -465,10 +473,11 @@ elif st.session_state.page == 'quiz':
             st.markdown(caption_a_html, unsafe_allow_html=True)
             st.markdown(caption_b_html, unsafe_allow_html=True)
             
+            # Apply 'highlight-trait' class for indigo color
             if 'style' in category:
-                question_text = f"Has the author's <b>{trait}</b> writing style <b>{change}</b> from Caption A to B?"
+                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> writing style <b>{change}</b> from Caption A to B?"
             else: # Defaults to persona
-                question_text = f"Has the author's <b>{trait}</b> persona <b>{change}</b> from Caption A to B?"
+                question_text = f"Has the author's <b class='highlight-trait'>{trait}</b> persona <b>{change}</b> from Caption A to B?"
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>"""
@@ -496,8 +505,8 @@ elif st.session_state.page == 'quiz':
                 category_text = sample.get('category', 'tone').lower()
                 question_text = f"Identify the most dominant {category_text} projected by the captioner"
 
-        # --- Render the Question using the new style ---
-        st.markdown(f'<div class="quiz-question-container"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
+        # --- Render the Question using the new structure ---
+        st.markdown(f'<div class="quiz-question-container"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
         
         # --- Feedback and Form logic remains the same ---
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
@@ -541,7 +550,7 @@ elif st.session_state.page == 'quiz':
                         st.rerun()
 
 
-                        
+
 elif st.session_state.page == 'quiz_results':
     st.title("Quiz Completed! 🎉")
     total_scorable_questions = 0
