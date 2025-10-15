@@ -134,12 +134,13 @@ st.markdown("""
     line-height: 1.6;
 }
 
-/* --- STYLE FOR QUIZ QUESTIONS --- */
+/* --- STYLE FOR QUIZ QUESTIONS (UPDATED) --- */
 .quiz-question {
     font-family: 'Inter', sans-serif;
     font-size: 19px;
     font-weight: 600;
     color: #111827;
+    margin-top: 1.5rem; /* Increased top margin for spacing */
     margin-bottom: 1rem;
 }
 
@@ -184,30 +185,53 @@ div[data-testid="stSlider"] {
 </script>
 """, unsafe_allow_html=True)
 
-# --- Central Dictionary for Definitions ---
+# --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
-    'Advisory': {'desc': 'Gives advice, suggestions, or warnings about a situation.'},
-    'Sarcastic': {'desc': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.'},
-    'Appreciative': {'desc': 'Expresses gratitude, admiration, or praise for an action or event.'},
-    'Considerate': {'desc': 'Shows careful thought and concern for the well-being or safety of others.'},
-    'Critical': {'desc': 'Expresses disapproving comments or judgments about an action or behavior.'},
-    'Amusing': {'desc': 'Causes lighthearted laughter or provides entertainment in a playful way.'},
-    'Angry': {'desc': 'Expresses strong annoyance, displeasure, or hostility towards an event.'},
-    'Anxious': {'desc': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.'},
-    'Enthusiastic': {'desc': 'Shows intense and eager enjoyment or interest in an event.'},
-    'Judgmental': {'desc': 'Displays an overly critical or moralizing point of view on actions shown.'},
-    'Conversational': {'desc': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.'},
-    'Observant': {'desc': 'States facts or details about an event in a neutral, notice-based way.'},
-    'Factual': {'desc': 'Presents information objectively and accurately, like a news report.'}
-}
+    # Personalities
+    'Adventurous': 'Shows a willingness to take risks or try out new experiences.',
+    'Amusing': 'Causes lighthearted laughter or provides entertainment in a playful way.',
+    'Angry': 'Expresses strong annoyance, displeasure, or hostility towards an event.',
+    'Anxious': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.',
+    'Appreciative': 'Expresses gratitude, admiration, or praise for an action or event.',
+    'Assertive': 'Expresses opinions or desires confidently and forcefully.',
+    'Caring': 'Displays kindness and concern for others.',
+    'Considerate': 'Shows careful thought and concern for the well-being or safety of others.',
+    'Critical': 'Expresses disapproving comments or judgments about an action or behavior.',
+    'Cynical (Doubtful, Skeptical)': "Shows a distrust of others' sincerity or integrity.",
+    'Emotional': 'Expresses feelings openly and strongly, such as happiness, sadness, or fear.',
+    'Energetic': 'Displays a high level of activity, excitement, or dynamism.',
+    'Enthusiastic': 'Shows intense and eager enjoyment or interest in an event.',
+    'Observant': 'States facts or details about an event in a neutral, notice-based way.',
+    'Objective (Detached, Impartial)': 'Presents information without personal feelings or bias.',
+    'Questioning': 'Raises questions or expresses uncertainty about a situation.',
+    'Reflective': 'Shows deep thought or contemplation about an event or idea.',
+    'Sarcastic': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.',
+    'Serious': 'Treats the subject with gravity and importance, without humor.',
 
-APPLICATIONS_DEFINITIONS = {
+    # Writing Styles
+    'Advisory': 'Gives advice, suggestions, or warnings about a situation.',
+    'CallToAction': 'Encourages the reader to take a specific action.',
+    'Conversational': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.',
+    'Exaggeration': 'Represents something as being larger, better, or worse than it really is for effect.',
+    'Factual': 'Presents information objectively and accurately, like a news report.',
+    'Instructional': 'Provides clear directions or information on how to do something.',
+    'Judgmental': 'Displays an overly critical or moralizing point of view on actions shown.',
+    'Metaphorical': 'Uses symbolic language or comparisons to describe something.',
+    'Persuasive': 'Aims to convince the reader to agree with a particular point of view.',
+    'Rhetorical Question': 'Asks a question not for an answer, but to make a point or create a dramatic effect.',
+    
+    # Applications
     'Public Safety Alert': 'Intended to inform the public about potential dangers or safety issues.',
     'Social Media Update': 'A casual post for sharing personal experiences or observations with friends and followers.',
     'Driver Behavior Monitoring': 'Used in systems that track and analyze driving patterns for insurance or fleet management.',
     'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.',
-    'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.'
+    'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.',
+    'Community Road Safety Awareness': 'Aimed at educating the local community about road safety practices.',
+    'Public Safety Awareness': 'General information to raise public consciousness about safety.',
+    'Road Safety Education': 'Content designed to teach drivers or the public about safe road use.',
+    'Traffic Awareness': 'Information focused on current traffic conditions or general traffic issues.'
 }
+
 
 # --- Helper Functions ---
 @st.cache_data
@@ -343,8 +367,8 @@ def restart_quiz():
 
 def format_options_with_info(option_name):
     if option_name in DEFINITIONS:
-        info = DEFINITIONS[option_name]
-        return f"{option_name} ({info['desc']})"
+        desc = DEFINITIONS[option_name]
+        return f"{option_name} ({desc})"
     return option_name
 
 # --- Main App ---
@@ -463,7 +487,7 @@ elif st.session_state.page == 'quiz':
                 question = f"Has the author's {trait} writing style {change} from Caption A to B?"
             else: # Defaults to persona
                 question = f"Has the author's {trait} persona {change} from Caption A to B?"
-            st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question}</p>', unsafe_allow_html=True)
+            st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question}</div>', unsafe_allow_html=True)
         
         elif "Caption Quality" in current_part_key:
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
@@ -478,10 +502,10 @@ elif st.session_state.page == 'quiz':
                 s_str = f"<b class='highlight-trait'>{', '.join(style_traits)}</b>" if style_traits else ""
                 
                 question_text = f"Is the author's {p_str} personality and {s_str} writing style relevant for the given video content?"
-                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+                st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
             else:
                 question_text = question_data["question_text"]
-                st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+                st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
         
         else: # This block handles "Tone Identification"
             caption_html = f"""<div class="quiz-caption-box"><strong>Caption:</strong><p>{sample["caption"]}</p></div>"""
@@ -492,7 +516,7 @@ elif st.session_state.page == 'quiz':
             else:
                 category_text = sample.get('category', 'tone').lower()
                 question_text = f"Identify the most dominant {category_text} projected by the captioner"
-            st.markdown(f'<p class="quiz-question"><strong>Question:</strong> {question_text}</p>', unsafe_allow_html=True)
+            st.markdown(f'<div class="quiz-question"><strong>Question:</strong> {question_text}</div>', unsafe_allow_html=True)
         
         st.markdown("""<style>.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd;} .correct-answer { background-color: #d4edda; border-color: #c3e6cb; color: #155724; } .wrong-answer { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; } .normal-answer { background-color: #f0f2f6; }</style>""", unsafe_allow_html=True)
         if st.session_state.show_feedback:
@@ -651,7 +675,7 @@ elif st.session_state.page == 'user_study_main':
             reference_html = '<div class="reference-box">'
             reference_html += "<h3>Reference</h3><ul>"
             for term in sorted(list(terms_to_define)):
-                desc = DEFINITIONS.get(term, {}).get('desc') or APPLICATIONS_DEFINITIONS.get(term)
+                desc = DEFINITIONS.get(term)
                 if desc:
                     reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
             reference_html += "</ul></div>"
@@ -724,7 +748,7 @@ elif st.session_state.page == 'user_study_main':
             reference_html = '<div class="reference-box">'
             reference_html += "<h3>Reference</h3><ul>"
             for term in sorted(list(terms_to_define)):
-                desc = DEFINITIONS.get(term, {}).get('desc')
+                desc = DEFINITIONS.get(term)
                 if desc:
                     reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
             reference_html += "</ul></div>"
@@ -796,7 +820,7 @@ elif st.session_state.page == 'user_study_main':
             reference_html = '<div class="reference-box">'
             reference_html += "<h3>Reference</h3><ul>"
             for term in sorted(list(terms_to_define)):
-                desc = DEFINITIONS.get(term, {}).get('desc')
+                desc = DEFINITIONS.get(term)
                 if desc:
                     reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
             reference_html += "</ul></div>"
