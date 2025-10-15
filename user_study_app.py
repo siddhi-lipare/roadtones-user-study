@@ -151,16 +151,16 @@ st.markdown("""
     margin-bottom: 8px;
     border-width: 1px;
     border-style: solid;
-    color: var(--text-color); /* ADDED: This ensures text is visible by default */
 }
 /* Light Theme Colors (Default) */
 .correct-answer { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
 .wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
-.normal-answer { background-color: var(--secondary-background-color); border-color: var(--gray-300); }
+.normal-answer { background-color: var(--secondary-background-color); border-color: var(--gray-300); color: var(--text-color); }
 
 /* Dark Theme Overrides */
 body[theme="dark"] .correct-answer { background-color: #064e3b; border-color: #10b981; color: #a7f3d0; }
 body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4444; color: #fecaca; }
+body[theme="dark"] .normal-answer { color: var(--text-color); } /* ADDED THIS LINE to fix visibility */
 
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
@@ -204,7 +204,6 @@ div[data-testid="stSlider"] {
     window.parent.document.querySelector('section.main').scrollTo(0, 0);
 </script>
 """, unsafe_allow_html=True)
-
 
 # --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
