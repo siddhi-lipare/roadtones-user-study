@@ -723,9 +723,9 @@ elif st.session_state.page == 'user_study_main':
                 q_templates = st.session_state.all_data['questions']['part2_questions']
                 part2_questions = [
                     {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(personality_str)},
-                    {"id": q_templates[1]["id"], "text": "Which caption better conveys a {} style of writing?".format(style_str)},
+                    {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(style_str)},
                     {"id": q_templates[2]["id"], "text": q_templates[2]["text"]},
-                    {"id": q_templates[3]["id"], "text": "Which caption would you prefer using?"}
+                    {"id": q_templates[3]["id"], "text": q_templates[3]["text"]}
                 ]
                 options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
                 responses = {}

@@ -32,7 +32,7 @@
     },
     {
       "id": "q2_style",
-      "text": "Which caption better conveys the author's {} writing style?"
+      "text": "Which caption better conveys a {} style of writing?"
     },
     {
       "id": "q3_accuracy",
