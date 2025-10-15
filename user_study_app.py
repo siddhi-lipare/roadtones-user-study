@@ -72,7 +72,7 @@ st.markdown("""
     font-weight: 500; 
     font-size: 19px !important; 
     line-height: 1.6;
-    color: var(--text-color); /* CHANGED: Was hardcoded black */
+    color: var(--text-color);
 }
 
 /* Part 1 Caption Box (colored backgrounds) */
@@ -85,7 +85,7 @@ st.markdown("""
     font-size: 18px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    color: var(--text-color); /* CHANGED: Was hardcoded black */
+    color: var(--text-color);
 }
 .part1-caption-box .caption-text {
     margin: 0.5em 0 0 0;
@@ -94,7 +94,7 @@ st.markdown("""
 
 /* Part 2 & 3 Caption Box (for comparisons) - NOW USED BY QUIZ */
 .comparison-caption-box {
-    background-color: var(--secondary-background-color); /* CHANGED: Was light grey */
+    background-color: var(--secondary-background-color);
     border-left: 5px solid #6366f1; /* Kept as brand color */
     padding: 1rem 1.5rem;
     margin: 1rem 0;
@@ -104,7 +104,7 @@ st.markdown("""
     font-size: 18px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    color: var(--text-color); /* CHANGED: Was hardcoded black */
+    color: var(--text-color);
 }
 .comparison-caption-box .caption-text {
     margin: 0.5em 0 0 0;
@@ -112,9 +112,9 @@ st.markdown("""
 
 /* --- NEW QUIZ QUESTION BOX STYLING --- */
 .quiz-question-box {
-    background-color: var(--secondary-background-color); /* CHANGED: Was light grey */
+    background-color: var(--secondary-background-color);
     padding: 1rem 1.5rem;
-    border: 1px solid var(--gray-300); /* CHANGED: Was hardcoded grey */
+    border: 1px solid var(--gray-300);
     border-bottom: none; 
     border-radius: 0.5rem 0.5rem 0 0; 
 }
@@ -123,34 +123,35 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-color); /* CHANGED: Was hardcoded black */
+    color: var(--text-color);
 }
 
 .quiz-question-box .question-text-part {
     font-family: 'Inter', sans-serif;
     font-size: 19px;
     font-weight: 500;
-    color: var(--text-color); /* CHANGED: Was hardcoded black */
+    color: var(--text-color);
     margin-left: 0.5em;
 }
 
 /* Target the form element directly to connect it to the question box */
 [data-testid="stForm"] {
-    border: 1px solid var(--gray-300); /* CHANGED: Was hardcoded grey */
+    border: 1px solid var(--gray-300);
     border-top: none; 
     border-radius: 0 0 0.5rem 0.5rem; 
     padding: 1.5rem 1.5rem 0.5rem 1.5rem; 
     margin-top: 0 !important; 
-    background-color: var(--background-color); /* CHANGED: Was white */
+    background-color: var(--background-color);
 }
 
-/* --- NEW: THEME-AWARE FEEDBACK BOX STYLING --- */
+/* --- THEME-AWARE FEEDBACK BOX STYLING (CORRECTED) --- */
 .feedback-option {
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 8px;
     border-width: 1px;
     border-style: solid;
+    color: var(--text-color); /* ADDED: This ensures text is visible by default */
 }
 /* Light Theme Colors (Default) */
 .correct-answer { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
@@ -160,7 +161,6 @@ st.markdown("""
 /* Dark Theme Overrides */
 body[theme="dark"] .correct-answer { background-color: #064e3b; border-color: #10b981; color: #a7f3d0; }
 body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4444; color: #fecaca; }
-body[theme="dark"] .normal-answer { background-color: var(--secondary-background-color); border-color: var(--gray-700); }
 
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
@@ -176,7 +176,7 @@ div[data-testid="stSlider"] {
 
 /* --- THEME-AWARE REFERENCE BOX STYLE --- */
 .reference-box {
-    background-color: var(--secondary-background-color); /* CHANGED: Was light yellow */
+    background-color: var(--secondary-background-color);
     border: 1px solid #eab308; /* A visible amber border for both themes */
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
@@ -187,7 +187,7 @@ div[data-testid="stSlider"] {
     padding-bottom: 0.5rem;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-color); /* CHANGED: Was hardcoded black */
+    color: var(--text-color);
 }
 .reference-box ul {
     padding-left: 20px;
