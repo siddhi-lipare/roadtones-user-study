@@ -17,7 +17,7 @@
       "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
       "caption": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let\u2019s look out for one another.",
       "category": "writing style",
-      "options": ["Conversational", "Factual", "Advisory", "Judgemental"],
+      "options": ["Conversational", "Factual", "Advisory", "Judgmental"],
       "correct_answer": "Advisory",
       "explanation": "The phrase \"Please remember, overtaking on sharp curves puts lives at risk\" highlights an advisory style by directly giving a warning and advice to other drivers.",
       "question_type": "single"
