@@ -41,7 +41,7 @@
               "Serious": "Strong"
             },
             "writing_style": {
-              "Judgemental": "Strong",
+              "Judgmental": "Strong",
               "Factual": "Strong"
             }
           },
@@ -92,7 +92,7 @@
             },
             "writing_style": {
               "CallToAction": "Very Strong",
-              "Judgemental": "Strong"
+              "Judgmental": "Strong"
             }
           },
           "application": "Law Enforcement Alert"
@@ -142,7 +142,7 @@
               "Cynical (Doubtful, Skeptical)": "Strong"
             },
             "writing_style": {
-              "Judgemental": "Very Strong",
+              "Judgmental": "Very Strong",
               "Conversational": "Strong",
               "Rhetorical Question": "Strong"
             }
@@ -179,7 +179,7 @@
               "Critical": "Strong"
             },
             "writing_style": {
-              "Judgemental": "Very Strong",
+              "Judgmental": "Very Strong",
               "Factual": "Strong"
             }
           },
@@ -231,7 +231,7 @@
               "Angry": "Strong"
             },
             "writing_style": {
-              "Judgemental": "Very Strong",
+              "Judgmental": "Very Strong",
               "Rhetorical Question": "Very Strong",
               "Persuasive": "Strong"
             }
@@ -323,7 +323,7 @@
         },
         "writing_style": {
           "Rhetorical Question": "Strong",
-          "Judgemental": "Strong",
+          "Judgmental": "Strong",
           "Persuasive": "Strong"
         }
       },
