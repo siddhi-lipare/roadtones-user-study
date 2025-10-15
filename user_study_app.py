@@ -186,14 +186,19 @@ div[data-testid="stSlider"] {
     max-width: 250px;
 }
 
-/* --- THEME-AWARE REFERENCE BOX STYLE --- */
+/* --- THEME-AWARE REFERENCE BOX STYLE (CORRECTED) --- */
 .reference-box {
-    background-color: var(--secondary-background-color);
+    background-color: #FFFBEB; /* Light Yellow for Light Theme by default */
     border: 1px solid #eab308; /* A visible amber border for both themes */
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     margin-top: 1.5rem;
 }
+/* Override for Dark Theme */
+body[theme="dark"] .reference-box {
+    background-color: var(--secondary-background-color);
+}
+
 .reference-box h3 {
     margin-top: 0;
     padding-bottom: 0.5rem;
