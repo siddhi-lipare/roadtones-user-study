@@ -196,7 +196,7 @@ DEFINITIONS = {
     'Enthusiastic': {
         'desc': "e.g., 'What an amazing drive!'"
     },
-    'Judgmental': {
+    'Judgemental': {
         'desc': "e.g., 'Only a bad person would drive like that.'"
     },
     'Conversational': {
