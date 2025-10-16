@@ -369,7 +369,7 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
         st.error(f"Failed to write to Google Sheet: {e}")
 
 def go_to_next_quiz_question():
-    with st.spinner("Saving your answer..."): # SPINNER ADDED HERE
+    with st.spinner("Saving your answer..."): # SPINNER ADDED TO MANAGE LAG
         part_keys = list(st.session_state.all_data['quiz'].keys())
         current_part_key = part_keys[st.session_state.current_part_index]
         questions_for_part = st.session_state.all_data['quiz'][current_part_key]
@@ -385,6 +385,8 @@ def go_to_next_quiz_question():
             question_text = "Tone Identification"
         dummy_video_data = {'video_id': sample.get('sample_id')}
         dummy_caption_data = {'caption_id': sample.get('sample_id'), 'text': sample.get('caption', 'N/A')}
+        
+        # REVERTED to original save_response function
         save_response(st.session_state.email, st.session_state.age, st.session_state.gender, dummy_video_data, dummy_caption_data, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
         
         if "Caption Quality" in current_part_key:
@@ -509,11 +511,10 @@ elif st.session_state.page == 'quiz':
     # --- State Management for Sequential Reveal ---
     view_state_key = f'view_state_{sample_id}'
     if view_state_key not in st.session_state:
-        st.session_state[view_state_key] = {'step': 1, 'video_timer_started': False, 'start_time': None}
+        st.session_state[view_state_key] = {'step': 1}
     
     current_step = st.session_state[view_state_key]['step']
 
-    # --- Helper function for typewriter effect ---
     def stream_text(text):
         for word in text.split(" "):
             yield word + " "
@@ -534,6 +535,14 @@ elif st.session_state.page == 'quiz':
 
     with col1:
         st.video(sample['video_path'], autoplay=False)
+        
+        # Display "Proceed to Summary" button immediately in step 1
+        if current_step == 1:
+            if st.button("Proceed to Summary"):
+                st.session_state[view_state_key]['step'] = 2
+                st.rerun()
+        
+        # Render Video Summary from step 2 onwards
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
             if st.session_state[view_state_key].get('summary_typed', False):
@@ -542,6 +551,12 @@ elif st.session_state.page == 'quiz':
                 with st.empty():
                     st.write_stream(stream_text(sample["video_summary"]))
                 st.session_state[view_state_key]['summary_typed'] = True
+            
+            # Display "Proceed to Caption" button in step 2
+            if current_step == 2:
+                if st.button("Proceed to Caption"):
+                    st.session_state[view_state_key]['step'] = 3
+                    st.rerun()
 
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
@@ -553,7 +568,7 @@ elif st.session_state.page == 'quiz':
             else:
                 st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
             
-            if current_step == 3: # Show button only on step 3
+            if current_step == 3:
                 if st.button("Show Questions"):
                     st.session_state[view_state_key]['step'] = 4
                     st.rerun()
@@ -589,61 +604,28 @@ elif st.session_state.page == 'quiz':
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
                 
                 with st.form("quiz_form"):
-                                    choice = None
-                                    # Use st.checkbox for multi-select, st.radio for single-select
-                                    if question_data.get("question_type") == "multi":
-                                        st.write("Select all that apply:") # Label for the checkbox group
-                                        
-                                        # Create a list to hold the selected options
-                                        selected_options = []
-                                        # Loop through all possible options
-                                        for option in question_data['options']:
-                                            # Create a checkbox for each option
-                                            if st.checkbox(option, key=f"cb_{current_index}_{option}"):
-                                                # If the checkbox is ticked, add it to our list
-                                                selected_options.append(option)
-                                        choice = selected_options
-                                    else:
-                                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
+                    choice = None
+                    if question_data.get("question_type") == "multi":
+                        st.write("Select all that apply:")
+                        selected_options = []
+                        for option in question_data['options']:
+                            if st.checkbox(option, key=f"cb_{current_index}_{option}"):
+                                selected_options.append(option)
+                        choice = selected_options
+                    else:
+                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
 
-                                    if st.form_submit_button("Submit Answer"):
-                                        if not choice: 
-                                            st.error("Please select an option.")
-                                        else:
-                                            st.session_state.last_choice = choice
-                                            correct_answer = question_data.get('correct_answer')
-                                            is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
-                                            st.session_state.is_correct = is_correct
-                                            if is_correct: st.session_state.score += 1
-                                            st.session_state.show_feedback = True
-                                            st.rerun()
-
-    # --- Navigation and Timer Logic at the bottom ---
-    st.write("---")
-    video_duration = get_video_duration(sample['video_path'])
-
-    if current_step == 1:
-        if not st.session_state[view_state_key]['video_timer_started']:
-            if st.button("▶️ I have started watching the video"):
-                st.session_state[view_state_key]['video_timer_started'] = True
-                st.session_state[view_state_key]['start_time'] = time.time()
-                st.rerun()
-        else:
-            elapsed_time = time.time() - st.session_state[view_state_key]['start_time']
-            if elapsed_time < video_duration:
-                st.warning(f"Please watch the full video. Time remaining: {math.ceil(video_duration - elapsed_time)} seconds.")
-                st.button("Proceed to Summary", disabled=True)
-                time.sleep(1)
-                st.rerun()
-            else:
-                if st.button("Proceed to Summary", disabled=False):
-                    st.session_state[view_state_key]['step'] = 2
-                    st.rerun()
-    elif current_step == 2:
-        if st.button("Proceed to Caption"):
-            st.session_state[view_state_key]['step'] = 3
-            st.rerun()
-
+                    if st.form_submit_button("Submit Answer"):
+                        if not choice: 
+                            st.error("Please select an option.")
+                        else:
+                            st.session_state.last_choice = choice
+                            correct_answer = question_data.get('correct_answer')
+                            is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
+                            st.session_state.is_correct = is_correct
+                            if is_correct: st.session_state.score += 1
+                            st.session_state.show_feedback = True
+                            st.rerun()
 
 
 elif st.session_state.page == 'quiz_results':
