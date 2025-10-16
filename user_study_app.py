@@ -815,15 +815,19 @@ elif st.session_state.page == 'user_study_main':
                 else: 
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
+                            # Save all the responses
                             for q_id, choice_text in responses.items():
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                 save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                            
+                            # Move the state update logic INSIDE the spinner block
+                            if st.session_state.current_caption_index < len(current_video['captions']) - 1:
+                                st.session_state.current_caption_index += 1
+                            else:
+                                st.session_state.current_video_index += 1
+                                st.session_state.current_caption_index = 0
                         
-                        if st.session_state.current_caption_index < len(current_video['captions']) - 1:
-                            st.session_state.current_caption_index += 1
-                        else:
-                            st.session_state.current_video_index += 1
-                            st.session_state.current_caption_index = 0
+                        # Rerun after all processing is complete
                         st.rerun()
 
                 reference_html = '<div class="reference-box">'
