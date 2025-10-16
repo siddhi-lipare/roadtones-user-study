@@ -589,23 +589,34 @@ elif st.session_state.page == 'quiz':
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
                 
                 with st.form("quiz_form"):
-                    choice = None
-                    if question_data.get("question_type") == "multi":
-                        choice = st.multiselect("Select all that apply:", question_data['options'], key=f"ms_{current_index}", format_func=format_options_with_info)
-                    else:
-                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
+                                    choice = None
+                                    # Use st.checkbox for multi-select, st.radio for single-select
+                                    if question_data.get("question_type") == "multi":
+                                        st.write("Select all that apply:") # Label for the checkbox group
+                                        
+                                        # Create a list to hold the selected options
+                                        selected_options = []
+                                        # Loop through all possible options
+                                        for option in question_data['options']:
+                                            # Create a checkbox for each option
+                                            if st.checkbox(option, key=f"cb_{current_index}_{option}"):
+                                                # If the checkbox is ticked, add it to our list
+                                                selected_options.append(option)
+                                        choice = selected_options
+                                    else:
+                                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
 
-                    if st.form_submit_button("Submit Answer"):
-                        if not choice: 
-                            st.error("Please select an option.")
-                        else:
-                            st.session_state.last_choice = choice
-                            correct_answer = question_data.get('correct_answer')
-                            is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
-                            st.session_state.is_correct = is_correct
-                            if is_correct: st.session_state.score += 1
-                            st.session_state.show_feedback = True
-                            st.rerun()
+                                    if st.form_submit_button("Submit Answer"):
+                                        if not choice: 
+                                            st.error("Please select an option.")
+                                        else:
+                                            st.session_state.last_choice = choice
+                                            correct_answer = question_data.get('correct_answer')
+                                            is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
+                                            st.session_state.is_correct = is_correct
+                                            if is_correct: st.session_state.score += 1
+                                            st.session_state.show_feedback = True
+                                            st.rerun()
 
     # --- Navigation and Timer Logic at the bottom ---
     st.write("---")
