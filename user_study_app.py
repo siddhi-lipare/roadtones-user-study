@@ -1,5 +1,6 @@
 # app.py
 import streamlit as st
+from streamlit_keyup import st_keyup
 import pandas as pd
 import os
 import time
@@ -676,6 +677,7 @@ elif st.session_state.page == 'user_study_main':
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
 
         if video_idx >= len(all_videos):
+            flush_buffer_to_gsheet() # Save any remaining data
             st.session_state.study_part = 2
             st.rerun()
 
@@ -693,7 +695,8 @@ elif st.session_state.page == 'user_study_main':
         with col1:
             st.video(current_video['video_path'], autoplay=False)
             if current_step == 1:
-                if st.button("Proceed to Summary"):
+                st.info("Watch the video, then press Enter or the Right Arrow key to continue.")
+                if st_keyup(key=["Enter", "ArrowRight"], key_code=f"step1_{view_state_key}"):
                     st.session_state[view_state_key]['step'] = 2
                     st.rerun()
 
@@ -707,7 +710,8 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state[view_state_key]['summary_typed'] = True
                 
                 if current_step == 2:
-                    if st.button("Proceed to Caption"):
+                    st.info("Read the summary, then press Enter or the Right Arrow key to continue.")
+                    if st_keyup(key=["Enter", "ArrowRight"], key_code=f"step2_{view_state_key}"):
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
 
@@ -722,7 +726,8 @@ elif st.session_state.page == 'user_study_main':
                 st.markdown(caption_text_html, unsafe_allow_html=True)
                 
                 if current_step == 3:
-                    if st.button("Show Questions"):
+                    st.info("Read the caption, then press Enter or the Right Arrow key to see the questions.")
+                    if st_keyup(key=["Enter", "ArrowRight"], key_code=f"step3_{view_state_key}"):
                         st.session_state[view_state_key]['step'] = 4
                         st.rerun()
 
@@ -762,54 +767,46 @@ elif st.session_state.page == 'user_study_main':
                 num_questions_to_show = current_step - 3
                 responses = st.session_state[view_state_key]['responses']
 
-                # --- NEW GRID-BASED SEQUENTIAL RENDER ---
                 row1_cols = st.columns(3)
-                # Question 1
                 with row1_cols[0]:
                     if num_questions_to_show >= 1:
                         q = questions_to_ask[0]
                         slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>1. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_{view_state_key}", label_visibility="collapsed")
                 
-                # Question 2
                 with row1_cols[1]:
                     if num_questions_to_show >= 2:
                         q = questions_to_ask[1]
                         slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>2. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_{view_state_key}", label_visibility="collapsed")
                 
-                # Question 3
                 with row1_cols[2]:
                     if num_questions_to_show >= 3:
                         q = questions_to_ask[2]
                         slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>3. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_{view_state_key}", label_visibility="collapsed")
 
                 row2_cols = st.columns(3)
-                # Question 4
                 with row2_cols[0]:
                     if num_questions_to_show >= 4:
                         q = questions_to_ask[3]
                         slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>4. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_{view_state_key}", label_visibility="collapsed")
                 
-                # Question 5
                 with row2_cols[1]:
                     if num_questions_to_show >= 5:
                         q = questions_to_ask[4]
                         slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_{view_state_key}", label_visibility="collapsed")
                 
-                st.write("---")
-
-                # --- Navigation Logic ---
                 if num_questions_to_show < len(questions_to_ask):
-                    if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
+                    st.info(f"Press Enter or → to show the next question ({num_questions_to_show + 1}/{len(questions_to_ask)})")
+                    if st_keyup(key=["Enter", "ArrowRight"], key_code=f"next_q_{view_state_key}_{current_step}"):
                         st.session_state[view_state_key]['step'] += 1
                         st.rerun()
                 else: 
@@ -818,6 +815,9 @@ elif st.session_state.page == 'user_study_main':
                             for q_id, choice_text in responses.items():
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                 save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                        
+                        # BUG FIX: Pop the key for the completed caption to reset the state for the next one
+                        st.session_state.pop(view_state_key, None)
                         
                         if st.session_state.current_caption_index < len(current_video['captions']) - 1:
                             st.session_state.current_caption_index += 1
@@ -835,6 +835,7 @@ elif st.session_state.page == 'user_study_main':
                 reference_html += "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
 
+                
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
