@@ -1,5 +1,4 @@
 streamlit==1.37.0
-streamlit-keyup==0.3.0
 gspread==6.0.2
 opencv-python==4.9.0.80
 pandas==2.2.2

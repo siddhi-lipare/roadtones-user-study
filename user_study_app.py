@@ -1,6 +1,5 @@
 # app.py
 import streamlit as st
-from streamlit_keyup import st_keyup
 import pandas as pd
 import os
 import time
@@ -308,6 +307,33 @@ def get_video_orientation(path):
         return "landscape"
 
 @st.cache_data
+
+def listen_for_keyboard():
+    """Renders a JavaScript component to listen for Enter/ArrowRight and trigger a rerun."""
+    st.components.v1.html(
+        """
+        <script>
+        // Set a flag to ensure the event listener is only attached once.
+        if (!window.keyboardListenerAttached) {
+            window.addEventListener('keydown', function(event) {
+                // Check if the pressed key is Enter or ArrowRight.
+                if (event.key === 'Enter' || event.key === 'ArrowRight') {
+                    // Send a message to the Streamlit app to signal a key press.
+                    window.parent.postMessage({
+                        isStreamlitMessage: true,
+                        type: 'SET_QUERY_PARAMS',
+                        queryParams: {'key_press': Date.now()}
+                    }, '*');
+                }
+            });
+            window.keyboardListenerAttached = true;
+        }
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
 def load_data():
     """Loads all data from external JSON files."""
     data = {}
@@ -659,6 +685,12 @@ elif st.session_state.page == 'user_study_main':
         st.error("Data could not be loaded. Please check file paths and permissions.")
         st.stop()
 
+    # Initialize a key press tracker in session state
+    if 'last_key_press' not in st.session_state:
+        st.session_state.last_key_press = None
+
+    listen_for_keyboard() # Call the new keyboard listener function
+
     # Helper function for typewriter effect
     def stream_text(text):
         for word in text.split(" "):
@@ -677,7 +709,6 @@ elif st.session_state.page == 'user_study_main':
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
 
         if video_idx >= len(all_videos):
-            flush_buffer_to_gsheet() # Save any remaining data
             st.session_state.study_part = 2
             st.rerun()
 
@@ -690,15 +721,23 @@ elif st.session_state.page == 'user_study_main':
         
         current_step = st.session_state[view_state_key]['step']
 
+        # --- Keyboard Navigation Logic ---
+        query_params = st.query_params
+        if "key_press" in query_params:
+            press_time = query_params.get("key_press")
+            if press_time and press_time != st.session_state.last_key_press:
+                st.session_state.last_key_press = press_time
+                # Advance to the next step if we are not at the final question
+                if st.session_state[view_state_key]['step'] < 8: # 3 setup steps + 5 questions
+                    st.session_state[view_state_key]['step'] += 1
+                    st.rerun()
+
         col1, col2 = st.columns([1, 1.8])
         
         with col1:
             st.video(current_video['video_path'], autoplay=False)
             if current_step == 1:
-                st.info("Watch the video, then press Enter or the Right Arrow key to continue.")
-                if st_keyup(key=["Enter", "ArrowRight"], key_code=f"step1_{view_state_key}"):
-                    st.session_state[view_state_key]['step'] = 2
-                    st.rerun()
+                st.info("Watch the video, then press Enter or → to continue.")
 
             if current_step >= 2:
                 st.subheader("Video Summary")
@@ -710,10 +749,7 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state[view_state_key]['summary_typed'] = True
                 
                 if current_step == 2:
-                    st.info("Read the summary, then press Enter or the Right Arrow key to continue.")
-                    if st_keyup(key=["Enter", "ArrowRight"], key_code=f"step2_{view_state_key}"):
-                        st.session_state[view_state_key]['step'] = 3
-                        st.rerun()
+                    st.info("Read the summary, then press Enter or → to continue.")
 
         with col2:
             terms_to_define = set()
@@ -726,10 +762,7 @@ elif st.session_state.page == 'user_study_main':
                 st.markdown(caption_text_html, unsafe_allow_html=True)
                 
                 if current_step == 3:
-                    st.info("Read the caption, then press Enter or the Right Arrow key to see the questions.")
-                    if st_keyup(key=["Enter", "ArrowRight"], key_code=f"step3_{view_state_key}"):
-                        st.session_state[view_state_key]['step'] = 4
-                        st.rerun()
+                    st.info("Read the caption, then press Enter or → to see the questions.")
 
             if current_step >= 4:
                 control_scores = current_caption.get("control_scores", {})
@@ -745,9 +778,7 @@ elif st.session_state.page == 'user_study_main':
                 style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
                 
                 q_templates = st.session_state.all_data['questions']['part1_questions']
-                
                 questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
-                
                 questions_to_ask = [
                     {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)},
                     {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
@@ -806,9 +837,6 @@ elif st.session_state.page == 'user_study_main':
                 
                 if num_questions_to_show < len(questions_to_ask):
                     st.info(f"Press Enter or → to show the next question ({num_questions_to_show + 1}/{len(questions_to_ask)})")
-                    if st_keyup(key=["Enter", "ArrowRight"], key_code=f"next_q_{view_state_key}_{current_step}"):
-                        st.session_state[view_state_key]['step'] += 1
-                        st.rerun()
                 else: 
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
@@ -816,7 +844,6 @@ elif st.session_state.page == 'user_study_main':
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                 save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
                         
-                        # BUG FIX: Pop the key for the completed caption to reset the state for the next one
                         st.session_state.pop(view_state_key, None)
                         
                         if st.session_state.current_caption_index < len(current_video['captions']) - 1:
@@ -834,7 +861,9 @@ elif st.session_state.page == 'user_study_main':
                         reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
                 reference_html += "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
+
                 
+                                
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
