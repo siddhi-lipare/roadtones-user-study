@@ -657,17 +657,18 @@ elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data:
         st.error("Data could not be loaded. Please check file paths and permissions.")
         st.stop()
-    with st.sidebar:
-        st.header("Study Sections")
-        st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
-        st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
-        st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
     # Helper function for typewriter effect
     def stream_text(text):
         for word in text.split(" "):
             yield word + " "
             time.sleep(0.05)
+
+    with st.sidebar:
+        st.header("Study Sections")
+        st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
+        st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
+        st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
     if st.session_state.study_part == 1:
         st.header("Caption Quality Rating")
@@ -680,31 +681,25 @@ elif st.session_state.page == 'user_study_main':
 
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
-        caption_id = current_caption['caption_id']
-
-        # --- State Management for Sequential Reveal in Part 1 ---
-        view_state_key = f'view_state_{caption_id}'
+        
+        # --- State Management for Sequential Reveal ---
+        view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         if view_state_key not in st.session_state:
             st.session_state[view_state_key] = {'step': 1, 'responses': {}}
         
         current_step = st.session_state[view_state_key]['step']
-        
+
         col1, col2 = st.columns([1, 1.8])
         
-        # --- Column 1: Video and Navigation ---
         with col1:
+            # Step 1: Video is always visible
             st.video(current_video['video_path'], autoplay=False)
-
             if current_step == 1:
                 if st.button("Proceed to Summary"):
                     st.session_state[view_state_key]['step'] = 2
                     st.rerun()
-        
-        # --- Column 2: Summary, Caption, and Questions ---
-        with col2:
-            terms_to_define = set()
 
-            # Step 2: Show Summary
+            # Step 2: Render Video Summary
             if current_step >= 2:
                 st.subheader("Video Summary")
                 if st.session_state[view_state_key].get('summary_typed', False):
@@ -713,13 +708,16 @@ elif st.session_state.page == 'user_study_main':
                     with st.empty():
                         st.write_stream(stream_text(current_video["video_summary"]))
                     st.session_state[view_state_key]['summary_typed'] = True
-
+                
                 if current_step == 2:
                     if st.button("Proceed to Caption"):
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
 
-            # Step 3: Show Caption
+        with col2:
+            terms_to_define = set()
+            
+            # Step 3: Render Caption
             if current_step >= 3:
                 colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
                 highlight_color = colors[caption_idx % len(colors)]
@@ -728,65 +726,74 @@ elif st.session_state.page == 'user_study_main':
                 st.markdown(caption_text_html, unsafe_allow_html=True)
                 
                 if current_step == 3:
-                    if st.button("Show First Question"):
+                    if st.button("Show Questions"):
                         st.session_state[view_state_key]['step'] = 4
                         st.rerun()
 
-            # --- Define Questions and Custom Labels ---
-            q_templates = st.session_state.all_data['questions']['part1_questions']
-            personality_traits = list(current_caption.get("control_scores", {}).get("personality", {}).keys())
-            style_traits = list(current_caption.get("control_scores", {}).get("writing_style", {}).keys())
-            application_text = current_caption.get("application", "the intended application")
-            
-            personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
-            style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+            # Step 4 onwards: Render Questions Sequentially
+            if current_step >= 4:
+                control_scores = current_caption.get("control_scores", {})
+                personality_traits = list(control_scores.get("personality", {}).keys())
+                style_traits = list(control_scores.get("writing_style", {}).keys())
+                application_text = current_caption.get("application", "the intended application")
+                
+                terms_to_define.update(personality_traits)
+                terms_to_define.update(style_traits)
+                terms_to_define.add(application_text)
 
-            # Custom labels for select_slider
-            strength_labels = ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"]
-            consistency_labels = ["Not at all consistent", "Slightly consistent", "Moderately consistent", "Mostly consistent", "Fully consistent"]
-            usefulness_labels = ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely useful"]
-            human_likeness_labels = ["Not at all human-like", "Slightly human-like", "Moderately human-like", "Very human-like", "Indistinguishable from human"]
+                personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
+                style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+                
+                q_templates = st.session_state.all_data['questions']['part1_questions']
+                
+                # Filter out the 'overall_relevance' question
+                questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
+                
+                questions_to_ask = [
+                    {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)},
+                    {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
+                    {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]}, # Factual Consistency
+                    {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, # Usefulness
+                    {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}  # Human-likeness
+                ]
 
-            questions_to_ask = [
-                {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(personality_str), "labels": strength_labels, "step": 4},
-                {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(style_str), "labels": strength_labels, "step": 5},
-                # Question 3 is intentionally removed
-                {"id": q_templates[3]["id"], "text": q_templates[3]["text"], "labels": consistency_labels, "step": 6},
-                {"id": q_templates[4]["id"], "text": q_templates[4]["text"].format(f"<b class='highlight-trait'>{application_text}</b>"), "labels": usefulness_labels, "step": 7},
-                {"id": q_templates[5]["id"], "text": q_templates[5]["text"], "labels": human_likeness_labels, "step": 8}
-            ]
-
-            # --- Sequentially Render Questions ---
-            for i, q in enumerate(questions_to_ask):
-                if current_step >= q["step"]:
+                # Custom options for each question
+                options_map = {
+                    "personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                    "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                    "factual_consistency": ["Contradicts Video", "Mostly Inaccurate", "Partially Accurate", "Mostly Accurate", "Completely Accurate"],
+                    "usefulness": ["Not at all Useful", "Slightly Useful", "Moderately Useful", "Very Useful", "Extremely Useful"],
+                    "human_likeness": ["Sounds Robotic", "Slightly Unnatural", "Moderately Human-like", "Very Human-like", "Completely Natural"]
+                }
+                
+                num_questions_to_show = current_step - 3
+                
+                # Display questions one by one
+                for i in range(num_questions_to_show):
+                    q = questions_to_ask[i]
                     st.markdown(f"**{i+1}. {q['text']}**", unsafe_allow_html=True)
-                    response = st.select_slider(
-                        label=f"q_{i+1}", 
-                        options=q["labels"],
-                        key=f"slider_{caption_id}_{q['id']}",
+                    st.session_state[view_state_key]['responses'][q['id']] = st.radio(
+                        q['id'], 
+                        options=options_map[q['id']], 
+                        key=f"{current_caption['caption_id']}_{q['id']}", 
+                        horizontal=True, 
                         label_visibility="collapsed"
                     )
-                    st.session_state[view_state_key]['responses'][q['id']] = response
+                    st.write("---")
 
-                    # Show "Next Question" button until the last question
-                    if current_step == q["step"] and q["step"] < questions_to_ask[-1]["step"]:
-                        if st.button("Next Question", key=f"next_btn_{q['id']}"):
-                            st.session_state[view_state_key]['step'] += 1
-                            st.rerun()
-
-            # --- Submit Button for the last step ---
-            if current_step == questions_to_ask[-1]["step"]:
-                if st.button("Submit Ratings"):
-                    with st.spinner("Saving your ratings..."):
-                        # Save all buffered responses for this caption
-                        for q in questions_to_ask:
-                            q_id = q['id']
-                            choice = st.session_state[view_state_key]['responses'].get(q_id)
-                            if choice:
-                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice, 'user_study_part1', q['text'])
+                # Navigation for questions
+                if num_questions_to_show < len(questions_to_ask):
+                    if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
+                        st.session_state[view_state_key]['step'] += 1
+                        st.rerun()
+                else: # All questions are visible, show Submit button
+                    if st.button("Submit Ratings"):
+                        with st.spinner("Saving your ratings..."):
+                            for q_id, choice in st.session_state[view_state_key]['responses'].items():
+                                full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice, 'user_study_part1', full_q_text)
                         
-                        # Clean up state and move to the next item
-                        st.session_state.pop(view_state_key, None)
+                        # Move to the next caption or video
                         if st.session_state.current_caption_index < len(current_video['captions']) - 1:
                             st.session_state.current_caption_index += 1
                         else:
@@ -794,11 +801,6 @@ elif st.session_state.page == 'user_study_main':
                             st.session_state.current_caption_index = 0
                         st.rerun()
 
-            # --- Reference Box Logic ---
-            if current_step >= 4:
-                terms_to_define.update(personality_traits)
-                terms_to_define.update(style_traits)
-                terms_to_define.add(application_text)
                 reference_html = '<div class="reference-box">'
                 reference_html += "<h3>Reference</h3><ul>"
                 for term in sorted(list(terms_to_define)):
@@ -807,11 +809,10 @@ elif st.session_state.page == 'user_study_main':
                         reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
                 reference_html += "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
-    
-    # Parts 2 and 3 remain unchanged
+
     elif st.session_state.study_part == 2:
+        # ... (Your existing code for Part 2) ...
         st.header("Which caption is better?")
-        # ... (rest of part 2 code remains the same)
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
         comp_idx = st.session_state.current_comparison_index
         if comp_idx >= len(all_comparisons):
@@ -868,7 +869,7 @@ elif st.session_state.page == 'user_study_main':
                 if any(choice is None for choice in responses.values()):
                     st.error("Please answer all four questions.")
                 else:
-                    with st.spinner("Saving your comparison..."):
+                    with st.spinner("Saving your responses..."):
                         for q_id, choice in responses.items():
                             question_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
                             save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', question_text)
@@ -884,9 +885,8 @@ elif st.session_state.page == 'user_study_main':
             reference_html += "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
 
-
     elif st.session_state.study_part == 3:
-        # ... (rest of part 3 code remains the same)
+        # ... (Your existing code for Part 3) ...
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
         change_idx = st.session_state.current_change_index
         if change_idx >= len(all_changes):
@@ -943,7 +943,7 @@ elif st.session_state.page == 'user_study_main':
                 if choice1 is None or choice2 is None:
                     st.error("Please answer both questions.")
                 else:
-                    with st.spinner("Saving your answers..."):
+                    with st.spinner("Saving your responses..."):
                         save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
                         save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
                     st.session_state.current_change_index += 1
@@ -958,7 +958,6 @@ elif st.session_state.page == 'user_study_main':
             reference_html += "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
 
-            
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! ")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
