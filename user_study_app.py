@@ -692,14 +692,12 @@ elif st.session_state.page == 'user_study_main':
         col1, col2 = st.columns([1, 1.8])
         
         with col1:
-            # Step 1: Video is always visible
             st.video(current_video['video_path'], autoplay=False)
             if current_step == 1:
                 if st.button("Proceed to Summary"):
                     st.session_state[view_state_key]['step'] = 2
                     st.rerun()
 
-            # Step 2: Render Video Summary
             if current_step >= 2:
                 st.subheader("Video Summary")
                 if st.session_state[view_state_key].get('summary_typed', False):
@@ -717,7 +715,6 @@ elif st.session_state.page == 'user_study_main':
         with col2:
             terms_to_define = set()
             
-            # Step 3: Render Caption
             if current_step >= 3:
                 colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
                 highlight_color = colors[caption_idx % len(colors)]
@@ -730,7 +727,6 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_state_key]['step'] = 4
                         st.rerun()
 
-            # Step 4 onwards: Render Questions Sequentially
             if current_step >= 4:
                 control_scores = current_caption.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
@@ -756,30 +752,29 @@ elif st.session_state.page == 'user_study_main':
                     {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
 
-                # Map numerical values to descriptive labels for sliders
                 options_map = {
-                    "personality_relevance": {1: "Not at all", 2: "Weak", 3: "Moderate", 4: "Strong", 5: "Very Strong"},
-                    "style_relevance": {1: "Not at all", 2: "Weak", 3: "Moderate", 4: "Strong", 5: "Very Strong"},
-                    "factual_consistency": {1: "Contradicts", 2: "Inaccurate", 3: "Partially", 4: "Mostly Accurate", 5: "Accurate"},
-                    "usefulness": {1: "Not at all", 2: "Slightly", 3: "Moderately", 4: "Very", 5: "Extremely"},
-                    "human_likeness": {1: "Robotic", 2: "Unnatural", 3: "Moderate", 4: "Very Human-like", 5: "Natural"}
+                    "personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                    "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                    "factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"],
+                    "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"],
+                    "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]
                 }
                 
                 num_questions_to_show = current_step - 3
                 
                 for i in range(num_questions_to_show):
                     q = questions_to_ask[i]
-                    labels = options_map[q['id']]
+                    slider_options = options_map[q['id']]
+                    default_value = slider_options[2] # Default to "Moderate" or equivalent middle option
                     
                     st.markdown(f"**{i+1}. {q['text']}**", unsafe_allow_html=True)
-                    # Use a slider with a format_func to show text labels
-                    st.session_state[view_state_key]['responses'][q['id']] = st.slider(
-                        q['id'], 
-                        min_value=1,
-                        max_value=5,
-                        value=3, # Default to the middle value
-                        format_func=lambda value: labels[value], # This shows the text label
-                        key=f"slider_{current_caption['caption_id']}_{q['id']}", 
+                    
+                    # CORRECTED: Use st.select_slider instead of st.slider
+                    st.session_state[view_state_key]['responses'][q['id']] = st.select_slider(
+                        label=q['id'],
+                        options=slider_options,
+                        value=default_value,
+                        key=f"select_slider_{current_caption['caption_id']}_{q['id']}",
                         label_visibility="collapsed"
                     )
                     st.write("---")
@@ -791,9 +786,8 @@ elif st.session_state.page == 'user_study_main':
                 else: 
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
-                            for q_id, choice_num in st.session_state[view_state_key]['responses'].items():
-                                # Convert the numerical choice back to text for saving
-                                choice_text = options_map[q_id][choice_num]
+                            # CORRECTED: The value from select_slider is already the text, no conversion needed
+                            for q_id, choice_text in st.session_state[view_state_key]['responses'].items():
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                 save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
                         
@@ -814,7 +808,6 @@ elif st.session_state.page == 'user_study_main':
                 st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
-        # ... (Your existing code for Part 2) ...
         st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
         comp_idx = st.session_state.current_comparison_index
@@ -889,7 +882,6 @@ elif st.session_state.page == 'user_study_main':
             st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 3:
-        # ... (Your existing code for Part 3) ...
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
         change_idx = st.session_state.current_change_index
         if change_idx >= len(all_changes):
