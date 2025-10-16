@@ -699,9 +699,9 @@ elif st.session_state.page == 'user_study_main':
 
     with st.sidebar:
         st.header("Study Sections")
-        st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
-        st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
-        st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
+        st.button("Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
+        st.button("Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
+        st.button("Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
     if st.session_state.study_part == 1:
         st.header("Caption Quality Rating")
@@ -862,8 +862,8 @@ elif st.session_state.page == 'user_study_main':
                 reference_html += "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
 
-                
-                                
+
+
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
