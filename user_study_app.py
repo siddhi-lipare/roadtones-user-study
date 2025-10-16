@@ -682,9 +682,10 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
         
+        # --- State Management for Sequential Reveal ---
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         if view_state_key not in st.session_state:
-            st.session_state[view_state_key] = {'step': 1}
+            st.session_state[view_state_key] = {'step': 1, 'responses': {}}
         
         current_step = st.session_state[view_state_key]['step']
 
@@ -759,48 +760,47 @@ elif st.session_state.page == 'user_study_main':
                     "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]
                 }
                 
-                with st.form(key=f"study_form_rating_{current_caption['caption_id']}"):
-                    responses = {}
-                    
-                    row1_cols = st.columns(3)
-                    for i, q in enumerate(questions_to_ask[:3]):
-                        with row1_cols[i]:
-                            # CORRECTED: Added the .slider-label class for alignment
-                            st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            slider_options = options_map[q['id']]
-                            default_value = slider_options[2]
-                            responses[q['id']] = st.select_slider(
-                                label=q['id'], options=slider_options, value=default_value,
-                                key=f"ss_{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed"
-                            )
-                    
-                    row2_cols = st.columns(3)
-                    for i, q in enumerate(questions_to_ask[3:]):
-                        q_num = i + 4
-                        with row2_cols[i]:
-                            # CORRECTED: Added the .slider-label class for alignment
-                            st.markdown(f"<div class='slider-label'><strong>{q_num}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            slider_options = options_map[q['id']]
-                            default_value = slider_options[2]
-                            responses[q['id']] = st.select_slider(
-                                label=q['id'], options=slider_options, value=default_value,
-                                key=f"ss_{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed"
-                            )
-                    
-                    submitted = st.form_submit_button("Submit Ratings")
+                num_questions_to_show = current_step - 3
+                responses_so_far = st.session_state[view_state_key]['responses']
 
-                if submitted:
-                    with st.spinner("Saving your ratings..."):
-                        for q_id, choice_text in responses.items():
-                            full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                # Display questions that have been revealed, one by one
+                for i in range(num_questions_to_show):
+                    q = questions_to_ask[i]
+                    slider_options = options_map[q['id']]
+                    # Set default to the middle option only if not already answered
+                    default_value = responses_so_far.get(q['id'], slider_options[2])
                     
-                    if st.session_state.current_caption_index < len(current_video['captions']) - 1:
-                        st.session_state.current_caption_index += 1
-                    else:
-                        st.session_state.current_video_index += 1
-                        st.session_state.current_caption_index = 0
-                    st.rerun()
+                    st.markdown(f"**{i+1}. {q['text']}**", unsafe_allow_html=True)
+                    
+                    response = st.select_slider(
+                        label=q['id'],
+                        options=slider_options,
+                        value=default_value,
+                        key=f"select_slider_{current_caption['caption_id']}_{q['id']}",
+                        label_visibility="collapsed"
+                    )
+                    responses_so_far[q['id']] = response
+                    st.write("---")
+
+                # Show "Next Question" button if there are more questions to show
+                if num_questions_to_show < len(questions_to_ask):
+                    if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
+                        st.session_state[view_state_key]['step'] += 1
+                        st.rerun()
+                else: 
+                    # Show "Submit" button only when all questions are visible
+                    if st.button("Submit Ratings"):
+                        with st.spinner("Saving your ratings..."):
+                            for q_id, choice_text in responses_so_far.items():
+                                full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                        
+                        if st.session_state.current_caption_index < len(current_video['captions']) - 1:
+                            st.session_state.current_caption_index += 1
+                        else:
+                            st.session_state.current_video_index += 1
+                            st.session_state.current_caption_index = 0
+                        st.rerun()
 
                 reference_html = '<div class="reference-box">'
                 reference_html += "<h3>Reference</h3><ul>"
