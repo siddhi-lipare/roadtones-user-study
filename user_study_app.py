@@ -682,7 +682,6 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
         
-        # --- State Management for Sequential Reveal ---
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         if view_state_key not in st.session_state:
             st.session_state[view_state_key] = {'step': 1, 'responses': {}}
@@ -761,37 +760,62 @@ elif st.session_state.page == 'user_study_main':
                 }
                 
                 num_questions_to_show = current_step - 3
-                responses_so_far = st.session_state[view_state_key]['responses']
+                responses = st.session_state[view_state_key]['responses']
 
-                # Display questions that have been revealed, one by one
-                for i in range(num_questions_to_show):
-                    q = questions_to_ask[i]
-                    slider_options = options_map[q['id']]
-                    # Set default to the middle option only if not already answered
-                    default_value = responses_so_far.get(q['id'], slider_options[2])
-                    
-                    st.markdown(f"**{i+1}. {q['text']}**", unsafe_allow_html=True)
-                    
-                    response = st.select_slider(
-                        label=q['id'],
-                        options=slider_options,
-                        value=default_value,
-                        key=f"select_slider_{current_caption['caption_id']}_{q['id']}",
-                        label_visibility="collapsed"
-                    )
-                    responses_so_far[q['id']] = response
-                    st.write("---")
+                # --- NEW GRID-BASED SEQUENTIAL RENDER ---
+                row1_cols = st.columns(3)
+                # Question 1
+                with row1_cols[0]:
+                    if num_questions_to_show >= 1:
+                        q = questions_to_ask[0]
+                        slider_options = options_map[q['id']]
+                        st.markdown(f"<div class='slider-label'><strong>1. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                
+                # Question 2
+                with row1_cols[1]:
+                    if num_questions_to_show >= 2:
+                        q = questions_to_ask[1]
+                        slider_options = options_map[q['id']]
+                        st.markdown(f"<div class='slider-label'><strong>2. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                
+                # Question 3
+                with row1_cols[2]:
+                    if num_questions_to_show >= 3:
+                        q = questions_to_ask[2]
+                        slider_options = options_map[q['id']]
+                        st.markdown(f"<div class='slider-label'><strong>3. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
 
-                # Show "Next Question" button if there are more questions to show
+                row2_cols = st.columns(3)
+                # Question 4
+                with row2_cols[0]:
+                    if num_questions_to_show >= 4:
+                        q = questions_to_ask[3]
+                        slider_options = options_map[q['id']]
+                        st.markdown(f"<div class='slider-label'><strong>4. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                
+                # Question 5
+                with row2_cols[1]:
+                    if num_questions_to_show >= 5:
+                        q = questions_to_ask[4]
+                        slider_options = options_map[q['id']]
+                        st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
+                
+                st.write("---")
+
+                # --- Navigation Logic ---
                 if num_questions_to_show < len(questions_to_ask):
                     if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
                         st.session_state[view_state_key]['step'] += 1
                         st.rerun()
                 else: 
-                    # Show "Submit" button only when all questions are visible
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
-                            for q_id, choice_text in responses_so_far.items():
+                            for q_id, choice_text in responses.items():
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                 save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
                         
