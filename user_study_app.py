@@ -746,54 +746,57 @@ elif st.session_state.page == 'user_study_main':
                 
                 q_templates = st.session_state.all_data['questions']['part1_questions']
                 
-                # Filter out the 'overall_relevance' question
                 questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
                 
                 questions_to_ask = [
                     {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)},
                     {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
-                    {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]}, # Factual Consistency
-                    {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, # Usefulness
-                    {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}  # Human-likeness
+                    {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]},
+                    {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
+                    {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
 
-                # Custom options for each question
+                # Map numerical values to descriptive labels for sliders
                 options_map = {
-                    "personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
-                    "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
-                    "factual_consistency": ["Contradicts Video", "Mostly Inaccurate", "Partially Accurate", "Mostly Accurate", "Completely Accurate"],
-                    "usefulness": ["Not at all Useful", "Slightly Useful", "Moderately Useful", "Very Useful", "Extremely Useful"],
-                    "human_likeness": ["Sounds Robotic", "Slightly Unnatural", "Moderately Human-like", "Very Human-like", "Completely Natural"]
+                    "personality_relevance": {1: "Not at all", 2: "Weak", 3: "Moderate", 4: "Strong", 5: "Very Strong"},
+                    "style_relevance": {1: "Not at all", 2: "Weak", 3: "Moderate", 4: "Strong", 5: "Very Strong"},
+                    "factual_consistency": {1: "Contradicts", 2: "Inaccurate", 3: "Partially", 4: "Mostly Accurate", 5: "Accurate"},
+                    "usefulness": {1: "Not at all", 2: "Slightly", 3: "Moderately", 4: "Very", 5: "Extremely"},
+                    "human_likeness": {1: "Robotic", 2: "Unnatural", 3: "Moderate", 4: "Very Human-like", 5: "Natural"}
                 }
                 
                 num_questions_to_show = current_step - 3
                 
-                # Display questions one by one
                 for i in range(num_questions_to_show):
                     q = questions_to_ask[i]
+                    labels = options_map[q['id']]
+                    
                     st.markdown(f"**{i+1}. {q['text']}**", unsafe_allow_html=True)
-                    st.session_state[view_state_key]['responses'][q['id']] = st.radio(
+                    # Use a slider with a format_func to show text labels
+                    st.session_state[view_state_key]['responses'][q['id']] = st.slider(
                         q['id'], 
-                        options=options_map[q['id']], 
-                        key=f"{current_caption['caption_id']}_{q['id']}", 
-                        horizontal=True, 
+                        min_value=1,
+                        max_value=5,
+                        value=3, # Default to the middle value
+                        format_func=lambda value: labels[value], # This shows the text label
+                        key=f"slider_{current_caption['caption_id']}_{q['id']}", 
                         label_visibility="collapsed"
                     )
                     st.write("---")
 
-                # Navigation for questions
                 if num_questions_to_show < len(questions_to_ask):
                     if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
                         st.session_state[view_state_key]['step'] += 1
                         st.rerun()
-                else: # All questions are visible, show Submit button
+                else: 
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
-                            for q_id, choice in st.session_state[view_state_key]['responses'].items():
+                            for q_id, choice_num in st.session_state[view_state_key]['responses'].items():
+                                # Convert the numerical choice back to text for saving
+                                choice_text = options_map[q_id][choice_num]
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
-                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice, 'user_study_part1', full_q_text)
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
                         
-                        # Move to the next caption or video
                         if st.session_state.current_caption_index < len(current_video['captions']) - 1:
                             st.session_state.current_caption_index += 1
                         else:
