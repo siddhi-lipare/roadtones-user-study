@@ -682,7 +682,6 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
         
-        # --- State Management for Sequential Reveal ---
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         if view_state_key not in st.session_state:
             st.session_state[view_state_key] = {'step': 1}
@@ -763,12 +762,11 @@ elif st.session_state.page == 'user_study_main':
                 with st.form(key=f"study_form_rating_{current_caption['caption_id']}"):
                     responses = {}
                     
-                    st.write("---")
-                    # --- Row 1 for Questions 1, 2, 3 ---
                     row1_cols = st.columns(3)
                     for i, q in enumerate(questions_to_ask[:3]):
                         with row1_cols[i]:
-                            st.markdown(f"**{i+1}. {q['text']}**", unsafe_allow_html=True)
+                            # CORRECTED: Added the .slider-label class for alignment
+                            st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
                             slider_options = options_map[q['id']]
                             default_value = slider_options[2]
                             responses[q['id']] = st.select_slider(
@@ -776,13 +774,12 @@ elif st.session_state.page == 'user_study_main':
                                 key=f"ss_{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed"
                             )
                     
-                    st.write("---")
-                    # --- Row 2 for Questions 4, 5 ---
-                    row2_cols = st.columns(3) # Use 3 to align, leave last empty
+                    row2_cols = st.columns(3)
                     for i, q in enumerate(questions_to_ask[3:]):
                         q_num = i + 4
                         with row2_cols[i]:
-                            st.markdown(f"**{q_num}. {q['text']}**", unsafe_allow_html=True)
+                            # CORRECTED: Added the .slider-label class for alignment
+                            st.markdown(f"<div class='slider-label'><strong>{q_num}. {q['text']}</strong></div>", unsafe_allow_html=True)
                             slider_options = options_map[q['id']]
                             default_value = slider_options[2]
                             responses[q['id']] = st.select_slider(
@@ -790,7 +787,6 @@ elif st.session_state.page == 'user_study_main':
                                 key=f"ss_{current_caption['caption_id']}_{q['id']}", label_visibility="collapsed"
                             )
                     
-                    st.write("---")
                     submitted = st.form_submit_button("Submit Ratings")
 
                 if submitted:
