@@ -476,6 +476,7 @@ if st.session_state.page == 'demographics':
                 st.session_state.page = 'intro_video'
                 st.rerun()
 
+
 elif st.session_state.page == 'intro_video':
     st.title("Introductory Video")
     
@@ -527,17 +528,12 @@ elif st.session_state.page == 'quiz':
         display_title = re.sub(r'Part \d+: ', '', current_part_key)
     st.header(display_title)
     
-    # --- Progress Bar ---
     st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
 
     col1, col2 = st.columns([1.2, 1.5])
 
-    # --- Column 1: Video and Summary ---
     with col1:
-        # Step 1: Video is always visible
         st.video(sample['video_path'], autoplay=False)
-
-        # Step 2: Video Summary is rendered from step 2 onwards
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
             if st.session_state[view_state_key].get('summary_typed', False):
@@ -547,30 +543,21 @@ elif st.session_state.page == 'quiz':
                     st.write_stream(stream_text(sample["video_summary"]))
                 st.session_state[view_state_key]['summary_typed'] = True
 
-    # --- Column 2: Captions and Questions ---
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         
-        # Step 3: Caption is rendered from step 3 onwards
         if current_step >= 3:
-            if st.session_state[view_state_key].get('caption_typed', False):
-                 if "Tone Controllability" in current_part_key:
-                    st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>""", unsafe_allow_html=True)
-                    st.markdown(f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>""", unsafe_allow_html=True)
-                 else:
-                    st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
+            if "Tone Controllability" in current_part_key:
+                st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>""", unsafe_allow_html=True)
+                st.markdown(f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>""", unsafe_allow_html=True)
             else:
-                with st.empty():
-                    if "Tone Controllability" in current_part_key:
-                        full_text = f"Caption A: {sample['caption_A']}\n\nCaption B: {sample['caption_B']}"
-                        st.write_stream(stream_text(full_text))
-                    else:
-                        full_text = sample.get("caption", "")
-                        st.write_stream(stream_text(full_text))
-                st.session_state[view_state_key]['caption_typed'] = True
+                st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
+            
+            if current_step == 3: # Show button only on step 3
+                if st.button("Show Questions"):
+                    st.session_state[view_state_key]['step'] = 4
+                    st.rerun()
 
-
-        # Step 4: Questions are rendered from step 4 onwards
         if current_step >= 4:
             if st.session_state.show_feedback:
                 user_choice = st.session_state.last_choice
@@ -603,7 +590,6 @@ elif st.session_state.page == 'quiz':
                 
                 with st.form("quiz_form"):
                     choice = None
-                    # CORRECTED: Use st.multiselect for multi-choice questions
                     if question_data.get("question_type") == "multi":
                         choice = st.multiselect("Select all that apply:", question_data['options'], key=f"ms_{current_index}", format_func=format_options_with_info)
                     else:
@@ -615,14 +601,13 @@ elif st.session_state.page == 'quiz':
                         else:
                             st.session_state.last_choice = choice
                             correct_answer = question_data.get('correct_answer')
-                            # CORRECTED: Robust answer checking for both single and multi-select
                             is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
                             st.session_state.is_correct = is_correct
                             if is_correct: st.session_state.score += 1
                             st.session_state.show_feedback = True
                             st.rerun()
 
-    # --- Navigation and Timer Logic (at the bottom of the page) ---
+    # --- Navigation and Timer Logic at the bottom ---
     st.write("---")
     video_duration = get_video_duration(sample['video_path'])
 
@@ -647,13 +632,8 @@ elif st.session_state.page == 'quiz':
         if st.button("Proceed to Caption"):
             st.session_state[view_state_key]['step'] = 3
             st.rerun()
-    elif current_step == 3:
-        if st.button("Show Questions"):
-            st.session_state[view_state_key]['step'] = 4
-            st.rerun()
 
 
-            
 
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = 0
