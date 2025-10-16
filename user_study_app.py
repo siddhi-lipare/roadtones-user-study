@@ -369,33 +369,35 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
         st.error(f"Failed to write to Google Sheet: {e}")
 
 def go_to_next_quiz_question():
-    part_keys = list(st.session_state.all_data['quiz'].keys())
-    current_part_key = part_keys[st.session_state.current_part_index]
-    questions_for_part = st.session_state.all_data['quiz'][current_part_key]
-    sample = questions_for_part[st.session_state.current_sample_index]
-    was_correct = st.session_state.is_correct
-    question_text = "N/A"
-    if "Tone Controllability" in current_part_key:
-        question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
-    elif "Caption Quality" in current_part_key:
-        rating_question = sample["questions"][st.session_state.current_rating_question_index]
-        question_text = rating_question["question_text"]
-    else:
-        question_text = "Tone Identification"
-    dummy_video_data = {'video_id': sample.get('sample_id')}
-    dummy_caption_data = {'caption_id': sample.get('sample_id'), 'text': sample.get('caption', 'N/A')}
-    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, dummy_video_data, dummy_caption_data, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
-    if "Caption Quality" in current_part_key:
-        st.session_state.current_rating_question_index += 1
-        if st.session_state.current_rating_question_index >= len(sample["questions"]):
-            st.session_state.current_part_index += 1
-            st.session_state.current_rating_question_index = 0
-    else:
-        st.session_state.current_sample_index += 1
-        if st.session_state.current_sample_index >= len(questions_for_part):
-            st.session_state.current_part_index += 1
-            st.session_state.current_sample_index = 0
-    st.session_state.show_feedback = False
+    with st.spinner("Saving your answer..."): # SPINNER ADDED HERE
+        part_keys = list(st.session_state.all_data['quiz'].keys())
+        current_part_key = part_keys[st.session_state.current_part_index]
+        questions_for_part = st.session_state.all_data['quiz'][current_part_key]
+        sample = questions_for_part[st.session_state.current_sample_index]
+        was_correct = st.session_state.is_correct
+        question_text = "N/A"
+        if "Tone Controllability" in current_part_key:
+            question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
+        elif "Caption Quality" in current_part_key:
+            rating_question = sample["questions"][st.session_state.current_rating_question_index]
+            question_text = rating_question["question_text"]
+        else:
+            question_text = "Tone Identification"
+        dummy_video_data = {'video_id': sample.get('sample_id')}
+        dummy_caption_data = {'caption_id': sample.get('sample_id'), 'text': sample.get('caption', 'N/A')}
+        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, dummy_video_data, dummy_caption_data, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
+        
+        if "Caption Quality" in current_part_key:
+            st.session_state.current_rating_question_index += 1
+            if st.session_state.current_rating_question_index >= len(sample["questions"]):
+                st.session_state.current_part_index += 1
+                st.session_state.current_rating_question_index = 0
+        else:
+            st.session_state.current_sample_index += 1
+            if st.session_state.current_sample_index >= len(questions_for_part):
+                st.session_state.current_part_index += 1
+                st.session_state.current_sample_index = 0
+        st.session_state.show_feedback = False
 
 def jump_to_part(part_index):
     st.session_state.current_part_index = part_index
@@ -538,10 +540,12 @@ elif st.session_state.page == 'quiz':
         # Step 2: Video Summary is rendered from step 2 onwards
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
-            if current_step == 2: # Typewriter effect on first appearance
-                st.write_stream(stream_text(sample["video_summary"]))
-            else: # Static display after
+            if st.session_state[view_state_key].get('summary_typed', False):
                 st.info(sample["video_summary"])
+            else:
+                with st.empty():
+                    st.write_stream(stream_text(sample["video_summary"]))
+                st.session_state[view_state_key]['summary_typed'] = True
 
     # --- Column 2: Captions and Questions ---
     with col2:
@@ -549,11 +553,22 @@ elif st.session_state.page == 'quiz':
         
         # Step 3: Caption is rendered from step 3 onwards
         if current_step >= 3:
-            if "Tone Controllability" in current_part_key:
-                st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>""", unsafe_allow_html=True)
-                st.markdown(f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>""", unsafe_allow_html=True)
+            if st.session_state[view_state_key].get('caption_typed', False):
+                 if "Tone Controllability" in current_part_key:
+                    st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>""", unsafe_allow_html=True)
+                 else:
+                    st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
             else:
-                st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
+                with st.empty():
+                    if "Tone Controllability" in current_part_key:
+                        full_text = f"Caption A: {sample['caption_A']}\n\nCaption B: {sample['caption_B']}"
+                        st.write_stream(stream_text(full_text))
+                    else:
+                        full_text = sample.get("caption", "")
+                        st.write_stream(stream_text(full_text))
+                st.session_state[view_state_key]['caption_typed'] = True
+
 
         # Step 4: Questions are rendered from step 4 onwards
         if current_step >= 4:
@@ -576,24 +591,34 @@ elif st.session_state.page == 'quiz':
                     st.session_state.pop(view_state_key, None) 
                     st.rerun()
             else:
-                # Question Text Logic
                 question_text = ""
-                # (Re-insert your detailed question text logic here...)
                 if "Tone Controllability" in current_part_key:
                      question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                elif question_data.get("question_type") == "multi":
+                    question_text = "Identify 2 dominant personality traits projected by the captioner"
                 else:
                     question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
 
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
                 
                 with st.form("quiz_form"):
-                    choice = st.radio("Select one option:", question_data['options'], index=None, format_func=format_options_with_info)
+                    choice = None
+                    # CORRECTED: Use st.multiselect for multi-choice questions
+                    if question_data.get("question_type") == "multi":
+                        choice = st.multiselect("Select all that apply:", question_data['options'], key=f"ms_{current_index}", format_func=format_options_with_info)
+                    else:
+                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
+
                     if st.form_submit_button("Submit Answer"):
-                        if not choice: st.error("Please select an option.")
+                        if not choice: 
+                            st.error("Please select an option.")
                         else:
                             st.session_state.last_choice = choice
-                            st.session_state.is_correct = (choice == question_data.get('correct_answer'))
-                            if st.session_state.is_correct: st.session_state.score += 1
+                            correct_answer = question_data.get('correct_answer')
+                            # CORRECTED: Robust answer checking for both single and multi-select
+                            is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
+                            st.session_state.is_correct = is_correct
+                            if is_correct: st.session_state.score += 1
                             st.session_state.show_feedback = True
                             st.rerun()
 
@@ -627,7 +652,9 @@ elif st.session_state.page == 'quiz':
             st.session_state[view_state_key]['step'] = 4
             st.rerun()
 
+
             
+
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
