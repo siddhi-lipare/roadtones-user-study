@@ -1,4 +1,0 @@
-gspread==6.2.1
-pandas==2.3.3
-protobuf==6.32.1
-streamlit==1.50.0

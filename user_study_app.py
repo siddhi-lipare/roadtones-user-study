@@ -834,7 +834,7 @@ elif st.session_state.page == 'user_study_main':
                         reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
                 reference_html += "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
-
+                
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
