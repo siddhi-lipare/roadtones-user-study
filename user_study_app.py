@@ -652,7 +652,6 @@ elif st.session_state.page == 'quiz_results':
         st.markdown(f"Unfortunately, you did not meet the passing score of {passing_score}. You can try again.")
         st.button("Take Quiz Again", on_click=restart_quiz)
 
-# --- Page 7: The Main User Study ---
 elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data:
         st.error("Data could not be loaded. Please check file paths and permissions.")
@@ -682,9 +681,20 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
         
+        # Define unique keys for state management
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
+        summary_typed_key = f"summary_typed_{current_video['video_id']}" # Key is per-video
+
+        # Initialize the state for the current caption view
         if view_state_key not in st.session_state:
-            st.session_state[view_state_key] = {'step': 1, 'responses': {}}
+            # For subsequent captions of the SAME video, jump directly to showing questions
+            if caption_idx > 0:
+                initial_step = 4
+            # For the first caption of a NEW video, start the full sequential reveal
+            else:
+                st.session_state[summary_typed_key] = False # Reset typewriter effect for new video
+                initial_step = 1
+            st.session_state[view_state_key] = {'step': initial_step, 'responses': {}}
         
         current_step = st.session_state[view_state_key]['step']
 
@@ -692,6 +702,8 @@ elif st.session_state.page == 'user_study_main':
         
         with col1:
             st.video(current_video['video_path'], autoplay=False)
+
+            # This button only appears for the first caption of a video
             if current_step == 1:
                 if st.button("Proceed to Summary"):
                     st.session_state[view_state_key]['step'] = 2
@@ -699,13 +711,16 @@ elif st.session_state.page == 'user_study_main':
 
             if current_step >= 2:
                 st.subheader("Video Summary")
-                if st.session_state[view_state_key].get('summary_typed', False):
-                    st.info(current_video["video_summary"])
-                else:
-                    with st.empty():
-                        st.write_stream(stream_text(current_video["video_summary"]))
-                    st.session_state[view_state_key]['summary_typed'] = True
                 
+                # Use the video-specific key to control the typewriter effect
+                if st.session_state.get(summary_typed_key, False):
+                    st.info(current_video["video_summary"]) # Show summary instantly
+                else:
+                    with st.empty(): # Show summary with typewriter effect once per video
+                        st.write_stream(stream_text(current_video["video_summary"]))
+                    st.session_state[summary_typed_key] = True 
+                
+                # This button also only appears for the first caption
                 if current_step == 2:
                     if st.button("Proceed to Caption"):
                         st.session_state[view_state_key]['step'] = 3
@@ -721,6 +736,7 @@ elif st.session_state.page == 'user_study_main':
                 caption_text_html = f'''<div class="part1-caption-box" style="{caption_box_style}"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>'''
                 st.markdown(caption_text_html, unsafe_allow_html=True)
                 
+                # This button only appears for the first caption
                 if current_step == 3:
                     if st.button("Show Questions"):
                         st.session_state[view_state_key]['step'] = 4
@@ -759,12 +775,12 @@ elif st.session_state.page == 'user_study_main':
                     "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]
                 }
                 
-                num_questions_to_show = current_step - 3
+                # For subsequent captions, this will be high enough to show all questions
+                num_questions_to_show = len(questions_to_ask) if caption_idx > 0 else current_step - 3
                 responses = st.session_state[view_state_key]['responses']
 
-                # --- NEW GRID-BASED SEQUENTIAL RENDER ---
+                # GRID-BASED SEQUENTIAL RENDER
                 row1_cols = st.columns(3)
-                # Question 1
                 with row1_cols[0]:
                     if num_questions_to_show >= 1:
                         q = questions_to_ask[0]
@@ -772,7 +788,6 @@ elif st.session_state.page == 'user_study_main':
                         st.markdown(f"<div class='slider-label'><strong>1. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
                 
-                # Question 2
                 with row1_cols[1]:
                     if num_questions_to_show >= 2:
                         q = questions_to_ask[1]
@@ -780,7 +795,6 @@ elif st.session_state.page == 'user_study_main':
                         st.markdown(f"<div class='slider-label'><strong>2. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
                 
-                # Question 3
                 with row1_cols[2]:
                     if num_questions_to_show >= 3:
                         q = questions_to_ask[2]
@@ -789,7 +803,6 @@ elif st.session_state.page == 'user_study_main':
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
 
                 row2_cols = st.columns(3)
-                # Question 4
                 with row2_cols[0]:
                     if num_questions_to_show >= 4:
                         q = questions_to_ask[3]
@@ -797,7 +810,6 @@ elif st.session_state.page == 'user_study_main':
                         st.markdown(f"<div class='slider-label'><strong>4. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
                 
-                # Question 5
                 with row2_cols[1]:
                     if num_questions_to_show >= 5:
                         q = questions_to_ask[4]
@@ -807,7 +819,7 @@ elif st.session_state.page == 'user_study_main':
                 
                 st.write("---")
 
-                # --- Navigation Logic ---
+                # Navigation Logic
                 if num_questions_to_show < len(questions_to_ask):
                     if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
                         st.session_state[view_state_key]['step'] += 1
@@ -815,19 +827,15 @@ elif st.session_state.page == 'user_study_main':
                 else: 
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
-                            # Save all the responses
                             for q_id, choice_text in responses.items():
                                 full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                 save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
-                            
-                            # Move the state update logic INSIDE the spinner block
-                            if st.session_state.current_caption_index < len(current_video['captions']) - 1:
-                                st.session_state.current_caption_index += 1
-                            else:
-                                st.session_state.current_video_index += 1
-                                st.session_state.current_caption_index = 0
                         
-                        # Rerun after all processing is complete
+                        if st.session_state.current_caption_index < len(current_video['captions']) - 1:
+                            st.session_state.current_caption_index += 1
+                        else:
+                            st.session_state.current_video_index += 1
+                            st.session_state.current_caption_index = 0
                         st.rerun()
 
                 reference_html = '<div class="reference-box">'
