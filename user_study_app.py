@@ -19,6 +19,34 @@ QUESTIONS_DATA_PATH = "questions.json"
 
 # --- GOOGLE SHEETS CONNECTION ---
 @st.cache_resource
+
+def save_completion_time(email, age, gender, time_taken_str):
+    """Saves a final row with the total time taken for the study."""
+    if WORKSHEET is None:
+        st.error("Connection to response sheet failed. Data not saved.")
+        return
+    try:
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        
+        # This is a special row to log the completion event and total time
+        completion_data = [
+            email, age, str(gender), timestamp, 'study_completion',
+            'N/A', 'N/A', 'Total Time Taken', 'N/A', 'N/A', 'N/A', time_taken_str
+        ]
+        
+        # Ensure the header includes the new column
+        header = [
+            'email', 'age', 'gender', 'timestamp', 'study_phase', 'video_id', 'sample_id', 
+            'question_text', 'user_choice', 'was_correct', 'attempts_taken', 'time_taken'
+        ]
+        if len(WORKSHEET.get_all_values()) == 0:
+             WORKSHEET.append_row(header)
+        
+        WORKSHEET.append_row(completion_data)
+
+    except Exception as e:
+        st.error(f"Failed to write completion time to Google Sheet: {e}")
+
 def connect_to_gsheet():
     """Connects to the Google Sheet using Streamlit secrets."""
     try:
@@ -424,6 +452,7 @@ if 'page' not in st.session_state:
     st.session_state.current_caption_index = 0
     st.session_state.current_comparison_index = 0
     st.session_state.current_change_index = 0
+    st.session_state.completion_logged = False # ADD THIS LINE
     st.session_state.all_data = load_data()
 
 if st.session_state.all_data is None:
@@ -436,6 +465,7 @@ if st.session_state.page == 'demographics':
         st.session_state.email = "debug@test.com"
         st.session_state.age = 25
         st.session_state.gender = "Prefer not to say"
+        st.session_state.start_time = time.time() # START TIMER FOR DEBUG
         st.session_state.page = 'user_study_main'
         st.rerun()
     st.header("Welcome! Before you begin, please provide some basic information:")
@@ -454,8 +484,10 @@ if st.session_state.page == 'demographics':
                 st.session_state.email = email
                 st.session_state.age = age
                 st.session_state.gender = gender
+                st.session_state.start_time = time.time() # START TIMER HERE
                 st.session_state.page = 'intro_video'
                 st.rerun()
+
 
 elif st.session_state.page == 'intro_video':
     st.title("Introductory Video")
@@ -870,3 +902,24 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! ")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+
+    # Check if a timer was started and if completion has not yet been logged
+    if 'start_time' in st.session_state and not st.session_state.get('completion_logged', False):
+        end_time = time.time()
+        total_seconds = end_time - st.session_state.start_time
+        
+        # Format the time into a readable string
+        minutes = int(total_seconds // 60)
+        seconds = int(total_seconds % 60)
+        time_taken_str = f"{minutes} minutes, {seconds} seconds"
+
+        # Save the completion time to the Google Sheet
+        save_completion_time(
+            st.session_state.email,
+            st.session_state.age,
+            st.session_state.gender,
+            time_taken_str
+        )
+        
+        # Set a flag to prevent logging the time again if the user refreshes the page
+        st.session_state.completion_logged = True
