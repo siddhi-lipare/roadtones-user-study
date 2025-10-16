@@ -55,9 +55,8 @@ def connect_to_gsheet():
         st.error(f"Could not connect to Google Sheets: {e}")
         return None
 
-WORKSHEET = connect_to_gsheet()
+# WORKSHEET = connect_to_gsheet()
 
-# --- Custom CSS and JavaScript for better UI/UX ---
 # --- Custom CSS and JavaScript for better UI/UX ---
 st.markdown("""
 <style>
@@ -355,18 +354,21 @@ def load_data():
 
 def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
     """Saves a single response to the connected Google Sheet."""
-    if WORKSHEET is None:
+    # The connection is now established only when it's first needed.
+    worksheet = connect_to_gsheet() 
+    if worksheet is None:
         st.error("Connection to response sheet failed. Data not saved.")
         return
     try:
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
         response_data = [email, age, str(gender), timestamp, study_phase, video_data.get('video_id', 'N/A'), caption_data.get('caption_id') or caption_data.get('comparison_id') or caption_data.get('change_id'), question_text, str(choice), str(was_correct) if was_correct is not None else 'N/A', 1 if study_phase == 'quiz' else 'N/A']
-        if len(WORKSHEET.get_all_values()) == 0:
+        if len(worksheet.get_all_values()) == 0:
              header = ['email', 'age', 'gender', 'timestamp', 'study_phase', 'video_id', 'sample_id', 'question_text', 'user_choice', 'was_correct', 'attempts_taken']
-             WORKSHEET.append_row(header)
-        WORKSHEET.append_row(response_data)
+             worksheet.append_row(header)
+        worksheet.append_row(response_data)
     except Exception as e:
         st.error(f"Failed to write to Google Sheet: {e}")
+
 
 def go_to_next_quiz_question():
     with st.spinner("Saving your answer..."): # SPINNER ADDED TO MANAGE LAG
@@ -536,13 +538,11 @@ elif st.session_state.page == 'quiz':
     with col1:
         st.video(sample['video_path'], autoplay=False)
         
-        # Display "Proceed to Summary" button immediately in step 1
         if current_step == 1:
             if st.button("Proceed to Summary"):
                 st.session_state[view_state_key]['step'] = 2
                 st.rerun()
         
-        # Render Video Summary from step 2 onwards
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
             if st.session_state[view_state_key].get('summary_typed', False):
@@ -552,7 +552,6 @@ elif st.session_state.page == 'quiz':
                     st.write_stream(stream_text(sample["video_summary"]))
                 st.session_state[view_state_key]['summary_typed'] = True
             
-            # Display "Proceed to Caption" button in step 2
             if current_step == 2:
                 if st.button("Proceed to Caption"):
                     st.session_state[view_state_key]['step'] = 3
@@ -593,9 +592,13 @@ elif st.session_state.page == 'quiz':
                     st.session_state.pop(view_state_key, None) 
                     st.rerun()
             else:
+                # --- CORRECTED QUESTION LOGIC ---
                 question_text = ""
                 if "Tone Controllability" in current_part_key:
                      question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                elif "Caption Quality" in current_part_key:
+                    # This new condition fixes the bug for Part 3
+                    question_text = question_data["question_text"]
                 elif question_data.get("question_type") == "multi":
                     question_text = "Identify 2 dominant personality traits projected by the captioner"
                 else:
@@ -627,7 +630,7 @@ elif st.session_state.page == 'quiz':
                             st.session_state.show_feedback = True
                             st.rerun()
 
-
+                            
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = 0
     quiz_data = st.session_state.all_data['quiz']
