@@ -124,7 +124,7 @@ st.markdown("""
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
 .part1-caption-box .caption-text { margin: 0.5em 0 0 0; color: #111827 !important; }
-.comparison-caption-box { background-color: var(--secondary-background-color); border-left: 5px solid #6366f1; padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0.25rem; }
+.comparison-caption-box { background-color: var(--secondary-background-color); border-left: 5px solid #6366f1; padding: 1rem 1.5rem; margin: 1rem 0 0.5rem 0; border-radius: 0.25rem; }
 .comparison-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; }
 .quiz-question-box { background-color: #F0F2F6; padding: 1rem 1.5rem; border: 1px solid var(--gray-300); border-bottom: none; border-radius: 0.5rem 0.5rem 0 0; }
 body[theme="dark"] .quiz-question-box { background-color: var(--secondary-background-color); }
@@ -311,7 +311,7 @@ elif st.session_state.page == 'quiz':
             if current_step >= 3:
                 if "Tone Controllability" in current_part_key:
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
                 else:
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
 
