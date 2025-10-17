@@ -231,40 +231,43 @@ body[theme="dark"] .reference-box {
 
 </style>
 <script>
+    // This list now includes ALL possible button labels from the app
     const targetButtonLabels = [
-        "Next",                      // General next button
+        "Next",
         "Proceed to Summary",
         "Proceed to Caption",
         "Show Questions",
         "Next Question",
-        "Submit Answer",             // For the quiz
-        "Submit Ratings",            // For study part 1
-        "Proceed to User Study"      // From quiz results
+        "Submit Answer",
+        "Submit Ratings",
+        "Submit Comparison", // <-- ADDED
+        "Submit Answers",    // <-- ADDED
+        "Proceed to User Study"
     ];
 
     document.addEventListener('keydown', function(event) {
+        const activeElement = document.activeElement;
         // Ignore keypresses if the user is typing in an input/textarea
-        const activeElement = document.activeElement.tagName;
-        if (activeElement === 'INPUT' || activeElement === 'TEXTAREA') {
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
             return;
         }
 
-        // Check if the pressed key is the right arrow
         if (event.key === 'ArrowRight') {
-            // Find all buttons on the page that are currently visible
+            event.preventDefault(); // Stop any default browser action like scrolling
+
             const allButtons = Array.from(document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
-
-            // Iterate through our target labels to find a matching button
-            for (const label of targetButtonLabels) {
+            
+            // We search in reverse order of the labels to prioritize more specific actions
+            // e.g., "Submit Answer" should be checked before "Next"
+            for (const label of [...targetButtonLabels].reverse()) {
                 // Find the last visible button that includes the target label text.
-                // We use 'findLast' logic because Streamlit often renders multiple hidden buttons.
-                const targetButton = visibleButtons.reverse().find(btn => btn.innerText.includes(label));
+                // This is more robust for how Streamlit renders elements.
+                const targetButton = [...visibleButtons].reverse().find(btn => btn.innerText.includes(label));
                 
                 if (targetButton) {
                     console.log('ArrowRight pressed, clicking:', targetButton.innerText);
                     targetButton.click();
-                    event.preventDefault(); // Stop any default browser action
                     return; // Exit after clicking the first found button
                 }
             }
