@@ -242,8 +242,8 @@ elif st.session_state.page == 'quiz':
     with col1:
         if sample.get("orientation") == "portrait":
             _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-            with vid_col_main: st.video(sample['video_path'], autoplay=False)
-        else: st.video(sample['video_path'], autoplay=False)
+            with vid_col_main: st.video(sample['video_path'], autoplay=True)
+        else: st.video(sample['video_path'], autoplay=True)
         if current_step == 1 and st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"): st.session_state[view_state_key]['step'] = 2; st.rerun()
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
@@ -347,8 +347,8 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_video.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-                    with vid_col_main: st.video(current_video['video_path'], autoplay=False)
-                else: st.video(current_video['video_path'], autoplay=False)
+                    with vid_col_main: st.video(current_video['video_path'], autoplay=True)
+                else: st.video(current_video['video_path'], autoplay=True)
                 
                 if caption_idx == 0 and current_step == 1:
                     st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
@@ -429,8 +429,8 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_comp.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([1, 3, 1]);
-                    with vid_col_main: st.video(current_comp['video_path'], autoplay=False)
-                else: st.video(current_comp['video_path'], autoplay=False)
+                    with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
+                else: st.video(current_comp['video_path'], autoplay=True)
                 if current_step == 1:
                     st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
                     proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
@@ -490,8 +490,8 @@ elif st.session_state.page == 'user_study_main':
         with col1:
             if current_change.get("orientation") == "portrait":
                 _, vid_col_main, _ = st.columns([1, 3, 1]);
-                with vid_col_main: st.video(current_change['video_path'], autoplay=False)
-            else: st.video(current_change['video_path'], autoplay=False)
+                with vid_col_main: st.video(current_change['video_path'], autoplay=True)
+            else: st.video(current_change['video_path'], autoplay=True)
             if current_step == 1:
                 st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
                 proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
