@@ -38,21 +38,26 @@ def connect_to_gsheet():
         return None
 
 @st.cache_data
-def get_video_orientation(path):
-    """Reads a video file and returns its orientation ('portrait' or 'landscape')."""
+def get_video_metadata(path):
+    """Reads a video file and returns its orientation and duration."""
     try:
         cap = cv2.VideoCapture(path)
-        if not cap.isOpened(): return "landscape"
+        if not cap.isOpened():
+            return {"orientation": "landscape", "duration": 10}  # Default duration
         width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         cap.release()
-        return "portrait" if height > width else "landscape"
+        orientation = "portrait" if height > width else "landscape"
+        duration = math.ceil(frame_count / fps) if fps > 0 and frame_count > 0 else 10
+        return {"orientation": orientation, "duration": duration}
     except Exception:
-        return "landscape"
+        return {"orientation": "landscape", "duration": 10}
 
 @st.cache_data
 def load_data():
-    """Loads all data from external JSON files and determines video orientation."""
+    """Loads all data from external JSON files and determines video metadata."""
     data = {}
     required_files = {
         "instructions": INSTRUCTIONS_PATH, "quiz": QUIZ_DATA_PATH,
@@ -68,19 +73,27 @@ def load_data():
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
         return None
 
-    # Determine orientation for STUDY videos
+    # Determine metadata for STUDY videos
     for part_key in data['study']:
         for item in data['study'][part_key]:
             if 'video_path' in item and os.path.exists(item['video_path']):
-                item['orientation'] = get_video_orientation(item['video_path'])
-            else: item['orientation'] = 'landscape'
+                metadata = get_video_metadata(item['video_path'])
+                item['orientation'] = metadata['orientation']
+                item['duration'] = metadata['duration']
+            else:
+                item['orientation'] = 'landscape'
+                item['duration'] = 10 # Default duration
 
-    # Determine orientation for QUIZ videos
+    # Determine metadata for QUIZ videos
     for part_key in data['quiz']:
          for item in data['quiz'][part_key]:
             if 'video_path' in item and os.path.exists(item['video_path']):
-                item['orientation'] = get_video_orientation(item['video_path'])
-            else: item['orientation'] = 'landscape'
+                metadata = get_video_metadata(item['video_path'])
+                item['orientation'] = metadata['orientation']
+                item['duration'] = metadata['duration']
+            else:
+                item['orientation'] = 'landscape'
+                item['duration'] = 10 # Default duration
     return data
 
 # --- UI & STYLING ---
@@ -312,13 +325,23 @@ elif st.session_state.page == 'user_study_main':
         st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
     if st.session_state.study_part == 1:
-            st.header("Caption Quality Rating")
             all_videos = st.session_state.all_data['study']['part1_ratings']
             video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
             if video_idx >= len(all_videos):
                 st.session_state.study_part = 2; st.rerun()
+
             current_video = all_videos[video_idx]; current_caption = current_video['captions'][caption_idx]
-            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"; video_watched_key = f"watched_{current_video['video_id']}"
+            video_id = current_video['video_id']
+            timer_finished_key = f"timer_finished_{video_id}"
+            if timer_finished_key not in st.session_state:
+                st.session_state[timer_finished_key] = False
+
+            if not st.session_state[timer_finished_key] and caption_idx == 0:
+                st.header("Watch the video")
+            else:
+                st.header("Caption Quality Rating")
+
+            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
             options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely Useful"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
@@ -327,7 +350,7 @@ elif st.session_state.page == 'user_study_main':
                 initial_step = 3 if caption_idx > 0 else 1
                 st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
                 if caption_idx == 0:
-                    st.session_state[summary_typed_key] = False; st.session_state[video_watched_key] = False
+                    st.session_state[summary_typed_key] = False
                 for qid in question_ids:
                     slider_key = f"ss_{qid}_cap{caption_idx}";
                     if slider_key not in st.session_state: st.session_state[slider_key] = options_map[qid][2]
@@ -336,10 +359,8 @@ elif st.session_state.page == 'user_study_main':
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
-                    # Only advance step if this is the first interaction for this specific question
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
-                        # Advance step to show the next question
                         st.session_state[view_key]['step'] = 4 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
@@ -350,20 +371,34 @@ elif st.session_state.page == 'user_study_main':
                     with vid_col_main: st.video(current_video['video_path'], autoplay=True)
                 else: st.video(current_video['video_path'], autoplay=True)
                 
-                if caption_idx == 0 and current_step == 1:
-                    st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
-                    proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
-                    if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"proceed_summary_{video_idx}"):
-                        if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
-                elif caption_idx == 0 and current_step >= 2:
-                    st.subheader("Video Summary")
-                    if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
-                    else:
-                        with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
-                        st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
-                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
-                        st.session_state[view_state_key]['step'] = 3; st.rerun()
+                if caption_idx == 0:
+                    if not st.session_state[timer_finished_key]:
+                        duration = current_video.get('duration', 10)
+                        timer_placeholder = st.empty()
+                        progress_bar = st.progress(0, text="Please watch the video to proceed.")
+                        for i in range(duration):
+                            secs_left = duration - (i + 1)
+                            timer_placeholder.markdown(f"**Next step available in: {secs_left}s**")
+                            progress_bar.progress((i + 1) / duration, text=f"Please watch the video to proceed.")
+                            time.sleep(1)
+                        timer_placeholder.empty()
+                        progress_bar.empty()
+                        st.session_state[timer_finished_key] = True
+                        st.rerun()
+
+                    if st.session_state[timer_finished_key]:
+                        if current_step == 1:
+                            if st.button("Proceed to Summary", key=f"proceed_summary_{video_idx}"):
+                                st.session_state[view_state_key]['step'] = 2; st.rerun()
+                        elif current_step >= 2:
+                            st.subheader("Video Summary")
+                            if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
+                            else:
+                                with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
+                                st.session_state[summary_typed_key] = True
+                            if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
+                                streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
+                                st.session_state[view_state_key]['step'] = 3; st.rerun()
                 elif caption_idx > 0:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
 
@@ -390,7 +425,6 @@ elif st.session_state.page == 'user_study_main':
                             st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
                             st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key, q_index))
 
-                    # Render questions based on how many have been interacted with
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
                     
@@ -400,7 +434,6 @@ elif st.session_state.page == 'user_study_main':
                     if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3)
                     if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4)
                     
-                    # Show submit button only when all questions have been shown
                     if questions_to_show >= len(questions_to_ask):
                         if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
                             with st.spinner("Saving your ratings..."):
@@ -417,35 +450,58 @@ elif st.session_state.page == 'user_study_main':
                     st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
-            st.header("Which caption is better?")
             all_comparisons = st.session_state.all_data['study']['part2_comparisons']; comp_idx = st.session_state.current_comparison_index
             if comp_idx >= len(all_comparisons): st.session_state.study_part = 3; st.rerun()
+
             current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
-            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"; video_watched_key = f"watched_p2_{comparison_id}"
+            timer_finished_key = f"timer_finished_{comparison_id}"
+            if timer_finished_key not in st.session_state:
+                st.session_state[timer_finished_key] = False
+
+            if not st.session_state[timer_finished_key]:
+                st.header("Watch the video")
+            else:
+                st.header("Which caption is better?")
+            
+            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False; st.session_state[video_watched_key] = False
+                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
             current_step = st.session_state[view_state_key]['step']
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
+            
             with col1:
                 if current_comp.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([1, 3, 1]);
                     with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
                 else: st.video(current_comp['video_path'], autoplay=True)
-                if current_step == 1:
-                    st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
-                    proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
-                    if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"p2_proceed_summary_{comparison_id}"):
-                        if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
-                        else: st.warning("Please watch the video and check the box.")
-                if current_step >= 2:
-                    st.subheader("Video Summary")
-                    if st.session_state.get(summary_typed_key, False): st.info(current_comp["video_summary"])
-                    else:
-                        with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
-                        st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Captions", key=f"p2_proceed_captions_{comparison_id}"):
-                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p2_{comparison_id}")
-                        st.session_state[view_state_key]['step'] = 3; st.rerun()
+
+                if not st.session_state[timer_finished_key]:
+                    duration = current_comp.get('duration', 10)
+                    timer_placeholder = st.empty()
+                    progress_bar = st.progress(0, text="Please watch the video to proceed.")
+                    for i in range(duration):
+                        secs_left = duration - (i + 1)
+                        timer_placeholder.markdown(f"**Next step available in: {secs_left}s**")
+                        progress_bar.progress((i + 1) / duration, text=f"Please watch the video to proceed.")
+                        time.sleep(1)
+                    timer_placeholder.empty()
+                    progress_bar.empty()
+                    st.session_state[timer_finished_key] = True
+                    st.rerun()
+                
+                if st.session_state[timer_finished_key]:
+                    if current_step == 1:
+                        if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
+                            st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    if current_step >= 2:
+                        st.subheader("Video Summary")
+                        if st.session_state.get(summary_typed_key, False): st.info(current_comp["video_summary"])
+                        else:
+                            with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
+                            st.session_state[summary_typed_key] = True
+                        if current_step == 2 and st.button("Proceed to Captions", key=f"p2_proceed_captions_{comparison_id}"):
+                            streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p2_{comparison_id}")
+                            st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
                 if current_step >= 3:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
@@ -479,12 +535,21 @@ elif st.session_state.page == 'user_study_main':
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
         change_idx = st.session_state.current_change_index
         if change_idx >= len(all_changes): st.session_state.page = 'final_thank_you'; st.rerun()
+        
         current_change = all_changes[change_idx]; change_id = current_change['change_id']
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
-        st.header(f"{field_type.replace('_', ' ').title()} Comparison")
-        view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"; video_watched_key = f"watched_p3_{change_id}"
+        timer_finished_key = f"timer_finished_{change_id}"
+        if timer_finished_key not in st.session_state:
+            st.session_state[timer_finished_key] = False
+
+        if not st.session_state[timer_finished_key]:
+            st.header("Watch the video")
+        else:
+            st.header(f"{field_type.replace('_', ' ').title()} Comparison")
+        
+        view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
         if view_state_key not in st.session_state:
-            st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False; st.session_state[video_watched_key] = False
+            st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
         current_step = st.session_state[view_state_key]['step']
         col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
         with col1:
@@ -492,21 +557,34 @@ elif st.session_state.page == 'user_study_main':
                 _, vid_col_main, _ = st.columns([1, 3, 1]);
                 with vid_col_main: st.video(current_change['video_path'], autoplay=True)
             else: st.video(current_change['video_path'], autoplay=True)
-            if current_step == 1:
-                st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
-                proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
-                if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"p3_proceed_summary_{change_id}"):
-                    if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
-                    else: st.warning("Please watch the video and check the box.")
-            if current_step >= 2:
-                st.subheader("Video Summary")
-                if st.session_state.get(summary_typed_key, False): st.info(current_change["video_summary"])
-                else:
-                    with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
-                    st.session_state[summary_typed_key] = True
-                if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
-                    streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p3_{change_id}")
-                    st.session_state[view_state_key]['step'] = 3; st.rerun()
+
+            if not st.session_state[timer_finished_key]:
+                duration = current_change.get('duration', 10)
+                timer_placeholder = st.empty()
+                progress_bar = st.progress(0, text="Please watch the video to proceed.")
+                for i in range(duration):
+                    secs_left = duration - (i + 1)
+                    timer_placeholder.markdown(f"**Next step available in: {secs_left}s**")
+                    progress_bar.progress((i + 1) / duration, text=f"Please watch the video to proceed.")
+                    time.sleep(1)
+                timer_placeholder.empty()
+                progress_bar.empty()
+                st.session_state[timer_finished_key] = True
+                st.rerun()
+
+            if st.session_state[timer_finished_key]:
+                if current_step == 1:
+                    if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
+                        st.session_state[view_state_key]['step'] = 2; st.rerun()
+                if current_step >= 2:
+                    st.subheader("Video Summary")
+                    if st.session_state.get(summary_typed_key, False): st.info(current_change["video_summary"])
+                    else:
+                        with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
+                        st.session_state[summary_typed_key] = True
+                    if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
+                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p3_{change_id}")
+                        st.session_state[view_state_key]['step'] = 3; st.rerun()
         with col2:
             if current_step >= 3:
                 st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
