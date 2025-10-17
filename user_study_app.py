@@ -90,19 +90,12 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 @keyframes highlight-new {
     0% { border-color: transparent; box-shadow: none; }
-    25% { border-color: #facc15; box-shadow: 0 0 10px #facc15; }
-    75% { border-color: #facc15; box-shadow: 0 0 10px #facc15; }
+    25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
+    75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
     100% { border-color: transparent; box-shadow: none; }
 }
-/* FIX: Apply highlight to all part1 caption boxes */
-.part1-caption-box { 
-    border-radius: 10px; 
-    padding: 1rem 1.5rem; 
-    margin-bottom: 20px; 
-    border: 2px solid transparent; 
-    transition: border-color 0.3s ease; 
-    animation: highlight-new 1.5s ease-out forwards; 
-}
+.part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 20px; border: 2px solid transparent; transition: border-color 0.3s ease; }
+.new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
 .slider-label { min-height: 80px; margin-bottom: 0.5rem; }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -249,25 +242,9 @@ elif st.session_state.page == 'quiz':
     with col1:
         if sample.get("orientation") == "portrait":
             _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-            with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
-        else: st.video(sample['video_path'], autoplay=True, muted=True)
-        if current_step == 1:
-            button_key = f"quiz_summary_{sample_id}"
-            placeholder = st.empty()
-            with placeholder.container():
-                st.button("Proceed to Summary", key=button_key, disabled=True)
-                st.info("Please watch the video. This button will be enabled in 10 seconds.")
-            streamlit_js_eval(js_expressions=f"""
-                setTimeout(function() {{
-                    const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
-                    const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
-                    if (targetButton) {{ targetButton.disabled = false; }}
-                    const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
-                    if(infoBox){{ infoBox.style.display = 'none'; }}
-                }}, 10000);
-            """, key=f"timer_quiz_{sample_id}")
-            if st.session_state.get(button_key):
-                placeholder.empty(); st.session_state[view_state_key]['step'] = 2; st.rerun()
+            with vid_col_main: st.video(sample['video_path'], autoplay=True)
+        else: st.video(sample['video_path'], autoplay=True)
+        if current_step == 1 and st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"): st.session_state[view_state_key]['step'] = 2; st.rerun()
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
             if st.session_state[view_state_key].get('summary_typed', False): st.info(sample["video_summary"])
@@ -341,56 +318,43 @@ elif st.session_state.page == 'user_study_main':
             if video_idx >= len(all_videos):
                 st.session_state.study_part = 2; st.rerun()
             current_video = all_videos[video_idx]; current_caption = current_video['captions'][caption_idx]
-            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
+            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"; video_watched_key = f"watched_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
-            options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely Useful"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
             
             if view_state_key not in st.session_state:
                 initial_step = 3 if caption_idx > 0 else 1
                 st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
                 if caption_idx == 0:
-                    st.session_state[summary_typed_key] = False
+                    st.session_state[summary_typed_key] = False; st.session_state[video_watched_key] = False
                 for qid in question_ids:
                     slider_key = f"ss_{qid}_cap{caption_idx}";
                     if slider_key not in st.session_state: st.session_state[slider_key] = options_map[qid][2]
 
             current_step = st.session_state[view_state_key]['step']
 
-            def mark_interacted_and_advance(q_id, view_key, question_index):
+            def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
+                    # Only advance step if this is the first interaction for this specific question
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
-                        # Auto-advance step if not the last question
-                        if (question_index + 4) < 8:
-                           st.session_state[view_key]['step'] = 4 + question_index + 1
+                        # Advance step to show the next question
+                        st.session_state[view_key]['step'] = 4 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
 
             with col1:
                 if current_video.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-                    with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
-                else: st.video(current_video['video_path'], autoplay=True, muted=True)
+                    with vid_col_main: st.video(current_video['video_path'], autoplay=True)
+                else: st.video(current_video['video_path'], autoplay=True)
                 
                 if caption_idx == 0 and current_step == 1:
-                    button_key = f"proceed_summary_{video_idx}"
-                    placeholder = st.empty()
-                    with placeholder.container():
-                        st.button("Proceed to Summary", key=button_key, disabled=True)
-                        st.info("Please watch the video. This button will be enabled in 10 seconds.")
-                    streamlit_js_eval(js_expressions=f"""
-                        setTimeout(function() {{
-                            const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
-                            const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
-                            if (targetButton) {{ targetButton.disabled = false; }}
-                            const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
-                            if(infoBox){{ infoBox.style.display = 'none'; }}
-                        }}, 10000);
-                    """, key=f"timer_p1_{video_idx}")
-                    if st.session_state.get(button_key):
-                        placeholder.empty(); st.session_state[view_state_key]['step'] = 2; st.rerun()
-
+                    st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
+                    proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
+                    if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"proceed_summary_{video_idx}"):
+                        if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
                 elif caption_idx == 0 and current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
@@ -407,8 +371,9 @@ elif st.session_state.page == 'user_study_main':
                 terms_to_define = set()
                 if current_step >= 3:
                     colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]; highlight_color = colors[caption_idx % len(colors)]
+                    caption_box_class = "part1-caption-box new-caption-highlight" if caption_idx > 0 else "part1-caption-box"
                     with st.container(key=f"caption_container_{current_caption['caption_id']}"):
-                        st.markdown(f'<div class="part1-caption-box" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
                     if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
                         st.session_state[view_state_key]['step'] = 4; st.rerun()
                 if current_step >= 4:
@@ -423,20 +388,19 @@ elif st.session_state.page == 'user_study_main':
                         with col:
                             slider_key = f"ss_{q['id']}_cap{caption_idx}"
                             st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted_and_advance, args=(q['id'], view_state_key, q_index))
-                    
+                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key, q_index))
+
+                    # Render questions based on how many have been interacted with
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
                     
-                    if caption_idx > 0:
-                        questions_to_show = current_step - 3 if 'step' in st.session_state[view_state_key] else 1
-
                     if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0)
                     if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1)
                     if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2)
                     if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3)
                     if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4)
                     
+                    # Show submit button only when all questions have been shown
                     if questions_to_show >= len(questions_to_ask):
                         if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
                             with st.spinner("Saving your ratings..."):
@@ -457,33 +421,22 @@ elif st.session_state.page == 'user_study_main':
             all_comparisons = st.session_state.all_data['study']['part2_comparisons']; comp_idx = st.session_state.current_comparison_index
             if comp_idx >= len(all_comparisons): st.session_state.study_part = 3; st.rerun()
             current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
-            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
+            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"; video_watched_key = f"watched_p2_{comparison_id}"
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
+                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False; st.session_state[video_watched_key] = False
             current_step = st.session_state[view_state_key]['step']
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
                 if current_comp.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([1, 3, 1]);
-                    with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
-                else: st.video(current_comp['video_path'], autoplay=True, muted=True)
+                    with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
+                else: st.video(current_comp['video_path'], autoplay=True)
                 if current_step == 1:
-                    button_key = f"p2_proceed_summary_{comparison_id}"
-                    placeholder = st.empty()
-                    with placeholder.container():
-                        st.button("Proceed to Summary", key=button_key, disabled=True)
-                        st.info("Please watch the video. This button will be enabled in 10 seconds.")
-                    streamlit_js_eval(js_expressions=f"""
-                        setTimeout(function() {{
-                            const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
-                            const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
-                            if (targetButton) {{ targetButton.disabled = false; }}
-                            const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
-                            if(infoBox){{ infoBox.style.display = 'none'; }}
-                        }}, 10000);
-                    """, key=f"timer_p2_{comparison_id}")
-                    if st.session_state.get(button_key):
-                        placeholder.empty(); st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
+                    proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
+                    if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"p2_proceed_summary_{comparison_id}"):
+                        if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
+                        else: st.warning("Please watch the video and check the box.")
                 if current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_comp["video_summary"])
@@ -517,7 +470,7 @@ elif st.session_state.page == 'user_study_main':
                                 with st.spinner("Saving your responses..."):
                                     for q_id, choice in responses.items():
                                         full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
-                                        # save_response(...)
+                                        # save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
                                 st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
@@ -529,33 +482,22 @@ elif st.session_state.page == 'user_study_main':
         current_change = all_changes[change_idx]; change_id = current_change['change_id']
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
         st.header(f"{field_type.replace('_', ' ').title()} Comparison")
-        view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
+        view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"; video_watched_key = f"watched_p3_{change_id}"
         if view_state_key not in st.session_state:
-            st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
+            st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False; st.session_state[video_watched_key] = False
         current_step = st.session_state[view_state_key]['step']
         col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
         with col1:
             if current_change.get("orientation") == "portrait":
                 _, vid_col_main, _ = st.columns([1, 3, 1]);
-                with vid_col_main: st.video(current_change['video_path'], autoplay=False)
-            else: st.video(current_change['video_path'], autoplay=False)
+                with vid_col_main: st.video(current_change['video_path'], autoplay=True)
+            else: st.video(current_change['video_path'], autoplay=True)
             if current_step == 1:
-                button_key = f"p3_proceed_summary_{change_id}"
-                placeholder = st.empty()
-                with placeholder.container():
-                    st.button("Proceed to Summary", key=button_key, disabled=True)
-                    st.info("Please watch the video. This button will be enabled in 10 seconds.")
-                streamlit_js_eval(js_expressions=f"""
-                    setTimeout(function() {{
-                        const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
-                        const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
-                        if (targetButton) {{ targetButton.disabled = false; }}
-                        const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
-                        if(infoBox){{ infoBox.style.display = 'none'; }}
-                    }}, 10000);
-                """, key=f"timer_p3_{change_id}")
-                if st.session_state.get(button_key):
-                    placeholder.empty(); st.session_state[view_state_key]['step'] = 2; st.rerun()
+                st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
+                proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
+                if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"p3_proceed_summary_{change_id}"):
+                    if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    else: st.warning("Please watch the video and check the box.")
             if current_step >= 2:
                 st.subheader("Video Summary")
                 if st.session_state.get(summary_typed_key, False): st.info(current_change["video_summary"])
@@ -629,4 +571,3 @@ if (!parent_document.arrowRightListenerAttached) {
 }
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
-
