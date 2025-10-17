@@ -418,11 +418,12 @@ elif st.session_state.page == 'user_study_main':
 
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         summary_typed_key = f"summary_typed_{current_video['video_id']}"
+        # --- NEW: Key for video watched checkbox ---
+        video_watched_key = f"watched_{current_video['video_id']}"
 
         q_templates = st.session_state.all_data['questions']['part1_questions']
-        # Filter out 'overall_relevance' first
         questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
-        question_ids = [q['id'] for q in questions_to_ask_raw] # Get IDs from the *filtered* list
+        question_ids = [q['id'] for q in questions_to_ask_raw]
 
         # Initialize state
         if view_state_key not in st.session_state:
@@ -434,6 +435,8 @@ elif st.session_state.page == 'user_study_main':
             }
             if caption_idx == 0:
                 st.session_state[summary_typed_key] = False
+                # --- NEW: Initialize watched state for new video ---
+                st.session_state[video_watched_key] = False
 
         current_step = st.session_state[view_state_key]['step']
 
@@ -445,9 +448,22 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             st.video(current_video['video_path'], autoplay=False)
-            if caption_idx == 0: # Only show sequential buttons for the first caption
-                if current_step == 1 and st.button("Proceed to Summary"):
-                    st.session_state[view_state_key]['step'] = 2; st.rerun()
+            
+            # --- NEW: Add 'watched video' checkbox for the first caption ---
+            if caption_idx == 0 and current_step == 1:
+                 st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state[video_watched_key])
+            
+            # Sequential reveal buttons (only for the first caption)
+            if caption_idx == 0:
+                # --- MODIFIED: Disable button based on checkbox ---
+                proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
+                if current_step == 1 and st.button("Proceed to Summary", disabled=proceed_summary_disabled):
+                    if not st.session_state[video_watched_key]: # Double check just in case
+                        st.warning("Please watch the video and check the box above.")
+                    else:
+                        st.session_state[view_state_key]['step'] = 2
+                        st.rerun()
+
                 if current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
@@ -481,17 +497,13 @@ elif st.session_state.page == 'user_study_main':
                 personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
                 style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
 
-                # --- *** CORRECTED QUESTION LIST CREATION *** ---
-                # Build the list using the filtered questions_to_ask_raw
                 questions_to_ask = [
-                    {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)}, # Personality
-                    {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},       # Style
-                    {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]},                         # Factual Consistency
-                    {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, # Usefulness <<-- FIX HERE
-                    {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}                          # Human Likeness
+                    {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)},
+                    {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
+                    {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]},
+                    {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
+                    {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
-                # --- *** END CORRECTION *** ---
-
                 options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
 
                 num_questions_to_show_now = len(questions_to_ask) if caption_idx > 0 else current_step - 3
@@ -528,7 +540,7 @@ elif st.session_state.page == 'user_study_main':
                         st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=options_map[q['id']], value=responses.get(q['id'], options_map[q['id']][2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
 
-                st.write("---")
+                # --- REMOVED st.write("---") ---
                 validation_placeholder = st.empty()
 
                 # Navigation Logic (With Validation)
@@ -551,7 +563,7 @@ elif st.session_state.page == 'user_study_main':
                             validation_placeholder.empty()
                             with st.spinner("Saving your ratings..."):
                                 for q_id, choice_text in responses.items():
-                                    full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
+                                    full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
                                     # save_response(...) # Intentionally commented out
                             st.session_state.current_caption_index += 1
                             if st.session_state.current_caption_index >= len(current_video['captions']):
@@ -605,6 +617,7 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state.current_comparison_index += 1; st.rerun()
             reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
+
 
     elif st.session_state.study_part == 3:
         # ... (Your Part 3 code remains unchanged) ...
@@ -667,7 +680,6 @@ elif st.session_state.page == 'user_study_main':
             reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
 
-
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You!")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
@@ -696,8 +708,8 @@ if (!parent_document.arrowRightListenerAttached) {
             for (const label of targetButtonLabels) {
                 const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
                 if (targetButton) {
-                    // Check if a warning message is currently displayed
-                    const warning = parent_document.querySelector('[data-testid="stWarning"]');
+                    // Check if a warning message is currently displayed *within the Streamlit iframe*
+                    const warning = document.querySelector('[data-testid="stWarning"]'); // Check inside iframe
                     // Only click if there's no warning visible
                     if (!warning || warning.offsetParent === null) {
                        console.log('ArrowRight detected, clicking button:', targetButton.textContent);
