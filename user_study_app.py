@@ -322,6 +322,7 @@ elif st.session_state.page == 'user_study_main':
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
             options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            
             if view_state_key not in st.session_state:
                 initial_step = 3 if caption_idx > 0 else 1
                 st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
@@ -330,30 +331,42 @@ elif st.session_state.page == 'user_study_main':
                 for qid in question_ids:
                     slider_key = f"ss_{qid}_cap{caption_idx}";
                     if slider_key not in st.session_state: st.session_state[slider_key] = options_map[qid][2]
+
             current_step = st.session_state[view_state_key]['step']
-            def mark_interacted(q_id, view_key):
-                if view_key in st.session_state and 'interacted' in st.session_state[view_key]: st.session_state[view_state_key]['interacted'][q_id] = True
+
+            def mark_interacted(q_id, view_key, question_index):
+                if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
+                    # Only advance step if this is the first interaction for this specific question
+                    if not st.session_state[view_key]['interacted'][q_id]:
+                        st.session_state[view_key]['interacted'][q_id] = True
+                        # Advance step to show the next question
+                        st.session_state[view_key]['step'] = 4 + question_index + 1
+            
             col1, col2 = st.columns([1, 1.8])
+
             with col1:
                 if current_video.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
                     with vid_col_main: st.video(current_video['video_path'], autoplay=False)
                 else: st.video(current_video['video_path'], autoplay=False)
+                
                 if caption_idx == 0 and current_step == 1:
                     st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
                     proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
                     if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"proceed_summary_{video_idx}"):
-                        if not st.session_state[video_watched_key]: st.warning("Please watch the video and check the box above.")
-                        else: st.session_state[view_state_key]['step'] = 2; st.rerun()
+                        if st.session_state[video_watched_key]: st.session_state[view_state_key]['step'] = 2; st.rerun()
                 elif caption_idx == 0 and current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
                     else:
                         with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
                         st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"): st.session_state[view_state_key]['step'] = 3; st.rerun()
+                    if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
+                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
+                        st.session_state[view_state_key]['step'] = 3; st.rerun()
                 elif caption_idx > 0:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
+
             with col2:
                 terms_to_define = set()
                 if current_step >= 3:
@@ -361,7 +374,8 @@ elif st.session_state.page == 'user_study_main':
                     caption_box_class = "part1-caption-box new-caption-highlight" if caption_idx > 0 else "part1-caption-box"
                     with st.container(key=f"caption_container_{current_caption['caption_id']}"):
                         st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
-                    if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
+                    if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
+                        st.session_state[view_state_key]['step'] = 4; st.rerun()
                 if current_step >= 4:
                     control_scores = current_caption.get("control_scores", {}); personality_traits = list(control_scores.get("personality", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys()); application_text = current_caption.get("application", "the intended application")
                     terms_to_define.update(personality_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
@@ -369,34 +383,36 @@ elif st.session_state.page == 'user_study_main':
                     questions_to_ask = [{"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)}, {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)}, {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]}, {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}]
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
                     question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
-                    def render_slider(q, col):
+
+                    def render_slider(q, col, q_index):
                         with col:
                             slider_key = f"ss_{q['id']}_cap{caption_idx}"
-                            st.markdown(f"<div class='slider-label'><strong>{questions_to_ask.index(q) + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                    if current_step >= 4: render_slider(questions_to_ask[0], question_cols_row1[0])
-                    if current_step >= 5: render_slider(questions_to_ask[1], question_cols_row1[1])
-                    if current_step >= 6: render_slider(questions_to_ask[2], question_cols_row1[2])
-                    if current_step >= 7: render_slider(questions_to_ask[3], question_cols_row2[0])
-                    if current_step >= 8: render_slider(questions_to_ask[4], question_cols_row2[1])
-                    validation_placeholder = st.empty(); max_step_for_questions = 8
-                    if current_step < max_step_for_questions:
-                        question_to_validate_index = current_step - 4; question_id_to_validate = questions_to_ask[question_to_validate_index]['id']; has_interacted = interacted_state.get(question_id_to_validate, False)
-                        if st.button(f"Next Question ({question_to_validate_index + 2}/{len(questions_to_ask)})", key=f"next_q_cap{caption_idx}_{current_step}"):
-                            if not has_interacted: validation_placeholder.warning(f"⚠️ Please move the slider for question {question_to_validate_index + 1} before proceeding.")
-                            else: st.session_state[view_state_key]['step'] += 1; validation_placeholder.empty(); st.rerun()
-                    elif current_step >= max_step_for_questions:
+                            st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key, q_index))
+
+                    # Render questions based on how many have been interacted with
+                    num_interacted = sum(1 for flag in interacted_state.values() if flag)
+                    questions_to_show = num_interacted + 1
+                    
+                    if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0)
+                    if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1)
+                    if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2)
+                    if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3)
+                    if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4)
+                    
+                    # Show submit button only when all questions have been shown
+                    if questions_to_show >= len(questions_to_ask):
                         if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
-                            all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
-                            if not all_interacted:
-                                invalid_q_indices = [i + 1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]; validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, invalid_q_indices))} before submitting.")
-                            else:
-                                validation_placeholder.empty(); responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}", options_map[qid][2]) for qid in question_ids}
-                                with st.spinner("Saving your ratings..."): pass
-                                st.session_state.current_caption_index += 1
-                                if st.session_state.current_caption_index >= len(current_video['captions']):
-                                    st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
-                                st.session_state.pop(view_state_key, None); st.rerun()
+                            with st.spinner("Saving your ratings..."):
+                                responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}", options_map[qid][2]) for qid in question_ids}
+                                for q_id, choice_text in responses_to_save.items():
+                                    full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
+                                    # save_response(...)
+                            st.session_state.current_caption_index += 1
+                            if st.session_state.current_caption_index >= len(current_video['captions']):
+                                st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
+                            st.session_state.pop(view_state_key, None); st.rerun()
+
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
@@ -488,10 +504,9 @@ elif st.session_state.page == 'user_study_main':
                 else:
                     with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
                     st.session_state[summary_typed_key] = True
-                if current_step == 2:
-                    if st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
-                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p3_{change_id}")
-                        st.session_state[view_state_key]['step'] = 3; st.rerun()
+                if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
+                    streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p3_{change_id}")
+                    st.session_state[view_state_key]['step'] = 3; st.rerun()
         with col2:
             if current_step >= 3:
                 st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
