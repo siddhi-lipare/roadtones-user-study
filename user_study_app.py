@@ -374,15 +374,9 @@ elif st.session_state.page == 'user_study_main':
                 if caption_idx == 0:
                     if not st.session_state[timer_finished_key]:
                         duration = current_video.get('duration', 10)
-                        timer_placeholder = st.empty()
-                        progress_bar = st.progress(0, text="Please watch the video to proceed.")
-                        for i in range(duration):
-                            secs_left = duration - (i + 1)
-                            timer_placeholder.markdown(f"**Next step available in: {secs_left}s**")
-                            progress_bar.progress((i + 1) / duration, text=f"Please watch the video to proceed.")
-                            time.sleep(1)
-                        timer_placeholder.empty()
-                        progress_bar.empty()
+                        # This will pause the script execution, forcing the user to wait
+                        # for the video's duration before the button appears.
+                        time.sleep(duration)
                         st.session_state[timer_finished_key] = True
                         st.rerun()
 
@@ -477,15 +471,7 @@ elif st.session_state.page == 'user_study_main':
 
                 if not st.session_state[timer_finished_key]:
                     duration = current_comp.get('duration', 10)
-                    timer_placeholder = st.empty()
-                    progress_bar = st.progress(0, text="Please watch the video to proceed.")
-                    for i in range(duration):
-                        secs_left = duration - (i + 1)
-                        timer_placeholder.markdown(f"**Next step available in: {secs_left}s**")
-                        progress_bar.progress((i + 1) / duration, text=f"Please watch the video to proceed.")
-                        time.sleep(1)
-                    timer_placeholder.empty()
-                    progress_bar.empty()
+                    time.sleep(duration)
                     st.session_state[timer_finished_key] = True
                     st.rerun()
                 
@@ -560,15 +546,7 @@ elif st.session_state.page == 'user_study_main':
 
             if not st.session_state[timer_finished_key]:
                 duration = current_change.get('duration', 10)
-                timer_placeholder = st.empty()
-                progress_bar = st.progress(0, text="Please watch the video to proceed.")
-                for i in range(duration):
-                    secs_left = duration - (i + 1)
-                    timer_placeholder.markdown(f"**Next step available in: {secs_left}s**")
-                    progress_bar.progress((i + 1) / duration, text=f"Please watch the video to proceed.")
-                    time.sleep(1)
-                timer_placeholder.empty()
-                progress_bar.empty()
+                time.sleep(duration)
                 st.session_state[timer_finished_key] = True
                 st.rerun()
 
@@ -649,3 +627,4 @@ if (!parent_document.arrowRightListenerAttached) {
 }
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
+
