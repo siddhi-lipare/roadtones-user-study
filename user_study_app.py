@@ -219,7 +219,7 @@ if st.session_state.page == 'demographics':
     st.write("---")
     if st.checkbox("I am over 18 and agree to participate in this study. I understand my responses will be recorded anonymously."):
         if st.button("Next"):
-            email_regex = r'^[a-zA-Z0.9._%+-]+@[a-zA-Z0.9.-]+\.[a-zA-Z]{2,}$'
+            email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
             if not all([email, age, gender]): st.error("Please fill in all fields to continue.")
             elif not re.match(email_regex, email): st.error("Please enter a valid email address.")
             else:
@@ -418,20 +418,20 @@ elif st.session_state.page == 'user_study_main':
                         interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
                         question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
 
-                        def render_slider(q, col, q_index):
+                        def render_slider(q, col, q_index, view_key_arg):
                             with col:
                                 slider_key = f"ss_{q['id']}_cap{caption_idx}"
                                 st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                                st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key, q_index))
+                                st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index))
 
                         num_interacted = sum(1 for flag in interacted_state.values() if flag)
                         questions_to_show = num_interacted + 1
                         
-                        if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0)
-                        if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1)
-                        if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2)
-                        if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3)
-                        if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4)
+                        if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0, view_state_key)
+                        if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1, view_state_key)
+                        if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2, view_state_key)
+                        if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3, view_state_key)
+                        if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4, view_state_key)
                         
                         if questions_to_show >= len(questions_to_ask):
                             if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
