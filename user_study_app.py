@@ -94,7 +94,15 @@ st.markdown("""
     75% { border-color: #facc15; box-shadow: 0 0 10px #facc15; }
     100% { border-color: transparent; box-shadow: none; }
 }
-.part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 20px; border: 2px solid transparent; transition: border-color 0.3s ease; animation: highlight-new 1.5s ease-out forwards; }
+/* FIX: Apply highlight to all part1 caption boxes */
+.part1-caption-box { 
+    border-radius: 10px; 
+    padding: 1rem 1.5rem; 
+    margin-bottom: 20px; 
+    border: 2px solid transparent; 
+    transition: border-color 0.3s ease; 
+    animation: highlight-new 1.5s ease-out forwards; 
+}
 .slider-label { min-height: 80px; margin-bottom: 0.5rem; }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -241,8 +249,8 @@ elif st.session_state.page == 'quiz':
     with col1:
         if sample.get("orientation") == "portrait":
             _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-            with vid_col_main: st.video(sample['video_path'], autoplay=False)
-        else: st.video(sample['video_path'], autoplay=False)
+            with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
+        else: st.video(sample['video_path'], autoplay=True, muted=True)
         if current_step == 1:
             button_key = f"quiz_summary_{sample_id}"
             placeholder = st.empty()
@@ -349,11 +357,12 @@ elif st.session_state.page == 'user_study_main':
 
             current_step = st.session_state[view_state_key]['step']
 
-            def mark_interacted(q_id, view_key, question_index):
+            def mark_interacted_and_advance(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
-                        if (question_index + 4) < 8: # Only advance if not the last question
+                        # Auto-advance step if not the last question
+                        if (question_index + 4) < 8:
                            st.session_state[view_key]['step'] = 4 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
@@ -361,8 +370,8 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_video.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-                    with vid_col_main: st.video(current_video['video_path'], autoplay=False)
-                else: st.video(current_video['video_path'], autoplay=False)
+                    with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
+                else: st.video(current_video['video_path'], autoplay=True, muted=True)
                 
                 if caption_idx == 0 and current_step == 1:
                     button_key = f"proceed_summary_{video_idx}"
@@ -375,8 +384,8 @@ elif st.session_state.page == 'user_study_main':
                             const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
                             const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
                             if (targetButton) {{ targetButton.disabled = false; }}
-                            const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
-                            if(info_box){{ info_box.style.display = 'none'; }}
+                            const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
+                            if(infoBox){{ infoBox.style.display = 'none'; }}
                         }}, 10000);
                     """, key=f"timer_p1_{video_idx}")
                     if st.session_state.get(button_key):
@@ -414,7 +423,7 @@ elif st.session_state.page == 'user_study_main':
                         with col:
                             slider_key = f"ss_{q['id']}_cap{caption_idx}"
                             st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key, q_index))
+                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted_and_advance, args=(q['id'], view_state_key, q_index))
                     
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
@@ -456,8 +465,8 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_comp.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([1, 3, 1]);
-                    with vid_col_main: st.video(current_comp['video_path'], autoplay=False)
-                else: st.video(current_comp['video_path'], autoplay=False)
+                    with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
+                else: st.video(current_comp['video_path'], autoplay=True, muted=True)
                 if current_step == 1:
                     button_key = f"p2_proceed_summary_{comparison_id}"
                     placeholder = st.empty()
@@ -469,8 +478,8 @@ elif st.session_state.page == 'user_study_main':
                             const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
                             const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
                             if (targetButton) {{ targetButton.disabled = false; }}
-                            const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
-                            if(info_box){{ info_box.style.display = 'none'; }}
+                            const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
+                            if(infoBox){{ infoBox.style.display = 'none'; }}
                         }}, 10000);
                     """, key=f"timer_p2_{comparison_id}")
                     if st.session_state.get(button_key):
@@ -541,8 +550,8 @@ elif st.session_state.page == 'user_study_main':
                         const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
                         const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
                         if (targetButton) {{ targetButton.disabled = false; }}
-                        const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
-                        if(info_box){{ info_box.style.display = 'none'; }}
+                        const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
+                        if(infoBox){{ infoBox.style.display = 'none'; }}
                     }}, 10000);
                 """, key=f"timer_p3_{change_id}")
                 if st.session_state.get(button_key):
