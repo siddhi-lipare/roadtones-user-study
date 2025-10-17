@@ -248,21 +248,26 @@ elif st.session_state.page == 'intro_video':
 
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
-
+    
+    # Check for completion before any rendering
     if st.session_state.current_part_index >= len(part_keys):
         st.session_state.page = 'quiz_results'
         st.rerun()
 
+    # Get current sample data immediately
     current_part_key = part_keys[st.session_state.current_part_index]
     questions_for_part = st.session_state.all_data['quiz'][current_part_key]
     current_index = st.session_state.current_sample_index
     sample = questions_for_part[current_index]
     sample_id = sample.get('sample_id', f'quiz_{current_index}')
     
+    # Initialize and check timer key
     timer_finished_key = f"timer_finished_quiz_{sample_id}"
     if timer_finished_key not in st.session_state:
         st.session_state[timer_finished_key] = False
 
+    # CRITICAL FIX: If timer not finished, show ONLY the spinner and wait, then rerun.
+    # This prevents any other part of the page from rendering and causing the ghosting effect.
     if not st.session_state[timer_finished_key]:
         with st.spinner(""):
             duration = sample.get('duration', 10)
@@ -270,6 +275,7 @@ elif st.session_state.page == 'quiz':
         st.session_state[timer_finished_key] = True
         st.rerun()
 
+    # --- If the timer IS finished, render the full page ---
     with st.sidebar:
         st.header("Quiz Sections")
         for i, name in enumerate(part_keys):
@@ -313,7 +319,7 @@ elif st.session_state.page == 'quiz':
             
             if current_step == 2:
                 if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
-                    streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTo(0, 0);", key=f"scroll_quiz_{sample_id}")
+                    streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_quiz_{sample_id}")
                     st.session_state[view_state_key]['step'] = 3
                     st.rerun()
     with col2:
@@ -461,9 +467,9 @@ elif st.session_state.page == 'user_study_main':
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
-                    if not st.session_state[view_key]['interacted'][q_id]:
-                        st.session_state[view_key]['interacted'][q_id] = True
-                        st.session_state[view_key]['step'] = 4 + question_index + 1
+                    if not st.session_state[view_state_key]['interacted'][q_id]:
+                        st.session_state[view_state_key]['interacted'][q_id] = True
+                        st.session_state[view_state_key]['step'] = 4 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
             validation_placeholder = st.empty()
@@ -486,7 +492,7 @@ elif st.session_state.page == 'user_study_main':
                             with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
                             st.session_state[summary_typed_key] = True
                         if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
-                            streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTo(0, 0);", key=f"scroll_p1_{video_idx}")
+                            streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
                 else:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
