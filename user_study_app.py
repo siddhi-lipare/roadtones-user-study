@@ -268,18 +268,19 @@ elif st.session_state.page == 'quiz':
         st.session_state[timer_finished_key] = False
 
     if not st.session_state[timer_finished_key]:
-        st.header("Watch the video")
-        col1, _ = st.columns([1.2, 1.5])
-        with col1:
-            if sample.get("orientation") == "portrait":
-                _, vid_col_main, _ = st.columns([1, 3, 1])
-                with vid_col_main: st.video(sample['video_path'], autoplay=True)
-            else:
-                st.video(sample['video_path'], autoplay=True)
-        duration = sample.get('duration', 10)
-        time.sleep(duration)
-        st.session_state[timer_finished_key] = True
-        st.rerun()
+        with st.spinner("Loading video..."):
+            st.header("Watch the video")
+            col1, _ = st.columns([1.2, 1.5])
+            with col1:
+                if sample.get("orientation") == "portrait":
+                    _, vid_col_main, _ = st.columns([0.5, 1, 0.5])
+                    with vid_col_main: st.video(sample['video_path'], autoplay=True)
+                else:
+                    st.video(sample['video_path'], autoplay=True)
+            duration = sample.get('duration', 10)
+            time.sleep(duration)
+            st.session_state[timer_finished_key] = True
+            st.rerun()
     else:
         view_state_key = f'view_state_{sample_id}'
         if view_state_key not in st.session_state:
@@ -297,7 +298,7 @@ elif st.session_state.page == 'quiz':
 
         with col1:
             if sample.get("orientation") == "portrait":
-                _, vid_col_main, _ = st.columns([1, 3, 1]);
+                _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
                 with vid_col_main: st.video(sample['video_path'], autoplay=True)
             else: st.video(sample['video_path'], autoplay=True)
 
@@ -317,6 +318,7 @@ elif st.session_state.page == 'quiz':
                 
                 if current_step == 2:
                     if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
+                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_quiz_{sample_id}")
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
         with col2:
@@ -330,12 +332,10 @@ elif st.session_state.page == 'quiz':
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
 
                 if "Caption Quality" in current_part_key:
-                    # Check if it's the second question (index 1) which is about the application
                     if st.session_state.current_rating_question_index == 1:
                         application_trait = sample.get("application")
                         if application_trait:
                             terms_to_define.add(application_trait)
-                    # The Personality/Style tones are no longer displayed here.
 
                 if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
                     st.session_state[view_state_key]['step'] = 4
@@ -441,18 +441,19 @@ elif st.session_state.page == 'user_study_main':
 
             # --- TIMER LOGIC ---
             if caption_idx == 0 and not st.session_state[timer_finished_key]:
-                st.header("Watch the video")
-                col1, _ = st.columns([1, 1.8])
-                with col1:
-                    if current_video.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_video['video_path'], autoplay=True)
-                    else: st.video(current_video['video_path'], autoplay=True)
-                
-                duration = current_video.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
-                st.rerun()
+                with st.spinner("Loading video..."):
+                    st.header("Watch the video")
+                    col1, _ = st.columns([1, 1.8])
+                    with col1:
+                        if current_video.get("orientation") == "portrait":
+                            _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+                            with vid_col_main: st.video(current_video['video_path'], autoplay=True)
+                        else: st.video(current_video['video_path'], autoplay=True)
+                    
+                    duration = current_video.get('duration', 10)
+                    time.sleep(duration)
+                    st.session_state[timer_finished_key] = True
+                    st.rerun()
 
             # --- MAIN PAGE CONTENT (After Timer) ---
             else:
@@ -481,10 +482,12 @@ elif st.session_state.page == 'user_study_main':
                             st.session_state[view_key]['step'] = 4 + question_index + 1
                 
                 col1, col2 = st.columns([1, 1.8])
+                validation_placeholder = st.empty()
+
 
                 with col1:
                     if current_video.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([1, 3, 1]);
+                        _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
                         with vid_col_main: st.video(current_video['video_path'], autoplay=True)
                     else: st.video(current_video['video_path'], autoplay=True)
                     
@@ -537,17 +540,22 @@ elif st.session_state.page == 'user_study_main':
                         if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3, view_state_key)
                         if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4, view_state_key)
                         
-                        if questions_to_show >= len(questions_to_ask):
+                        if questions_to_show > len(questions_to_ask):
                             if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
-                                with st.spinner("Saving your ratings..."):
-                                    responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}", options_map[qid][2]) for qid in question_ids}
-                                    for q_id, choice_text in responses_to_save.items():
-                                        full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
-                                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
-                                st.session_state.current_caption_index += 1
-                                if st.session_state.current_caption_index >= len(current_video['captions']):
-                                    st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
-                                st.session_state.pop(view_state_key, None); st.rerun()
+                                all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
+                                if not all_interacted:
+                                    missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
+                                    validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
+                                else:
+                                    with st.spinner("Saving your ratings..."):
+                                        responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}", options_map[qid][2]) for qid in question_ids}
+                                        for q_id, choice_text in responses_to_save.items():
+                                            full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
+                                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                                    st.session_state.current_caption_index += 1
+                                    if st.session_state.current_caption_index >= len(current_video['captions']):
+                                        st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
+                                    st.session_state.pop(view_state_key, None); st.rerun()
 
                         reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                         st.markdown(reference_html, unsafe_allow_html=True)
@@ -562,17 +570,18 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[timer_finished_key] = False
 
             if not st.session_state[timer_finished_key]:
-                st.header("Watch the video")
-                col1, _ = st.columns([1, 1.8])
-                with col1:
-                    if current_comp.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
-                    else: st.video(current_comp['video_path'], autoplay=True)
-                duration = current_comp.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
-                st.rerun()
+                with st.spinner("Loading video..."):
+                    st.header("Watch the video")
+                    col1, _ = st.columns([1, 1.8])
+                    with col1:
+                        if current_comp.get("orientation") == "portrait":
+                            _, vid_col_main, _ = st.columns([1, 3, 1]);
+                            with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
+                        else: st.video(current_comp['video_path'], autoplay=True)
+                    duration = current_comp.get('duration', 10)
+                    time.sleep(duration)
+                    st.session_state[timer_finished_key] = True
+                    st.rerun()
 
             else:
                 st.header("Which caption is better?")
@@ -642,17 +651,18 @@ elif st.session_state.page == 'user_study_main':
             st.session_state[timer_finished_key] = False
 
         if not st.session_state[timer_finished_key]:
-            st.header("Watch the video")
-            col1, _ = st.columns([1, 1.8])
-            with col1:
-                if current_change.get("orientation") == "portrait":
-                    _, vid_col_main, _ = st.columns([1, 3, 1]);
-                    with vid_col_main: st.video(current_change['video_path'], autoplay=True)
-                else: st.video(current_change['video_path'], autoplay=True)
-            duration = current_change.get('duration', 10)
-            time.sleep(duration)
-            st.session_state[timer_finished_key] = True
-            st.rerun()
+            with st.spinner("Loading video..."):
+                st.header("Watch the video")
+                col1, _ = st.columns([1, 1.8])
+                with col1:
+                    if current_change.get("orientation") == "portrait":
+                        _, vid_col_main, _ = st.columns([1, 3, 1]);
+                        with vid_col_main: st.video(current_change['video_path'], autoplay=True)
+                    else: st.video(current_change['video_path'], autoplay=True)
+                duration = current_change.get('duration', 10)
+                time.sleep(duration)
+                st.session_state[timer_finished_key] = True
+                st.rerun()
 
         else:
             st.header(f"{field_type.replace('_', ' ').title()} Comparison")
