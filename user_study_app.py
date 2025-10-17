@@ -249,7 +249,6 @@ elif st.session_state.page == 'quiz':
             with placeholder.container():
                 st.button("Proceed to Summary", key=button_key, disabled=True)
                 st.info("Please watch the video. This button will be enabled in 10 seconds.")
-            # This JS finds the button and enables it. A bit complex selector is needed for robustness.
             streamlit_js_eval(js_expressions=f"""
                 setTimeout(function() {{
                     const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
@@ -352,9 +351,10 @@ elif st.session_state.page == 'user_study_main':
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
-                    if not st.session_state[view_state_key]['interacted'][q_id]:
-                        st.session_state[view_state_key]['interacted'][q_id] = True
-                        st.session_state[view_state_key]['step'] = 4 + question_index + 1
+                    if not st.session_state[view_key]['interacted'][q_id]:
+                        st.session_state[view_key]['interacted'][q_id] = True
+                        if (question_index + 4) < 8: # Only advance if not the last question
+                           st.session_state[view_key]['step'] = 4 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
 
@@ -417,7 +417,11 @@ elif st.session_state.page == 'user_study_main':
                             st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key, q_index))
                     
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
-                    questions_to_show = num_interacted + 1 if caption_idx > 0 else current_step - 3
+                    questions_to_show = num_interacted + 1
+                    
+                    # For subsequent captions, we need to base it on step, not interaction count which resets
+                    if caption_idx > 0:
+                        questions_to_show = current_step - 3
                     
                     if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0)
                     if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1)
