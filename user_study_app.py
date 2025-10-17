@@ -342,7 +342,7 @@ elif st.session_state.page == 'quiz':
     sample_id = sample.get('sample_id', f'quiz_{current_index}')
     view_state_key = f'view_state_{sample_id}'
     if view_state_key not in st.session_state:
-        st.session_state[view_state_key] = {'step': 1, 'summary_typed': False} # Added summary_typed to quiz state
+        st.session_state[view_state_key] = {'step': 1, 'summary_typed': False}
 
     current_step = st.session_state[view_state_key]['step']
 
@@ -357,41 +357,33 @@ elif st.session_state.page == 'quiz':
     col1, col2 = st.columns([1.2, 1.5])
 
     with col1:
-        # --- ADDED: Handle Portrait Video ---
-        # Note: Quiz data needs an "orientation" field added similar to study_data.json
-        # If not present, it will default to landscape.
         if sample.get("orientation") == "portrait":
-            vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([1, 3, 1])
-            with vid_col_main:
-                st.video(sample['video_path'], autoplay=False)
+            _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+            with vid_col_main: st.video(sample['video_path'], autoplay=False)
         else:
             st.video(sample['video_path'], autoplay=False)
-        # --- END ADDED ---
-
         if current_step == 1 and st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
             st.session_state[view_state_key]['step'] = 2; st.rerun()
-
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
             if st.session_state[view_state_key].get('summary_typed', False):
-                 st.info(sample["video_summary"])
+                st.info(sample["video_summary"])
             else:
                 with st.empty(): st.write_stream(stream_text(sample["video_summary"]))
                 st.session_state[view_state_key]['summary_typed'] = True
-
             if current_step == 2 and st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
                 st.session_state[view_state_key]['step'] = 3; st.rerun()
 
-    with col2: # Quiz question logic remains the same
+    with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
         if current_step >= 3:
             if "Tone Controllability" in current_part_key:
-                st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>""", unsafe_allow_html=True)
-                st.markdown(f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>""", unsafe_allow_html=True)
+                st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
             else:
-                st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
+                st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
             if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
-                 st.session_state[view_state_key]['step'] = 4; st.rerun()
+                st.session_state[view_state_key]['step'] = 4; st.rerun()
         if current_step >= 4:
             if st.session_state.show_feedback:
                 user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
@@ -399,34 +391,64 @@ elif st.session_state.page == 'quiz':
                 if not isinstance(correct_answer, list): correct_answer = [correct_answer]
                 st.write("**Your Answer vs Correct Answer:**")
                 for option in question_data['options']:
-                    if option in correct_answer: st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
-                    elif option in user_choice: st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
-                    else: st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
+                    display_text = ""
+                    if option in correct_answer:
+                        display_text = f'<strong>{option} (Correct Answer)</strong>'
+                    elif option in user_choice:
+                        display_text = f'{option} (Your selection)'
+                    else:
+                        display_text = option
+                    css_class = "correct-answer" if option in correct_answer else "wrong-answer" if option in user_choice else "normal-answer"
+                    st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
                 st.info(f"**Explanation:** {question_data['explanation']}")
-                if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
+                if st.button("Next Question", key=f"quiz_next_q_{sample_id}"):
+                    go_to_next_quiz_question()
+                    st.session_state.pop(view_state_key, None)
+                    st.rerun()
             else:
                 question_text = ""
-                if "Tone Controllability" in current_part_key: question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
-                elif "Caption Quality" in current_part_key: question_text = question_data["question_text"]
-                elif question_data.get("question_type") == "multi": question_text = "Identify 2 dominant personality traits projected by the captioner"
-                else: question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
+                if "Tone Controllability" in current_part_key:
+                    question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                elif "Caption Quality" in current_part_key:
+                    question_text = question_data["question_text"]
+                elif question_data.get("question_type") == "multi":
+                    question_text = "Identify 2 dominant personality traits projected by the captioner"
+                else:
+                    question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
+                
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
+                
+                # --- START CORRECTION ---
                 with st.form("quiz_form"):
                     choice = None
                     if question_data.get("question_type") == "multi":
                         st.write("Select all that apply:")
-                        choice = [opt for opt in question_data['options'] if st.checkbox(opt, key=f"cb_{current_index}_{option}")]
+                        # This list comprehension now happens INSIDE the form
+                        selected_options = [
+                            opt for opt in question_data['options'] 
+                            if st.checkbox(opt, key=f"cb_{current_index}_{opt}") # Changed 'option' to 'opt'
+                        ]
+                        choice = selected_options
                     else:
-                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
+                        choice = st.radio(
+                            "Select one option:", 
+                            question_data['options'], 
+                            key=f"radio_{current_index}", 
+                            index=None, 
+                            format_func=format_options_with_info
+                        )
+
                     if st.form_submit_button("Submit Answer"):
-                        if not choice: st.error("Please select an option.")
+                        if not choice:
+                            st.error("Please select an option.")
                         else:
                             st.session_state.last_choice = choice
                             correct_answer = question_data.get('correct_answer')
                             is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
                             st.session_state.is_correct = is_correct
                             if is_correct: st.session_state.score += 1
-                            st.session_state.show_feedback = True; st.rerun()
+                            st.session_state.show_feedback = True
+                            st.rerun()
 
                             
 elif st.session_state.page == 'quiz_results':
