@@ -800,9 +800,9 @@ elif st.session_state.page == 'user_study_main':
                     st.markdown(reference_html, unsafe_allow_html=True)
         # ====================== END: CORRECTED PART 3 CODE =======================
 
-    elif st.session_state.page == 'final_thank_you':
-        st.title("Study Complete! Thank You!")
-        st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+elif st.session_state.page == 'final_thank_you':
+    st.title("Study Complete! Thank You!")
+    st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
 # --- JavaScript ---
 js_script = """
 const parent_document = window.parent.document;
