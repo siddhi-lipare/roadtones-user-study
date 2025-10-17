@@ -406,8 +406,9 @@ elif st.session_state.page == 'user_study_main':
                     if current_step >= 3:
                         colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]; highlight_color = colors[caption_idx % len(colors)]
                         caption_box_class = "part1-caption-box new-caption-highlight"
-                        with st.container(key=f"caption_container_{current_caption['caption_id']}"):
-                            st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', 
+                                    unsafe_allow_html=True, 
+                                    key=f"p1_caption_{current_caption['caption_id']}")
                         if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
                             st.session_state[view_state_key]['step'] = 4; st.rerun()
                     if current_step >= 4:
@@ -498,8 +499,12 @@ elif st.session_state.page == 'user_study_main':
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
                 with col2:
                     if current_step >= 3:
-                        st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
-                        st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
+                        st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', 
+                                    unsafe_allow_html=True, 
+                                    key=f"p2_cap_A_{current_comp['comparison_id']}")
+                        st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', 
+                                    unsafe_allow_html=True, 
+                                    key=f"p2_cap_B_{current_comp['comparison_id']}")
                         if current_step == 3 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
                     if current_step >= 4:
                         control_scores = current_comp.get("control_scores", {}); personality_traits = list(control_scores.get("personality", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
@@ -576,8 +581,12 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
                 if current_step >= 3:
-                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', 
+                                unsafe_allow_html=True, 
+                                key=f"p3_cap_A_{current_change['change_id']}")
+                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', 
+                                unsafe_allow_html=True, 
+                                key=f"p3_cap_B_{current_change['change_id']}")
                     if current_step == 3 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
                 if current_step >= 4:
                     trait = field_to_change[field_type]; terms_to_define.add(trait)
@@ -640,5 +649,6 @@ if (!parent_document.arrowRightListenerAttached) {
 }
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
+
 
 
