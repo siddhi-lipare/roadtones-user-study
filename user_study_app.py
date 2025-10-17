@@ -244,22 +244,22 @@ elif st.session_state.page == 'quiz':
             with vid_col_main: st.video(sample['video_path'], autoplay=False)
         else: st.video(sample['video_path'], autoplay=False)
         if current_step == 1:
+            button_key = f"quiz_summary_{sample_id}"
             placeholder = st.empty()
             with placeholder.container():
-                st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}", disabled=True)
-                st.info("Please watch the video. The button will be enabled in 10 seconds.")
+                st.button("Proceed to Summary", key=button_key, disabled=True)
+                st.info("Please watch the video. This button will be enabled in 10 seconds.")
+            # This JS finds the button and enables it. A bit complex selector is needed for robustness.
             streamlit_js_eval(js_expressions=f"""
                 setTimeout(function() {{
-                    const button = window.parent.document.querySelector('button[kind="secondary"][data-testid="stButton"]');
-                    if (button) {{
-                        button.disabled = false;
-                    }}
-                    // Remove the info message after enabling
+                    const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
+                    const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
+                    if (targetButton) {{ targetButton.disabled = false; }}
                     const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
                     if(info_box){{ info_box.style.display = 'none'; }}
                 }}, 10000);
             """, key=f"timer_quiz_{sample_id}")
-            if st.session_state.get(f"quiz_summary_{sample_id}"):
+            if st.session_state.get(button_key):
                 placeholder.empty(); st.session_state[view_state_key]['step'] = 2; st.rerun()
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
@@ -352,8 +352,8 @@ elif st.session_state.page == 'user_study_main':
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
-                    if not st.session_state[view_key]['interacted'][q_id]:
-                        st.session_state[view_key]['interacted'][q_id] = True
+                    if not st.session_state[view_state_key]['interacted'][q_id]:
+                        st.session_state[view_state_key]['interacted'][q_id] = True
                         st.session_state[view_state_key]['step'] = 4 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
@@ -372,8 +372,9 @@ elif st.session_state.page == 'user_study_main':
                         st.info("Please watch the video. This button will be enabled in 10 seconds.")
                     streamlit_js_eval(js_expressions=f"""
                         setTimeout(function() {{
-                            const button = window.parent.document.querySelector('button[data-testid="stButton"][kind="secondary"]');
-                            if (button) {{ button.disabled = false; }}
+                            const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
+                            const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
+                            if (targetButton) {{ targetButton.disabled = false; }}
                             const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
                             if(info_box){{ info_box.style.display = 'none'; }}
                         }}, 10000);
@@ -416,7 +417,7 @@ elif st.session_state.page == 'user_study_main':
                             st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key, q_index))
                     
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
-                    questions_to_show = num_interacted + 1
+                    questions_to_show = num_interacted + 1 if caption_idx > 0 else current_step - 3
                     
                     if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0)
                     if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1)
@@ -462,8 +463,9 @@ elif st.session_state.page == 'user_study_main':
                         st.info("Please watch the video. This button will be enabled in 10 seconds.")
                     streamlit_js_eval(js_expressions=f"""
                         setTimeout(function() {{
-                            const button = window.parent.document.querySelector('button[data-testid="stButton"][kind="secondary"]');
-                            if (button) {{ button.disabled = false; }}
+                            const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
+                            const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
+                            if (targetButton) {{ targetButton.disabled = false; }}
                             const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
                             if(info_box){{ info_box.style.display = 'none'; }}
                         }}, 10000);
@@ -533,8 +535,9 @@ elif st.session_state.page == 'user_study_main':
                     st.info("Please watch the video. This button will be enabled in 10 seconds.")
                 streamlit_js_eval(js_expressions=f"""
                     setTimeout(function() {{
-                        const button = window.parent.document.querySelector('button[data-testid="stButton"][kind="secondary"]');
-                        if (button) {{ button.disabled = false; }}
+                        const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
+                        const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
+                        if (targetButton) {{ targetButton.disabled = false; }}
                         const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
                         if(info_box){{ info_box.style.display = 'none'; }}
                     }}, 10000);
@@ -614,3 +617,4 @@ if (!parent_document.arrowRightListenerAttached) {
 }
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
+
