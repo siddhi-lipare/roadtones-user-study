@@ -358,7 +358,6 @@ elif st.session_state.page == 'user_study_main':
             options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
 
             if view_state_key not in st.session_state:
-                # --- FIX: Set initial step to 3 for subsequent captions to start reveal from the caption ---
                 initial_step = 3 if caption_idx > 0 else 1
                 st.session_state[view_state_key] = {
                     'step': initial_step,
@@ -369,7 +368,6 @@ elif st.session_state.page == 'user_study_main':
                     slider_key = f"ss_{qid}_cap{caption_idx}"
                     if slider_key not in st.session_state:
                         st.session_state[slider_key] = options_map[qid][2]
-                # Initialize other states only for the very first caption of a video
                 if caption_idx == 0:
                     st.session_state[summary_typed_key] = False
                     st.session_state[video_watched_key] = False
@@ -388,16 +386,13 @@ elif st.session_state.page == 'user_study_main':
                     with vid_col_main: st.video(current_video['video_path'], autoplay=False)
                 else: st.video(current_video['video_path'], autoplay=False)
 
-                # Show watch confirmation ONLY for the first caption of a video
                 if caption_idx == 0 and current_step == 1:
                     st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
                     proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
                     if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"proceed_summary_{video_idx}"):
                         if not st.session_state[video_watched_key]: st.warning("Please watch the video and check the box above.")
                         else: st.session_state[view_state_key]['step'] = 2; st.rerun()
-
-                # Show summary ONLY for the first caption (it will be shown instantly for others)
-                if caption_idx == 0 and current_step >= 2:
+                elif caption_idx == 0 and current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
                     else:
@@ -406,7 +401,6 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
                         streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
-                # For subsequent captions, just show the summary right away
                 elif caption_idx > 0:
                     st.subheader("Video Summary")
                     st.info(current_video["video_summary"])
@@ -418,11 +412,12 @@ elif st.session_state.page == 'user_study_main':
                     colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
                     highlight_color = colors[caption_idx % len(colors)]
                     caption_box_class = "part1-caption-box new-caption-highlight" if caption_idx > 0 else "part1-caption-box"
-                    # --- FIX: Add a unique key to force re-render and re-trigger animation ---
-                    st.markdown(f'''<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>''', 
-                                unsafe_allow_html=True, key=f"caption_box_{current_caption['caption_id']}")
+                    
+                    # --- FIX: Use st.container with a key to wrap the markdown element ---
+                    with st.container(key=f"caption_container_{current_caption['caption_id']}"):
+                        st.markdown(f'''<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>''', 
+                                    unsafe_allow_html=True)
 
-                    # "Show Questions" button now appears for EVERY caption at step 3
                     if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
                         st.session_state[view_state_key]['step'] = 4; st.rerun()
 
@@ -440,7 +435,6 @@ elif st.session_state.page == 'user_study_main':
                             st.markdown(f"<div class='slider-label'><strong>{questions_to_ask.index(q) + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
                             st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
 
-                    # --- FIX: Make question visibility always dependent on current_step ---
                     if current_step >= 4: render_slider(questions_to_ask[0], question_cols_row1[0])
                     if current_step >= 5: render_slider(questions_to_ask[1], question_cols_row1[1])
                     if current_step >= 6: render_slider(questions_to_ask[2], question_cols_row1[2])
@@ -449,7 +443,6 @@ elif st.session_state.page == 'user_study_main':
 
                     validation_placeholder = st.empty(); max_step_for_questions = 8
 
-                    # "Next Question" button logic
                     if current_step < max_step_for_questions:
                         question_to_validate_index = current_step - 4
                         question_id_to_validate = questions_to_ask[question_to_validate_index]['id']
@@ -458,7 +451,6 @@ elif st.session_state.page == 'user_study_main':
                             if not has_interacted: validation_placeholder.warning(f"⚠️ Please move the slider for question {question_to_validate_index + 1} before proceeding.")
                             else: st.session_state[view_state_key]['step'] += 1; validation_placeholder.empty(); st.rerun()
 
-                    # "Submit Ratings" button logic
                     elif current_step >= max_step_for_questions:
                         if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
                             all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
@@ -476,6 +468,7 @@ elif st.session_state.page == 'user_study_main':
                                 
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
+
 
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
