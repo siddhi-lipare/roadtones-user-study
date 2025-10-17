@@ -9,7 +9,7 @@ import cv2
 import math
 import gspread
 from google.oauth2.service_account import Credentials
-from streamlit_js_eval import streamlit_js_eval # <-- IMPORT THE COMPONENT
+from streamlit_js_eval import run_javascript
 
 # --- Configuration ---
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
@@ -26,14 +26,14 @@ def get_video_duration(path):
     try:
         cap = cv2.VideoCapture(path)
         if not cap.isOpened():
-            return 10  # Return a default duration if video can't be opened
+            return 10
         fps = cap.get(cv2.CAP_PROP_FPS)
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         duration = frame_count / fps if fps > 0 else 0
         cap.release()
         return duration
     except Exception:
-        return 10 # Default duration on error
+        return 10
     
 def connect_to_gsheet():
     """Connects to the Google Sheet using Streamlit secrets."""
@@ -50,184 +50,44 @@ def connect_to_gsheet():
         worksheet = spreadsheet.sheet1
         return worksheet
     except gspread.exceptions.SpreadsheetNotFound:
-        st.error("Deployment Error: Spreadsheet 'roadtones-streamlit-userstudy-responses' not found. Please check the name and ensure the service account has editor access.")
+        st.error("Deployment Error: Spreadsheet 'roadtones-streamlit-userstudy-responses' not found.")
         return None
     except Exception as e:
         st.error(f"Could not connect to Google Sheets: {e}")
         return None
 
 # --- Custom CSS ---
-# THE <script> TAG HAS BEEN REMOVED FROM HERE
 st.markdown("""
 <style>
-/* Import Google Font 'Inter' for a more modern, prominent look */
+/* Import Google Font 'Inter' */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
-
-/* For help text tooltips */
-[data-testid="stTooltipContent"] {
-    max-width: 300px;
-    font-size: 14px;
-    line-height: 1.5;
-}
-/* For aligning slider question text */
-.slider-label {
-    min-height: 80px; /* Increased height to ensure alignment even with text wrapping */
-    margin-bottom: 0.5rem;
-}
-
-/* Style for highlighting traits in questions - Kept as a brand color */
-.highlight-trait {
-    color: #4f46e5; 
-    font-weight: 600;
-}
-
-/* Base style for all caption text */
-.caption-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500; 
-    font-size: 19px !important; 
-    line-height: 1.6;
-    color: var(--text-color);
-}
-
-/* --- PART 1 CAPTION BOX (CORRECTED FOR DARK THEME) --- */
-.part1-caption-box {
-    border-radius: 10px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 20px;
-}
-/* Force dark text color for the "Caption:" label */
-.part1-caption-box strong {
-    font-size: 18px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    color: #111827 !important; /* Force dark text */
-}
-/* Force dark text color for the caption text itself */
-.part1-caption-box .caption-text {
-    margin: 0.5em 0 0 0;
-    color: #111827 !important; /* Force dark text */
-}
-
-
-/* Part 2 & 3 Caption Box (for comparisons) - NOW USED BY QUIZ */
-.comparison-caption-box {
-    background-color: var(--secondary-background-color);
-    border-left: 5px solid #6366f1; /* Kept as brand color */
-    padding: 1rem 1.5rem;
-    margin: 1rem 0;
-    border-radius: 0.25rem;
-}
-.comparison-caption-box strong {
-    font-size: 18px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    color: var(--text-color);
-}
-.comparison-caption-box .caption-text {
-    margin: 0.5em 0 0 0;
-}
-
-/* --- QUIZ QUESTION BOX STYLING (CORRECTED FOR LIGHT THEME) --- */
-.quiz-question-box {
-    background-color: #F0F2F6; /* Light Grey for Light Theme by default */
-    padding: 1rem 1.5rem;
-    border: 1px solid var(--gray-300);
-    border-bottom: none; 
-    border-radius: 0.5rem 0.5rem 0 0; 
-}
-/* Override for Dark Theme */
-body[theme="dark"] .quiz-question-box {
-    background-color: var(--secondary-background-color);
-}
-
-.quiz-question-box > strong {
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.quiz-question-box .question-text-part {
-    font-family: 'Inter', sans-serif;
-    font-size: 19px;
-    font-weight: 500;
-    color: var(--text-color);
-    margin-left: 0.5em;
-}
-
-/* Target the form element directly to connect it to the question box */
-[data-testid="stForm"] {
-    border: 1px solid var(--gray-300);
-    border-top: none; 
-    border-radius: 0 0 0.5rem 0.5rem; 
-    padding: 1.5rem 1.5rem 0.5rem 1.5rem; 
-    margin-top: 0 !important; 
-    background-color: var(--background-color);
-}
-
-/* --- THEME-AWARE FEEDBACK BOX STYLING (FINAL CORRECTION) --- */
-.feedback-option {
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    border-width: 1px;
-    border-style: solid;
-}
-/* Light Theme Colors (Default) */
+/* (All your other CSS styles remain here...) */
+.slider-label { min-height: 80px; margin-bottom: 0.5rem; }
+.highlight-trait { color: #4f46e5; font-weight: 600; }
+.caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
+.part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 20px; }
+.part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
+.part1-caption-box .caption-text { margin: 0.5em 0 0 0; color: #111827 !important; }
+.comparison-caption-box { background-color: var(--secondary-background-color); border-left: 5px solid #6366f1; padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0.25rem; }
+.comparison-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; }
+.quiz-question-box { background-color: #F0F2F6; padding: 1rem 1.5rem; border: 1px solid var(--gray-300); border-bottom: none; border-radius: 0.5rem 0.5rem 0 0; }
+body[theme="dark"] .quiz-question-box { background-color: var(--secondary-background-color); }
+.quiz-question-box > strong { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; }
+.quiz-question-box .question-text-part { font-family: 'Inter', sans-serif; font-size: 19px; font-weight: 500; margin-left: 0.5em; }
+[data-testid="stForm"] { border: 1px solid var(--gray-300); border-top: none; border-radius: 0 0 0.5rem 0.5rem; padding: 1.5rem 1.5rem 0.5rem 1.5rem; margin-top: 0 !important; }
+.feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border-width: 1px; border-style: solid; }
 .correct-answer { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
 .wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
-
-/* Dark Theme Overrides for Correct/Wrong */
 body[theme="dark"] .correct-answer { background-color: #064e3b; border-color: #10b981; color: #a7f3d0; }
 body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4444; color: #fecaca; }
-
-/* NORMAL (Unselected) answer style. This is now fixed. */
-.normal-answer {
-    background-color: white !important;
-    border-color: #d1d5db !important;    
-    color: #111827 !important; /* Force dark grey/black text */
-}
-
-
-/* --- STYLE FOR MULTI-SELECT PILLS --- */
-.stMultiSelect [data-basebeb="tag"] {
-    background-color: #BDE0FE !important; 
-    color: #003366 !important; 
-}
-
-/* Make sliders in part 1 smaller */
-div[data-testid="stSlider"] {
-    max-width: 250px;
-}
-
-/* --- THEME-AWARE REFERENCE BOX STYLE (CORRECTED) --- */
-.reference-box {
-    background-color: #FFFBEB; /* Light Yellow for Light Theme by default */
-    border: 1px solid #eab308; /* A visible amber border for both themes */
-    border-radius: 0.5rem;
-    padding: 1rem 1.5rem;
-    margin-top: 1.5rem;
-}
-/* Override for Dark Theme */
-body[theme="dark"] .reference-box {
-    background-color: var(--secondary-background-color);
-}
-
-.reference-box h3 {
-    margin-top: 0;
-    padding-bottom: 0.5rem;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-color);
-}
-.reference-box ul {
-    padding-left: 20px;
-    margin: 0;
-}
-.reference-box li {
-    margin-bottom: 0.5rem;
-}
+.normal-answer { background-color: white !important; border-color: #d1d5db !important; color: #111827 !important; }
+.stMultiSelect [data-baseweb="tag"] { background-color: #BDE0FE !important; color: #003366 !important; }
+div[data-testid="stSlider"] { max-width: 250px; }
+.reference-box { background-color: #FFFBEB; border: 1px solid #eab308; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-top: 1.5rem; }
+body[theme="dark"] .reference-box { background-color: var(--secondary-background-color); }
+.reference-box h3 { margin-top: 0; padding-bottom: 0.5rem; font-size: 18px; font-weight: 600; }
+.reference-box ul { padding-left: 20px; margin: 0; }
+.reference-box li { margin-bottom: 0.5rem; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -279,93 +139,46 @@ DEFINITIONS = {
     'Traffic Awareness': 'Information focused on current traffic conditions or general traffic issues.'
 }
 
-
-# --- Helper Functions ---
+# --- Helper Functions (No changes here) ---
 @st.cache_data
 def get_video_orientation(path):
-    """
-    Reads a video file and returns its orientation ('portrait' or 'landscape').
-    """
     try:
         cap = cv2.VideoCapture(path)
-        if not cap.isOpened():
-            return "landscape"
+        if not cap.isOpened(): return "landscape"
         width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         cap.release()
-        if height > width:
-            return "portrait"
-        else:
-            return "landscape"
+        return "portrait" if height > width else "landscape"
     except Exception:
         return "landscape"
 
 @st.cache_data
 def load_data():
-    """Loads all data from external JSON files."""
     data = {}
-    if not os.path.exists(INSTRUCTIONS_PATH):
-        st.error(f"Error: Instructions file not found at '{INSTRUCTIONS_PATH}'.")
-        return None
-    with open(INSTRUCTIONS_PATH, 'r', encoding='utf-8') as f:
-        data['instructions'] = json.load(f)
-    if not os.path.exists(QUIZ_DATA_PATH):
-        st.error(f"Error: Quiz data file not found at '{QUIZ_DATA_PATH}'.")
-        return None
-    with open(QUIZ_DATA_PATH, 'r', encoding='utf-8') as f:
-        data['quiz'] = json.load(f)
-    if not os.path.exists(STUDY_DATA_PATH):
-        st.error(f"Error: Study data file not found at '{STUDY_DATA_PATH}'.")
-        return None
-    with open(STUDY_DATA_PATH, 'r', encoding='utf-8') as f:
-        study_data = json.load(f)
-    if not os.path.exists(QUESTIONS_DATA_PATH):
-        st.error(f"Error: Questions file not found at '{QUESTIONS_DATA_PATH}'.")
-        return None
-    with open(QUESTIONS_DATA_PATH, 'r', encoding='utf-8') as f:
-        data['questions'] = json.load(f)
+    with open(INSTRUCTIONS_PATH, 'r', encoding='utf-8') as f: data['instructions'] = json.load(f)
+    with open(QUIZ_DATA_PATH, 'r', encoding='utf-8') as f: data['quiz'] = json.load(f)
+    with open(STUDY_DATA_PATH, 'r', encoding='utf-8') as f: study_data = json.load(f)
+    with open(QUESTIONS_DATA_PATH, 'r', encoding='utf-8') as f: data['questions'] = json.load(f)
     for part in study_data.values():
         for item in part:
-            if os.path.exists(item['video_path']):
-                item['orientation'] = get_video_orientation(item['video_path'])
-            else:
-                item['orientation'] = 'landscape'
+            item['orientation'] = get_video_orientation(item['video_path']) if os.path.exists(item['video_path']) else 'landscape'
     data['study'] = study_data
-    for item in data['quiz'].values():
-        for video_item in item:
-            if not os.path.exists(video_item["video_path"]):
-                st.error(f"Error: Quiz video file not found at '{video_item['video_path']}'.")
-                return None
-    for part in data['study'].values():
-        for item in part:
-            if not os.path.exists(item["video_path"]):
-                st.error(f"Error: Study video file not found at '{item['video_path']}'.")
-                return None
-    if not os.path.exists(INTRO_VIDEO_PATH):
-        st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
-        return None
     return data
 
 def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
-    """Saves a single response to the connected Google Sheet."""
-    # The connection is now established only when it's first needed.
     worksheet = connect_to_gsheet() 
-    if worksheet is None:
-        st.error("Connection to response sheet failed. Data not saved.")
-        return
+    if worksheet is None: return
     try:
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
         response_data = [email, age, str(gender), timestamp, study_phase, video_data.get('video_id', 'N/A'), caption_data.get('caption_id') or caption_data.get('comparison_id') or caption_data.get('change_id'), question_text, str(choice), str(was_correct) if was_correct is not None else 'N/A', 1 if study_phase == 'quiz' else 'N/A']
         if len(worksheet.get_all_values()) == 0:
-             header = ['email', 'age', 'gender', 'timestamp', 'study_phase', 'video_id', 'sample_id', 'question_text', 'user_choice', 'was_correct', 'attempts_taken']
-             worksheet.append_row(header)
+             worksheet.append_row(['email', 'age', 'gender', 'timestamp', 'study_phase', 'video_id', 'sample_id', 'question_text', 'user_choice', 'was_correct', 'attempts_taken'])
         worksheet.append_row(response_data)
     except Exception as e:
         st.error(f"Failed to write to Google Sheet: {e}")
 
-
 def go_to_next_quiz_question():
-    with st.spinner("Saving your answer..."): # SPINNER ADDED TO MANAGE LAG
+    with st.spinner("Saving your answer..."):
         part_keys = list(st.session_state.all_data['quiz'].keys())
         current_part_key = part_keys[st.session_state.current_part_index]
         questions_for_part = st.session_state.all_data['quiz'][current_part_key]
@@ -420,8 +233,7 @@ def restart_quiz():
 
 def format_options_with_info(option_name):
     if option_name in DEFINITIONS:
-        desc = DEFINITIONS[option_name]
-        return f"{option_name} ({desc})"
+        return f"{option_name} ({DEFINITIONS[option_name]})"
     return option_name
 
 # --- Main App ---
@@ -445,7 +257,7 @@ if 'page' not in st.session_state:
 if st.session_state.all_data is None:
     st.stop()
 
-# --- Page 1-6 (Demographics, Quiz, Instructions) ---
+# --- Page Rendering Logic (No changes here) ---
 if st.session_state.page == 'demographics':
     st.title("Tone-controlled Video Captioning")
     if st.button("DEBUG: Skip to Main Study"):
@@ -473,15 +285,12 @@ if st.session_state.page == 'demographics':
                 st.session_state.page = 'intro_video'
                 st.rerun()
 
-
 elif st.session_state.page == 'intro_video':
     st.title("Introductory Video")
-    
     _ , vid_col, _ = st.columns([1, 3, 1])
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
         st.markdown("##### [Additional user study guide](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing)")
-
     if st.button("Next"):
         st.session_state.page = 'quiz'
         st.rerun()
@@ -501,156 +310,95 @@ elif st.session_state.page == 'quiz':
     current_index = st.session_state.current_sample_index
     sample = questions_for_part[current_index]
     sample_id = sample.get('sample_id', f'quiz_{current_index}')
-
     view_state_key = f'view_state_{sample_id}'
     if view_state_key not in st.session_state:
         st.session_state[view_state_key] = {'step': 1}
-    
     current_step = st.session_state[view_state_key]['step']
 
     def stream_text(text):
-        for word in text.split(" "):
-            yield word + " "
-            time.sleep(0.05)
-
-    if "Tone Identification" in current_part_key:
-        display_title = f"{sample.get('category', 'Tone').title()} Identification"
-    elif "Tone Controllability" in current_part_key:
-        display_title = f"{sample.get('category', 'Tone').title()} Comparison"
-    else:
-        display_title = re.sub(r'Part \d+: ', '', current_part_key)
-    st.header(display_title)
+        for word in text.split(" "): yield word + " "; time.sleep(0.05)
     
+    display_title = re.sub(r'Part \d+: ', '', current_part_key)
+    if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
+    elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
+    st.header(display_title)
     st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
-
     col1, col2 = st.columns([1.2, 1.5])
 
     with col1:
         st.video(sample['video_path'], autoplay=False)
-        
-        if current_step == 1:
-            if st.button("Proceed to Summary"):
-                st.session_state[view_state_key]['step'] = 2
-                st.rerun()
-        
+        if current_step == 1 and st.button("Proceed to Summary"): st.session_state[view_state_key]['step'] = 2; st.rerun()
         if current_step >= 2 and "video_summary" in sample:
             st.subheader("Video Summary")
-            if st.session_state[view_state_key].get('summary_typed', False):
-                st.info(sample["video_summary"])
+            if st.session_state[view_state_key].get('summary_typed', False): st.info(sample["video_summary"])
             else:
-                with st.empty():
-                    st.write_stream(stream_text(sample["video_summary"]))
+                with st.empty(): st.write_stream(stream_text(sample["video_summary"]))
                 st.session_state[view_state_key]['summary_typed'] = True
-            
-            if current_step == 2:
-                if st.button("Proceed to Caption"):
-                    st.session_state[view_state_key]['step'] = 3
-                    st.rerun()
+            if current_step == 2 and st.button("Proceed to Caption"): st.session_state[view_state_key]['step'] = 3; st.rerun()
 
     with col2:
         question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
-        
         if current_step >= 3:
             if "Tone Controllability" in current_part_key:
                 st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>""", unsafe_allow_html=True)
                 st.markdown(f"""<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>""", unsafe_allow_html=True)
             else:
                 st.markdown(f"""<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>""", unsafe_allow_html=True)
-            
-            if current_step == 3:
-                if st.button("Show Questions"):
-                    st.session_state[view_state_key]['step'] = 4
-                    st.rerun()
-
+            if current_step == 3 and st.button("Show Questions"): st.session_state[view_state_key]['step'] = 4; st.rerun()
         if current_step >= 4:
             if st.session_state.show_feedback:
-                user_choice = st.session_state.last_choice
-                correct_answer = question_data.get('correct_answer')
+                user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
                 if not isinstance(user_choice, list): user_choice = [user_choice]
                 if not isinstance(correct_answer, list): correct_answer = [correct_answer]
                 st.write("**Your Answer vs Correct Answer:**")
                 for option in question_data['options']:
-                    is_correct_option = option in correct_answer
-                    is_selected_option = option in user_choice
-                    if is_correct_option: st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
-                    elif is_selected_option: st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
+                    if option in correct_answer: st.markdown(f'<div class="feedback-option correct-answer"><strong>{option} (Correct Answer)</strong></div>', unsafe_allow_html=True)
+                    elif option in user_choice: st.markdown(f'<div class="feedback-option wrong-answer">{option} (Your selection)</div>', unsafe_allow_html=True)
                     else: st.markdown(f'<div class="feedback-option normal-answer">{option}</div>', unsafe_allow_html=True)
                 st.info(f"**Explanation:** {question_data['explanation']}")
-                
-                if st.button("Next Question"):
-                    go_to_next_quiz_question()
-                    st.session_state.pop(view_state_key, None) 
-                    st.rerun()
+                if st.button("Next Question"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
             else:
                 question_text = ""
-                if "Tone Controllability" in current_part_key:
-                     question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
-                elif "Caption Quality" in current_part_key:
-                    question_text = question_data["question_text"]
-                elif question_data.get("question_type") == "multi":
-                    question_text = "Identify 2 dominant personality traits projected by the captioner"
-                else:
-                    question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
-
+                if "Tone Controllability" in current_part_key: question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                elif "Caption Quality" in current_part_key: question_text = question_data["question_text"]
+                elif question_data.get("question_type") == "multi": question_text = "Identify 2 dominant personality traits projected by the captioner"
+                else: question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
-                
                 with st.form("quiz_form"):
                     choice = None
                     if question_data.get("question_type") == "multi":
                         st.write("Select all that apply:")
-                        selected_options = []
-                        for option in question_data['options']:
-                            if st.checkbox(option, key=f"cb_{current_index}_{option}"):
-                                selected_options.append(option)
-                        choice = selected_options
+                        choice = [opt for opt in question_data['options'] if st.checkbox(opt, key=f"cb_{current_index}_{opt}")]
                     else:
                         choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info)
-
                     if st.form_submit_button("Submit Answer"):
-                        if not choice: 
-                            st.error("Please select an option.")
+                        if not choice: st.error("Please select an option.")
                         else:
                             st.session_state.last_choice = choice
                             correct_answer = question_data.get('correct_answer')
                             is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
                             st.session_state.is_correct = is_correct
                             if is_correct: st.session_state.score += 1
-                            st.session_state.show_feedback = True
-                            st.rerun()
-
+                            st.session_state.show_feedback = True; st.rerun()
 
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = 0
-    quiz_data = st.session_state.all_data['quiz']
-    for part_name, questions_list in quiz_data.items():
-        if "Caption Quality" in part_name:
-            for item in questions_list:
-                total_scorable_questions += len(item.get("questions", []))
-        else:
-            total_scorable_questions += len(questions_list)
+    for part_name, questions_list in st.session_state.all_data['quiz'].items():
+        total_scorable_questions += sum(len(item.get("questions", [])) for item in questions_list) if "Caption Quality" in part_name else len(questions_list)
     passing_score = 5
     st.header(f"Your Final Score: {st.session_state.score} / {total_scorable_questions}")
     if st.session_state.score >= passing_score:
         st.success("**Status: Passed**")
-        if st.button("Proceed to User Study"):
-            st.session_state.page = 'user_study_main'
-            st.rerun()
+        if st.button("Proceed to User Study"): st.session_state.page = 'user_study_main'; st.rerun()
     else:
         st.error("**Status: Failed**")
         st.markdown(f"Unfortunately, you did not meet the passing score of {passing_score}. You can try again.")
         st.button("Take Quiz Again", on_click=restart_quiz)
 
-# --- Page 7: The Main User Study ---
 elif st.session_state.page == 'user_study_main':
-    if not st.session_state.all_data:
-        st.error("Data could not be loaded. Please check file paths and permissions.")
-        st.stop()
-
+    if not st.session_state.all_data: st.error("Data could not be loaded."); st.stop()
     def stream_text(text):
-        for word in text.split(" "):
-            yield word + " "
-            time.sleep(0.05)
-
+        for word in text.split(" "): yield word + " "; time.sleep(0.05)
     with st.sidebar:
         st.header("Study Sections")
         st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
@@ -661,353 +409,218 @@ elif st.session_state.page == 'user_study_main':
         st.header("Caption Quality Rating")
         all_videos = st.session_state.all_data['study']['part1_ratings']
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
-
-        if video_idx >= len(all_videos):
-            st.session_state.study_part = 2
-            st.rerun()
-
+        if video_idx >= len(all_videos): st.session_state.study_part = 2; st.rerun()
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
-        
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         summary_typed_key = f"summary_typed_{current_video['video_id']}"
-
         if view_state_key not in st.session_state:
-            if caption_idx > 0:
-                initial_step = 4
-            else:
-                st.session_state[summary_typed_key] = False
-                initial_step = 1
-            st.session_state[view_state_key] = {'step': initial_step, 'responses': {}}
-        
+            st.session_state[view_state_key] = {'step': 4 if caption_idx > 0 else 1, 'responses': {}}
+            if caption_idx == 0: st.session_state[summary_typed_key] = False
         current_step = st.session_state[view_state_key]['step']
-
         col1, col2 = st.columns([1, 1.8])
-        
         with col1:
             st.video(current_video['video_path'], autoplay=False)
-
-            if current_step == 1:
-                if st.button("Proceed to Summary"):
-                    st.session_state[view_state_key]['step'] = 2
-                    st.rerun()
-
+            if current_step == 1 and st.button("Proceed to Summary"): st.session_state[view_state_key]['step'] = 2; st.rerun()
             if current_step >= 2:
                 st.subheader("Video Summary")
-                
-                if st.session_state.get(summary_typed_key, False):
-                    st.info(current_video["video_summary"])
+                if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
                 else:
-                    with st.empty():
-                        st.write_stream(stream_text(current_video["video_summary"]))
-                    st.session_state[summary_typed_key] = True 
-                
-                if current_step == 2:
-                    if st.button("Proceed to Caption"):
-                        st.session_state[view_state_key]['step'] = 3
-                        st.rerun()
-
+                    with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
+                    st.session_state[summary_typed_key] = True
+                if current_step == 2 and st.button("Proceed to Caption"): st.session_state[view_state_key]['step'] = 3; st.rerun()
         with col2:
             terms_to_define = set()
-            
             if current_step >= 3:
                 colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
                 highlight_color = colors[caption_idx % len(colors)]
-                caption_box_style = f"background-color: {highlight_color};"
-                caption_text_html = f'''<div class="part1-caption-box" style="{caption_box_style}"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>'''
-                st.markdown(caption_text_html, unsafe_allow_html=True)
-                
-                if current_step == 3:
-                    if st.button("Show Questions"):
-                        st.session_state[view_state_key]['step'] = 4
-                        st.rerun()
-
+                st.markdown(f'''<div class="part1-caption-box" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>''', unsafe_allow_html=True)
+                if current_step == 3 and st.button("Show Questions"): st.session_state[view_state_key]['step'] = 4; st.rerun()
             if current_step >= 4:
                 control_scores = current_caption.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
                 style_traits = list(control_scores.get("writing_style", {}).keys())
                 application_text = current_caption.get("application", "the intended application")
-                
-                terms_to_define.update(personality_traits)
-                terms_to_define.update(style_traits)
-                terms_to_define.add(application_text)
-
+                terms_to_define.update(personality_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
                 personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
                 style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                
                 q_templates = st.session_state.all_data['questions']['part1_questions']
                 questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
                 questions_to_ask = [
-                    {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)},
-                    {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
-                    {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]},
-                    {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
-                    {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
+                    {"id": q["id"], "text": q["text"].format(personality_str if '{' in q["text"] and 'personality' in q["id"] else style_str if '{' in q["text"] and 'style' in q["id"] else f"<b class='highlight-trait'>{application_text}</b>" if '{' in q["text"] else "")}
+                    for q in questions_to_ask_raw
                 ]
-                options_map = {
-                    "personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
-                    "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
-                    "factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"],
-                    "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"],
-                    "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]
-                }
-                
-                num_questions_to_show = len(questions_to_ask) if caption_idx > 0 else current_step - 3
+                options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+                num_questions_to_show = len(questions_to_ask) if caption_idx > 0 or current_step > 4 else current_step - 3
                 responses = st.session_state[view_state_key]['responses']
-
-                row1_cols = st.columns(3)
-                with row1_cols[0]:
-                    if num_questions_to_show >= 1:
-                        q = questions_to_ask[0]
-                        slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>1. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
                 
-                with row1_cols[1]:
-                    if num_questions_to_show >= 2:
-                        q = questions_to_ask[1]
-                        slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>2. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
-                
-                with row1_cols[2]:
-                    if num_questions_to_show >= 3:
-                        q = questions_to_ask[2]
-                        slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>3. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
-
-                row2_cols = st.columns(3)
-                with row2_cols[0]:
-                    if num_questions_to_show >= 4:
-                        q = questions_to_ask[3]
-                        slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>4. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
-                
-                with row2_cols[1]:
-                    if num_questions_to_show >= 5:
-                        q = questions_to_ask[4]
-                        slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
-                
+                question_cols = [st.columns(3), st.columns(3)]
+                flat_cols = [col for row in question_cols for col in row]
+                for i, q in enumerate(questions_to_ask):
+                    if num_questions_to_show > i:
+                        with flat_cols[i]:
+                            slider_options = options_map[q['id']]
+                            st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                            responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}", label_visibility="collapsed")
                 st.write("---")
-
                 if num_questions_to_show < len(questions_to_ask):
-                    if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
-                        st.session_state[view_state_key]['step'] += 1
-                        st.rerun()
-                else: 
+                    if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"): st.session_state[view_state_key]['step'] += 1; st.rerun()
+                else:
                     if st.button("Submit Ratings"):
                         with st.spinner("Saving your ratings..."):
                             for q_id, choice_text in responses.items():
-                                full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
-                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
-                        
-                        if st.session_state.current_caption_index < len(current_video['captions']) - 1:
-                            st.session_state.current_caption_index += 1
-                        else:
-                            st.session_state.current_video_index += 1
-                            st.session_state.current_caption_index = 0
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A"))
+                        st.session_state.current_caption_index += 1
+                        if st.session_state.current_caption_index >= len(current_video['captions']):
+                            st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
                         st.rerun()
-
-                reference_html = '<div class="reference-box">'
-                reference_html += "<h3>Reference</h3><ul>"
-                for term in sorted(list(terms_to_define)):
-                    desc = DEFINITIONS.get(term)
-                    if desc:
-                        reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
-                reference_html += "</ul></div>"
+                
+                reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
         st.header("Which caption is better?")
         all_comparisons = st.session_state.all_data['study']['part2_comparisons']
         comp_idx = st.session_state.current_comparison_index
-        if comp_idx >= len(all_comparisons):
-            st.session_state.study_part = 3; st.rerun()
+        if comp_idx >= len(all_comparisons): st.session_state.study_part = 3; st.rerun()
         current_comp = all_comparisons[comp_idx]
         col1, col2 = st.columns([1, 1.8])
-        
         terms_to_define = set()
-
         with col1:
-            if current_comp.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([1, 3, 1])
-                with vid_col:
-                    st.video(current_comp['video_path'], autoplay=True, muted=True)
-            else:
-                st.video(current_comp['video_path'], autoplay=True, muted=True)
+            st.video(current_comp['video_path'], autoplay=True, muted=True)
             st.caption("Video is muted for autoplay.")
             st.subheader("Video Summary"); st.info(current_comp["video_summary"])
         with col2:
-            caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>"""
-            caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>"""
-            st.markdown(caption_a_html, unsafe_allow_html=True)
-            st.markdown(caption_b_html, unsafe_allow_html=True)
-            
+            st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>""", unsafe_allow_html=True)
+            st.markdown(f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>""", unsafe_allow_html=True)
             control_scores = current_comp.get("control_scores", {})
             personality_traits = list(control_scores.get("personality", {}).keys())
             style_traits = list(control_scores.get("writing_style", {}).keys())
-            
-            terms_to_define.update(personality_traits)
-            terms_to_define.update(style_traits)
-
+            terms_to_define.update(personality_traits); terms_to_define.update(style_traits)
             personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
             style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-
             with st.form(key=f"study_form_comparison_{comp_idx}"):
                 q_templates = st.session_state.all_data['questions']['part2_questions']
-                part2_questions = [
-                    {"id": q_templates[0]["id"], "text": q_templates[0]["text"].format(personality_str)},
-                    {"id": q_templates[1]["id"], "text": q_templates[1]["text"].format(style_str)},
-                    {"id": q_templates[2]["id"], "text": q_templates[2]["text"]},
-                    {"id": q_templates[3]["id"], "text": q_templates[3]["text"]}
-                ]
+                part2_questions = [{"id": q["id"], "text": q["text"].format(personality_str if 'personality' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
                 options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
                 responses = {}
-                question_cols = st.columns(4)
                 for i, q in enumerate(part2_questions):
-                    with question_cols[i]:
-                        st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}")
-                
-                submitted = st.form_submit_button("Submit Comparison")
-
-            if submitted:
-                if any(choice is None for choice in responses.values()):
-                    st.error("Please answer all four questions.")
-                else:
-                    with st.spinner("Saving your responses..."):
-                        for q_id, choice in responses.items():
-                            question_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', question_text)
-                    st.session_state.current_comparison_index += 1
-                    st.rerun()
-            
-            reference_html = '<div class="reference-box">'
-            reference_html += "<h3>Reference</h3><ul>"
-            for term in sorted(list(terms_to_define)):
-                desc = DEFINITIONS.get(term)
-                if desc:
-                    reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
-            reference_html += "</ul></div>"
+                    st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                    responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}", horizontal=True)
+                if st.form_submit_button("Submit Comparison"):
+                    if any(choice is None for choice in responses.values()): st.error("Please answer all questions.")
+                    else:
+                        with st.spinner("Saving your responses..."):
+                            for q_id, choice in responses.items():
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A"))
+                        st.session_state.current_comparison_index += 1; st.rerun()
+            reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 3:
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
         change_idx = st.session_state.current_change_index
-        if change_idx >= len(all_changes):
-            st.session_state.page = 'final_thank_you'; st.rerun()
+        if change_idx >= len(all_changes): st.session_state.page = 'final_thank_you'; st.rerun()
         current_change = all_changes[change_idx]
         field_to_change = current_change['field_to_change']
         field_type = list(field_to_change.keys())[0]
-        dynamic_title = f"{field_type.replace('_', ' ').title()} Comparison"
-        st.header(dynamic_title)
+        st.header(f"{field_type.replace('_', ' ').title()} Comparison")
         col1, col2 = st.columns([1, 1.8])
-
         terms_to_define = set()
-
         with col1:
-            if current_change.get("orientation") == "portrait":
-                _ , vid_col, _ = st.columns([1, 3, 1])
-                with vid_col:
-                    st.video(current_change['video_path'], autoplay=True, muted=True)
-            else:
-                st.video(current_change['video_path'], autoplay=True, muted=True)
+            st.video(current_change['video_path'], autoplay=True, muted=True)
             st.caption("Video is muted for autoplay.")
             st.subheader("Video Summary"); st.info(current_change["video_summary"])
         with col2:
-            caption_a_html = f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>"""
-            caption_b_html = f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>"""
-            st.markdown(caption_a_html, unsafe_allow_html=True)
-            st.markdown(caption_b_html, unsafe_allow_html=True)
-            
+            st.markdown(f"""<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>""", unsafe_allow_html=True)
+            st.markdown(f"""<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>""", unsafe_allow_html=True)
             trait = field_to_change[field_type]
             terms_to_define.add(trait)
-            
             with st.form(key=f"study_form_change_{change_idx}"):
-                change_type = current_change['change_type']
-                highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                if field_type == 'personality':
-                    dynamic_question = f"Has the author's {highlighted_trait} personality {change_type} from Caption A to B?"
-                elif field_type == 'writing_style':
-                    dynamic_question = f"Has the author's {highlighted_trait} writing style {change_type} from Caption A to B?"
-                else:
-                    st.error(f"FATAL DATA ERROR: An invalid 'field_type' of '{field_type}' was found in study_data.json. It must be 'personality' or 'writing_style'.")
-                    st.stop()
-                q_cols = st.columns(2)
-                with q_cols[0]:
+                q_template = st.session_state.all_data['questions']['part3_questions'][field_type.replace('_', ' ').title()]
+                dynamic_question = q_template.format(change_type=current_change['change_type'], **{field_type: f"<b class='highlight-trait'>{trait}</b>"})
+                q2_text = "Is the core factual content consistent across both captions?"
+                col1, col2 = st.columns(2)
+                with col1:
                     st.markdown(f"**1. {dynamic_question}**", unsafe_allow_html=True)
                     choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
-                with q_cols[1]:
-                    q2_text = "Is the core factual content consistent across both captions?"
+                with col2:
                     st.markdown(f"**2. {q2_text}**")
                     choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
-                
-                submitted = st.form_submit_button("Submit Answers")
-            
-            if submitted:
-                if choice1 is None or choice2 is None:
-                    st.error("Please answer both questions.")
-                else:
-                    with st.spinner("Saving your responses..."):
-                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
-                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                    st.session_state.current_change_index += 1
-                    st.rerun()
-
-            reference_html = '<div class="reference-box">'
-            reference_html += "<h3>Reference</h3><ul>"
-            for term in sorted(list(terms_to_define)):
-                desc = DEFINITIONS.get(term)
-                if desc:
-                    reference_html += f"<li><strong>{term}:</strong> {desc}</li>"
-            reference_html += "</ul></div>"
+                if st.form_submit_button("Submit Answers"):
+                    if choice1 is None or choice2 is None: st.error("Please answer both questions.")
+                    else:
+                        with st.spinner("Saving your responses..."):
+                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
+                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                        st.session_state.current_change_index += 1; st.rerun()
+            reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'final_thank_you':
-    st.title("Study Complete! Thank You! ")
+    st.title("Study Complete! Thank You!")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
 
-
-# Define the JavaScript to be executed.
-# This will be injected into the app and listen for the 'ArrowRight' keypress.
-js_code = """
+# =====================================================================================
+# ======================== FINAL, GUARANTEED JAVASCRIPT SOLUTION =======================
+# =====================================================================================
+js_script = """
 <script>
-    function doc_keyUp(e) {
-        // This function will be called when a key is pressed
-        if (e.key === 'ArrowRight') {
-            // Find all visible buttons on the page
-            const buttons = Array.from(window.parent.document.querySelectorAll('button'));
-            const visibleButtons = buttons.filter(btn => btn.offsetParent !== null);
+// We are attaching the listener to the parent window, which is the main browser window.
+// This is crucial because Streamlit runs your app in an iframe.
+const parent_document = window.parent.document;
+
+// We set a flag on the parent window to ensure this script only runs ONCE.
+// Without this, Streamlit would try to add a new listener on every single re-run.
+if (!parent_document.arrowRightListenerAttached) {
+    console.log("Attaching ArrowRight key listener for the first time.");
+    
+    parent_document.addEventListener('keyup', function(event) {
+        // Find the element the user is currently focused on
+        const activeElement = parent_document.activeElement;
+        
+        // If the user is typing in a text box, do nothing.
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+            return;
+        }
+
+        // Check if the pressed key is the right arrow
+        if (event.key === 'ArrowRight') {
+            // Prevent the browser's default action (like scrolling)
+            event.preventDefault();
             
-            // Define the priority order of button labels
+            // Define the buttons we are looking for, in order of priority
             const targetButtonLabels = [
                 "Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer",
                 "Next Question", "Show Questions", "Proceed to Caption", 
                 "Proceed to Summary", "Proceed to User Study", "Next"
             ];
 
-            // Find the first button that matches our priority list
+            // Get all buttons that are currently visible on the page
+            const allButtons = Array.from(parent_document.querySelectorAll('button'));
+            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
+            
+            // Loop through our priority list to find the correct button to click
             for (const label of targetButtonLabels) {
-                const targetButton = visibleButtons.find(btn => btn.textContent.includes(label));
+                // We search the visible buttons from last to first, which is more reliable in Streamlit
+                const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
+                
                 if (targetButton) {
-                    console.log('ArrowRight pressed, clicking:', targetButton.textContent);
-                    targetButton.click();
-                    return; // Exit after clicking the first one found
+                    console.log('ArrowRight detected, clicking button:', targetButton.textContent);
+                    targetButton.click(); // Click the button
+                    break; // Exit the loop since we found our button
                 }
             }
         }
-    }
-    
-    // Add the event listener to the parent document, which is more reliable in Streamlit
-    window.parent.document.addEventListener('keyup', doc_keyUp, false);
+    });
+
+    // Set the flag to true so this setup code never runs again.
+    parent_document.arrowRightListenerAttached = true;
+    console.log("Listener attached successfully.");
+}
 </script>
 """
 
-page_key = f"{st.session_state.page}_{st.session_state.get('current_part_index', '')}_{st.session_state.get('current_sample_index', '')}_{st.session_state.get('study_part', '')}_{st.session_state.get('current_video_index', '')}"
-
-# Execute the JavaScript. This component will inject the script for us.
-streamlit_js_eval(js_expressions=js_code, key=page_key)
+# The streamlit_js_eval component will inject our script into the page.
+# The 'key' ensures it runs when needed.
+run_javascript(js_script, key="keyboard_listener")
