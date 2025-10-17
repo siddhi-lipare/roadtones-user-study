@@ -439,7 +439,7 @@ elif st.session_state.page == 'user_study_main':
                                     responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}", options_map[qid][2]) for qid in question_ids}
                                     for q_id, choice_text in responses_to_save.items():
                                         full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
-                                        # save_response(...)
+                                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
                                 st.session_state.current_caption_index += 1
                                 if st.session_state.current_caption_index >= len(current_video['captions']):
                                     st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
@@ -520,7 +520,7 @@ elif st.session_state.page == 'user_study_main':
                                     with st.spinner("Saving your responses..."):
                                         for q_id, choice in responses.items():
                                             full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
-                                            # save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
+                                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
                                     st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
                         reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                         st.markdown(reference_html, unsafe_allow_html=True)
@@ -598,7 +598,9 @@ elif st.session_state.page == 'user_study_main':
                         if st.form_submit_button("Submit Answers"):
                             if choice1 is None or choice2 is None: st.error("Please answer both questions.")
                             else:
-                                with st.spinner("Saving your responses..."): pass
+                                with st.spinner("Saving your responses..."): 
+                                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
+                                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
                                 st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
@@ -615,7 +617,7 @@ if (!parent_document.arrowRightListenerAttached) {
     console.log("Attaching ArrowRight key listener.");
     parent_document.addEventListener('keyup', function(event) {
         const activeElement = parent_document.activeElement;
-        if (activeElement && (activeElement.tagName === 'INPUT' || active-element.tagName === 'TEXTAREA')) { return; }
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) { return; }
         if (event.key === 'ArrowRight') {
             event.preventDefault();
             const targetButtonLabels = ["Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer", "Next Question", "Show Questions", "Proceed to Caption", "Proceed to Captions", "Proceed to Summary", "Proceed to User Study", "Next"];
