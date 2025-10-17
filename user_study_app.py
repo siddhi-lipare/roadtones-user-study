@@ -230,10 +230,46 @@ body[theme="dark"] .reference-box {
 }
 
 </style>
-
 <script>
-    // Automatically scroll to top on page rerun
-    window.parent.document.querySelector('section.main').scrollTo(0, 0);
+    const targetButtonLabels = [
+        "Next",                      // General next button
+        "Proceed to Summary",
+        "Proceed to Caption",
+        "Show Questions",
+        "Next Question",
+        "Submit Answer",             // For the quiz
+        "Submit Ratings",            // For study part 1
+        "Proceed to User Study"      // From quiz results
+    ];
+
+    document.addEventListener('keydown', function(event) {
+        // Ignore keypresses if the user is typing in an input/textarea
+        const activeElement = document.activeElement.tagName;
+        if (activeElement === 'INPUT' || activeElement === 'TEXTAREA') {
+            return;
+        }
+
+        // Check if the pressed key is the right arrow
+        if (event.key === 'ArrowRight') {
+            // Find all buttons on the page that are currently visible
+            const allButtons = Array.from(document.querySelectorAll('button'));
+            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
+
+            // Iterate through our target labels to find a matching button
+            for (const label of targetButtonLabels) {
+                // Find the last visible button that includes the target label text.
+                // We use 'findLast' logic because Streamlit often renders multiple hidden buttons.
+                const targetButton = visibleButtons.reverse().find(btn => btn.innerText.includes(label));
+                
+                if (targetButton) {
+                    console.log('ArrowRight pressed, clicking:', targetButton.innerText);
+                    targetButton.click();
+                    event.preventDefault(); // Stop any default browser action
+                    return; // Exit after clicking the first found button
+                }
+            }
+        }
+    });
 </script>
 """, unsafe_allow_html=True)
 
@@ -652,6 +688,7 @@ elif st.session_state.page == 'quiz_results':
         st.markdown(f"Unfortunately, you did not meet the passing score of {passing_score}. You can try again.")
         st.button("Take Quiz Again", on_click=restart_quiz)
 
+# --- Page 7: The Main User Study ---
 elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data:
         st.error("Data could not be loaded. Please check file paths and permissions.")
