@@ -117,20 +117,20 @@ st.markdown("""
     75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
     100% { border-color: transparent; box-shadow: none; }
 }
-.part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 20px; border: 2px solid transparent; transition: border-color 0.3s ease; }
+.part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
 .slider-label { min-height: 80px; margin-bottom: 0.5rem; }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
 .part1-caption-box .caption-text { margin: 0.5em 0 0 0; color: #111827 !important; }
-.comparison-caption-box { background-color: var(--secondary-background-color); border-left: 5px solid #6366f1; padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0.25rem; }
+.comparison-caption-box { background-color: var(--secondary-background-color); border-left: 5px solid #6366f1; padding: 1rem 1.5rem; margin: 1rem 0 0.5rem 0; border-radius: 0.25rem; }
 .comparison-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; }
 .quiz-question-box { background-color: #F0F2F6; padding: 1rem 1.5rem; border: 1px solid var(--gray-300); border-bottom: none; border-radius: 0.5rem 0.5rem 0 0; }
 body[theme="dark"] .quiz-question-box { background-color: var(--secondary-background-color); }
 .quiz-question-box > strong { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; }
 .quiz-question-box .question-text-part { font-family: 'Inter', sans-serif; font-size: 19px; font-weight: 500; margin-left: 0.5em; }
-[data-testid="stForm"] { border: 1px solid var(--gray-300); border-top: none; border-radius: 0 0 0.5rem 0.5rem; padding: 0.5rem 1.5rem 0.5rem 1.5rem; margin-top: 0 !important; }
+[data-testid="stForm"] { border: 1px solid var(--gray-300); border-top: none; border-radius: 0 0 0.5rem 0.5rem; padding: 0.5rem 1.5rem; margin-top: 0 !important; }
 .feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border-width: 1px; border-style: solid; }
 .correct-answer { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
 .wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
@@ -205,9 +205,6 @@ def restart_quiz():
     st.session_state.page = 'quiz'; st.session_state.current_part_index = 0
     st.session_state.current_sample_index = 0; st.session_state.current_rating_question_index = 0
     st.session_state.show_feedback = False; st.session_state.score = 0; st.session_state.score_saved = False
-
-def format_options_with_info(option_name):
-    return f"{option_name} ({DEFINITIONS[option_name]})" if option_name in DEFINITIONS else option_name
 
 # --- Main App ---
 if 'page' not in st.session_state:
@@ -315,9 +312,7 @@ elif st.session_state.page == 'quiz':
                 if "Tone Controllability" in current_part_key:
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
-                elif "Tone Identification" in current_part_key:
-                    st.markdown(f'<div class="part1-caption-box new-caption-highlight" style="background-color: #EBF5FF;"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
-                else: # Caption Quality
+                else: # Covers Tone Identification and Caption Quality
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
 
                 streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_{sample_id}")
@@ -330,7 +325,8 @@ elif st.session_state.page == 'quiz':
                     
                     personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
                     style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                    st.markdown(f"**Personality:** {personality_str}<br>**Writing Style:** {style_str}", unsafe_allow_html=True)
+                    st.markdown(f"<div style='margin-top: 1rem;'>**Personality:** {personality_str}<br>**Writing Style:** {style_str}</div>", unsafe_allow_html=True)
+
 
                 if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
             if current_step >= 4:
