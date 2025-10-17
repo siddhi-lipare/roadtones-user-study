@@ -57,9 +57,11 @@ def connect_to_gsheet():
 
 # WORKSHEET = connect_to_gsheet()
 
+
 # --- Custom CSS and JavaScript for better UI/UX ---
 st.markdown("""
 <style>
+/* (All your CSS styles remain here, unchanged) */
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
@@ -231,50 +233,58 @@ body[theme="dark"] .reference-box {
 
 </style>
 <script>
-    // This list now includes ALL possible button labels from the app
-    const targetButtonLabels = [
-        "Next",
-        "Proceed to Summary",
-        "Proceed to Caption",
-        "Show Questions",
-        "Next Question",
-        "Submit Answer",
-        "Submit Ratings",
-        "Submit Comparison", // <-- ADDED
-        "Submit Answers",    // <-- ADDED
-        "Proceed to User Study"
-    ];
+    // This function encapsulates the logic to find and click the target button.
+    function clickNextButton() {
+        const targetButtonLabels = [
+            "Next", "Proceed to Summary", "Proceed to Caption", "Show Questions",
+            "Next Question", "Submit Answer", "Submit Ratings", "Submit Comparison",
+            "Submit Answers", "Proceed to User Study"
+        ];
 
-    document.addEventListener('keydown', function(event) {
-        const activeElement = document.activeElement;
-        // Ignore keypresses if the user is typing in an input/textarea
+        try {
+            const allButtons = Array.from(document.querySelectorAll('button'));
+            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
+
+            for (const label of [...targetButtonLabels].reverse()) {
+                // Find the last visible button that includes the target label text.
+                // Using textContent is more reliable than innerText.
+                const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.includes(label));
+                
+                if (targetButton) {
+                    console.log('ArrowRight pressed, clicking:', targetButton.textContent);
+                    targetButton.click();
+                    return; // Exit after clicking the first found button
+                }
+            }
+            console.log("ArrowRight pressed, but no target button was found on the page.");
+        } catch (e) {
+            console.error("Error while trying to click button:", e);
+        }
+    }
+
+    // We add the event listener to the parent window to capture the keydown event reliably.
+    window.parent.document.addEventListener('keydown', function(event) {
+        // Check if the user is typing in an input field in the main document
+        const activeElement = window.parent.document.activeElement;
         if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+            return;
+        }
+        
+        // Check if the user is typing in an input field within the Streamlit iframe
+        const streamlitActiveElement = document.activeElement;
+         if (streamlitActiveElement && (streamlitActiveElement.tagName === 'INPUT' || streamlitActiveElement.tagName === 'TEXTAREA')) {
             return;
         }
 
         if (event.key === 'ArrowRight') {
             event.preventDefault(); // Stop any default browser action like scrolling
-
-            const allButtons = Array.from(document.querySelectorAll('button'));
-            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
-            
-            // We search in reverse order of the labels to prioritize more specific actions
-            // e.g., "Submit Answer" should be checked before "Next"
-            for (const label of [...targetButtonLabels].reverse()) {
-                // Find the last visible button that includes the target label text.
-                // This is more robust for how Streamlit renders elements.
-                const targetButton = [...visibleButtons].reverse().find(btn => btn.innerText.includes(label));
-                
-                if (targetButton) {
-                    console.log('ArrowRight pressed, clicking:', targetButton.innerText);
-                    targetButton.click();
-                    return; // Exit after clicking the first found button
-                }
-            }
+            clickNextButton();
         }
     });
 </script>
 """, unsafe_allow_html=True)
+
+
 
 
 # --- Central Dictionary for All Definitions ---
