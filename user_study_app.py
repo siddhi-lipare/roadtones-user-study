@@ -130,7 +130,7 @@ st.markdown("""
 body[theme="dark"] .quiz-question-box { background-color: var(--secondary-background-color); }
 .quiz-question-box > strong { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; }
 .quiz-question-box .question-text-part { font-family: 'Inter', sans-serif; font-size: 19px; font-weight: 500; margin-left: 0.5em; }
-[data-testid="stForm"] { border: 1px solid var(--gray-300); border-top: none; border-radius: 0 0 0.5rem 0.5rem; padding: 1.5rem 1.5rem 0.5rem 1.5rem; margin-top: 0 !important; }
+[data-testid="stForm"] { border: 1px solid var(--gray-300); border-top: none; border-radius: 0 0 0.5rem 0.5rem; padding: 0.5rem 1.5rem 0.5rem 1.5rem; margin-top: 0 !important; }
 .feedback-option { padding: 10px; border-radius: 8px; margin-bottom: 8px; border-width: 1px; border-style: solid; }
 .correct-answer { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
 .wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
@@ -252,8 +252,10 @@ elif st.session_state.page == 'intro_video':
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
     with st.sidebar:
-        st.header("Quiz Sections"); [st.button(name, on_click=jump_to_part, args=(i,), use_container_width=True) for i, name in enumerate(part_keys)]
-    
+        st.header("Quiz Sections")
+        for i, name in enumerate(part_keys):
+            st.button(name, on_click=jump_to_part, args=(i,), use_container_width=True)
+
     if st.session_state.current_part_index >= len(part_keys): 
         st.session_state.page = 'quiz_results'
         st.rerun()
@@ -310,6 +312,16 @@ elif st.session_state.page == 'quiz':
             question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
             terms_to_define = set()
             if current_step >= 3:
+                if "Tone Controllability" in current_part_key:
+                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
+                elif "Tone Identification" in current_part_key:
+                    st.markdown(f'<div class="part1-caption-box new-caption-highlight" style="background-color: #EBF5FF;"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
+                else: # Caption Quality
+                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
+
+                streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_{sample_id}")
+
                 if "Caption Quality" in current_part_key:
                     control_scores = sample.get("control_scores", {})
                     personality_traits = list(control_scores.get("personality", {}).keys())
@@ -319,14 +331,6 @@ elif st.session_state.page == 'quiz':
                     personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
                     style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
                     st.markdown(f"**Personality:** {personality_str}<br>**Writing Style:** {style_str}", unsafe_allow_html=True)
-
-
-                if "Tone Controllability" in current_part_key:
-                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
-                else: 
-                    st.markdown(f'<div class="part1-caption-box new-caption-highlight" style="background-color: #EBF5FF;"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
-                streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_{sample_id}")
 
                 if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
             if current_step >= 4:
@@ -375,7 +379,7 @@ elif st.session_state.page == 'quiz':
                             selected_options = [opt for opt in question_data['options'] if st.checkbox(opt, key=f"cb_{current_index}_{opt}")]
                             choice = selected_options
                         else:
-                            choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None, format_func=format_options_with_info if "Tone Identification" in current_part_key else None)
+                            choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}", index=None)
                         if st.form_submit_button("Submit Answer"):
                             if not choice: st.error("Please select an option.")
                             else:
