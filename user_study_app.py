@@ -418,8 +418,8 @@ elif st.session_state.page == 'user_study_main':
 
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
         summary_typed_key = f"summary_typed_{current_video['video_id']}"
-        # --- NEW: Key for timer state ---
-        timer_state_key = f"timer_{current_video['video_id']}"
+        # --- NEW: Key for video watched checkbox ---
+        video_watched_key = f"watched_{current_video['video_id']}"
 
         q_templates = st.session_state.all_data['questions']['part1_questions']
         questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
@@ -435,16 +435,8 @@ elif st.session_state.page == 'user_study_main':
             }
             if caption_idx == 0:
                 st.session_state[summary_typed_key] = False
-                # --- NEW: Initialize timer state only if not already set ---
-                if timer_state_key not in st.session_state:
-                    video_duration = get_video_duration(current_video['video_path'])
-                    # Use math.ceil to ensure timer runs for full seconds
-                    rounded_duration = math.ceil(video_duration)
-                    st.session_state[timer_state_key] = {
-                        'end_time': time.time() + rounded_duration,
-                        'duration': rounded_duration,
-                        'started': True # Flag to indicate timer has been initialized
-                    }
+                # --- NEW: Initialize watched state for new video ---
+                st.session_state[video_watched_key] = False
 
         current_step = st.session_state[view_state_key]['step']
 
@@ -456,56 +448,35 @@ elif st.session_state.page == 'user_study_main':
 
         with col1:
             st.video(current_video['video_path'], autoplay=False)
-
-            # --- Timer and Button Logic (only for first caption, step 1) ---
-            proceed_button_clicked = False
+            
+            # --- NEW: Add 'watched video' checkbox for the first caption ---
             if caption_idx == 0 and current_step == 1:
-                if timer_state_key in st.session_state:
-                    timer_info = st.session_state[timer_state_key]
-                    end_time = timer_info['end_time']
-                    remaining_time = max(0, round(end_time - time.time()))
-
-                    # Display countdown timer
-                    countdown_placeholder = st.empty()
-                    countdown_placeholder.metric("Watch time remaining", f"{remaining_time}s")
-
-                    button_disabled = remaining_time > 0
-                    if st.button("Proceed to Summary", disabled=button_disabled):
-                        proceed_button_clicked = True # Mark button as clicked
-
-                    # Rerun logic while timer is active *and* button hasn't been clicked
-                    if remaining_time > 0 and not proceed_button_clicked:
-                        # Clear placeholder before sleep to avoid flickering
-                        countdown_placeholder.empty()
-                        time.sleep(1)
+                 st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state[video_watched_key])
+            
+            # Sequential reveal buttons (only for the first caption)
+            if caption_idx == 0:
+                # --- MODIFIED: Disable button based on checkbox ---
+                proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
+                if current_step == 1 and st.button("Proceed to Summary", disabled=proceed_summary_disabled):
+                    if not st.session_state[video_watched_key]: # Double check just in case
+                        st.warning("Please watch the video and check the box above.")
+                    else:
+                        st.session_state[view_state_key]['step'] = 2
                         st.rerun()
-                    # If timer finished and button was clicked in this run
-                    elif remaining_time <= 0 and proceed_button_clicked:
-                         st.session_state[view_state_key]['step'] = 2
-                         # Optional: Clean up timer state if not needed anymore
-                         # st.session_state.pop(timer_state_key, None)
-                         st.rerun()
 
-                else:
-                    # Fallback if timer state somehow isn't initialized
-                    st.warning("Timer error. Please refresh.")
-                    if st.button("Proceed to Summary", disabled=True):
-                         pass # Should not be clickable
-
-            # --- Summary display logic ---
-            elif caption_idx == 0 and current_step >= 2: # First caption, after timer
-                st.subheader("Video Summary")
-                if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
-                else:
-                    with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
-                    st.session_state[summary_typed_key] = True
-                if current_step == 2 and st.button("Proceed to Caption"):
-                    st.session_state[view_state_key]['step'] = 3; st.rerun()
-            elif caption_idx > 0 and current_step >= 4: # Subsequent captions
+                if current_step >= 2:
+                    st.subheader("Video Summary")
+                    if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
+                    else:
+                        with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
+                        st.session_state[summary_typed_key] = True
+                    if current_step == 2 and st.button("Proceed to Caption"):
+                        st.session_state[view_state_key]['step'] = 3; st.rerun()
+            elif current_step >= 4: # For subsequent captions, just show summary
                  st.subheader("Video Summary")
                  st.info(current_video["video_summary"])
 
-        with col2: # Column 2 logic remains the same as before
+        with col2:
             terms_to_define = set()
 
             if current_step >= 3: # Show caption area
@@ -569,6 +540,7 @@ elif st.session_state.page == 'user_study_main':
                         st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=options_map[q['id']], value=responses.get(q['id'], options_map[q['id']][2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
 
+                # --- REMOVED st.write("---") ---
                 validation_placeholder = st.empty()
 
                 # Navigation Logic (With Validation)
@@ -602,7 +574,7 @@ elif st.session_state.page == 'user_study_main':
                 reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
     # ====================== END: CORRECTED PART 1 CODE =======================
-    
+
     elif st.session_state.study_part == 2:
         # ... (Your Part 2 code remains unchanged) ...
         st.header("Which caption is better?")
