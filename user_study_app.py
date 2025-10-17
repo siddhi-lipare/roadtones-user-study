@@ -410,8 +410,7 @@ elif st.session_state.page == 'user_study_main':
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
 
         if video_idx >= len(all_videos):
-            st.session_state.study_part = 2
-            st.rerun()
+            st.session_state.study_part = 2; st.rerun()
 
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
@@ -426,13 +425,12 @@ elif st.session_state.page == 'user_study_main':
 
         options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
 
-        # Initialize state
         if view_state_key not in st.session_state:
             initial_step = 4 if caption_idx > 0 else 1
             st.session_state[view_state_key] = {
                 'step': initial_step,
-                'responses': {qid: options_map[qid][2] for qid in question_ids}, # Pre-populate default
-                'interacted': {qid: False for qid in question_ids} # Flag set ONLY by on_change
+                'responses': {qid: options_map[qid][2] for qid in question_ids},
+                'interacted': {qid: False for qid in question_ids}
             }
             if caption_idx == 0:
                 st.session_state[summary_typed_key] = False
@@ -440,11 +438,9 @@ elif st.session_state.page == 'user_study_main':
 
         current_step = st.session_state[view_state_key]['step']
 
-        # Callback Function: Sets interacted flag to True
         def mark_interacted(q_id, view_key):
             if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                  st.session_state[view_key]['interacted'][q_id] = True
-                 # print(f"Callback: Slider {q_id} interacted. State: {st.session_state[view_key]['interacted']}") # Debug print
 
         col1, col2 = st.columns([1, 1.8])
 
@@ -456,7 +452,7 @@ elif st.session_state.page == 'user_study_main':
                  if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"proceed_summary_{video_idx}"):
                      if not st.session_state[video_watched_key]: st.warning("Please watch the video and check the box above.")
                      else: st.session_state[view_state_key]['step'] = 2; st.rerun()
-            elif caption_idx == 0 and current_step >= 2: # First caption, summary & next button
+            elif caption_idx == 0 and current_step >= 2:
                 st.subheader("Video Summary")
                 if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
                 else:
@@ -464,23 +460,22 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state[summary_typed_key] = True
                 if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
                     st.session_state[view_state_key]['step'] = 3; st.rerun()
-            elif caption_idx > 0 and current_step >= 4: # Subsequent captions, just show summary
+            elif caption_idx > 0 and current_step >= 4:
                  st.subheader("Video Summary")
                  st.info(current_video["video_summary"])
 
         with col2: # Caption, Questions, Sliders, Validation
             terms_to_define = set()
 
-            if current_step >= 3: # Show caption area
+            if current_step >= 3:
                 colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
                 highlight_color = colors[caption_idx % len(colors)]
                 caption_box_class = "part1-caption-box new-caption-highlight" if caption_idx > 0 else "part1-caption-box"
                 st.markdown(f'''<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>''', unsafe_allow_html=True)
-
                 if caption_idx == 0 and current_step == 3 and st.button("Show Questions", key=f"show_q_{video_idx}"):
                     st.session_state[view_state_key]['step'] = 4; st.rerun()
 
-            if current_step >= 4: # Show questions area
+            if current_step >= 4:
                 control_scores = current_caption.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
                 style_traits = list(control_scores.get("writing_style", {}).keys())
@@ -503,7 +498,7 @@ elif st.session_state.page == 'user_study_main':
                 question_cols_row1 = st.columns(3)
                 question_cols_row2 = st.columns(3)
 
-                # --- Render questions based on current_step ---
+                # Render questions based on current_step
                 if current_step >= 4:
                     with question_cols_row1[0]:
                         q = questions_to_ask[0]; slider_options = options_map[q['id']]
@@ -531,22 +526,22 @@ elif st.session_state.page == 'user_study_main':
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
 
                 validation_placeholder = st.empty()
+                
+                # --- ADD DEBUGGING ---
+                st.write(f"<small>DEBUG: Step={current_step}, Caption={caption_idx}</small>", unsafe_allow_html=True)
+
 
                 # --- Navigation Logic (With CORRECTED Validation) ---
                 max_step_for_questions = 8 # Step when last question (Q5) appears
 
                 # Show "Next Question" button only for first caption, if not all questions shown yet
                 if caption_idx == 0 and current_step < max_step_for_questions:
-                    # Validate the question corresponding to the current step - 1
                     question_to_validate_index = current_step - 4 # 0-based index
                     question_id_to_validate = questions_to_ask[question_to_validate_index]['id']
-
-                    # --- Use ONLY the interacted flag for validation ---
                     has_interacted = interacted_state.get(question_id_to_validate, False)
 
                     if st.button(f"Next Question ({question_to_validate_index + 2}/{len(questions_to_ask)})", key=f"next_q_cap{caption_idx}_{current_step}"):
                         if not has_interacted:
-                             # Clearer warning message
                              validation_placeholder.warning(f"⚠️ Please move the slider for question {question_to_validate_index + 1} before proceeding.")
                         else:
                             st.session_state[view_state_key]['step'] += 1
@@ -556,16 +551,24 @@ elif st.session_state.page == 'user_study_main':
                 # Show "Submit Ratings" button if all questions should be visible
                 elif (caption_idx == 0 and current_step >= max_step_for_questions) or caption_idx > 0:
                     if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
-                        all_interacted_submit = True
-                        invalid_q_indices = []
-                        # Check interaction flag for ALL questions
-                        for i, qid in enumerate(question_ids):
-                             if not interacted_state.get(qid, False):
-                                 all_interacted_submit = False
-                                 invalid_q_indices.append(i + 1) # Store 1-based index
+                        
+                        # --- REFINED SUBMIT VALIDATION ---
+                        # Determine which questions *should* be visible right now.
+                        # For subsequent captions (idx>0), all are visible.
+                        # For the first caption (idx==0), all are visible only if step >= max_step.
+                        num_visible_questions = len(question_ids) if (caption_idx > 0 or current_step >= max_step_for_questions) else current_step - 3
 
-                        if not all_interacted_submit:
-                            # Clearer warning message
+                        all_visible_interacted = True
+                        invalid_q_indices = []
+                        # Check interaction flag ONLY for the questions that are supposed to be visible
+                        for i in range(num_visible_questions):
+                             qid = question_ids[i]
+                             if not interacted_state.get(qid, False):
+                                 all_visible_interacted = False
+                                 invalid_q_indices.append(i + 1) # Store 1-based index
+                        # --- END REFINED SUBMIT VALIDATION ---
+
+                        if not all_visible_interacted:
                             validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, invalid_q_indices))} before submitting.")
                         else:
                             validation_placeholder.empty()
@@ -679,37 +682,27 @@ elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You!")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
 
-# =====================================================================================
-# FINAL, WORKING JAVASCRIPT SOLUTION
-# =====================================================================================
+# --- JavaScript ---
 js_script = """
 const parent_document = window.parent.document;
 if (!parent_document.arrowRightListenerAttached) {
     console.log("Attaching ArrowRight key listener.");
     parent_document.addEventListener('keyup', function(event) {
         const activeElement = parent_document.activeElement;
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-            return;
-        }
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) { return; }
         if (event.key === 'ArrowRight') {
             event.preventDefault();
-            const targetButtonLabels = [
-                "Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer",
-                "Next Question", "Show Questions", "Proceed to Caption",
-                "Proceed to Summary", "Proceed to User Study", "Next"
-            ];
+            const targetButtonLabels = ["Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer", "Next Question", "Show Questions", "Proceed to Caption", "Proceed to Summary", "Proceed to User Study", "Next"];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
             for (const label of targetButtonLabels) {
                 const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
                 if (targetButton) {
-                    const warning = document.querySelector('[data-testid="stWarning"]'); // Check inside iframe for warning
+                    const warning = document.querySelector('[data-testid="stWarning"]');
                     if (!warning || warning.offsetParent === null) {
                        console.log('ArrowRight detected, clicking button:', targetButton.textContent);
                        targetButton.click();
-                    } else {
-                       console.log('ArrowRight detected, but warning is visible. Button click prevented.');
-                    }
+                    } else { console.log('ArrowRight detected, but warning is visible. Button click prevented.'); }
                     break;
                 }
             }
