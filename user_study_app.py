@@ -325,7 +325,7 @@ elif st.session_state.page == 'quiz':
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box new-caption-highlight" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
                 else: 
-                    st.markdown(f'<div class="comparison-caption-box new-caption-highlight"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="part1-caption-box new-caption-highlight" style="background-color: #EBF5FF;"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
                 streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_{sample_id}")
 
                 if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
@@ -715,4 +715,5 @@ if (!parent_document.arrowRightListenerAttached) {
 }
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
+
 
