@@ -9,6 +9,7 @@ import cv2
 import math
 import gspread
 from google.oauth2.service_account import Credentials
+from streamlit_js_eval import streamlit_js_eval # <-- IMPORT THE COMPONENT
 
 # --- Configuration ---
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
@@ -55,13 +56,10 @@ def connect_to_gsheet():
         st.error(f"Could not connect to Google Sheets: {e}")
         return None
 
-# WORKSHEET = connect_to_gsheet()
-
-
-# --- Custom CSS and JavaScript for better UI/UX ---
+# --- Custom CSS ---
+# THE <script> TAG HAS BEEN REMOVED FROM HERE
 st.markdown("""
 <style>
-/* (All your CSS styles remain here, unchanged) */
 /* Import Google Font 'Inter' for a more modern, prominent look */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 
@@ -193,7 +191,7 @@ body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4
 
 
 /* --- STYLE FOR MULTI-SELECT PILLS --- */
-.stMultiSelect [data-baseweb="tag"] {
+.stMultiSelect [data-basebeb="tag"] {
     background-color: #BDE0FE !important; 
     color: #003366 !important; 
 }
@@ -230,61 +228,8 @@ body[theme="dark"] .reference-box {
 .reference-box li {
     margin-bottom: 0.5rem;
 }
-
 </style>
-<script>
-    // This function encapsulates the logic to find and click the target button.
-    function clickNextButton() {
-        const targetButtonLabels = [
-            "Next", "Proceed to Summary", "Proceed to Caption", "Show Questions",
-            "Next Question", "Submit Answer", "Submit Ratings", "Submit Comparison",
-            "Submit Answers", "Proceed to User Study"
-        ];
-
-        try {
-            const allButtons = Array.from(document.querySelectorAll('button'));
-            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
-
-            for (const label of [...targetButtonLabels].reverse()) {
-                // Find the last visible button that includes the target label text.
-                // Using textContent is more reliable than innerText.
-                const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.includes(label));
-                
-                if (targetButton) {
-                    console.log('ArrowRight pressed, clicking:', targetButton.textContent);
-                    targetButton.click();
-                    return; // Exit after clicking the first found button
-                }
-            }
-            console.log("ArrowRight pressed, but no target button was found on the page.");
-        } catch (e) {
-            console.error("Error while trying to click button:", e);
-        }
-    }
-
-    // We add the event listener to the parent window to capture the keydown event reliably.
-    window.parent.document.addEventListener('keydown', function(event) {
-        // Check if the user is typing in an input field in the main document
-        const activeElement = window.parent.document.activeElement;
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-            return;
-        }
-        
-        // Check if the user is typing in an input field within the Streamlit iframe
-        const streamlitActiveElement = document.activeElement;
-         if (streamlitActiveElement && (streamlitActiveElement.tagName === 'INPUT' || streamlitActiveElement.tagName === 'TEXTAREA')) {
-            return;
-        }
-
-        if (event.key === 'ArrowRight') {
-            event.preventDefault(); // Stop any default browser action like scrolling
-            clickNextButton();
-        }
-    });
-</script>
 """, unsafe_allow_html=True)
-
-
 
 
 # --- Central Dictionary for All Definitions ---
@@ -437,7 +382,6 @@ def go_to_next_quiz_question():
         dummy_video_data = {'video_id': sample.get('sample_id')}
         dummy_caption_data = {'caption_id': sample.get('sample_id'), 'text': sample.get('caption', 'N/A')}
         
-        # REVERTED to original save_response function
         save_response(st.session_state.email, st.session_state.age, st.session_state.gender, dummy_video_data, dummy_caption_data, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
         
         if "Caption Quality" in current_part_key:
@@ -536,7 +480,6 @@ elif st.session_state.page == 'intro_video':
     _ , vid_col, _ = st.columns([1, 3, 1])
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
-        # NEW: Added the hyperlinked guide below the info box
         st.markdown("##### [Additional user study guide](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing)")
 
     if st.button("Next"):
@@ -559,7 +502,6 @@ elif st.session_state.page == 'quiz':
     sample = questions_for_part[current_index]
     sample_id = sample.get('sample_id', f'quiz_{current_index}')
 
-    # --- State Management for Sequential Reveal ---
     view_state_key = f'view_state_{sample_id}'
     if view_state_key not in st.session_state:
         st.session_state[view_state_key] = {'step': 1}
@@ -571,7 +513,6 @@ elif st.session_state.page == 'quiz':
             yield word + " "
             time.sleep(0.05)
 
-    # --- DYNAMIC QUIZ TITLE LOGIC ---
     if "Tone Identification" in current_part_key:
         display_title = f"{sample.get('category', 'Tone').title()} Identification"
     elif "Tone Controllability" in current_part_key:
@@ -641,12 +582,10 @@ elif st.session_state.page == 'quiz':
                     st.session_state.pop(view_state_key, None) 
                     st.rerun()
             else:
-                # --- CORRECTED QUESTION LOGIC ---
                 question_text = ""
                 if "Tone Controllability" in current_part_key:
                      question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
                 elif "Caption Quality" in current_part_key:
-                    # This new condition fixes the bug for Part 3
                     question_text = question_data["question_text"]
                 elif question_data.get("question_type") == "multi":
                     question_text = "Identify 2 dominant personality traits projected by the captioner"
@@ -707,7 +646,6 @@ elif st.session_state.page == 'user_study_main':
         st.error("Data could not be loaded. Please check file paths and permissions.")
         st.stop()
 
-    # Helper function for typewriter effect
     def stream_text(text):
         for word in text.split(" "):
             yield word + " "
@@ -731,18 +669,14 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         current_caption = current_video['captions'][caption_idx]
         
-        # Define unique keys for state management
         view_state_key = f"view_state_p1_{current_caption['caption_id']}"
-        summary_typed_key = f"summary_typed_{current_video['video_id']}" # Key is per-video
+        summary_typed_key = f"summary_typed_{current_video['video_id']}"
 
-        # Initialize the state for the current caption view
         if view_state_key not in st.session_state:
-            # For subsequent captions of the SAME video, jump directly to showing questions
             if caption_idx > 0:
                 initial_step = 4
-            # For the first caption of a NEW video, start the full sequential reveal
             else:
-                st.session_state[summary_typed_key] = False # Reset typewriter effect for new video
+                st.session_state[summary_typed_key] = False
                 initial_step = 1
             st.session_state[view_state_key] = {'step': initial_step, 'responses': {}}
         
@@ -753,7 +687,6 @@ elif st.session_state.page == 'user_study_main':
         with col1:
             st.video(current_video['video_path'], autoplay=False)
 
-            # This button only appears for the first caption of a video
             if current_step == 1:
                 if st.button("Proceed to Summary"):
                     st.session_state[view_state_key]['step'] = 2
@@ -762,15 +695,13 @@ elif st.session_state.page == 'user_study_main':
             if current_step >= 2:
                 st.subheader("Video Summary")
                 
-                # Use the video-specific key to control the typewriter effect
                 if st.session_state.get(summary_typed_key, False):
-                    st.info(current_video["video_summary"]) # Show summary instantly
+                    st.info(current_video["video_summary"])
                 else:
-                    with st.empty(): # Show summary with typewriter effect once per video
+                    with st.empty():
                         st.write_stream(stream_text(current_video["video_summary"]))
                     st.session_state[summary_typed_key] = True 
                 
-                # This button also only appears for the first caption
                 if current_step == 2:
                     if st.button("Proceed to Caption"):
                         st.session_state[view_state_key]['step'] = 3
@@ -786,7 +717,6 @@ elif st.session_state.page == 'user_study_main':
                 caption_text_html = f'''<div class="part1-caption-box" style="{caption_box_style}"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>'''
                 st.markdown(caption_text_html, unsafe_allow_html=True)
                 
-                # This button only appears for the first caption
                 if current_step == 3:
                     if st.button("Show Questions"):
                         st.session_state[view_state_key]['step'] = 4
@@ -806,9 +736,7 @@ elif st.session_state.page == 'user_study_main':
                 style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
                 
                 q_templates = st.session_state.all_data['questions']['part1_questions']
-                
                 questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
-                
                 questions_to_ask = [
                     {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)},
                     {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
@@ -816,7 +744,6 @@ elif st.session_state.page == 'user_study_main':
                     {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
                     {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
-
                 options_map = {
                     "personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
                     "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
@@ -825,11 +752,9 @@ elif st.session_state.page == 'user_study_main':
                     "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]
                 }
                 
-                # For subsequent captions, this will be high enough to show all questions
                 num_questions_to_show = len(questions_to_ask) if caption_idx > 0 else current_step - 3
                 responses = st.session_state[view_state_key]['responses']
 
-                # GRID-BASED SEQUENTIAL RENDER
                 row1_cols = st.columns(3)
                 with row1_cols[0]:
                     if num_questions_to_show >= 1:
@@ -869,7 +794,6 @@ elif st.session_state.page == 'user_study_main':
                 
                 st.write("---")
 
-                # Navigation Logic
                 if num_questions_to_show < len(questions_to_ask):
                     if st.button(f"Next Question ({num_questions_to_show + 1}/{len(questions_to_ask)})"):
                         st.session_state[view_state_key]['step'] += 1
@@ -1046,3 +970,44 @@ elif st.session_state.page == 'user_study_main':
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You! ")
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
+
+
+# Define the JavaScript to be executed.
+# This will be injected into the app and listen for the 'ArrowRight' keypress.
+js_code = """
+<script>
+    function doc_keyUp(e) {
+        // This function will be called when a key is pressed
+        if (e.key === 'ArrowRight') {
+            // Find all visible buttons on the page
+            const buttons = Array.from(window.parent.document.querySelectorAll('button'));
+            const visibleButtons = buttons.filter(btn => btn.offsetParent !== null);
+            
+            // Define the priority order of button labels
+            const targetButtonLabels = [
+                "Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer",
+                "Next Question", "Show Questions", "Proceed to Caption", 
+                "Proceed to Summary", "Proceed to User Study", "Next"
+            ];
+
+            // Find the first button that matches our priority list
+            for (const label of targetButtonLabels) {
+                const targetButton = visibleButtons.find(btn => btn.textContent.includes(label));
+                if (targetButton) {
+                    console.log('ArrowRight pressed, clicking:', targetButton.textContent);
+                    targetButton.click();
+                    return; // Exit after clicking the first one found
+                }
+            }
+        }
+    }
+    
+    // Add the event listener to the parent document, which is more reliable in Streamlit
+    window.parent.document.addEventListener('keyup', doc_keyUp, false);
+</script>
+"""
+
+page_key = f"{st.session_state.page}_{st.session_state.get('current_part_index', '')}_{st.session_state.get('current_sample_index', '')}_{st.session_state.get('study_part', '')}_{st.session_state.get('current_video_index', '')}"
+
+# Execute the JavaScript. This component will inject the script for us.
+streamlit_js_eval(js_expressions=js_code, key=page_key)
