@@ -254,8 +254,8 @@ elif st.session_state.page == 'quiz':
                     const buttons = window.parent.document.querySelectorAll('button[data-testid="stButton"]');
                     const targetButton = Array.from(buttons).find(btn => btn.innerText.includes("Proceed to Summary"));
                     if (targetButton) {{ targetButton.disabled = false; }}
-                    const info_box = window.parent.document.querySelector('[data-testid="stInfo"]');
-                    if(info_box){{ info_box.style.display = 'none'; }}
+                    const infoBox = Array.from(window.parent.document.querySelectorAll('[data-testid="stInfo"]')).find(el => el.innerText.includes("Please watch the video"));
+                    if(infoBox){{ infoBox.style.display = 'none'; }}
                 }}, 10000);
             """, key=f"timer_quiz_{sample_id}")
             if st.session_state.get(button_key):
@@ -419,10 +419,9 @@ elif st.session_state.page == 'user_study_main':
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
                     
-                    # For subsequent captions, we need to base it on step, not interaction count which resets
                     if caption_idx > 0:
-                        questions_to_show = current_step - 3
-                    
+                        questions_to_show = current_step - 3 if 'step' in st.session_state[view_state_key] else 1
+
                     if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0)
                     if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1)
                     if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2)
