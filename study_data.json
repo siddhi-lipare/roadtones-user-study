@@ -60,7 +60,7 @@
           "control_scores": {
             "personality": {
               "Serious": "Strong",
-              "Objective (Detached, Impartial)": "Moderate"
+              "Objective": "Moderate"
             },
             "writing_style": {
               "Factual": "Very Strong"
@@ -74,7 +74,7 @@
           "control_scores": {
             "personality": {
               "Observant": "Strong",
-              "Objective (Detached, Impartial)": "Strong"
+              "Objective": "Strong"
             },
             "writing_style": {
               "Conversational": "Very Strong"
@@ -139,7 +139,7 @@
           "control_scores": {
             "personality": {
               "Sarcastic": "Strong",
-              "Cynical (Doubtful, Skeptical)": "Strong"
+              "Cynical": "Strong"
             },
             "writing_style": {
               "Judgmental": "Very Strong",
@@ -265,7 +265,7 @@
       "control_scores": {
         "personality": {
           "Serious": "Strong",
-          "Objective (Detached, Impartial)": "Strong"
+          "Objective": "Strong"
         },
         "writing_style": {
           "Factual": "Strong"
@@ -281,7 +281,7 @@
       "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
       "control_scores": {
         "personality": {
-          "Objective (Detached, Impartial)": "Very Strong",
+          "Objective": "Very Strong",
           "Serious": "Strong"
         },
         "writing_style": {
