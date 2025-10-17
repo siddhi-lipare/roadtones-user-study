@@ -282,8 +282,10 @@ elif st.session_state.page == 'quiz':
         st.rerun()
     else:
         view_state_key = f'view_state_{sample_id}'
-        if view_state_key not in st.session_state: st.session_state[view_state_key] = {'step': 2, 'summary_typed': False}
+        if view_state_key not in st.session_state:
+            st.session_state[view_state_key] = {'step': 1, 'summary_typed': False}
         current_step = st.session_state[view_state_key]['step']
+
         def stream_text(text):
             for word in text.split(" "): yield word + " "; time.sleep(0.05)
         display_title = re.sub(r'Part \d+: ', '', current_part_key)
@@ -298,24 +300,34 @@ elif st.session_state.page == 'quiz':
                 _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
                 with vid_col_main: st.video(sample['video_path'], autoplay=True)
             else: st.video(sample['video_path'], autoplay=True)
+
+            if current_step == 1:
+                if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
+                    st.session_state[view_state_key]['step'] = 2
+                    st.rerun()
+
             if current_step >= 2 and "video_summary" in sample:
                 st.subheader("Video Summary")
-                if st.session_state[view_state_key].get('summary_typed', False): st.info(sample["video_summary"])
+                if st.session_state[view_state_key].get('summary_typed', False):
+                    st.info(sample["video_summary"])
                 else:
-                    with st.empty(): st.write_stream(stream_text(sample["video_summary"]))
+                    with st.empty():
+                        st.write_stream(stream_text(sample["video_summary"]))
                     st.session_state[view_state_key]['summary_typed'] = True
-                if current_step == 2 and st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"): st.session_state[view_state_key]['step'] = 3; st.rerun()
+                
+                if current_step == 2:
+                    if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
+                        st.session_state[view_state_key]['step'] = 3
+                        st.rerun()
         with col2:
             question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
             terms_to_define = set()
             if current_step >= 3:
-                # --- CORRECTED CODE ---
                 if "Tone Controllability" in current_part_key:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
                 else:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
-                # --- END CORRECTION ---
 
                 if "Caption Quality" in current_part_key:
                     control_scores = sample.get("control_scores", {})
@@ -323,12 +335,19 @@ elif st.session_state.page == 'quiz':
                     style_traits = list(control_scores.get("writing_style", {}).keys())
                     terms_to_define.update(personality_traits); terms_to_define.update(style_traits)
                     
-                    personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits)
-                    style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                    st.markdown(f"<div style='margin-top: 1rem;'>**Personality:** {personality_str}<br>**Writing Style:** {style_str}</div>", unsafe_allow_html=True)
+                    personality_str = ", ".join(f"<b>{p}</b>" for p in personality_traits)
+                    style_str = ", ".join(f"<b>{s}</b>" for s in style_traits)
+                    st.markdown(f"""
+                        <div style='margin-top: 1rem; font-size: 17px;'>
+                            <p style='margin-bottom: 0.2rem;'><strong>Personality:</strong> {personality_str}</p>
+                            <p><strong>Writing Style:</strong> {style_str}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
 
+                if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
+                    st.session_state[view_state_key]['step'] = 4
+                    st.rerun()
 
-                if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
             if current_step >= 4:
                 if st.session_state.show_feedback:
                     user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
@@ -585,10 +604,8 @@ elif st.session_state.page == 'user_study_main':
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
                 with col2:
                     if current_step >= 3:
-                        # --- CORRECTED CODE ---
                         st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
                         st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
-                        # --- END CORRECTION ---
                         
                         if current_step == 3 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
                     if current_step >= 4:
@@ -666,10 +683,8 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
                 if current_step >= 3:
-                    # --- CORRECTED CODE ---
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
-                    # --- END CORRECTION ---
 
                     if current_step == 3 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
                 if current_step >= 4:
