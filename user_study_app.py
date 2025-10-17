@@ -268,7 +268,7 @@ elif st.session_state.page == 'quiz':
         st.session_state[timer_finished_key] = False
 
     if not st.session_state[timer_finished_key]:
-        with st.spinner("Please watch the full video..."):
+        with st.spinner(""):
             st.header("Watch the video")
             col1, _ = st.columns([1.2, 1.5])
             with col1:
@@ -279,7 +279,7 @@ elif st.session_state.page == 'quiz':
                     st.video(sample['video_path'], autoplay=True, muted=True)
             duration = sample.get('duration', 10)
             time.sleep(duration)
-            st.session_state[timer_finished_key] = True
+        st.session_state[timer_finished_key] = True
         st.rerun()
     else:
         view_state_key = f'view_state_{sample_id}'
@@ -318,7 +318,7 @@ elif st.session_state.page == 'quiz':
                 
                 if current_step == 2:
                     if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
-                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_quiz_{sample_id}")
+                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_quiz_{sample_id}")
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
         with col2:
@@ -442,7 +442,7 @@ elif st.session_state.page == 'user_study_main':
 
             # --- TIMER LOGIC ---
             if caption_idx == 0 and not st.session_state[timer_finished_key]:
-                with st.spinner("Please watch the full video..."):
+                with st.spinner(""):
                     st.header("Watch the video")
                     col1, _ = st.columns([1, 1.8])
                     with col1:
@@ -500,7 +500,7 @@ elif st.session_state.page == 'user_study_main':
                                 with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
                                 st.session_state[summary_typed_key] = True
                             if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
-                                streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
+                                streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p1_{video_idx}")
                                 st.session_state[view_state_key]['step'] = 3; st.rerun()
                     else:
                         st.subheader("Video Summary"); st.info(current_video["video_summary"])
@@ -568,7 +568,7 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[timer_finished_key] = False
 
             if not st.session_state[timer_finished_key]:
-                with st.spinner("Please watch the full video..."):
+                with st.spinner(""):
                     st.header("Watch the video")
                     col1, _ = st.columns([1, 1.8])
                     with col1:
@@ -605,7 +605,7 @@ elif st.session_state.page == 'user_study_main':
                             with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
                             st.session_state[summary_typed_key] = True
                         if current_step == 2 and st.button("Proceed to Captions", key=f"p2_proceed_captions_{comparison_id}"):
-                            streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p2_{comparison_id}")
+                            streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p2_{comparison_id}")
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
                 with col2:
                     if current_step >= 3:
@@ -649,7 +649,7 @@ elif st.session_state.page == 'user_study_main':
             st.session_state[timer_finished_key] = False
 
         if not st.session_state[timer_finished_key]:
-            with st.spinner("Please watch the full video..."):
+            with st.spinner(""):
                 st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
@@ -685,7 +685,7 @@ elif st.session_state.page == 'user_study_main':
                         with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
                         st.session_state[summary_typed_key] = True
                     if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
-                        streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p3_{change_id}")
+                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p3_{change_id}")
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
                 if current_step >= 3:
