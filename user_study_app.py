@@ -424,7 +424,6 @@ elif st.session_state.page == 'user_study_main':
         questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
         question_ids = [q['id'] for q in questions_to_ask_raw]
 
-        # Define options map early for default value access
         options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
 
         # Initialize state
@@ -432,8 +431,7 @@ elif st.session_state.page == 'user_study_main':
             initial_step = 4 if caption_idx > 0 else 1
             st.session_state[view_state_key] = {
                 'step': initial_step,
-                 # Pre-populate responses with default if needed for validation logic
-                'responses': {qid: options_map[qid][2] for qid in question_ids},
+                'responses': {qid: options_map[qid][2] for qid in question_ids}, # Pre-populate default
                 'interacted': {qid: False for qid in question_ids}
             }
             if caption_idx == 0:
@@ -442,26 +440,21 @@ elif st.session_state.page == 'user_study_main':
 
         current_step = st.session_state[view_state_key]['step']
 
-        # Callback Function: Sets interacted flag to True
         def mark_interacted(q_id, view_key):
             if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                  st.session_state[view_key]['interacted'][q_id] = True
-                 # print(f"Callback: Slider {q_id} interacted. State: {st.session_state[view_key]['interacted']}") # Debug print
 
         col1, col2 = st.columns([1, 1.8])
 
-        with col1:
+        with col1: # Video and initial progression
             st.video(current_video['video_path'], autoplay=False)
             if caption_idx == 0 and current_step == 1:
                  st.checkbox("I have watched the video", key=video_watched_key, value=st.session_state.get(video_watched_key, False))
                  proceed_summary_disabled = not st.session_state.get(video_watched_key, False)
                  if st.button("Proceed to Summary", disabled=proceed_summary_disabled, key=f"proceed_summary_{video_idx}"):
-                     if not st.session_state[video_watched_key]:
-                         st.warning("Please watch the video and check the box above.")
-                     else:
-                         st.session_state[view_state_key]['step'] = 2
-                         st.rerun()
-            elif caption_idx == 0 and current_step >= 2:
+                     if not st.session_state[video_watched_key]: st.warning("Please watch the video and check the box above.")
+                     else: st.session_state[view_state_key]['step'] = 2; st.rerun()
+            elif caption_idx == 0 and current_step >= 2: # First caption, summary & next button
                 st.subheader("Video Summary")
                 if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
                 else:
@@ -469,21 +462,24 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state[summary_typed_key] = True
                 if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
                     st.session_state[view_state_key]['step'] = 3; st.rerun()
-            elif caption_idx > 0 and current_step >= 4:
+            elif caption_idx > 0 and current_step >= 4: # Subsequent captions, just show summary
                  st.subheader("Video Summary")
                  st.info(current_video["video_summary"])
 
-        with col2:
+        with col2: # Caption, Questions, Sliders, Validation
             terms_to_define = set()
 
-            if current_step >= 3:
+            if current_step >= 3: # Show caption area
                 colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]
                 highlight_color = colors[caption_idx % len(colors)]
-                st.markdown(f'''<div class="part1-caption-box" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>''', unsafe_allow_html=True)
+                # --- Apply highlight class conditionally ---
+                caption_box_class = "part1-caption-box new-caption-highlight" if caption_idx > 0 else "part1-caption-box"
+                st.markdown(f'''<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>''', unsafe_allow_html=True)
+
                 if caption_idx == 0 and current_step == 3 and st.button("Show Questions", key=f"show_q_{video_idx}"):
                     st.session_state[view_state_key]['step'] = 4; st.rerun()
 
-            if current_step >= 4:
+            if current_step >= 4: # Show questions area
                 control_scores = current_caption.get("control_scores", {})
                 personality_traits = list(control_scores.get("personality", {}).keys())
                 style_traits = list(control_scores.get("writing_style", {}).keys())
@@ -500,74 +496,82 @@ elif st.session_state.page == 'user_study_main':
                     {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
 
-                num_questions_to_show_now = len(questions_to_ask) if caption_idx > 0 else current_step - 3
+                # **No need for num_questions_to_show_now anymore**
                 responses = st.session_state[view_state_key]['responses']
                 interacted_state = st.session_state[view_state_key]['interacted']
 
                 question_cols_row1 = st.columns(3)
                 question_cols_row2 = st.columns(3)
 
-                # Render questions conditionally
-                # (Slider rendering logic remains the same, including on_change)
-                if num_questions_to_show_now >= 1:
+                # --- CORRECTED: Use current_step directly for rendering ---
+                # Question 1 (Show if step >= 4)
+                if current_step >= 4:
                     with question_cols_row1[0]:
                         q = questions_to_ask[0]; slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>1. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if num_questions_to_show_now >= 2:
+                # Question 2 (Show if step >= 5)
+                if current_step >= 5:
                     with question_cols_row1[1]:
                         q = questions_to_ask[1]; slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>2. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if num_questions_to_show_now >= 3:
+                # Question 3 (Show if step >= 6)
+                if current_step >= 6:
                      with question_cols_row1[2]:
                         q = questions_to_ask[2]; slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>3. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if num_questions_to_show_now >= 4:
+                # Question 4 (Show if step >= 7)
+                if current_step >= 7:
                     with question_cols_row2[0]:
                         q = questions_to_ask[3]; slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>4. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if num_questions_to_show_now >= 5:
+                # Question 5 (Show if step >= 8)
+                if current_step >= 8:
                     with question_cols_row2[1]:
                         q = questions_to_ask[4]; slider_options = options_map[q['id']]
                         st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
                         responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
+                # --- END CORRECTION ---
 
                 validation_placeholder = st.empty()
 
-                # --- Navigation Logic (With REFINED Validation) ---
-                if caption_idx == 0 and num_questions_to_show_now < len(questions_to_ask):
-                    question_to_validate_index = num_questions_to_show_now - 1
+                # --- Navigation Logic (Updated Validation & Button Display) ---
+                max_step_for_questions = 8 # Step when last question (Q5) appears
+                
+                # Show "Next Question" button only for first caption, if not all questions shown yet
+                if caption_idx == 0 and current_step < max_step_for_questions:
+                    # Validate the question corresponding to the *current* step - 1
+                    question_to_validate_index = current_step - 4 # 0-based index (step 4 -> index 0, step 5 -> index 1, etc.)
                     question_id_to_validate = questions_to_ask[question_to_validate_index]['id']
-                    default_value = options_map[question_id_to_validate][2] # Default is middle option
-
-                    # Check: Has the slider been interacted with OR is the current value different from the default?
-                    # Read the *current* response value directly from the state for validation
+                    default_value = options_map[question_id_to_validate][2]
                     current_response_value = st.session_state[view_state_key]['responses'].get(question_id_to_validate)
                     has_made_choice = interacted_state.get(question_id_to_validate, False) or (current_response_value != default_value)
 
-                    if st.button(f"Next Question ({num_questions_to_show_now + 1}/{len(questions_to_ask)})", key=f"next_q_cap{caption_idx}"):
+                    if st.button(f"Next Question ({question_to_validate_index + 2}/{len(questions_to_ask)})", key=f"next_q_cap{caption_idx}_{current_step}"):
                         if not has_made_choice:
-                             validation_placeholder.warning(f"⚠️ Please move the slider for question {num_questions_to_show_now} before proceeding.")
+                             validation_placeholder.warning(f"⚠️ Please move the slider for question {question_to_validate_index + 1} before proceeding.")
                         else:
                             st.session_state[view_state_key]['step'] += 1
                             validation_placeholder.empty()
                             st.rerun()
-
-                elif num_questions_to_show_now >= len(questions_to_ask):
+                            
+                # Show "Submit Ratings" button if all questions should be visible
+                # (step >= max_step for first caption, or always for subsequent captions)
+                elif (caption_idx == 0 and current_step >= max_step_for_questions) or caption_idx > 0:
                     if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
-                        # Check validation for ALL visible questions
                         all_valid = True
                         invalid_q_indices = []
+                        # Check all 5 questions
                         for i, qid in enumerate(question_ids):
                              default_value = options_map[qid][2]
                              current_response_value = st.session_state[view_state_key]['responses'].get(qid)
                              has_made_choice = interacted_state.get(qid, False) or (current_response_value != default_value)
                              if not has_made_choice:
                                  all_valid = False
-                                 invalid_q_indices.append(i + 1) # Store 1-based index for message
+                                 invalid_q_indices.append(i + 1)
 
                         if not all_valid:
                             validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, invalid_q_indices))} before submitting.")
@@ -585,7 +589,7 @@ elif st.session_state.page == 'user_study_main':
 
                 reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                 st.markdown(reference_html, unsafe_allow_html=True)
-    # ====================== END: REVERTED PART 1 CODE (Checkbox) ==============
+    # ====================== END: CORRECTED PART 1 CODE =======================
 
     elif st.session_state.study_part == 2:
         # ... (Your Part 2 code remains unchanged) ...
