@@ -268,19 +268,19 @@ elif st.session_state.page == 'quiz':
         st.session_state[timer_finished_key] = False
 
     if not st.session_state[timer_finished_key]:
-        with st.spinner("Loading video..."):
+        with st.spinner("Please watch the full video..."):
             st.header("Watch the video")
             col1, _ = st.columns([1.2, 1.5])
             with col1:
                 if sample.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([0.5, 1, 0.5])
-                    with vid_col_main: st.video(sample['video_path'], autoplay=True)
+                    with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
                 else:
-                    st.video(sample['video_path'], autoplay=True)
+                    st.video(sample['video_path'], autoplay=True, muted=True)
             duration = sample.get('duration', 10)
             time.sleep(duration)
             st.session_state[timer_finished_key] = True
-            st.rerun()
+        st.rerun()
     else:
         view_state_key = f'view_state_{sample_id}'
         if view_state_key not in st.session_state:
@@ -299,8 +299,8 @@ elif st.session_state.page == 'quiz':
         with col1:
             if sample.get("orientation") == "portrait":
                 _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-                with vid_col_main: st.video(sample['video_path'], autoplay=True)
-            else: st.video(sample['video_path'], autoplay=True)
+                with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
+            else: st.video(sample['video_path'], autoplay=True, muted=True)
 
             if current_step == 1:
                 if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
@@ -441,19 +441,19 @@ elif st.session_state.page == 'user_study_main':
 
             # --- TIMER LOGIC ---
             if caption_idx == 0 and not st.session_state[timer_finished_key]:
-                with st.spinner("Loading video..."):
+                with st.spinner("Please watch the full video..."):
                     st.header("Watch the video")
                     col1, _ = st.columns([1, 1.8])
                     with col1:
                         if current_video.get("orientation") == "portrait":
                             _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-                            with vid_col_main: st.video(current_video['video_path'], autoplay=True)
-                        else: st.video(current_video['video_path'], autoplay=True)
+                            with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
+                        else: st.video(current_video['video_path'], autoplay=True, muted=True)
                     
                     duration = current_video.get('duration', 10)
                     time.sleep(duration)
                     st.session_state[timer_finished_key] = True
-                    st.rerun()
+                st.rerun()
 
             # --- MAIN PAGE CONTENT (After Timer) ---
             else:
@@ -469,9 +469,6 @@ elif st.session_state.page == 'user_study_main':
                     st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
                     if caption_idx == 0:
                         st.session_state[summary_typed_key] = False
-                    for qid in question_ids:
-                        slider_key = f"ss_{qid}_cap{caption_idx}";
-                        if slider_key not in st.session_state: st.session_state[slider_key] = options_map[qid][2]
 
                 current_step = st.session_state[view_state_key]['step']
 
@@ -488,8 +485,8 @@ elif st.session_state.page == 'user_study_main':
                 with col1:
                     if current_video.get("orientation") == "portrait":
                         _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
-                        with vid_col_main: st.video(current_video['video_path'], autoplay=True)
-                    else: st.video(current_video['video_path'], autoplay=True)
+                        with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
+                    else: st.video(current_video['video_path'], autoplay=True, muted=True)
                     
                     if caption_idx == 0:
                         if current_step == 1:
@@ -548,7 +545,7 @@ elif st.session_state.page == 'user_study_main':
                                     validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
                                 else:
                                     with st.spinner("Saving your ratings..."):
-                                        responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}", options_map[qid][2]) for qid in question_ids}
+                                        responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
                                         for q_id, choice_text in responses_to_save.items():
                                             full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
                                             save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
@@ -570,18 +567,18 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[timer_finished_key] = False
 
             if not st.session_state[timer_finished_key]:
-                with st.spinner("Loading video..."):
+                with st.spinner("Please watch the full video..."):
                     st.header("Watch the video")
                     col1, _ = st.columns([1, 1.8])
                     with col1:
                         if current_comp.get("orientation") == "portrait":
                             _, vid_col_main, _ = st.columns([1, 3, 1]);
-                            with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
-                        else: st.video(current_comp['video_path'], autoplay=True)
+                            with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
+                        else: st.video(current_comp['video_path'], autoplay=True, muted=True)
                     duration = current_comp.get('duration', 10)
                     time.sleep(duration)
                     st.session_state[timer_finished_key] = True
-                    st.rerun()
+                st.rerun()
 
             else:
                 st.header("Which caption is better?")
@@ -594,8 +591,8 @@ elif st.session_state.page == 'user_study_main':
                 with col1:
                     if current_comp.get("orientation") == "portrait":
                         _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_comp['video_path'], autoplay=True)
-                    else: st.video(current_comp['video_path'], autoplay=True)
+                        with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
+                    else: st.video(current_comp['video_path'], autoplay=True, muted=True)
 
                     if current_step == 1:
                         if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
@@ -651,18 +648,18 @@ elif st.session_state.page == 'user_study_main':
             st.session_state[timer_finished_key] = False
 
         if not st.session_state[timer_finished_key]:
-            with st.spinner("Loading video..."):
+            with st.spinner("Please watch the full video..."):
                 st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
                     if current_change.get("orientation") == "portrait":
                         _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_change['video_path'], autoplay=True)
-                    else: st.video(current_change['video_path'], autoplay=True)
+                        with vid_col_main: st.video(current_change['video_path'], autoplay=True, muted=True)
+                    else: st.video(current_change['video_path'], autoplay=True, muted=True)
                 duration = current_change.get('duration', 10)
                 time.sleep(duration)
                 st.session_state[timer_finished_key] = True
-                st.rerun()
+            st.rerun()
 
         else:
             st.header(f"{field_type.replace('_', ' ').title()} Comparison")
@@ -674,8 +671,8 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_change.get("orientation") == "portrait":
                     _, vid_col_main, _ = st.columns([1, 3, 1]);
-                    with vid_col_main: st.video(current_change['video_path'], autoplay=True)
-                else: st.video(current_change['video_path'], autoplay=True)
+                    with vid_col_main: st.video(current_change['video_path'], autoplay=True, muted=True)
+                else: st.video(current_change['video_path'], autoplay=True, muted=True)
 
                 if current_step == 1:
                     if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
@@ -733,21 +730,24 @@ if (!parent_document.arrowRightListenerAttached) {
     console.log("Attaching ArrowRight key listener.");
     parent_document.addEventListener('keyup', function(event) {
         const activeElement = parent_document.activeElement;
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) { return; }
+        // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+            return;
+        }
+
         if (event.key === 'ArrowRight') {
             event.preventDefault();
             const targetButtonLabels = ["Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer", "Next Question", "Show Questions", "Proceed to Caption", "Proceed to Captions", "Proceed to Summary", "Proceed to User Study", "Next"];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
-            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null);
+            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
+            
             for (const label of targetButtonLabels) {
+                // Find the LAST visible button on the page that matches the label
                 const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
                 if (targetButton) {
-                    const warning = document.querySelector('[data-testid="stWarning"]');
-                    if (!warning || warning.offsetParent === null) {
-                       console.log('ArrowRight detected, clicking button:', targetButton.textContent);
-                       targetButton.click();
-                    } else { console.log('ArrowRight detected, but warning is visible. Button click prevented.'); }
-                    break;
+                    console.log('ArrowRight detected, clicking button:', targetButton.textContent);
+                    targetButton.click();
+                    break; // Exit loop once a button is clicked
                 }
             }
         }
