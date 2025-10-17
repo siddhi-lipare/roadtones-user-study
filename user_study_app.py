@@ -361,7 +361,7 @@ elif st.session_state.page == 'quiz':
         # Note: Quiz data needs an "orientation" field added similar to study_data.json
         # If not present, it will default to landscape.
         if sample.get("orientation") == "portrait":
-            vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([0.5, 1, 0.5])
+            vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([1, 3, 1])
             with vid_col_main:
                 st.video(sample['video_path'], autoplay=False)
         else:
@@ -505,7 +505,7 @@ elif st.session_state.page == 'user_study_main':
             with col1: # Video and initial progression
                 # --- ADDED: Handle Portrait Video ---
                 if current_video.get("orientation") == "portrait":
-                    vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([0.5, 1, 0.5])
+                    vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([1, 3, 1])
                     with vid_col_main:
                         st.video(current_video['video_path'], autoplay=False)
                 else:
@@ -635,7 +635,7 @@ elif st.session_state.page == 'user_study_main':
                 # --- RESTORED: Handle Portrait Video ---
                 if current_comp.get("orientation") == "portrait":
                     # Use narrower columns for portrait videos
-                    vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([0.5, 1, 0.5]) # Adjust spacing as needed
+                    vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([1, 3, 1]) # Adjust spacing as needed
                     with vid_col_main:
                         st.video(current_comp['video_path'], autoplay=False)
                 else:
@@ -729,7 +729,7 @@ elif st.session_state.page == 'user_study_main':
 
         with col1: # Video, Checkbox, Summary
             if current_change.get("orientation") == "portrait":
-                vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([0.5, 1, 0.5])
+                vid_col_spacer1, vid_col_main, vid_col_spacer2 = st.columns([1, 3, 1])
                 with vid_col_main:
                     st.video(current_change['video_path'], autoplay=False)
             else:
