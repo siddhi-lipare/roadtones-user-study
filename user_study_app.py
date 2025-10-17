@@ -330,25 +330,12 @@ elif st.session_state.page == 'quiz':
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
 
                 if "Caption Quality" in current_part_key:
-                    is_second_question = st.session_state.current_rating_question_index == 1
-                    if is_second_question:
-                        control_scores = sample.get("control_scores", {})
-                        personality_traits = list(control_scores.get("personality", {}).keys())
-                        style_traits = list(control_scores.get("writing_style", {}).keys())
+                    # Check if it's the second question (index 1) which is about the application
+                    if st.session_state.current_rating_question_index == 1:
                         application_trait = sample.get("application")
-                        terms_to_define.update(personality_traits)
-                        terms_to_define.update(style_traits)
                         if application_trait:
                             terms_to_define.add(application_trait)
-                        
-                        personality_str = ", ".join(f"<b>{p}</b>" for p in personality_traits)
-                        style_str = ", ".join(f"<b>{s}</b>" for s in style_traits)
-                        st.markdown(f"""
-                            <div style='margin-top: 1rem; font-size: 17px;'>
-                                <p style='margin-bottom: 0.2rem;'><strong>Personality:</strong> {personality_str}</p>
-                                <p><strong>Writing Style:</strong> {style_str}</p>
-                            </div>
-                        """, unsafe_allow_html=True)
+                    # The Personality/Style tones are no longer displayed here.
 
                 if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
                     st.session_state[view_state_key]['step'] = 4
