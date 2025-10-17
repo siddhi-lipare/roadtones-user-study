@@ -334,7 +334,23 @@ elif st.session_state.page == 'quiz':
                     user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
                     if not isinstance(user_choice, list): user_choice = [user_choice]
                     if not isinstance(correct_answer, list): correct_answer = [correct_answer]
-                    st.write("**Your Answer vs Correct Answer:**"); [st.markdown(f'<div class="feedback-option {"correct-answer" if opt in correct_answer else "wrong-answer" if opt in user_choice else "normal-answer"}">{"<strong>"+opt+" (Correct Answer)</strong>" if opt in correct_answer else opt+" (Your selection)" if opt in user_choice else opt}</div>', unsafe_allow_html=True) for opt in question_data['options']]
+                    st.write("**Your Answer vs Correct Answer:**")
+                    for opt in question_data['options']:
+                        is_correct = opt in correct_answer
+                        is_user_choice = opt in user_choice
+                        
+                        if is_correct:
+                            display_text = f"<strong>{opt} (Correct Answer)</strong>"
+                            css_class = "correct-answer"
+                        elif is_user_choice:
+                            display_text = f"{opt} (Your selection)"
+                            css_class = "wrong-answer"
+                        else:
+                            display_text = opt
+                            css_class = "normal-answer"
+                            
+                        st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
+                    
                     st.info(f"**Explanation:** {question_data['explanation']}")
                     if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
                 else:
@@ -715,5 +731,4 @@ if (!parent_document.arrowRightListenerAttached) {
 }
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
-
 
