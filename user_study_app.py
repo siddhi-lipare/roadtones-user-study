@@ -425,26 +425,42 @@ elif st.session_state.page == 'user_study_main':
 
         options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
 
+        # Initialize state ONLY if view_state_key doesn't exist
         if view_state_key not in st.session_state:
             initial_step = 4 if caption_idx > 0 else 1
+            print(f"\n--- Initializing State ---") # Debug Print
+            print(f"Caption Index: {caption_idx}, Initial Step: {initial_step}") # Debug Print
             st.session_state[view_state_key] = {
                 'step': initial_step,
-                'interacted': {qid: False for qid in question_ids} # ONLY track interaction
+                'interacted': {qid: False for qid in question_ids}
             }
             if caption_idx == 0:
                 st.session_state[summary_typed_key] = False
                 st.session_state[video_watched_key] = False
-                # Pre-populate session_state with default values for sliders
+                # Pre-populate session_state slider values ONLY for first caption
                 for qid in question_ids:
                     slider_key = f"ss_{qid}_cap{caption_idx}"
-                    st.session_state[slider_key] = options_map[qid][2]
-
+                    if slider_key not in st.session_state: # Avoid overwriting if user goes back/forth
+                        st.session_state[slider_key] = options_map[qid][2]
+            # Ensure subsequent captions also have slider values initialized if needed
+            elif caption_idx > 0:
+                 for qid in question_ids:
+                    slider_key = f"ss_{qid}_cap{caption_idx}"
+                    if slider_key not in st.session_state:
+                        st.session_state[slider_key] = options_map[qid][2]
 
         current_step = st.session_state[view_state_key]['step']
 
+        # Callback Function: Sets interacted flag to True
         def mark_interacted(q_id, view_key):
+             # Ensure state exists before trying to update
             if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                  st.session_state[view_key]['interacted'][q_id] = True
+                 # *** Add Terminal Debug Print ***
+                 print(f"Callback for '{view_key}': Interacted state updated for '{q_id}'. Current state: {st.session_state[view_key]['interacted']}")
+            else:
+                 print(f"Callback Warning: State key '{view_key}' or 'interacted' dict not found.")
+
 
         col1, col2 = st.columns([1, 1.8])
 
@@ -496,27 +512,37 @@ elif st.session_state.page == 'user_study_main':
                     {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
 
-                interacted_state = st.session_state[view_state_key]['interacted']
+                # Ensure interacted_state exists, default to empty dict if not (shouldn't happen with init logic)
+                interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
 
                 question_cols_row1 = st.columns(3)
                 question_cols_row2 = st.columns(3)
 
-                # Render questions based on current_step
+                # Render sliders based on current_step OR if caption_idx > 0
                 def render_slider(q, col):
                     with col:
                         slider_key = f"ss_{q['id']}_cap{caption_idx}"
                         st.markdown(f"<div class='slider-label'><strong>{questions_to_ask.index(q) + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        # Default value is now handled by Streamlit using the key
                         st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
 
-                if current_step >= 4: render_slider(questions_to_ask[0], question_cols_row1[0])
-                if current_step >= 5: render_slider(questions_to_ask[1], question_cols_row1[1])
-                if current_step >= 6: render_slider(questions_to_ask[2], question_cols_row1[2])
-                if current_step >= 7: render_slider(questions_to_ask[3], question_cols_row2[0])
-                if current_step >= 8: render_slider(questions_to_ask[4], question_cols_row2[1])
+                # Logic to determine which sliders to render
+                if caption_idx > 0: # Render all sliders for subsequent captions
+                    render_slider(questions_to_ask[0], question_cols_row1[0])
+                    render_slider(questions_to_ask[1], question_cols_row1[1])
+                    render_slider(questions_to_ask[2], question_cols_row1[2])
+                    render_slider(questions_to_ask[3], question_cols_row2[0])
+                    render_slider(questions_to_ask[4], question_cols_row2[1])
+                else: # Render incrementally for first caption
+                    if current_step >= 4: render_slider(questions_to_ask[0], question_cols_row1[0])
+                    if current_step >= 5: render_slider(questions_to_ask[1], question_cols_row1[1])
+                    if current_step >= 6: render_slider(questions_to_ask[2], question_cols_row1[2])
+                    if current_step >= 7: render_slider(questions_to_ask[3], question_cols_row2[0])
+                    if current_step >= 8: render_slider(questions_to_ask[4], question_cols_row2[1])
 
                 validation_placeholder = st.empty()
 
-                # --- Navigation Logic (With Final Validation) ---
+                # --- Navigation Logic (Simplified Validation) ---
                 max_step_for_questions = 8
 
                 if caption_idx == 0 and current_step < max_step_for_questions:
@@ -525,6 +551,11 @@ elif st.session_state.page == 'user_study_main':
                     has_interacted = interacted_state.get(question_id_to_validate, False)
 
                     if st.button(f"Next Question ({question_to_validate_index + 2}/{len(questions_to_ask)})", key=f"next_q_cap{caption_idx}_{current_step}"):
+                        print(f"\n--- Next Q Button Clicked ---") # Debug Print
+                        print(f"Current Step: {current_step}, Validating Q_Index: {question_to_validate_index}, Q_ID: {question_id_to_validate}") # Debug Print
+                        print(f"Interacted State for this Q: {has_interacted}") # Debug Print
+                        print(f"Full interacted state: {interacted_state}") # Debug Print
+
                         if not has_interacted:
                              validation_placeholder.warning(f"⚠️ Please move the slider for question {question_to_validate_index + 1} before proceeding.")
                         else:
@@ -534,20 +565,35 @@ elif st.session_state.page == 'user_study_main':
 
                 elif (caption_idx == 0 and current_step >= max_step_for_questions) or caption_idx > 0:
                     if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
-                        # For subsequent captions, all questions are visible, so we check all of them.
+                        print(f"\n--- Submit Button Clicked ---") # Debug Print
+                        print(f"Current Step: {current_step}, Caption Index: {caption_idx}") # Debug Print
+                        print(f"Checking interacted state: {interacted_state}") # Debug Print
+
                         all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
-                        
+
                         if not all_interacted:
-                            # Find which specific questions haven't been touched
                             invalid_q_indices = [i + 1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
+                            print(f"Validation Failed. Missing interaction for Qs: {invalid_q_indices}") # Debug Print
                             validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, invalid_q_indices))} before submitting.")
                         else:
+                            print("Validation Passed.") # Debug Print
                             validation_placeholder.empty()
+                            # Prepare slider values for saving
+                            responses_to_save = {}
+                            for qid in question_ids:
+                                slider_key = f"ss_{qid}_cap{caption_idx}"
+                                responses_to_save[qid] = st.session_state.get(slider_key, options_map[qid][2]) # Read value directly from widget state
+                            
                             with st.spinner("Saving your ratings..."):
-                                pass # Save logic goes here
+                                for q_id, choice_text in responses_to_save.items():
+                                    full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
+                                    # save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                                    pass # Saving commented out
+
                             st.session_state.current_caption_index += 1
                             if st.session_state.current_caption_index >= len(current_video['captions']):
                                 st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
+                            # Clear state ONLY for the specific view key we are leaving
                             st.session_state.pop(view_state_key, None)
                             st.rerun()
 
