@@ -254,7 +254,7 @@ elif st.session_state.page == 'quiz':
     col1, col2 = st.columns([1.2, 1.5])
     with col1:
         if sample.get("orientation") == "portrait":
-            _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+            _, vid_col_main, _ = st.columns([1, 3, 1]);
             with vid_col_main: st.video(sample['video_path'], autoplay=True)
         else: st.video(sample['video_path'], autoplay=True)
         if current_step == 1 and st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"): st.session_state[view_state_key]['step'] = 2; st.rerun()
@@ -353,7 +353,7 @@ elif st.session_state.page == 'user_study_main':
                 col1, _ = st.columns([1, 1.8])
                 with col1:
                     if current_video.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+                        _, vid_col_main, _ = st.columns([1, 3, 1]);
                         with vid_col_main: st.video(current_video['video_path'], autoplay=True)
                     else: st.video(current_video['video_path'], autoplay=True)
                 
@@ -392,7 +392,7 @@ elif st.session_state.page == 'user_study_main':
 
                 with col1:
                     if current_video.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+                        _, vid_col_main, _ = st.columns([1, 3, 1]);
                         with vid_col_main: st.video(current_video['video_path'], autoplay=True)
                     else: st.video(current_video['video_path'], autoplay=True)
                     
