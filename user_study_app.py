@@ -429,12 +429,16 @@ elif st.session_state.page == 'user_study_main':
             initial_step = 4 if caption_idx > 0 else 1
             st.session_state[view_state_key] = {
                 'step': initial_step,
-                'responses': {qid: options_map[qid][2] for qid in question_ids},
-                'interacted': {qid: False for qid in question_ids}
+                'interacted': {qid: False for qid in question_ids} # ONLY track interaction
             }
             if caption_idx == 0:
                 st.session_state[summary_typed_key] = False
                 st.session_state[video_watched_key] = False
+                # Pre-populate session_state with default values for sliders
+                for qid in question_ids:
+                    slider_key = f"ss_{qid}_cap{caption_idx}"
+                    st.session_state[slider_key] = options_map[qid][2]
+
 
         current_step = st.session_state[view_state_key]['step']
 
@@ -492,51 +496,31 @@ elif st.session_state.page == 'user_study_main':
                     {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
                 ]
 
-                responses = st.session_state[view_state_key]['responses']
                 interacted_state = st.session_state[view_state_key]['interacted']
 
                 question_cols_row1 = st.columns(3)
                 question_cols_row2 = st.columns(3)
 
                 # Render questions based on current_step
-                if current_step >= 4:
-                    with question_cols_row1[0]:
-                        q = questions_to_ask[0]; slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>1. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if current_step >= 5:
-                    with question_cols_row1[1]:
-                        q = questions_to_ask[1]; slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>2. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if current_step >= 6:
-                     with question_cols_row1[2]:
-                        q = questions_to_ask[2]; slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>3. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if current_step >= 7:
-                    with question_cols_row2[0]:
-                        q = questions_to_ask[3]; slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>4. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
-                if current_step >= 8:
-                    with question_cols_row2[1]:
-                        q = questions_to_ask[4]; slider_options = options_map[q['id']]
-                        st.markdown(f"<div class='slider-label'><strong>5. {q['text']}</strong></div>", unsafe_allow_html=True)
-                        responses[q['id']] = st.select_slider(q['id'], options=slider_options, value=responses.get(q['id'], slider_options[2]), key=f"ss_{q['id']}_cap{caption_idx}", label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
+                def render_slider(q, col):
+                    with col:
+                        slider_key = f"ss_{q['id']}_cap{caption_idx}"
+                        st.markdown(f"<div class='slider-label'><strong>{questions_to_ask.index(q) + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_state_key))
+
+                if current_step >= 4: render_slider(questions_to_ask[0], question_cols_row1[0])
+                if current_step >= 5: render_slider(questions_to_ask[1], question_cols_row1[1])
+                if current_step >= 6: render_slider(questions_to_ask[2], question_cols_row1[2])
+                if current_step >= 7: render_slider(questions_to_ask[3], question_cols_row2[0])
+                if current_step >= 8: render_slider(questions_to_ask[4], question_cols_row2[1])
 
                 validation_placeholder = st.empty()
-                
-                # --- ADD DEBUGGING ---
-                st.write(f"<small>DEBUG: Step={current_step}, Caption={caption_idx}</small>", unsafe_allow_html=True)
 
+                # --- Navigation Logic (With Final Validation) ---
+                max_step_for_questions = 8
 
-                # --- Navigation Logic (With CORRECTED Validation) ---
-                max_step_for_questions = 8 # Step when last question (Q5) appears
-
-                # Show "Next Question" button only for first caption, if not all questions shown yet
                 if caption_idx == 0 and current_step < max_step_for_questions:
-                    question_to_validate_index = current_step - 4 # 0-based index
+                    question_to_validate_index = current_step - 4
                     question_id_to_validate = questions_to_ask[question_to_validate_index]['id']
                     has_interacted = interacted_state.get(question_id_to_validate, False)
 
@@ -548,34 +532,19 @@ elif st.session_state.page == 'user_study_main':
                             validation_placeholder.empty()
                             st.rerun()
 
-                # Show "Submit Ratings" button if all questions should be visible
                 elif (caption_idx == 0 and current_step >= max_step_for_questions) or caption_idx > 0:
                     if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
+                        # For subsequent captions, all questions are visible, so we check all of them.
+                        all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
                         
-                        # --- REFINED SUBMIT VALIDATION ---
-                        # Determine which questions *should* be visible right now.
-                        # For subsequent captions (idx>0), all are visible.
-                        # For the first caption (idx==0), all are visible only if step >= max_step.
-                        num_visible_questions = len(question_ids) if (caption_idx > 0 or current_step >= max_step_for_questions) else current_step - 3
-
-                        all_visible_interacted = True
-                        invalid_q_indices = []
-                        # Check interaction flag ONLY for the questions that are supposed to be visible
-                        for i in range(num_visible_questions):
-                             qid = question_ids[i]
-                             if not interacted_state.get(qid, False):
-                                 all_visible_interacted = False
-                                 invalid_q_indices.append(i + 1) # Store 1-based index
-                        # --- END REFINED SUBMIT VALIDATION ---
-
-                        if not all_visible_interacted:
+                        if not all_interacted:
+                            # Find which specific questions haven't been touched
+                            invalid_q_indices = [i + 1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
                             validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, invalid_q_indices))} before submitting.")
                         else:
                             validation_placeholder.empty()
                             with st.spinner("Saving your ratings..."):
-                                for q_id, choice_text in responses.items():
-                                    full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
-                                    # save_response(...) # Intentionally commented out
+                                pass # Save logic goes here
                             st.session_state.current_caption_index += 1
                             if st.session_state.current_caption_index >= len(current_video['captions']):
                                 st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
