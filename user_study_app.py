@@ -9,7 +9,7 @@ import cv2
 import math
 import gspread
 from google.oauth2.service_account import Credentials
-from streamlit_js_eval import run_javascript
+from streamlit_js_eval import streamlit_js_eval # <-- CORRECTED IMPORT
 
 # --- Configuration ---
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
@@ -94,7 +94,6 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 
 # --- Central Dictionary for All Definitions ---
 DEFINITIONS = {
-    # Personalities
     'Adventurous': 'Shows a willingness to take risks or try out new experiences.',
     'Amusing': 'Causes lighthearted laughter or provides entertainment in a playful way.',
     'Angry': 'Expresses strong annoyance, displeasure, or hostility towards an event.',
@@ -114,8 +113,6 @@ DEFINITIONS = {
     'Reflective': 'Shows deep thought or contemplation about an event or idea.',
     'Sarcastic': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.',
     'Serious': 'Treats the subject with gravity and importance, without humor.',
-
-    # Writing Styles
     'Advisory': 'Gives advice, suggestions, or warnings about a situation.',
     'CallToAction': 'Encourages the reader to take a specific action.',
     'Conversational': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.',
@@ -126,8 +123,6 @@ DEFINITIONS = {
     'Metaphorical': 'Uses symbolic language or comparisons to describe something.',
     'Persuasive': 'Aims to convince the reader to agree with a particular point of view.',
     'Rhetorical Question': 'Asks a question not for an answer, but to make a point or create a dramatic effect.',
-    
-    # Applications
     'Public Safety Alert': 'Intended to inform the public about potential dangers or safety issues.',
     'Social Media Update': 'A casual post for sharing personal experiences or observations with friends and followers.',
     'Driver Behavior Monitoring': 'Used in systems that track and analyze driving patterns for insurance or fleet management.',
@@ -447,8 +442,11 @@ elif st.session_state.page == 'user_study_main':
                 q_templates = st.session_state.all_data['questions']['part1_questions']
                 questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']
                 questions_to_ask = [
-                    {"id": q["id"], "text": q["text"].format(personality_str if '{' in q["text"] and 'personality' in q["id"] else style_str if '{' in q["text"] and 'style' in q["id"] else f"<b class='highlight-trait'>{application_text}</b>" if '{' in q["text"] else "")}
-                    for q in questions_to_ask_raw
+                    {"id": "personality_relevance", "text": q_templates[0]["text"].format(personality_str)},
+                    {"id": "style_relevance", "text": q_templates[1]["text"].format(style_str)},
+                    {"id": "factual_consistency", "text": q_templates[2]["text"]},
+                    {"id": "usefulness", "text": q_templates[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
+                    {"id": "human_likeness", "text": q_templates[4]["text"]}
                 ]
                 options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
                 num_questions_to_show = len(questions_to_ask) if caption_idx > 0 or current_step > 4 else current_step - 3
@@ -504,11 +502,13 @@ elif st.session_state.page == 'user_study_main':
                 part2_questions = [{"id": q["id"], "text": q["text"].format(personality_str if 'personality' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
                 options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
                 responses = {}
+                question_cols = st.columns(4)
                 for i, q in enumerate(part2_questions):
-                    st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                    responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}", horizontal=True)
+                    with question_cols[i]:
+                        st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                        responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}")
                 if st.form_submit_button("Submit Comparison"):
-                    if any(choice is None for choice in responses.values()): st.error("Please answer all questions.")
+                    if any(choice is None for choice in responses.values()): st.error("Please answer all four questions.")
                     else:
                         with st.spinner("Saving your responses..."):
                             for q_id, choice in responses.items():
@@ -538,24 +538,24 @@ elif st.session_state.page == 'user_study_main':
             terms_to_define.add(trait)
             with st.form(key=f"study_form_change_{change_idx}"):
                 q_template = st.session_state.all_data['questions']['part3_questions'][field_type.replace('_', ' ').title()]
-                dynamic_question = q_template.format(change_type=current_change['change_type'], **{field_type: f"<b class='highlight-trait'>{trait}</b>"})
+                dynamic_question = q_template.format(change_type=current_change['change_type'], **{field_type.replace(' ', '_'): f"<b class='highlight-trait'>{trait}</b>"})
+                st.markdown(f'**1. {dynamic_question.replace("{}", trait)}**', unsafe_allow_html=True)
+
+                choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
+                
                 q2_text = "Is the core factual content consistent across both captions?"
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.markdown(f"**1. {dynamic_question}**", unsafe_allow_html=True)
-                    choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
-                with col2:
-                    st.markdown(f"**2. {q2_text}**")
-                    choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
+                st.markdown(f"**2. {q2_text}**")
+                choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
                 if st.form_submit_button("Submit Answers"):
                     if choice1 is None or choice2 is None: st.error("Please answer both questions.")
                     else:
                         with st.spinner("Saving your responses..."):
-                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question)
+                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question.replace("{}", trait))
                             save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
                         st.session_state.current_change_index += 1; st.rerun()
             reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
             st.markdown(reference_html, unsafe_allow_html=True)
+
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You!")
@@ -565,7 +565,6 @@ elif st.session_state.page == 'final_thank_you':
 # ======================== FINAL, GUARANTEED JAVASCRIPT SOLUTION =======================
 # =====================================================================================
 js_script = """
-<script>
 // We are attaching the listener to the parent window, which is the main browser window.
 // This is crucial because Streamlit runs your app in an iframe.
 const parent_document = window.parent.document;
@@ -618,9 +617,8 @@ if (!parent_document.arrowRightListenerAttached) {
     parent_document.arrowRightListenerAttached = true;
     console.log("Listener attached successfully.");
 }
-</script>
 """
 
 # The streamlit_js_eval component will inject our script into the page.
 # The 'key' ensures it runs when needed.
-run_javascript(js_script, key="keyboard_listener")
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
