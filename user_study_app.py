@@ -273,7 +273,7 @@ elif st.session_state.page == 'quiz':
             col1, _ = st.columns([1.2, 1.5])
             with col1:
                 if sample.get("orientation") == "portrait":
-                    _, vid_col_main, _ = st.columns([0.5, 1, 0.5])
+                    _, vid_col_main, _ = st.columns([1, 3, 1])
                     with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
                 else:
                     st.video(sample['video_path'], autoplay=True, muted=True)
@@ -298,7 +298,7 @@ elif st.session_state.page == 'quiz':
 
         with col1:
             if sample.get("orientation") == "portrait":
-                _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+                _, vid_col_main, _ = st.columns([1, 3, 1]);
                 with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
             else: st.video(sample['video_path'], autoplay=True, muted=True)
 
@@ -342,6 +342,26 @@ elif st.session_state.page == 'quiz':
                     st.rerun()
 
             if current_step >= 4:
+                question_text = ""
+                if "Tone Controllability" in current_part_key: 
+                    question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                    terms_to_define.add(sample['tone_to_compare'])
+                elif "Caption Quality" in current_part_key:
+                    raw_text = question_data["question_text"]
+                    app_trait = sample.get("application")
+                    if app_trait and app_trait in raw_text:
+                        question_text = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
+                    else:
+                        question_text = raw_text
+                elif question_data.get("question_type") == "multi": 
+                    question_text = "Identify 2 dominant personality traits projected by the captioner"
+                    terms_to_define.update(question_data['options'])
+                else: 
+                    question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
+                    terms_to_define.update(question_data['options'])
+
+                st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
+
                 if st.session_state.show_feedback:
                     user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
                     if not isinstance(user_choice, list): user_choice = [user_choice]
@@ -366,25 +386,6 @@ elif st.session_state.page == 'quiz':
                     st.info(f"**Explanation:** {question_data['explanation']}")
                     if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
                 else:
-                    question_text = ""
-                    if "Tone Controllability" in current_part_key: 
-                        question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
-                        terms_to_define.add(sample['tone_to_compare'])
-                    elif "Caption Quality" in current_part_key:
-                        raw_text = question_data["question_text"]
-                        app_trait = sample.get("application")
-                        if app_trait and app_trait in raw_text:
-                            question_text = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
-                        else:
-                            question_text = raw_text
-                    elif question_data.get("question_type") == "multi": 
-                        question_text = "Identify 2 dominant personality traits projected by the captioner"
-                        terms_to_define.update(question_data['options'])
-                    else: 
-                        question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
-                        terms_to_define.update(question_data['options'])
-
-                    st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
                     with st.form("quiz_form"):
                         choice = None
                         if question_data.get("question_type") == "multi":
@@ -402,9 +403,9 @@ elif st.session_state.page == 'quiz':
                                 if is_correct: st.session_state.score += 1
                                 st.session_state.show_feedback = True; st.rerun()
                     
-                    if terms_to_define:
-                        reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
-                        st.markdown(reference_html, unsafe_allow_html=True)
+                if terms_to_define:
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = sum(sum(len(item.get("questions",[])) for item in q_list) if "Quality" in p_name else len(q_list) for p_name, q_list in st.session_state.all_data['quiz'].items())
@@ -446,7 +447,7 @@ elif st.session_state.page == 'user_study_main':
                     col1, _ = st.columns([1, 1.8])
                     with col1:
                         if current_video.get("orientation") == "portrait":
-                            _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+                            _, vid_col_main, _ = st.columns([1, 3, 1]);
                             with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
                         else: st.video(current_video['video_path'], autoplay=True, muted=True)
                     
@@ -484,7 +485,7 @@ elif st.session_state.page == 'user_study_main':
 
                 with col1:
                     if current_video.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([0.5, 1, 0.5]);
+                        _, vid_col_main, _ = st.columns([1, 3, 1]);
                         with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
                     else: st.video(current_video['video_path'], autoplay=True, muted=True)
                     
@@ -526,7 +527,7 @@ elif st.session_state.page == 'user_study_main':
                             with col:
                                 slider_key = f"ss_{q['id']}_cap{caption_idx}"
                                 st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                                st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index))
+                                st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=options_map[q['id']][0])
 
                         num_interacted = sum(1 for flag in interacted_state.values() if flag)
                         questions_to_show = num_interacted + 1
