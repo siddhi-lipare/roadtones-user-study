@@ -113,7 +113,8 @@ st.markdown("""
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-.slider-label { height: 100px; margin-bottom: 0.5rem; }
+/* --- UPDATED: Reduced height to bring slider closer to question --- */
+.slider-label { height: 80px; margin-bottom: 0; }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
@@ -405,12 +406,10 @@ elif st.session_state.page == 'quiz':
             if current_step >= 6:
                 question_text_display = ""
                 if "Tone Controllability" in current_part_key:
-                    # --- UPDATED: More natural wording for controllability questions ---
                     trait = sample['tone_to_compare']
                     change_type = sample['comparison_type']
-                    category_text = sample.get('category', 'Tone').lower()
-                    question_text_display = f"Has the <b class='highlight-trait'>{trait}</b> {category_text} {change_type} from Caption A to B?"
-                    terms_to_define.add(sample['tone_to_compare'])
+                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> {change_type}?"
+                    terms_to_define.add(trait)
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
                     app_trait = sample.get("application")
@@ -421,7 +420,6 @@ elif st.session_state.page == 'quiz':
                     question_text_display = "Identify the 2 dominant tones in the caption"
                     terms_to_define.update(question_data['options'])
                 else:
-                    # --- UPDATED: Specific wording for identification questions ---
                     category_text = sample.get('category', 'tone').lower()
                     if category_text == "tone":
                         question_text_display = "What is the most dominant tone in the caption?"
@@ -516,7 +514,6 @@ elif st.session_state.page == 'user_study_main':
             view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
-            # --- UPDATED: Slider options for "usefulness" question ---
             options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
             
             if view_state_key not in st.session_state:
@@ -582,7 +579,6 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
                     control_scores = current_caption.get("control_scores", {})
-                    # --- UPDATED: Limit to max 2 tones/styles and format question string ---
                     tone_traits = list(control_scores.get("tone", {}).keys())[:2]
                     style_traits = list(control_scores.get("writing_style", {}).keys())[:2]
                     application_text = current_caption.get("application", "the intended application")
@@ -596,13 +592,19 @@ elif st.session_state.page == 'user_study_main':
 
                     tone_str = format_traits(tone_traits)
                     style_str = format_traits(style_traits)
+                    
+                    tone_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'tone_relevance'), "How {} does the caption sound?")
+                    style_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'style_relevance'), "How {} is the caption's writing style?")
+                    fact_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'factual_consistency'), "How factually accurate is the caption?")
+                    useful_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'usefulness'), "How useful is this caption for {}?")
+                    human_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'human_likeness'), "How human-like does this caption sound?")
 
                     questions_to_ask = [
-                        {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(tone_str)},
-                        {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
-                        {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]},
-                        {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
-                        {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
+                        {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
+                        {"id": "style_relevance", "text": style_q_template.format(style_str)},
+                        {"id": "factual_consistency", "text": fact_q_template},
+                        {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
+                        {"id": "human_likeness", "text": human_q_template}
                     ]
 
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
