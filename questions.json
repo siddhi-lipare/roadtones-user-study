@@ -1,8 +1,8 @@
 {
   "part1_questions": [
     {
-      "id": "personality_relevance",
-      "text": "How much does the author's personality projected in the caption come across as {}?"
+      "id": "tone_relevance",
+      "text": "How much does the author's tone projected in the caption come across as {}?"
     },
     {
       "id": "style_relevance",
@@ -10,7 +10,7 @@
     },
     {
       "id": "overall_relevance",
-      "text": "To what extent is the author's personality and writing style relevant for the given video content?"
+      "text": "To what extent is the author's tone and writing style relevant for the given video content?"
     },
     {
       "id": "factual_consistency",
@@ -27,8 +27,8 @@
   ],
   "part2_questions": [
     {
-      "id": "q1_personality",
-      "text": "Which caption better conveys the author's {} personality?"
+      "id": "q1_tone",
+      "text": "Which caption better conveys the author's {} tone?"
     },
     {
       "id": "q2_style",
@@ -44,7 +44,7 @@
     }
   ],
   "part3_questions": {
-    "Personality": "Has the {} level {change_type} from Caption A to B?",
+    "Tone": "Has the {} level {change_type} from Caption A to B?",
     "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
   }
 }
