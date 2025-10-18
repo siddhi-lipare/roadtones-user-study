@@ -8,6 +8,7 @@ import json
 import cv2
 import math
 import gspread
+import random
 from google.oauth2.service_account import Credentials
 from streamlit_js_eval import streamlit_js_eval
 
@@ -211,6 +212,55 @@ def restart_quiz():
     st.session_state.current_sample_index = 0; st.session_state.current_rating_question_index = 0
     st.session_state.show_feedback = False; st.session_state.score = 0; st.session_state.score_saved = False
 
+def render_comprehension_quiz(sample, view_state_key, proceed_step):
+    """Renders the unscored comprehension quiz for a given sample."""
+    st.markdown("---")
+    st.subheader("Comprehension Check")
+
+    options_key = f"{view_state_key}_comp_options"
+    if options_key not in st.session_state:
+        options = sample['distractor_answers'] + [sample['road_event_answer']]
+        random.shuffle(options)
+        st.session_state[options_key] = options
+    else:
+        options = st.session_state[options_key]
+
+    if st.session_state[view_state_key]['comp_feedback']:
+        user_choice = st.session_state[view_state_key]['comp_choice']
+        correct_answer = sample['road_event_answer']
+        st.write("**Your Answer vs Correct Answer:**")
+        for opt in options:
+            is_correct = (opt == correct_answer)
+            is_user_choice = (opt == user_choice)
+            
+            if is_correct:
+                display_text = f"<strong>{opt} (Correct Answer)</strong>"
+                css_class = "correct-answer"
+            elif is_user_choice:
+                display_text = f"{opt} (Your selection)"
+                css_class = "wrong-answer"
+            else:
+                display_text = opt
+                css_class = "normal-answer"
+            st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
+
+        if st.button("Proceed to Caption(s)", key=f"proceed_to_captions_{sample.get('sample_id') or sample.get('video_id')}"):
+            st.session_state[view_state_key]['step'] = proceed_step
+            st.rerun()
+
+    else:
+        with st.form(key=f"comp_quiz_form_{sample.get('sample_id') or sample.get('video_id')}"):
+            st.markdown("##### Describe what is happening in the video")
+            choice = st.radio("Select one option:", options, key=f"comp_radio_{sample.get('sample_id') or sample.get('video_id')}", index=None)
+            if st.form_submit_button("Submit"):
+                if choice:
+                    st.session_state[view_state_key]['comp_choice'] = choice
+                    st.session_state[view_state_key]['comp_feedback'] = True
+                    st.rerun()
+                else:
+                    st.error("Please select an answer.")
+
+
 # --- Main App ---
 if 'page' not in st.session_state:
     st.session_state.page = 'demographics'
@@ -287,7 +337,7 @@ elif st.session_state.page == 'quiz':
     else:
         view_state_key = f'view_state_{sample_id}'
         if view_state_key not in st.session_state:
-            st.session_state[view_state_key] = {'step': 1, 'summary_typed': False}
+            st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
         current_step = st.session_state[view_state_key]['step']
 
         def stream_text(text):
@@ -297,7 +347,7 @@ elif st.session_state.page == 'quiz':
         if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
         elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
 
-        if current_step < 3:
+        if current_step < 5:
             st.header("Watch the video")
         else:
             st.header(display_title)
@@ -325,23 +375,26 @@ elif st.session_state.page == 'quiz':
                         st.write_stream(stream_text(sample["video_summary"]))
                     st.session_state[view_state_key]['summary_typed'] = True
                 if current_step == 2:
-                    if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
-                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_quiz_{sample_id}")
+                    if st.button("Proceed to Question", key=f"quiz_comp_q_{sample_id}"):
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
+
         with col2:
+            if current_step == 3 or current_step == 4:
+                render_comprehension_quiz(sample, view_state_key, proceed_step=5)
+
             question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
             terms_to_define = set()
-            if current_step >= 3:
+            if current_step >= 5:
                 if "Tone Controllability" in current_part_key:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
                 else:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
-                if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
-                    st.session_state[view_state_key]['step'] = 4
+                if current_step == 5 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
+                    st.session_state[view_state_key]['step'] = 6
                     st.rerun()
-            if current_step >= 4:
+            if current_step >= 6:
                 question_text_display = ""
                 if "Tone Controllability" in current_part_key:
                     question_text_display = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
@@ -451,13 +504,13 @@ elif st.session_state.page == 'user_study_main':
             options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely Useful"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
             
             if view_state_key not in st.session_state:
-                initial_step = 3 if caption_idx > 0 else 1
-                st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
+                initial_step = 5 if caption_idx > 0 else 1
+                st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}, 'comp_feedback': False, 'comp_choice': None}
                 if caption_idx == 0: st.session_state[summary_typed_key] = False
             
             current_step = st.session_state[view_state_key]['step']
 
-            if current_step < 3:
+            if current_step < 5:
                 st.header("Watch the video")
             else:
                 st.header("Caption Quality Rating")
@@ -466,7 +519,7 @@ elif st.session_state.page == 'user_study_main':
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
-                        st.session_state[view_key]['step'] = 4 + question_index + 1
+                        st.session_state[view_key]['step'] = 6 + question_index + 1
             
             col1, col2 = st.columns([1, 1.8])
             validation_placeholder = st.empty()
@@ -488,21 +541,23 @@ elif st.session_state.page == 'user_study_main':
                         else:
                             with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
                             st.session_state[summary_typed_key] = True
-                        if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
-                            streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p1_{video_idx}")
+                        if current_step == 2 and st.button("Proceed to Question", key=f"p1_proceed_comp_q_{video_idx}"):
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
                 else:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
             with col2:
+                if (current_step == 3 or current_step == 4) and caption_idx == 0:
+                    render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
+
                 terms_to_define = set()
-                if current_step >= 3:
+                if current_step >= 5:
                     colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]; highlight_color = colors[caption_idx % len(colors)]
                     caption_box_class = "part1-caption-box new-caption-highlight"
                     st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p1_{current_caption['caption_id']}")
-                    if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
-                        st.session_state[view_state_key]['step'] = 4; st.rerun()
-                if current_step >= 4:
+                    if current_step == 5 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
+                        st.session_state[view_state_key]['step'] = 6; st.rerun()
+                if current_step >= 6:
                     control_scores = current_caption.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys()); application_text = current_caption.get("application", "the intended application")
                     terms_to_define.update(tone_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
                     tone_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in tone_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
@@ -572,12 +627,12 @@ elif st.session_state.page == 'user_study_main':
             question_ids = [q['id'] for q in q_templates]
 
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1, 'interacted': {qid: False for qid in question_ids}}
+                st.session_state[view_state_key] = {'step': 1, 'interacted': {qid: False for qid in question_ids}, 'comp_feedback': False, 'comp_choice': None}
                 st.session_state[summary_typed_key] = False
 
             current_step = st.session_state[view_state_key]['step']
             
-            if current_step < 3:
+            if current_step < 5:
                 st.header("Watch the video")
             else:
                 st.header("Which caption is better?")
@@ -605,16 +660,18 @@ elif st.session_state.page == 'user_study_main':
                     else:
                         with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
                         st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Captions", key=f"p2_proceed_captions_{comparison_id}"):
-                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p2_{comparison_id}")
+                    if current_step == 2 and st.button("Proceed to Question", key=f"p2_proceed_captions_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
+                if current_step == 3 or current_step == 4:
+                    render_comprehension_quiz(current_comp, view_state_key, proceed_step=5)
+
                 validation_placeholder = st.empty()
-                if current_step >= 3:
+                if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
-                    if current_step == 3 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
-                if current_step >= 4:
+                    if current_step == 5 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 6; st.rerun()
+                if current_step >= 6:
                     control_scores = current_comp.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
                     terms_to_define.update(tone_traits); terms_to_define.update(style_traits)
                     tone_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in tone_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
@@ -679,10 +736,10 @@ elif st.session_state.page == 'user_study_main':
         else:
             view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
+                st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
             
-            if current_step < 3:
+            if current_step < 5:
                 st.header("Watch the video")
             else:
                 st.header(f"{field_type.replace('_', ' ').title()} Comparison")
@@ -705,15 +762,17 @@ elif st.session_state.page == 'user_study_main':
                     else:
                         with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
                         st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
-                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p3_{change_id}")
+                    if current_step == 2 and st.button("Proceed to Question", key=f"p3_proceed_captions_{change_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
-                if current_step >= 3:
+                if current_step == 3 or current_step == 4:
+                    render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
+
+                if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
-                    if current_step == 3 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
-                if current_step >= 4:
+                    if current_step == 5 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 6; st.rerun()
+                if current_step >= 6:
                     trait = field_to_change[field_type]; terms_to_define.add(trait)
                     with st.form(key=f"study_form_change_{change_idx}"):
                         q_template_key = field_type.replace('_', ' ').title()

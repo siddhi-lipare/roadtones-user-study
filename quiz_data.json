@@ -4,6 +4,12 @@
       "sample_id": "identify_001",
       "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
       "video_summary": "A dangerous driving near-miss incident was captured by a Cycliq Fly6 bike-mounted camera in the United Kingdom, specifically at the Five Ways island near Honiley and Shrewley. The key event involved a vehicle, likely a car, performing a maneuver at a roundabout without proper indication, nearly causing a collision with a cyclist. The driver was potentially unaware of the cyclist and the potential danger. This incident constituted a traffic rule violation due to the failure to use proper indicators at a roundabout and could have been prevented if the driver had used appropriate signaling before making their maneuver.",
+      "road_event_answer": "A car at a roundabout failed to signal, nearly causing a collision with a cyclist.",
+      "distractor_answers": [
+        "A cyclist ran a red light and was almost hit by a car.",
+        "Two cars collided at high speed on a motorway.",
+        "A driver was ticketed for using a phone while driving through a roundabout."
+      ],
       "caption": "Guess I'll use my psychic powers, since that turn signal is clearly too complicated for you.",
       "category": "tone",
       "options": ["Observant", "Sarcastic", "Amusing", "Critical"],
@@ -15,6 +21,12 @@
       "sample_id": "identify_002",
       "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
       "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
+      "road_event_answer": "A car and a two-wheeler dangerously attempted to overtake another vehicle on a hairpin bend.",
+      "distractor_answers": [
+        "A dashcam vehicle caused an accident by stopping suddenly on a curve.",
+        "A truck lost control and skidded on a sharp turn.",
+        "Two vehicles were racing on a winding mountain road."
+      ],
       "caption": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another.",
       "category": "writing style",
       "options": ["Conversational", "Factual", "Advisory", "Judgmental"],
@@ -26,6 +38,12 @@
       "sample_id": "identify_003",
       "video_path": "media/v_1696360086518776040_DStI4BjOrtDhkLua.mp4",
       "video_summary": "A dashcam captured a near-miss incident during sunset in the United States, involving a Tesla and a Mercedes. The Mercedes performed an extremely close pass by the Tesla, nearly causing a collision. This dangerous driving behavior, potentially stemming from aggressive driving or impatience, constitutes reckless driving and a potentially unsafe lane change. The incident could have been avoided if the Mercedes driver had maintained a safe distance and passed with caution.",
+      "road_event_answer": "A Mercedes dangerously passed a Tesla with very little space, nearly causing a collision.",
+      "distractor_answers": [
+        "A Tesla driver was brake-checking a Mercedes on the highway.",
+        "Two cars were street racing during sunset.",
+        "A police car was pursuing a speeding Mercedes."
+      ],
       "caption": "So apparently, sunset is when Mercedes drivers test just how close they can get to my Tesla. Smooth move, @TeslaRoadWatch.",
       "category": "tone",
       "options": ["Critical", "Appreciative", "Sarcastic", "Considerate"],
@@ -39,6 +57,12 @@
       "sample_id": "intensity_001",
       "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
       "video_summary": "A dangerous driving near-miss incident was captured by a Cycliq Fly6 bike-mounted camera in the United Kingdom, specifically at the Five Ways island near Honiley and Shrewley. The key event involved a vehicle, likely a car, performing a maneuver at a roundabout without proper indication, nearly causing a collision with a cyclist. The driver was potentially unaware of the cyclist and the potential danger. This incident constituted a traffic rule violation due to the failure to use proper indicators at a roundabout and could have been prevented if the driver had used appropriate signaling before making their maneuver.",
+      "road_event_answer": "A car at a roundabout failed to signal, nearly causing a collision with a cyclist.",
+      "distractor_answers": [
+        "A cyclist ran a red light and was almost hit by a car.",
+        "Two cars collided at high speed on a motorway.",
+        "A driver was ticketed for using a phone while driving through a roundabout."
+      ],
       "caption_A": "That wasn't a very smart move by the driver.",
       "caption_B": "It takes a special kind of genius to make a move that stupid.",
       "tone_to_compare": "Sarcastic",
@@ -49,25 +73,37 @@
       "explanation": "The phrase \"special kind of genius\" in Caption B displays a much stronger sarcastic tone than the milder phrase \"wasn't a very smart move\" in Caption A."
     },
     {
-        "sample_id": "intensity_002",
-        "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
-        "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
-        "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
-        "caption_B": "Drivers should be more careful at intersections.",
-        "tone_to_compare": "Advisory",
-        "category": "Writing Style",
-        "comparison_type": "decreased",
-        "options": ["Yes", "No"],
-        "correct_answer": "Yes",
-        "explanation": "The phrase \"Always stop at red lights\" in Caption A is a strong, direct command, while the phrase \"should be more careful\" in Caption B is a much weaker, general suggestion."
+      "sample_id": "intensity_002",
+      "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
+      "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
+      "road_event_answer": "A Nissan car ran a red light and collided with the side of a Suzuki truck.",
+      "distractor_answers": [
+        "A Suzuki truck failed to yield and was hit by a Nissan car.",
+        "Two drivers were arguing after a minor parking incident.",
+        "A red light was malfunctioning, causing a collision at an intersection."
+      ],
+      "caption_A": "A crucial reminder for all drivers: Always stop at red lights to prevent collisions like this one.",
+      "caption_B": "Drivers should be more careful at intersections.",
+      "tone_to_compare": "Advisory",
+      "category": "Writing Style",
+      "comparison_type": "decreased",
+      "options": ["Yes", "No"],
+      "correct_answer": "Yes",
+      "explanation": "The phrase \"Always stop at red lights\" in Caption A is a strong, direct command, while the phrase \"should be more careful\" in Caption B is a much weaker, general suggestion."
     }
   ],
   "Part 3: Caption Quality": [
     {
       "sample_id": "rating_001",
       "video_path": "media/v_1692102872706765068_GjAx5c9hRZP-JBsr.mp4",
-      "caption": "I witnessed a cab attempt a dangerous overtake on a blind curve, nearly leading to a head-on collision with an oncoming vehicle. A bus also overtook unsafely. Overtaking without clear visibility is extremely risky—please drive with caution and patience. #RoadSafety #DriveResponsibly",
       "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime. An unsafe overtaking attempt by a cab nearly resulted in a head-on collision. A bus also performed an unsafe overtake.",
+      "road_event_answer": "A cab and a bus both performed unsafe overtaking maneuvers, nearly causing a head-on collision.",
+      "distractor_answers": [
+        "A bus broke down in the middle of the road, causing a traffic jam.",
+        "A cab driver was seen arguing with a passenger.",
+        "Two buses were racing each other on a highway."
+      ],
+      "caption": "I witnessed a cab attempt a dangerous overtake on a blind curve, nearly leading to a head-on collision with an oncoming vehicle. A bus also overtook unsafely. Overtaking without clear visibility is extremely risky—please drive with caution and patience. #RoadSafety #DriveResponsibly",
       "control_scores": {
         "tone": { "Serious": "Strong"},
         "writing_style": { "Advisory": "Very Strong"}
