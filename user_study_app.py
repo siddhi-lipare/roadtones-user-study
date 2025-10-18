@@ -43,7 +43,6 @@ def connect_to_gsheet():
         spreadsheet = client.open("roadtones-streamlit-userstudy-responses")
         return spreadsheet.sheet1
     except Exception:
-        # Return None if connection fails for any reason
         return None
 
 def save_response_locally(response_dict):
@@ -331,7 +330,41 @@ elif st.session_state.page == 'intro_video':
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
         st.markdown("##### [Additional user study guide](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing)")
-    if st.button("Next"): st.session_state.page = 'quiz'; st.rerun()
+    if st.button("Next"): 
+        st.session_state.page = 'what_is_tone'
+        st.rerun()
+
+# --- NEW: "What is Tone" instructional slide ---
+elif st.session_state.page == 'what_is_tone':
+    st.markdown("<h1 style='text-align: center;'>What is <span style='color: #4F46E5;'>Tone</span>?</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 1.25rem; max-width: 800px; margin: auto;'>Tone refers to the author's attitude or feeling about the subject they are writing about. It is conveyed through word choice, perspective, and sentence structure.</p>", unsafe_allow_html=True)
+    st.markdown("---")
+    st.subheader("Key Concepts in this Study")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("**Personality / Tone**\n\nThis reflects the emotional character of the writer. \n\n*Examples: Sarcastic, Angry, Caring, Anxious*")
+    with col2:
+        st.success("**Writing Style**\n\nThis refers to the author's technique or method of writing.\n\n*Examples: Advisory, Factual, Conversational*")
+    
+    if st.button("Next >>"):
+        st.session_state.page = 'factual_info'
+        st.rerun()
+
+# --- NEW: "Factual Information" instructional slide ---
+elif st.session_state.page == 'factual_info':
+    st.markdown("<h1 style='text-align: center;'>What does <span style='color: #4F46E5;'>“Factual Information”</span> of a caption indicate?</h1>", unsafe_allow_html=True)
+    
+    image_path = "media/factual_info.jpg"
+    if os.path.exists(image_path):
+        _, img_col, _ = st.columns([1, 2, 1])
+        with img_col:
+            st.image(image_path)
+    else:
+        st.warning(f"Image not found at {image_path}. Please make sure 'factual_info.jpg' is in the 'media' directory.")
+
+    if st.button("Start Quiz"):
+        st.session_state.page = 'quiz'
+        st.rerun()
 
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
@@ -596,8 +629,8 @@ elif st.session_state.page == 'user_study_main':
             
             with col2:
                 validation_placeholder = st.empty()
+                # --- REMOVED extra vertical space ---
                 if (current_step == 3 or current_step == 4) and caption_idx == 0:
-                    st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
 
                 terms_to_define = set()
@@ -753,7 +786,6 @@ elif st.session_state.page == 'user_study_main':
 
             with col2:
                 if current_step == 3 or current_step == 4:
-                    st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_comp, view_state_key, proceed_step=5)
 
                 validation_placeholder = st.empty()
@@ -869,7 +901,6 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
                 if current_step == 3 or current_step == 4:
-                    st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
 
                 if current_step >= 5:
@@ -927,7 +958,7 @@ if (!parent_document.arrowRightListenerAttached) {
                 "Submit Answer", "Next Question", "Show Questions", 
                 "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
                 "Proceed to Summary", "Proceed to Question", "Proceed to User Study", 
-                "Take Quiz Again", "Submit", "Next"
+                "Take Quiz Again", "Submit", "Next", "Start Quiz"
             ];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
