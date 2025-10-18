@@ -163,34 +163,49 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
     except Exception as e:
         st.error(f"Failed to write to Google Sheet: {e}")
 
-def go_to_next_quiz_question():
-    with st.spinner("Saving your answer..."):
-        part_keys = list(st.session_state.all_data['quiz'].keys())
-        current_part_key = part_keys[st.session_state.current_part_index]
-        questions_for_part = st.session_state.all_data['quiz'][current_part_key]
-        sample = questions_for_part[st.session_state.current_sample_index]
-        was_correct = st.session_state.is_correct
-        question_text = "N/A"
-        if "Tone Controllability" in current_part_key: question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
-        elif "Caption Quality" in current_part_key: question_text = sample["questions"][st.session_state.current_rating_question_index]["question_text"]
-        else: question_text = "Tone Identification"
+# NEW all-in-one function to handle the entire state transition
+def handle_next_quiz_question(view_key_to_pop):
+    """Saves response, advances index, resets feedback, and clears old UI state."""
+    
+    # 1. Pop the old state key immediately to prevent ghosting
+    st.session_state.pop(view_key_to_pop, None)
+    
+    # 2. Get current question details (this is from the start of the old function)
+    part_keys = list(st.session_state.all_data['quiz'].keys())
+    current_part_key = part_keys[st.session_state.current_part_index]
+    questions_for_part = st.session_state.all_data['quiz'][current_part_key]
+    sample = questions_for_part[st.session_state.current_sample_index]
+    was_correct = st.session_state.is_correct
+    
+    # 3. Determine the question text for saving the response
+    question_text = "N/A"
+    if "Tone Controllability" in current_part_key:
+        question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
+    elif "Caption Quality" in current_part_key:
+        question_text = sample["questions"][st.session_state.current_rating_question_index]["question_text"]
+    else:
+        question_text = "Tone Identification"
         
-        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
-        
-        if "Caption Quality" in current_part_key:
-            st.session_state.current_rating_question_index += 1
-            if st.session_state.current_rating_question_index >= len(sample["questions"]):
-                st.session_state.current_sample_index += 1
-                if st.session_state.current_sample_index >= len(questions_for_part):
-                     st.session_state.current_part_index += 1
-                     st.session_state.current_sample_index = 0
-                st.session_state.current_rating_question_index = 0
-        else:
+    # 4. Save the response
+    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
+    
+    # 5. Advance to the next question/part
+    if "Caption Quality" in current_part_key:
+        st.session_state.current_rating_question_index += 1
+        if st.session_state.current_rating_question_index >= len(sample["questions"]):
             st.session_state.current_sample_index += 1
             if st.session_state.current_sample_index >= len(questions_for_part):
-                st.session_state.current_part_index += 1
-                st.session_state.current_sample_index = 0
-        st.session_state.show_feedback = False
+                 st.session_state.current_part_index += 1
+                 st.session_state.current_sample_index = 0
+            st.session_state.current_rating_question_index = 0
+    else:
+        st.session_state.current_sample_index += 1
+        if st.session_state.current_sample_index >= len(questions_for_part):
+            st.session_state.current_part_index += 1
+            st.session_state.current_sample_index = 0
+            
+    # 6. Reset the feedback flag
+    st.session_state.show_feedback = False
 
 def jump_to_part(part_index):
     st.session_state.current_part_index = part_index; st.session_state.current_sample_index = 0
@@ -384,7 +399,13 @@ elif st.session_state.page == 'quiz':
                         st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
                     
                     st.info(f"**Explanation:** {question_data['explanation']}")
-                    if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
+                    # if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
+                    st.button(
+                        "Next Question",
+                        key=f"quiz_next_q_{sample_id}",
+                        on_click=handle_next_quiz_question,
+                        args=(view_state_key,)
+                    )
                 else:
                     with st.form("quiz_form"):
                         choice = None
