@@ -11,48 +11,9 @@
         "A car cut off a semi-truck, causing it to brake suddenly."
       ],
       "captions": [
-        {
-          "caption_id": "video_003_caption1",
-          "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
-          "control_scores": {
-            "tone": {
-              "Serious": "Strong"
-            },
-            "writing_style": {
-              "Factual": "Strong"
-            }
-          },
-          "application": "Public Safety Alert"
-        },
-        {
-          "caption_id": "video_003_caption2",
-          "text": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
-          "control_scores": {
-            "tone": {
-              "Adventurous": "Strong",
-              "Energetic": "Strong"
-            },
-            "writing_style": {
-              "Conversational": "Very Strong"
-            }
-          },
-          "application": "Community Road Safety Awareness"
-        },
-        {
-          "caption_id": "video_003_caption3",
-          "text": "Semi-trailer trucks pulling moves like this—unsafe lane changes, no signal, barely a glance—almost as if mirrors are just for decoration. Near Cornwall, Ontario, another close call caught on dashcam. #RoadSafety #TruckAccidents",
-          "control_scores": {
-            "tone": {
-              "Critical": "Strong",
-              "Serious": "Strong"
-            },
-            "writing_style": {
-              "Judgmental": "Strong",
-              "Factual": "Strong"
-            }
-          },
-          "application": "Driver Behavior Monitoring"
-        }
+        { "caption_id": "video_003_caption1", "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads", "control_scores": { "tone": { "Serious": "Strong" }, "writing_style": { "Factual": "Strong" } }, "application": "Public Safety Alert" },
+        { "caption_id": "video_003_caption2", "text": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking", "control_scores": { "tone": { "Adventurous": "Strong", "Energetic": "Strong" }, "writing_style": { "Conversational": "Very Strong" } }, "application": "Community Road Safety Awareness" },
+        { "caption_id": "video_003_caption3", "text": "Semi-trailer trucks pulling moves like this—unsafe lane changes, no signal, barely a glance—almost as if mirrors are just for decoration. Near Cornwall, Ontario, another close call caught on dashcam. #RoadSafety #TruckAccidents", "control_scores": { "tone": { "Critical": "Strong", "Serious": "Strong" }, "writing_style": { "Judgmental": "Strong", "Factual": "Strong" } }, "application": "Driver Behavior Monitoring" }
       ]
     },
     {
@@ -66,49 +27,9 @@
         "A pedestrian was nearly hit by a speeding motorcycle."
       ],
       "captions": [
-        {
-          "caption_id": "video_002_caption1",
-          "text": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
-          "control_scores": {
-            "tone": {
-              "Serious": "Strong",
-              "Objective": "Moderate"
-            },
-            "writing_style": {
-              "Factual": "Very Strong"
-            }
-          },
-          "application": "Law Enforcement Alert"
-        },
-        {
-          "caption_id": "video_002_caption2",
-          "text": "@TrafficPoliceIn video captures a motorcyclist in black doing wheelies and stunts on a busy Indian road, with pedestrians watching. #RoadSafety",
-          "control_scores": {
-            "tone": {
-              "Observant": "Strong",
-              "Objective": "Strong"
-            },
-            "writing_style": {
-              "Conversational": "Very Strong"
-            }
-          },
-          "application": "Law Enforcement Alert"
-        },
-        {
-          "caption_id": "video_002_caption3",
-          "text": "@MumbaiPolice Reckless biker in black performing wheelies on busy Mumbai road, June 13. Why risk lives for thrill? Take action now.",
-          "control_scores": {
-            "tone": {
-              "Critical": "Very Strong",
-              "Assertive": "Strong"
-            },
-            "writing_style": {
-              "CallToAction": "Very Strong",
-              "Judgmental": "Strong"
-            }
-          },
-          "application": "Law Enforcement Alert"
-        }
+        { "caption_id": "video_002_caption1", "text": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety", "control_scores": { "tone": { "Serious": "Strong", "Objective": "Moderate" }, "writing_style": { "Factual": "Very Strong" } }, "application": "Law Enforcement Alert" },
+        { "caption_id": "video_002_caption2", "text": "@TrafficPoliceIn video captures a motorcyclist in black doing wheelies and stunts on a busy Indian road, with pedestrians watching. #RoadSafety", "control_scores": { "tone": { "Observant": "Strong", "Objective": "Strong" }, "writing_style": { "Conversational": "Very Strong" } }, "application": "Law Enforcement Alert" },
+        { "caption_id": "video_002_caption3", "text": "@MumbaiPolice Reckless biker in black performing wheelies on busy Mumbai road, June 13. Why risk lives for thrill? Take action now.", "control_scores": { "tone": { "Critical": "Very Strong", "Assertive": "Strong" }, "writing_style": { "CallToAction": "Very Strong", "Judgmental": "Strong" } }, "application": "Law Enforcement Alert" }
       ]
     },
     {
@@ -122,51 +43,9 @@
         "A driver was ticketed for using a phone while driving through a roundabout."
       ],
       "captions": [
-        {
-          "caption_id": "video_004_caption1",
-          "text": "Serious near-miss at Five Ways island, Honiley—@Cycliq cam shows car failed to indicate at roundabout.",
-          "control_scores": {
-            "tone": {
-              "Serious": "Very Strong",
-              "Observant": "Strong"
-            },
-            "writing_style": {
-              "Factual": "Strong"
-            }
-          },
-          "application": "Public Safety Alert"
-        },
-        {
-          "caption_id": "video_004_caption2",
-          "text": "Had a close call on my bike at the Five Ways roundabout—car just swung through with zero indication. Honestly, it’s moments like these that make me second-guess if drivers even notice cyclists. Does anyone else ever feel weirdly invisible out there, or is it just me? Some days you wonder how much luck you’re riding on. #CyclistLife #NearMiss #RoadSafety #ShareTheRoad #CyclingAdventures",
-          "control_scores": {
-            "tone": {
-              "Anxious": "Strong",
-              "Reflective": "Strong"
-            },
-            "writing_style": {
-              "Conversational": "Very Strong",
-              "Rhetorical Question": "Very Strong"
-            }
-          },
-          "application": "Public Safety Awareness"
-        },
-        {
-          "caption_id": "video_004_caption3",
-          "text": "Love how some drivers at Five Ways island think indicators are optional. @Cycliq caught this genius nearly clipping me—textbook roundabout etiquette, right?",
-          "control_scores": {
-            "tone": {
-              "Sarcastic": "Strong",
-              "Cynical": "Strong"
-            },
-            "writing_style": {
-              "Judgmental": "Very Strong",
-              "Conversational": "Strong",
-              "Rhetorical Question": "Strong"
-            }
-          },
-          "application": "Driver Behavior Monitoring"
-        }
+        { "caption_id": "video_004_caption1", "text": "Serious near-miss at Five Ways island, Honiley—@Cycliq cam shows car failed to indicate at roundabout.", "control_scores": { "tone": { "Serious": "Very Strong", "Observant": "Strong" }, "writing_style": { "Factual": "Strong" } }, "application": "Public Safety Alert" },
+        { "caption_id": "video_004_caption2", "text": "Had a close call on my bike at the Five Ways roundabout—car just swung through with zero indication. Honestly, it’s moments like these that make me second-guess if drivers even notice cyclists. Does anyone else ever feel weirdly invisible out there, or is it just me? Some days you wonder how much luck you’re riding on. #CyclistLife #NearMiss #RoadSafety #ShareTheRoad #CyclingAdventures", "control_scores": { "tone": { "Anxious": "Strong", "Reflective": "Strong" }, "writing_style": { "Conversational": "Very Strong", "Rhetorical Question": "Very Strong" } }, "application": "Public Safety Awareness" },
+        { "caption_id": "video_004_caption3", "text": "Love how some drivers at Five Ways island think indicators are optional. @Cycliq caught this genius nearly clipping me—textbook roundabout etiquette, right?", "control_scores": { "tone": { "Sarcastic": "Strong", "Cynical": "Strong" }, "writing_style": { "Judgmental": "Very Strong", "Conversational": "Strong", "Rhetorical Question": "Strong" } }, "application": "Driver Behavior Monitoring" }
       ]
     }
   ],
@@ -182,15 +61,7 @@
         "A car collided with a motorcycle at an intersection.",
         "A pedestrian was nearly hit by a speeding motorcycle."
       ],
-      "control_scores": {
-        "tone": {
-          "Serious": "Strong",
-          "Objective": "Strong"
-        },
-        "writing_style": {
-          "Factual": "Strong"
-        }
-      },
+      "control_scores": { "tone": { "Serious": "Strong", "Objective": "Strong" }, "writing_style": { "Factual": "Strong" } },
       "caption_A": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
       "caption_B": "Look at this absolute clown trying to be a movie star. Someone's going to get hurt because of this idiot."
     },
@@ -205,15 +76,7 @@
         "Two drivers were arguing after a minor parking incident.",
         "A red light was malfunctioning, causing a collision at an intersection."
       ],
-      "control_scores": {
-        "tone": {
-          "Objective": "Very Strong",
-          "Serious": "Strong"
-        },
-        "writing_style": {
-          "Conversational": "Very Strong"
-        }
-      },
+      "control_scores": { "tone": { "Objective": "Very Strong", "Serious": "Strong" }, "writing_style": { "Conversational": "Very Strong" } },
       "caption_A": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident.",
       "caption_B": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident."
     },
@@ -228,18 +91,7 @@
         "Heavy traffic caused a complete standstill on the motorway.",
         "A driver was changing lanes without using a turn signal."
       ],
-      "control_scores": {
-        "tone": {
-          "Sarcastic": "Very Strong",
-          "Critical": "Strong",
-          "Amusing": "Strong"
-        },
-        "writing_style": {
-          "Exaggeration": "Strong",
-          "Conversational": "Strong",
-          "Metaphorical": "Very Strong"
-        }
-      },
+      "control_scores": { "tone": { "Sarcastic": "Very Strong", "Critical": "Strong", "Amusing": "Strong" }, "writing_style": { "Exaggeration": "Strong", "Conversational": "Strong", "Metaphorical": "Very Strong" } },
       "caption_A": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
       "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story."
     },
@@ -254,17 +106,7 @@
         "A traffic light at a busy intersection was not working.",
         "A car was double-parked, blocking traffic at a stop sign."
       ],
-      "control_scores": {
-        "tone": {
-          "Assertive": "Strong",
-          "Serious": "Strong"
-        },
-        "writing_style": {
-          "Rhetorical Question": "Strong",
-          "Judgmental": "Strong",
-          "Persuasive": "Strong"
-        }
-      },
+      "control_scores": { "tone": { "Assertive": "Strong", "Serious": "Strong" }, "writing_style": { "Rhetorical Question": "Strong", "Judgmental": "Strong", "Persuasive": "Strong" } },
       "caption_A": "I just witnessed cars constantly rolling through stop signs at a Manhattan all-way stop. As a pedestrian, it’s honestly frustrating and dangerous to see drivers ignore basic rules. @NYC_DOT, isn’t it time for stricter enforcement?  NYPDTraffic Manhattan, New York City.",
       "caption_B": "I just witnessed cars constantly rolling through stop signs at a Manhattan all-way stop. As a pedestrian, it’s honestly frustrating and dangerous to see drivers ignore basic rules. @NYC_DOT, isn’t it time for stricter enforcement?  NYPDTraffic Manhattan, New York City."
     }

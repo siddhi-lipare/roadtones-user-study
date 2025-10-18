@@ -54,7 +54,7 @@ def get_video_metadata(path):
     try:
         cap = cv2.VideoCapture(path)
         if not cap.isOpened():
-            return {"orientation": "landscape", "duration": 10}  # Default duration
+            return {"orientation": "landscape", "duration": 10}
         width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         fps = cap.get(cv2.CAP_PROP_FPS)
@@ -84,7 +84,6 @@ def load_data():
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
         return None
 
-    # Determine metadata for STUDY videos
     for part_key in data['study']:
         for item in data['study'][part_key]:
             if 'video_path' in item and os.path.exists(item['video_path']):
@@ -93,9 +92,8 @@ def load_data():
                 item['duration'] = metadata['duration']
             else:
                 item['orientation'] = 'landscape'
-                item['duration'] = 10 # Default duration
+                item['duration'] = 10
 
-    # Determine metadata for QUIZ videos
     for part_key in data['quiz']:
          for item in data['quiz'][part_key]:
             if 'video_path' in item and os.path.exists(item['video_path']):
@@ -104,7 +102,7 @@ def load_data():
                 item['duration'] = metadata['duration']
             else:
                 item['orientation'] = 'landscape'
-                item['duration'] = 10 # Default duration
+                item['duration'] = 10
     return data
 
 # --- UI & STYLING ---
@@ -112,12 +110,7 @@ st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
-@keyframes highlight-new {
-    0% { border-color: transparent; box-shadow: none; }
-    25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
-    75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
-    100% { border-color: transparent; box-shadow: none; }
-}
+@keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
 .slider-label { min-height: 80px; margin-bottom: 0.5rem; }
@@ -165,12 +158,10 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
         st.error(f"Failed to write to Google Sheet: {e}")
 
 def handle_next_quiz_question(view_key_to_pop):
-    """Saves response, advances index, resets feedback, and clears old UI state."""
     part_keys = list(st.session_state.all_data['quiz'].keys())
     current_part_key = part_keys[st.session_state.current_part_index]
     questions_for_part = st.session_state.all_data['quiz'][current_part_key]
     sample = questions_for_part[st.session_state.current_sample_index]
-
     question_text = "N/A"
     if "Tone Controllability" in current_part_key:
         question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
@@ -178,9 +169,7 @@ def handle_next_quiz_question(view_key_to_pop):
         question_text = sample["questions"][st.session_state.current_rating_question_index]["question_text"]
     else:
         question_text = "Tone Identification"
-
     save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
-
     if "Caption Quality" in current_part_key:
         st.session_state.current_rating_question_index += 1
         if st.session_state.current_rating_question_index >= len(sample["questions"]):
@@ -194,7 +183,6 @@ def handle_next_quiz_question(view_key_to_pop):
         if st.session_state.current_sample_index >= len(questions_for_part):
             st.session_state.current_part_index += 1
             st.session_state.current_sample_index = 0
-
     st.session_state.pop(view_key_to_pop, None)
     st.session_state.show_feedback = False
 
@@ -213,10 +201,8 @@ def restart_quiz():
     st.session_state.show_feedback = False; st.session_state.score = 0; st.session_state.score_saved = False
 
 def render_comprehension_quiz(sample, view_state_key, proceed_step):
-    """Renders the unscored comprehension quiz for a given sample."""
     st.markdown("---")
     st.subheader("Comprehension Check")
-
     options_key = f"{view_state_key}_comp_options"
     if options_key not in st.session_state:
         options = sample['distractor_answers'] + [sample['road_event_answer']]
@@ -224,7 +210,6 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
         st.session_state[options_key] = options
     else:
         options = st.session_state[options_key]
-
     if st.session_state[view_state_key]['comp_feedback']:
         user_choice = st.session_state[view_state_key]['comp_choice']
         correct_answer = sample['road_event_answer']
@@ -232,7 +217,6 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
         for opt in options:
             is_correct = (opt == correct_answer)
             is_user_choice = (opt == user_choice)
-            
             if is_correct:
                 display_text = f"<strong>{opt} (Correct Answer)</strong>"
                 css_class = "correct-answer"
@@ -243,11 +227,9 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
                 display_text = opt
                 css_class = "normal-answer"
             st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
-
         if st.button("Proceed to Caption(s)", key=f"proceed_to_captions_{sample.get('sample_id') or sample.get('video_id')}"):
             st.session_state[view_state_key]['step'] = proceed_step
             st.rerun()
-
     else:
         with st.form(key=f"comp_quiz_form_{sample.get('sample_id') or sample.get('video_id')}"):
             st.markdown("##### Describe what is happening in the video")
@@ -259,7 +241,6 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
                     st.rerun()
                 else:
                     st.error("Please select an answer.")
-
 
 # --- Main App ---
 if 'page' not in st.session_state:
