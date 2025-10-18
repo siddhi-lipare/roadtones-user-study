@@ -302,7 +302,6 @@ elif st.session_state.page == 'quiz':
         else:
             st.header(display_title)
 
-        st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
         col1, col2 = st.columns([1.2, 1.5])
 
         with col1:
