@@ -208,10 +208,13 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
         st.session_state[options_key] = options
     else:
         options = st.session_state[options_key]
+        
+    st.markdown("##### Describe what is happening in the video")
+
     if st.session_state[view_state_key]['comp_feedback']:
         user_choice = st.session_state[view_state_key]['comp_choice']
         correct_answer = sample['road_event_answer']
-        st.write("**Your Answer vs Correct Answer:**")
+        
         for opt in options:
             is_correct = (opt == correct_answer)
             is_user_choice = (opt == user_choice)
@@ -230,8 +233,7 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
             st.rerun()
     else:
         with st.form(key=f"comp_quiz_form_{sample.get('sample_id') or sample.get('video_id')}"):
-            st.markdown("##### Describe what is happening in the video")
-            choice = st.radio("Select one option:", options, key=f"comp_radio_{sample.get('sample_id') or sample.get('video_id')}", index=None)
+            choice = st.radio("Select one option:", options, key=f"comp_radio_{sample.get('sample_id') or sample.get('video_id')}", index=None, label_visibility="collapsed")
             if st.form_submit_button("Submit"):
                 if choice:
                     st.session_state[view_state_key]['comp_choice'] = choice
@@ -299,8 +301,8 @@ elif st.session_state.page == 'quiz':
 
     timer_finished_key = f"timer_finished_quiz_{sample_id}"
     if not st.session_state.get(timer_finished_key, False):
+        st.subheader("Watch the video")
         with st.spinner(""):
-            st.header("Watch the video")
             col1, _ = st.columns([1.2, 1.5])
             with col1:
                 if sample.get("orientation") == "portrait":
@@ -320,10 +322,24 @@ elif st.session_state.page == 'quiz':
         current_step = st.session_state[view_state_key]['step']
 
         def stream_text(text):
-            for word in text.split(" "): yield word + " "; time.sleep(0.05)
+            for word in text.split(" "): yield word + " "; time.sleep(0.07)
         
-        st.header("Watch the video")
+        title_col1, title_col2 = st.columns([1.2, 1.5])
+        with title_col1:
+            if current_step < 5:
+                st.subheader("Watch the video")
+            else:
+                st.subheader("Video")
         
+        with title_col2:
+            display_title = re.sub(r'Part \d+: ', '', current_part_key)
+            if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
+            elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
+            
+            if current_step >= 5:
+                st.subheader(display_title)
+        
+        st.write("---")
         col1, col2 = st.columns([1.2, 1.5])
 
         with col1:
@@ -352,13 +368,6 @@ elif st.session_state.page == 'quiz':
                         st.rerun()
 
         with col2:
-            display_title = re.sub(r'Part \d+: ', '', current_part_key)
-            if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
-            elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
-            
-            if current_step >= 5:
-                st.subheader(display_title)
-
             if current_step == 3 or current_step == 4:
                 render_comprehension_quiz(sample, view_state_key, proceed_step=5)
 
@@ -444,7 +453,7 @@ elif st.session_state.page == 'quiz_results':
 elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data: st.error("Data could not be loaded."); st.stop()
     def stream_text(text):
-        for word in text.split(" "): yield word + " "; time.sleep(0.05)
+        for word in text.split(" "): yield word + " "; time.sleep(0.07)
     with st.sidebar:
         st.header("Study Sections")
         st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
@@ -461,8 +470,8 @@ elif st.session_state.page == 'user_study_main':
         video_id = current_video['video_id']
         timer_finished_key = f"timer_finished_{video_id}"
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
+            st.subheader("Watch the video")
             with st.spinner(""):
-                st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
                     if current_video.get("orientation") == "portrait":
@@ -489,7 +498,17 @@ elif st.session_state.page == 'user_study_main':
             
             current_step = st.session_state[view_state_key]['step']
 
-            st.header("Watch the video")
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
+                if current_step < 5:
+                    st.subheader("Watch the video")
+                else:
+                    st.subheader("Video")
+            with title_col2:
+                if current_step >= 5:
+                    st.subheader("Caption Quality Rating")
+
+            st.write("---")
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
@@ -522,9 +541,6 @@ elif st.session_state.page == 'user_study_main':
                 else:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
             with col2:
-                if current_step >= 5:
-                    st.subheader("Caption Quality Rating")
-
                 if (current_step == 3 or current_step == 4) and caption_idx == 0:
                     render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
 
@@ -586,8 +602,8 @@ elif st.session_state.page == 'user_study_main':
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
         timer_finished_key = f"timer_finished_{comparison_id}"
         if not st.session_state.get(timer_finished_key, False):
+            st.subheader("Watch the video")
             with st.spinner(""):
-                st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
                     if current_comp.get("orientation") == "portrait":
@@ -611,7 +627,16 @@ elif st.session_state.page == 'user_study_main':
 
             current_step = st.session_state[view_state_key]['step']
             
-            st.header("Watch the video")
+            title_col1, title_col2 = st.columns([1.2, 1.5])
+            with title_col1:
+                if current_step < 5:
+                    st.subheader("Watch the video")
+                else:
+                    st.subheader("Video")
+            with title_col2:
+                if current_step >= 5:
+                    st.subheader("Which caption is better?")
+            st.write("---")
 
             def mark_p2_interacted(q_id, view_key):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
@@ -639,9 +664,6 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 2 and st.button("Proceed to Question", key=f"p2_proceed_captions_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
-                if current_step >= 5:
-                    st.subheader("Which caption is better?")
-
                 if current_step == 3 or current_step == 4:
                     render_comprehension_quiz(current_comp, view_state_key, proceed_step=5)
 
@@ -682,7 +704,7 @@ elif st.session_state.page == 'user_study_main':
                             else:
                                 with st.spinner("Saving your responses..."):
                                     for q_id, choice in responses.items():
-                                        full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
+                                        full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N.A.")
                                         save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
                                 st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
 
@@ -698,8 +720,8 @@ elif st.session_state.page == 'user_study_main':
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
         timer_finished_key = f"timer_finished_{change_id}"
         if not st.session_state.get(timer_finished_key, False):
+            st.subheader("Watch the video")
             with st.spinner(""):
-                st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
                     if current_change.get("orientation") == "portrait":
@@ -718,7 +740,16 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
             
-            st.header("Watch the video")
+            title_col1, title_col2 = st.columns([1.2, 1.5])
+            with title_col1:
+                if current_step < 5:
+                    st.subheader("Watch the video")
+                else:
+                    st.subheader("Video")
+            with title_col2:
+                 if current_step >= 5:
+                    st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
+            st.write("---")
             
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
@@ -741,9 +772,6 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 2 and st.button("Proceed to Question", key=f"p3_proceed_captions_{change_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
-                if current_step >= 5:
-                    st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
-
                 if current_step == 3 or current_step == 4:
                     render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
 
