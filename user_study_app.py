@@ -163,50 +163,6 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
     except Exception as e:
         st.error(f"Failed to write to Google Sheet: {e}")
 
-# NEW all-in-one function to handle the entire state transition
-def handle_next_quiz_question(view_key_to_pop):
-    """Saves response, advances index, resets feedback, and clears old UI state."""
-    
-    # 1. Pop the old state key immediately to prevent ghosting
-    st.session_state.pop(view_key_to_pop, None)
-    
-    # 2. Get current question details (this is from the start of the old function)
-    part_keys = list(st.session_state.all_data['quiz'].keys())
-    current_part_key = part_keys[st.session_state.current_part_index]
-    questions_for_part = st.session_state.all_data['quiz'][current_part_key]
-    sample = questions_for_part[st.session_state.current_sample_index]
-    was_correct = st.session_state.is_correct
-    
-    # 3. Determine the question text for saving the response
-    question_text = "N/A"
-    if "Tone Controllability" in current_part_key:
-        question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
-    elif "Caption Quality" in current_part_key:
-        question_text = sample["questions"][st.session_state.current_rating_question_index]["question_text"]
-    else:
-        question_text = "Tone Identification"
-        
-    # 4. Save the response
-    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=was_correct)
-    
-    # 5. Advance to the next question/part
-    if "Caption Quality" in current_part_key:
-        st.session_state.current_rating_question_index += 1
-        if st.session_state.current_rating_question_index >= len(sample["questions"]):
-            st.session_state.current_sample_index += 1
-            if st.session_state.current_sample_index >= len(questions_for_part):
-                 st.session_state.current_part_index += 1
-                 st.session_state.current_sample_index = 0
-            st.session_state.current_rating_question_index = 0
-    else:
-        st.session_state.current_sample_index += 1
-        if st.session_state.current_sample_index >= len(questions_for_part):
-            st.session_state.current_part_index += 1
-            st.session_state.current_sample_index = 0
-            
-    # 6. Reset the feedback flag
-    st.session_state.show_feedback = False
-
 def jump_to_part(part_index):
     st.session_state.current_part_index = part_index; st.session_state.current_sample_index = 0
     st.session_state.current_rating_question_index = 0; st.session_state.show_feedback = False
@@ -400,12 +356,46 @@ elif st.session_state.page == 'quiz':
                     
                     st.info(f"**Explanation:** {question_data['explanation']}")
                     # if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
-                    st.button(
-                        "Next Question",
-                        key=f"quiz_next_q_{sample_id}",
-                        on_click=handle_next_quiz_question,
-                        args=(view_state_key,)
-                    )
+                    with st.form(f"next_question_form_{sample_id}"):
+                        if st.form_submit_button("Next Question", use_container_width=True):
+                            # 1. Save the user's last response
+                            part_keys = list(st.session_state.all_data['quiz'].keys())
+                            current_part_key = part_keys[st.session_state.current_part_index]
+                            questions_for_part = st.session_state.all_data['quiz'][current_part_key]
+                            sample = questions_for_part[st.session_state.current_sample_index]
+                            
+                            question_text = "N/A" # Determine question text for logging
+                            if "Tone Controllability" in current_part_key:
+                                question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
+                            elif "Caption Quality" in current_part_key:
+                                question_text = sample["questions"][st.session_state.current_rating_question_index]["question_text"]
+                            else:
+                                question_text = "Tone Identification"
+                            
+                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
+
+                            # 2. Advance the index to the next question
+                            if "Caption Quality" in current_part_key:
+                                st.session_state.current_rating_question_index += 1
+                                if st.session_state.current_rating_question_index >= len(sample["questions"]):
+                                    st.session_state.current_sample_index += 1
+                                    if st.session_state.current_sample_index >= len(questions_for_part):
+                                        st.session_state.current_part_index += 1
+                                        st.session_state.current_sample_index = 0
+                                    st.session_state.current_rating_question_index = 0
+                            else:
+                                st.session_state.current_sample_index += 1
+                                if st.session_state.current_sample_index >= len(questions_for_part):
+                                    st.session_state.current_part_index += 1
+                                    st.session_state.current_sample_index = 0
+
+                            # 3. Pop the finished question's state and reset feedback flag
+                            st.session_state.pop(view_state_key, None)
+                            st.session_state.show_feedback = False
+                            
+                            # 4. Trigger the rerun to load the next question
+                            st.rerun()
+                            
                 else:
                     with st.form("quiz_form"):
                         choice = None
