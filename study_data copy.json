@@ -1,0 +1,360 @@
+{
+  "part1_ratings": [
+    {
+      "video_id": "video_003",
+      "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+      "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
+      "captions": [
+        {
+          "caption_id": "video_003_caption1",
+          "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
+          "control_scores": {
+            "tone": {
+              "Serious": "Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": "Public Safety Alert"
+        },
+        {
+          "caption_id": "video_003_caption2",
+          "text": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
+          "control_scores": {
+            "tone": {
+              "Adventurous": "Strong",
+              "Energetic": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Very Strong"
+            }
+          },
+          "application": "Community Road Safety Awareness"
+        },
+        {
+          "caption_id": "video_003_caption3",
+          "text": "Semi-trailer trucks pulling moves like this—unsafe lane changes, no signal, barely a glance—almost as if mirrors are just for decoration. Near Cornwall, Ontario, another close call caught on dashcam. #RoadSafety #TruckAccidents",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong",
+              "Serious": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Strong",
+              "Factual": "Strong"
+            }
+          },
+          "application": "Driver Behavior Monitoring"
+        }
+      ]
+    },
+    {
+      "video_id": "video_002",
+      "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
+      "video_summary": "The video, captured by multiple cameras showing various scenes and angles, depicts dangerous and reckless driving by a motorcyclist in India. The primary road event involves a motorcyclist in black performing stunts, specifically wheelies, on a busy public road. This motorcyclist was observed riding recklessly and leaving accident scenes. Other road entities, including other motorcyclists, cars, trucks, and pedestrians, were present, with pedestrians observing the events. The motorcyclist's actions appear to be motivated by thrill-seeking and a desire to show off or impress others. Evident traffic violations include reckless driving, performing stunts on public roads, leaving accident scenes, and potentially speeding.",
+      "captions": [
+        {
+          "caption_id": "video_002_caption1",
+          "text": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Serious": "Strong",
+              "Objective": "Moderate"
+            },
+            "writing_style": {
+              "Factual": "Very Strong"
+            }
+          },
+          "application": "Law Enforcement Alert"
+        },
+        {
+          "caption_id": "video_002_caption2",
+          "text": "@TrafficPoliceIn video captures a motorcyclist in black doing wheelies and stunts on a busy Indian road, with pedestrians watching. #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Observant": "Strong",
+              "Objective": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Very Strong"
+            }
+          },
+          "application": "Law Enforcement Alert"
+        },
+        {
+          "caption_id": "video_002_caption3",
+          "text": "@MumbaiPolice Reckless biker in black performing wheelies on busy Mumbai road, June 13. Why risk lives for thrill? Take action now.",
+          "control_scores": {
+            "tone": {
+              "Critical": "Very Strong",
+              "Assertive": "Strong"
+            },
+            "writing_style": {
+              "CallToAction": "Very Strong",
+              "Judgmental": "Strong"
+            }
+          },
+          "application": "Law Enforcement Alert"
+        }
+      ]
+    },
+    {
+      "video_id": "video_004",
+      "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
+      "video_summary": "A dangerous driving near-miss incident was captured by a Cycliq Fly6 bike-mounted camera in the United Kingdom, specifically at the Five Ways island near Honiley and Shrewley. The key event involved a vehicle, likely a car, performing a maneuver at a roundabout without proper indication, nearly causing a collision with a cyclist. The driver was potentially unaware of the cyclist and the potential danger. This incident constituted a traffic rule violation due to the failure to use proper indicators at a roundabout and could have been prevented if the driver had used appropriate signaling before making their maneuver.",
+      "captions": [
+        {
+          "caption_id": "video_004_caption1",
+          "text": "Serious near-miss at Five Ways island, Honiley—@Cycliq cam shows car failed to indicate at roundabout.",
+          "control_scores": {
+            "tone": {
+              "Serious": "Very Strong",
+              "Observant": "Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": "Public Safety Alert"
+        },
+        {
+          "caption_id": "video_004_caption2",
+          "text": "Had a close call on my bike at the Five Ways roundabout—car just swung through with zero indication. Honestly, it’s moments like these that make me second-guess if drivers even notice cyclists. Does anyone else ever feel weirdly invisible out there, or is it just me? Some days you wonder how much luck you’re riding on. #CyclistLife #NearMiss #RoadSafety #ShareTheRoad #CyclingAdventures",
+          "control_scores": {
+            "tone": {
+              "Anxious": "Strong",
+              "Reflective": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Very Strong",
+              "Rhetorical Question": "Very Strong"
+            }
+          },
+          "application": "Public Safety Awareness"
+        },
+        {
+          "caption_id": "video_004_caption3",
+          "text": "Love how some drivers at Five Ways island think indicators are optional. @Cycliq caught this genius nearly clipping me—textbook roundabout etiquette, right?",
+          "control_scores": {
+            "tone": {
+              "Sarcastic": "Strong",
+              "Cynical": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "Conversational": "Strong",
+              "Rhetorical Question": "Strong"
+            }
+          },
+          "application": "Driver Behavior Monitoring"
+        }
+      ]
+    },
+    {
+      "video_id": "video_005",
+      "video_path": "media/v_1732331854483628531_NykG7NgfkL7IMl8U.mp4",
+      "video_summary": "A vehicle-mounted camera captured typical urban commuting in Hyderabad, India, during the daytime, focusing on road safety awareness and proper lane discipline. The road event involved various entities including cars of different colors (red, maroon, white, yellow), motorcycles (some riders wearing helmets, others not), yellow auto-rickshaws with decorative patterns (one with license plate 'TS 106'), trucks, concrete barriers with alternating yellow and black stripes, overhead electrical cables, and an elevated roadway. Vehicles were observed moving in traffic, with flow varying from slow-moving congestion to a moderate, steady pace, including an instance where a red car and motorcycles ahead braked, indicating a temporary slowdown. Observed traffic rule violations included tailgating, improper lane usage, not maintaining a safe distance, and motorcycle riders not wearing helmets.",
+      "captions": [
+        {
+          "caption_id": "video_005_caption1",
+          "text": "Urban commuting requires attention to road safety and proper lane discipline. Avoid tailgating, maintain safe distances, and always wear a helmet when riding motorcycles. Small actions help prevent accidents and keep everyone safe. #RoadSafety #DriveResponsibly",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong",
+              "Serious": "Very Strong"
+            },
+            "writing_style": {
+              "Instructional": "Strong"
+            }
+          },
+          "application": "Public Safety Alert"
+        },
+        {
+          "caption_id": "video_005_caption2",
+          "text": "Hyderabad streets highlight the usual: careless lane changes, tailgating, and helmetless riders show blatant disrespect for traffic rules. It’s not just occasional negligence—such disregard is the norm. This persistent lack of discipline undermines road safety for everyone. #Hyderabad #RoadSafety #TrafficAwareness #UrbanCommuting #India #SafeDriving #HelmetSafety #TrafficDiscipline",
+          "control_scores": {
+            "tone": {
+              "Serious": "Very Strong",
+              "Critical": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "Factual": "Strong"
+            }
+          },
+          "application": "Traffic Analysis"
+        },
+        {
+          "caption_id": "video_005_caption3",
+          "text": "What makes some drivers ignore lane markings and safe distances so often?",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong",
+              "Questioning": "Very Strong"
+            },
+            "writing_style": {
+              "Rhetorical Question": "Very Strong"
+            }
+          },
+          "application": " Traffic Awareness"
+        }
+      ]
+    },
+    {
+      "video_id": "video_006",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
+      "captions": [
+        {
+          "caption_id": "video_006_caption1",
+          "text": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another. 🚫🏍️🚗 #RoadSafety #DriveResponsibly",
+          "control_scores": {
+            "tone": {
+              "Caring": "Very Strong",
+              "Serious": "Strong"
+            },
+            "writing_style": {
+              "Instructional": "Strong",
+              "Advisory": "Very Strong",
+              "CallToAction": "Very Strong"
+            }
+          },
+          "application": "Public Safety Alert"
+        },
+        {
+          "caption_id": "video_006_caption2",
+          "text": "Trying to overtake on a hairpin bend? That’s just asking for trouble. It’s baffling how some people ignore basic safety, risking lives without a second thought. This level of carelessness is unreal.",
+          "control_scores": {
+            "tone": {
+              "Critical": "Very Strong",
+              "Angry": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "Rhetorical Question": "Very Strong",
+              "Persuasive": "Strong"
+            }
+          },
+          "application": "Road Safety Education"
+        },
+        {
+          "caption_id": "video_006_caption3",
+          "text": "I just experienced a close call on a hairpin bend when a car and a two-wheeler tried to overtake at the same time, almost causing an accident right in front of me.",
+          "control_scores": {
+            "tone": {
+              "Observant": "Very Strong",
+              "Anxious": "Strong",
+              "Serious": "Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": "Public Safety Alert"
+        }
+      ]
+    }
+  ],
+  "part2_comparisons": [
+    {
+      "comparison_id": "comp_001",
+      "video_id": "video_002",
+      "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
+      "video_summary": "The video, captured by multiple cameras showing various scenes and angles, depicts dangerous and reckless driving by a motorcyclist in India. The primary road event involves a motorcyclist in black performing stunts, specifically wheelies, on a busy public road. This motorcyclist was observed riding recklessly and leaving accident scenes. Other road entities, including other motorcyclists, cars, trucks, and pedestrians, were present, with pedestrians observing the events. The motorcyclist's actions appear to be motivated by thrill-seeking and a desire to show off or impress others. Evident traffic violations include reckless driving, performing stunts on public roads, leaving accident scenes, and potentially speeding.",
+      "control_scores": {
+        "tone": {
+          "Serious": "Strong",
+          "Objective": "Strong"
+        },
+        "writing_style": {
+          "Factual": "Strong"
+        }
+      },
+      "caption_A": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
+      "caption_B": "Look at this absolute clown trying to be a movie star. Someone's going to get hurt because of this idiot."
+    },
+    {
+      "comparison_id": "comp_002",
+      "video_id": "video_007",
+      "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
+      "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
+      "control_scores": {
+        "tone": {
+          "Objective": "Very Strong",
+          "Serious": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Very Strong"
+        }
+      },
+      "caption_A": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident.",
+      "caption_B": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident."
+    },
+    {
+      "comparison_id": "comp_003",
+      "video_id": "video_005",
+      "video_path": "media/v_921439559250038784_P14L18RmB2Nh7wA4.mp4",
+      "video_summary": "A dashcam captured unsafe driving behavior, specifically lane hogging, on the M61 Northbound motorway in the UK during the daytime. Multiple vehicles were involved, occupying the middle lane and failing to move to the left lane when it was clear, which constitutes improper lane usage on a motorway.",
+      "control_scores": {
+        "tone": {
+          "Sarcastic": "Very Strong",
+          "Critical": "Strong",
+          "Amusing": "Strong"
+        },
+        "writing_style": {
+          "Exaggeration": "Strong",
+          "Conversational": "Strong",
+          "Metaphorical": "Very Strong"
+        }
+      },
+      "caption_A": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
+      "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story."
+    },
+    {
+      "comparison_id": "comp_004",
+      "video_id": "video_008",
+      "video_path": "media/v_990650492777844736_nlt2mTIkMFF3I7da.mp4",
+      "video_summary": "The video, captured during daytime with varying weather conditions from partly cloudy to sunny, depicts traffic violations at an all-way stop intersection in Manhattan, New York City, United States. Multiple static camera shots from different angles show cars failing to make full stops at the stop signs, posing a safety concern for pedestrians who are observed crossing the street at designated crossings. The road entities involved include cars, pedestrians, stop signs, pedestrian crossings, construction barriers, and sidewalks.",
+      "control_scores": {
+        "tone": {
+          "Assertive": "Strong",
+          "Serious": "Strong"
+        },
+        "writing_style": {
+          "Rhetorical Question": "Strong",
+          "Judgmental": "Strong",
+          "Persuasive": "Strong"
+        }
+      },
+      "caption_A": "I just witnessed cars constantly rolling through stop signs at a Manhattan all-way stop. As a pedestrian, it’s honestly frustrating and dangerous to see drivers ignore basic rules. @NYC_DOT, isn’t it time for stricter enforcement?  NYPDTraffic Manhattan, New York City.",
+      "caption_B": "I just witnessed cars constantly rolling through stop signs at a Manhattan all-way stop. As a pedestrian, it’s honestly frustrating and dangerous to see drivers ignore basic rules. @NYC_DOT, isn’t it time for stricter enforcement?  NYPDTraffic Manhattan, New York City."
+    }
+  ],
+  "part3_intensity_change": [
+    {
+      "change_id": "change_002",
+      "video_id": "video_001",
+      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
+      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
+      "caption_A": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
+      "caption_B": "My heart races watching this—out of nowhere, a car comes crashing over a fence, metal everywhere, people running. It’s so overwhelming. #CarCrash 😰",
+      "field_to_change": {
+        "tone": "Emotional"
+      },
+      "change_type": "increased"
+    },
+    {
+      "change_id": "change_003",
+      "video_id": "video_001",
+      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
+      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
+      "caption_A": "Speeding and reckless driving can lead to devastating crashes. Always stay alert and drive responsibly. 🚨 #RoadSafety #DrivingTips",
+      "caption_B": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
+      "field_to_change": {
+        "writing_style": "Advisory"
+      },
+      "change_type": "decreased"
+    }
+  ]
+}
