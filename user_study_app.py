@@ -139,7 +139,7 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
 
-/* --- CUSTOM BUTTON STYLING (New) --- */
+/* --- CUSTOM BUTTON STYLING --- */
 div[data-testid="stButton"] > button, .stForm [data-testid="stButton"] > button {
     background-color: #FAFAFA; /* Very light grey */
     color: #1F2937; /* Dark grey text for readability */
@@ -347,7 +347,6 @@ elif st.session_state.page == 'quiz':
         def stream_text(text):
             for word in text.split(" "): yield word + " "; time.sleep(0.08)
         
-        # --- LAYOUT REFACTORED FOR ALIGNMENT ---
         col1, col2 = st.columns([1.2, 1.5])
 
         with col1:
@@ -389,6 +388,8 @@ elif st.session_state.page == 'quiz':
                 st.subheader(display_title)
 
             if current_step == 3 or current_step == 4:
+                # --- NEW: Added vertical space before the quiz ---
+                st.markdown("<br><br>", unsafe_allow_html=True) 
                 render_comprehension_quiz(sample, view_state_key, proceed_step=5)
 
             question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
@@ -524,7 +525,6 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_key]['interacted'][q_id] = True
                         st.session_state[view_key]['step'] = 6 + question_index + 1
             
-            # --- LAYOUT REFACTORED FOR ALIGNMENT ---
             col1, col2 = st.columns([1, 1.8])
             
             with col1:
@@ -562,6 +562,8 @@ elif st.session_state.page == 'user_study_main':
                 validation_placeholder = st.empty()
 
                 if (current_step == 3 or current_step == 4) and caption_idx == 0:
+                    # --- NEW: Added vertical space before the quiz ---
+                    st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
 
                 terms_to_define = set()
@@ -652,7 +654,6 @@ elif st.session_state.page == 'user_study_main':
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
 
-            # --- LAYOUT REFACTORED FOR ALIGNMENT ---
             col1, col2 = st.columns([1, 1.8])
 
             with col1:
@@ -685,6 +686,8 @@ elif st.session_state.page == 'user_study_main':
                     st.subheader("Which caption is better?")
                 
                 if current_step == 3 or current_step == 4:
+                    # --- NEW: Added vertical space before the quiz ---
+                    st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_comp, view_state_key, proceed_step=5)
 
                 validation_placeholder = st.empty()
@@ -761,7 +764,6 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
             
-            # --- LAYOUT REFACTORED FOR ALIGNMENT ---
             col1, col2 = st.columns([1, 1.8])
 
             with col1:
@@ -793,6 +795,8 @@ elif st.session_state.page == 'user_study_main':
                     st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
 
                 if current_step == 3 or current_step == 4:
+                    # --- NEW: Added vertical space before the quiz ---
+                    st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
 
                 if current_step >= 5:
@@ -844,7 +848,6 @@ if (!parent_document.arrowRightListenerAttached) {
 
         if (event.key === 'ArrowRight') {
             event.preventDefault();
-            // --- UPDATED LIST OF BUTTON LABELS ---
             const targetButtonLabels = [
                 "Submit Ratings", "Submit Comparison", "Submit Answers", 
                 "Submit Answer", "Next Question", "Show Questions", 
