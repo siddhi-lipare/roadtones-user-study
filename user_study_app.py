@@ -264,7 +264,7 @@ if st.session_state.page == 'demographics':
     email = st.text_input("Please enter your email address:")
     age = st.selectbox("Age:", options=list(range(18, 61)), index=None, placeholder="Select your age...")
     gender = st.selectbox("Gender:", options=["Male", "Female", "Other / Prefer not to say"], index=None, placeholder="Select your gender...")
-    st.write("---")
+    
     if st.checkbox("I am over 18 and agree to participate in this study. I understand my responses will be recorded anonymously."):
         if st.button("Next"):
             email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -339,7 +339,7 @@ elif st.session_state.page == 'quiz':
             if current_step >= 5:
                 st.subheader(display_title)
         
-        st.write("---")
+        
         col1, col2 = st.columns([1.2, 1.5])
 
         with col1:
@@ -508,7 +508,7 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 5:
                     st.subheader("Caption Quality Rating")
 
-            st.write("---")
+            
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
@@ -636,7 +636,7 @@ elif st.session_state.page == 'user_study_main':
             with title_col2:
                 if current_step >= 5:
                     st.subheader("Which caption is better?")
-            st.write("---")
+            
 
             def mark_p2_interacted(q_id, view_key):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
@@ -749,7 +749,7 @@ elif st.session_state.page == 'user_study_main':
             with title_col2:
                  if current_step >= 5:
                     st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
-            st.write("---")
+            
             
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
