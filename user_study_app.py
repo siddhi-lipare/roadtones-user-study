@@ -844,7 +844,14 @@ if (!parent_document.arrowRightListenerAttached) {
 
         if (event.key === 'ArrowRight') {
             event.preventDefault();
-            const targetButtonLabels = ["Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer", "Next Question", "Show Questions", "Proceed to Caption", "Proceed to Captions", "Proceed to Summary", "Proceed to User Study", "Next"];
+            // --- UPDATED LIST OF BUTTON LABELS ---
+            const targetButtonLabels = [
+                "Submit Ratings", "Submit Comparison", "Submit Answers", 
+                "Submit Answer", "Next Question", "Show Questions", 
+                "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
+                "Proceed to Summary", "Proceed to Question", "Proceed to User Study", 
+                "Take Quiz Again", "Submit", "Next"
+            ];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
             
