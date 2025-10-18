@@ -173,6 +173,12 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
 
+/* --- NEW: Title font consistency --- */
+[data-testid="stVerticalBlock"] h2 {
+    font-size: 1.75rem !important; /* Standard subheader size */
+    font-weight: 600 !important; /* Standard subheader weight */
+}
+
 /* --- CUSTOM BUTTON STYLING --- */
 div[data-testid="stButton"] > button, .stForm [data-testid="stButton"] > button {
     background-color: #FAFAFA; /* Very light grey */
@@ -330,11 +336,10 @@ elif st.session_state.page == 'intro_video':
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
         st.markdown("##### [Additional user study guide](https://docs.google.com/document/d/1TCGi_93Q-lfCAluVU5XglS86C3SBOL8VayXL1d6C_7I/edit?usp=sharing)")
-    if st.button("Next"): 
+    if st.button("Next >>"): 
         st.session_state.page = 'what_is_tone'
         st.rerun()
 
-# --- NEW: "What is Tone" instructional slide ---
 elif st.session_state.page == 'what_is_tone':
     st.markdown("<h1 style='text-align: center;'>What is <span style='color: #4F46E5;'>Tone</span>?</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 1.25rem; max-width: 800px; margin: auto;'>Tone refers to the author's attitude or feeling about the subject they are writing about. It is conveyed through word choice, perspective, and sentence structure.</p>", unsafe_allow_html=True)
@@ -350,7 +355,6 @@ elif st.session_state.page == 'what_is_tone':
         st.session_state.page = 'factual_info'
         st.rerun()
 
-# --- NEW: "Factual Information" instructional slide ---
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>What does <span style='color: #4F46E5;'>“Factual Information”</span> of a caption indicate?</h1>", unsafe_allow_html=True)
     
@@ -554,23 +558,23 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         video_id = current_video['video_id']
         timer_finished_key = f"timer_finished_{video_id}"
+        
+        # --- NEW: Explicit loading state to prevent ghosting ---
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
-            title_col1, _ = st.columns([1, 1.8])
-            with title_col1:
+            loading_col1, loading_col2 = st.columns([1, 1.8])
+            with loading_col1:
                 st.subheader("Watch the video")
-
-            with st.spinner(""):
-                col1, _ = st.columns([1, 1.8])
-                with col1:
+                with st.spinner(""):
                     if current_video.get("orientation") == "portrait":
                         _, vid_col, _ = st.columns([1, 3, 1])
-                        with vid_col:
-                            st.video(current_video['video_path'], autoplay=True, muted=True)
+                        with vid_col: st.video(current_video['video_path'], autoplay=True, muted=True)
                     else:
                         st.video(current_video['video_path'], autoplay=True, muted=True)
-                duration = current_video.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+                    duration = current_video.get('duration', 10)
+                    time.sleep(duration)
+            with loading_col2: # Intentionally blank to clear ghost elements
+                pass
+            st.session_state[timer_finished_key] = True
             st.rerun()
         else:
             current_caption = current_video['captions'][caption_idx]
@@ -590,25 +594,20 @@ elif st.session_state.page == 'user_study_main':
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
-                        st.session_state[view_key]['step'] = 6 + question_index + 1
+                        st.session_state[view_state_key]['step'] = 6 + question_index + 1
             
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
-                if current_step < 5 and caption_idx == 0:
-                    st.subheader("Watch the video")
-                else:
-                    st.subheader("Video")
+                st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
                     st.subheader("Caption Quality Rating")
 
             col1, col2 = st.columns([1, 1.8])
-            
             with col1:
                 if current_video.get("orientation") == "portrait":
                     _, vid_col, _ = st.columns([1, 3, 1])
-                    with vid_col:
-                        st.video(current_video['video_path'], autoplay=True, muted=True)
+                    with vid_col: st.video(current_video['video_path'], autoplay=True, muted=True)
                 else:
                     st.video(current_video['video_path'], autoplay=True, muted=True)
 
@@ -629,7 +628,6 @@ elif st.session_state.page == 'user_study_main':
             
             with col2:
                 validation_placeholder = st.empty()
-                # --- REMOVED extra vertical space ---
                 if (current_step == 3 or current_step == 4) and caption_idx == 0:
                     render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
 
@@ -719,23 +717,22 @@ elif st.session_state.page == 'user_study_main':
 
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
         timer_finished_key = f"timer_finished_{comparison_id}"
+        
         if not st.session_state.get(timer_finished_key, False):
-            title_col1, _ = st.columns([1, 1.8])
-            with title_col1:
+            loading_col1, loading_col2 = st.columns([1, 1.8])
+            with loading_col1:
                 st.subheader("Watch the video")
-            
-            with st.spinner(""):
-                col1, _ = st.columns([1, 1.8])
-                with col1:
+                with st.spinner(""):
                     if current_comp.get("orientation") == "portrait":
                         _, vid_col, _ = st.columns([1, 3, 1])
-                        with vid_col:
-                            st.video(current_comp['video_path'], autoplay=True, muted=True)
+                        with vid_col: st.video(current_comp['video_path'], autoplay=True, muted=True)
                     else:
                         st.video(current_comp['video_path'], autoplay=True, muted=True)
-                duration = current_comp.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+                    duration = current_comp.get('duration', 10)
+                    time.sleep(duration)
+            with loading_col2:
+                pass
+            st.session_state[timer_finished_key] = True
             st.rerun()
         else:
             view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
@@ -755,10 +752,7 @@ elif st.session_state.page == 'user_study_main':
             
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
-                if current_step < 5:
-                    st.subheader("Watch the video")
-                else:
-                    st.subheader("Video")
+                st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
                     st.subheader("Which caption is better?")
@@ -767,8 +761,7 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_comp.get("orientation") == "portrait":
                     _, vid_col, _ = st.columns([1, 3, 1])
-                    with vid_col:
-                        st.video(current_comp['video_path'], autoplay=True, muted=True)
+                    with vid_col: st.video(current_comp['video_path'], autoplay=True, muted=True)
                 else:
                     st.video(current_comp['video_path'], autoplay=True, muted=True)
 
@@ -845,23 +838,22 @@ elif st.session_state.page == 'user_study_main':
         current_change = all_changes[change_idx]; change_id = current_change['change_id']
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
         timer_finished_key = f"timer_finished_{change_id}"
+        
         if not st.session_state.get(timer_finished_key, False):
-            title_col1, _ = st.columns([1, 1.8])
-            with title_col1:
+            loading_col1, loading_col2 = st.columns([1, 1.8])
+            with loading_col1:
                 st.subheader("Watch the video")
-
-            with st.spinner(""):
-                col1, _ = st.columns([1, 1.8])
-                with col1:
+                with st.spinner(""):
                     if current_change.get("orientation") == "portrait":
                         _, vid_col, _ = st.columns([1, 3, 1])
-                        with vid_col:
-                            st.video(current_change['video_path'], autoplay=True, muted=True)
+                        with vid_col: st.video(current_change['video_path'], autoplay=True, muted=True)
                     else:
                         st.video(current_change['video_path'], autoplay=True, muted=True)
-                duration = current_change.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+                    duration = current_change.get('duration', 10)
+                    time.sleep(duration)
+            with loading_col2:
+                pass
+            st.session_state[timer_finished_key] = True
             st.rerun()
         else:
             view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
@@ -871,10 +863,7 @@ elif st.session_state.page == 'user_study_main':
             
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
-                if current_step < 5:
-                    st.subheader("Watch the video")
-                else:
-                    st.subheader("Video")
+                st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
                     st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
@@ -883,8 +872,7 @@ elif st.session_state.page == 'user_study_main':
             with col1:
                 if current_change.get("orientation") == "portrait":
                     _, vid_col, _ = st.columns([1, 3, 1])
-                    with vid_col:
-                        st.video(current_change['video_path'], autoplay=True, muted=True)
+                    with vid_col: st.video(current_change['video_path'], autoplay=True, muted=True)
                 else:
                     st.video(current_change['video_path'], autoplay=True, muted=True)
 
@@ -958,7 +946,7 @@ if (!parent_document.arrowRightListenerAttached) {
                 "Submit Answer", "Next Question", "Show Questions", 
                 "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
                 "Proceed to Summary", "Proceed to Question", "Proceed to User Study", 
-                "Take Quiz Again", "Submit", "Next", "Start Quiz"
+                "Take Quiz Again", "Submit", "Next >>", "Start Quiz"
             ];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
