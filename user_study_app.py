@@ -163,8 +163,7 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
     except Exception as e:
         st.error(f"Failed to write to Google Sheet: {e}")
 
-def go_to_next_quiz_question(view_key_to_pop):
-    st.session_state.pop(view_key_to_pop, None)
+def go_to_next_quiz_question():
     with st.spinner("Saving your answer..."):
         part_keys = list(st.session_state.all_data['quiz'].keys())
         current_part_key = part_keys[st.session_state.current_part_index]
@@ -385,7 +384,7 @@ elif st.session_state.page == 'quiz':
                         st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
                     
                     st.info(f"**Explanation:** {question_data['explanation']}")
-                    if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(view_state_key); st.rerun()
+                    if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
                 else:
                     with st.form("quiz_form"):
                         choice = None
