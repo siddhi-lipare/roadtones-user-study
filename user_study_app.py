@@ -18,6 +18,7 @@ STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
 QUESTIONS_DATA_PATH = "questions.json"
+LOCAL_BACKUP_FILE = "responses_backup.jsonl"
 
 # --- JAVASCRIPT FOR ANIMATION ---
 JS_ANIMATION_RESET = """
@@ -29,7 +30,7 @@ JS_ANIMATION_RESET = """
     });
 """
 
-# --- GOOGLE SHEETS CONNECTION & HELPERS ---
+# --- GOOGLE SHEETS & HELPERS ---
 @st.cache_resource
 def connect_to_gsheet():
     """Connects to the Google Sheet using Streamlit secrets."""
@@ -41,12 +42,48 @@ def connect_to_gsheet():
         client = gspread.authorize(creds)
         spreadsheet = client.open("roadtones-streamlit-userstudy-responses")
         return spreadsheet.sheet1
-    except gspread.exceptions.SpreadsheetNotFound:
-        st.error("Deployment Error: Spreadsheet 'roadtones-streamlit-userstudy-responses' not found.")
+    except Exception:
+        # Return None if connection fails for any reason
         return None
+
+def save_response_locally(response_dict):
+    """Saves a response dictionary to a local JSONL file as a fallback."""
+    try:
+        with open(LOCAL_BACKUP_FILE, "a") as f:
+            f.write(json.dumps(response_dict) + "\n")
+        return True
     except Exception as e:
-        st.error(f"Could not connect to Google Sheets: {e}")
-        return None
+        st.error(f"Critical Error: Could not save response to local backup file. {e}")
+        return False
+
+# --- NEW: Robust response saving with local fallback ---
+def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
+    """Saves a response to Google Sheets, with a local JSONL fallback."""
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    response_dict = {
+        'email': email, 'age': age, 'gender': str(gender), 'timestamp': timestamp,
+        'study_phase': study_phase, 'video_id': video_data.get('video_id', 'N/A'),
+        'sample_id': caption_data.get('caption_id') or caption_data.get('comparison_id') or caption_data.get('change_id') or caption_data.get('sample_id'),
+        'question_text': question_text, 'user_choice': str(choice),
+        'was_correct': str(was_correct) if was_correct is not None else 'N/A',
+        'attempts_taken': 1 if study_phase == 'quiz' else 'N/A'
+    }
+
+    worksheet = connect_to_gsheet()
+    if worksheet:
+        try:
+            # If sheet is empty, append header first
+            if not worksheet.get_all_values():
+                 worksheet.append_row(list(response_dict.keys()))
+            worksheet.append_row(list(response_dict.values()))
+            return True
+        except Exception as e:
+            st.warning(f"Could not save to Google Sheets ({e}). Saving a local backup.")
+            return save_response_locally(response_dict)
+    else:
+        st.warning("Could not connect to Google Sheets. Saving a local backup.")
+        return save_response_locally(response_dict)
+
 
 @st.cache_data
 def get_video_metadata(path):
@@ -113,7 +150,6 @@ st.markdown("""
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-/* --- UPDATED: Reduced height to bring slider closer to question --- */
 .slider-label { height: 80px; margin-bottom: 0; }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -169,18 +205,6 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 DEFINITIONS = { 'Adventurous': 'Shows a willingness to take risks or try out new experiences.', 'Amusing': 'Causes lighthearted laughter or provides entertainment in a playful way.', 'Angry': 'Expresses strong annoyance, displeasure, or hostility towards an event.', 'Anxious': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.', 'Appreciative': 'Expresses gratitude, admiration, or praise for an action or event.', 'Assertive': 'Expresses opinions or desires confidently and forcefully.', 'Caring': 'Displays kindness and concern for others.', 'Considerate': 'Shows careful thought and concern for the well-being or safety of others.', 'Critical': 'Expresses disapproving comments or judgments about an action or behavior.', 'Cynical (Doubtful, Skeptical)': "Shows a distrust of others' sincerity or integrity.", 'Emotional': 'Expresses feelings openly and strongly, such as happiness, sadness, or fear.', 'Energetic': 'Displays a high level of activity, excitement, or dynamism.', 'Enthusiastic': 'Shows intense and eager enjoyment or interest in an event.', 'Observant': 'States facts or details about an event in a neutral, notice-based way.', 'Objective (Detached, Impartial)': 'Presents information without personal feelings or bias.', 'Questioning': 'Raises questions or expresses uncertainty about a situation.', 'Reflective': 'Shows deep thought or contemplation about an event or idea.', 'Sarcastic': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.', 'Serious': 'Treats the subject with gravity and importance, without humor.', 'Advisory': 'Gives advice, suggestions, or warnings about a situation.', 'CallToAction': 'Encourages the reader to take a specific action.', 'Conversational': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.', 'Exaggeration': 'Represents something as being larger, better, or worse than it really is for effect.', 'Factual': 'Presents information objectively and accurately, like a news report.', 'Instructional': 'Provides clear directions or information on how to do something.', 'Judgmental': 'Displays an overly critical or moralizing point of view on actions shown.', 'Metaphorical': 'Uses symbolic language or comparisons to describe something.', 'Persuasive': 'Aims to convince the reader to agree with a particular point of view.', 'Rhetorical Question': 'Asks a question not for an answer, but to make a point or create a dramatic effect.', 'Public Safety Alert': 'Intended to inform the public about potential dangers or safety issues.', 'Social Media Update': 'A casual post for sharing personal experiences or observations with friends and followers.', 'Driver Behavior Monitoring': 'Used in systems that track and analyze driving patterns for insurance or fleet management.', 'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.', 'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.', 'Community Road Safety Awareness': 'Aimed at educating the local community about road safety practices.', 'Public Safety Awareness': 'General information to raise public consciousness about safety.', 'Road Safety Education': 'Content designed to teach drivers or the public about safe road use.', 'Traffic Awareness': 'Information focused on current traffic conditions or general traffic issues.'}
 
 # --- NAVIGATION & STATE HELPERS ---
-def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
-    worksheet = connect_to_gsheet()
-    if worksheet is None: return
-    try:
-        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-        response_data = [email, age, str(gender), timestamp, study_phase, video_data.get('video_id', 'N/A'), caption_data.get('caption_id') or caption_data.get('comparison_id') or caption_data.get('change_id') or caption_data.get('sample_id'), question_text, str(choice), str(was_correct) if was_correct is not None else 'N/A', 1 if study_phase == 'quiz' else 'N/A']
-        if len(worksheet.get_all_values()) == 0:
-             worksheet.append_row(['email', 'age', 'gender', 'timestamp', 'study_phase', 'video_id', 'sample_id', 'question_text', 'user_choice', 'was_correct', 'attempts_taken'])
-        worksheet.append_row(response_data)
-    except Exception as e:
-        st.error(f"Failed to write to Google Sheet: {e}")
-
 def handle_next_quiz_question(view_key_to_pop):
     part_keys = list(st.session_state.all_data['quiz'].keys())
     current_part_key = part_keys[st.session_state.current_part_index]
@@ -193,7 +217,13 @@ def handle_next_quiz_question(view_key_to_pop):
         question_text = sample["questions"][st.session_state.current_rating_question_index]["question_text"]
     else:
         question_text = "Tone Identification"
-    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
+    
+    # Save response and check for success
+    success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
+    if not success:
+        st.error("Failed to save response. Please check your connection and try again.")
+        return # Do not proceed if save fails
+
     if "Caption Quality" in current_part_key:
         st.session_state.current_rating_question_index += 1
         if st.session_state.current_rating_question_index >= len(sample["questions"]):
@@ -307,6 +337,9 @@ elif st.session_state.page == 'intro_video':
     if st.button("Next"): st.session_state.page = 'quiz'; st.rerun()
 
 elif st.session_state.page == 'quiz':
+    # --- NEW: Pre-warm the Google Sheets connection to reduce initial lag ---
+    connect_to_gsheet()
+
     part_keys = list(st.session_state.all_data['quiz'].keys())
     with st.sidebar:
         st.header("Quiz Sections")
@@ -495,7 +528,11 @@ elif st.session_state.page == 'user_study_main':
         video_id = current_video['video_id']
         timer_finished_key = f"timer_finished_{video_id}"
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
-            st.subheader("Watch the video")
+            # --- REFACTORED: Title alignment row ---
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
+                st.subheader("Watch the video")
+
             with st.spinner(""):
                 col1, _ = st.columns([1, 1.8])
                 with col1:
@@ -529,14 +566,20 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_key]['interacted'][q_id] = True
                         st.session_state[view_key]['step'] = 6 + question_index + 1
             
-            col1, col2 = st.columns([1, 1.8])
-            
-            with col1:
-                if current_step < 5:
+            # --- REFACTORED: Title alignment row ---
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
+                if current_step < 5 and caption_idx == 0:
                     st.subheader("Watch the video")
                 else:
                     st.subheader("Video")
+            with title_col2:
+                if current_step >= 5:
+                    st.subheader("Caption Quality Rating")
 
+            col1, col2 = st.columns([1, 1.8])
+            
+            with col1:
                 if current_video.get("orientation") == "portrait":
                     _, vid_col, _ = st.columns([1, 3, 1])
                     with vid_col:
@@ -560,11 +603,7 @@ elif st.session_state.page == 'user_study_main':
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
             
             with col2:
-                if current_step >= 5:
-                    st.subheader("Caption Quality Rating")
-
                 validation_placeholder = st.empty()
-
                 if (current_step == 3 or current_step == 4) and caption_idx == 0:
                     st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
@@ -633,14 +672,18 @@ elif st.session_state.page == 'user_study_main':
                                 validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
                             else:
                                 with st.spinner("Saving your ratings..."):
+                                    all_saved = True
                                     responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
                                     for q_id, choice_text in responses_to_save.items():
                                         full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
-                                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
-                                st.session_state.current_caption_index += 1
-                                if st.session_state.current_caption_index >= len(current_video['captions']):
-                                    st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
-                                st.session_state.pop(view_state_key, None); st.rerun()
+                                        if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text):
+                                            all_saved = False
+                                            break
+                                if all_saved:
+                                    st.session_state.current_caption_index += 1
+                                    if st.session_state.current_caption_index >= len(current_video['captions']):
+                                        st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
+                                    st.session_state.pop(view_state_key, None); st.rerun()
 
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
@@ -652,7 +695,11 @@ elif st.session_state.page == 'user_study_main':
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
         timer_finished_key = f"timer_finished_{comparison_id}"
         if not st.session_state.get(timer_finished_key, False):
-            st.subheader("Watch the video")
+            # --- REFACTORED: Title alignment row ---
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
+                st.subheader("Watch the video")
+            
             with st.spinner(""):
                 col1, _ = st.columns([1, 1.8])
                 with col1:
@@ -681,15 +728,20 @@ elif st.session_state.page == 'user_study_main':
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
-
-            col1, col2 = st.columns([1, 1.8])
-
-            with col1:
+            
+            # --- REFACTORED: Title alignment row ---
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
                 if current_step < 5:
                     st.subheader("Watch the video")
                 else:
                     st.subheader("Video")
+            with title_col2:
+                if current_step >= 5:
+                    st.subheader("Which caption is better?")
 
+            col1, col2 = st.columns([1, 1.8])
+            with col1:
                 if current_comp.get("orientation") == "portrait":
                     _, vid_col, _ = st.columns([1, 3, 1])
                     with vid_col:
@@ -710,9 +762,6 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
 
             with col2:
-                if current_step >= 5:
-                    st.subheader("Which caption is better?")
-                
                 if current_step == 3 or current_step == 4:
                     st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_comp, view_state_key, proceed_step=5)
@@ -754,10 +803,14 @@ elif st.session_state.page == 'user_study_main':
                                 validation_placeholder.warning("⚠️ Please answer all four questions before submitting.")
                             else:
                                 with st.spinner("Saving your responses..."):
+                                    all_saved = True
                                     for q_id, choice in responses.items():
                                         full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N.A.")
-                                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
-                                st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
+                                        if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text):
+                                            all_saved = False
+                                            break
+                                if all_saved:
+                                    st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
 
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
@@ -771,7 +824,11 @@ elif st.session_state.page == 'user_study_main':
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
         timer_finished_key = f"timer_finished_{change_id}"
         if not st.session_state.get(timer_finished_key, False):
-            st.subheader("Watch the video")
+            # --- REFACTORED: Title alignment row ---
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
+                st.subheader("Watch the video")
+
             with st.spinner(""):
                 col1, _ = st.columns([1, 1.8])
                 with col1:
@@ -791,14 +848,19 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
             
-            col1, col2 = st.columns([1, 1.8])
-
-            with col1:
+            # --- REFACTORED: Title alignment row ---
+            title_col1, title_col2 = st.columns([1, 1.8])
+            with title_col1:
                 if current_step < 5:
                     st.subheader("Watch the video")
                 else:
                     st.subheader("Video")
+            with title_col2:
+                if current_step >= 5:
+                    st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
 
+            col1, col2 = st.columns([1, 1.8])
+            with col1:
                 if current_change.get("orientation") == "portrait":
                     _, vid_col, _ = st.columns([1, 3, 1])
                     with vid_col:
@@ -818,9 +880,6 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 2 and st.button("Proceed to Question", key=f"p3_proceed_captions_{change_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
-                if current_step >= 5:
-                    st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
-
                 if current_step == 3 or current_step == 4:
                     st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
@@ -850,9 +909,10 @@ elif st.session_state.page == 'user_study_main':
                             if choice1 is None or choice2 is None: st.error("Please answer both questions.")
                             else:
                                 with st.spinner("Saving your responses..."): 
-                                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
-                                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                                st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
+                                    success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
+                                    success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                                if success1 and success2:
+                                    st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
