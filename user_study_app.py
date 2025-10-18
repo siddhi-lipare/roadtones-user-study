@@ -56,7 +56,6 @@ def save_response_locally(response_dict):
         st.error(f"Critical Error: Could not save response to local backup file. {e}")
         return False
 
-# --- NEW: Robust response saving with local fallback ---
 def save_response(email, age, gender, video_data, caption_data, choice, study_phase, question_text, was_correct=None):
     """Saves a response to Google Sheets, with a local JSONL fallback."""
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -72,7 +71,6 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
     worksheet = connect_to_gsheet()
     if worksheet:
         try:
-            # If sheet is empty, append header first
             if not worksheet.get_all_values():
                  worksheet.append_row(list(response_dict.keys()))
             worksheet.append_row(list(response_dict.values()))
@@ -218,11 +216,10 @@ def handle_next_quiz_question(view_key_to_pop):
     else:
         question_text = "Tone Identification"
     
-    # Save response and check for success
     success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
     if not success:
         st.error("Failed to save response. Please check your connection and try again.")
-        return # Do not proceed if save fails
+        return
 
     if "Caption Quality" in current_part_key:
         st.session_state.current_rating_question_index += 1
@@ -337,9 +334,6 @@ elif st.session_state.page == 'intro_video':
     if st.button("Next"): st.session_state.page = 'quiz'; st.rerun()
 
 elif st.session_state.page == 'quiz':
-    # --- NEW: Pre-warm the Google Sheets connection to reduce initial lag ---
-    connect_to_gsheet()
-
     part_keys = list(st.session_state.all_data['quiz'].keys())
     with st.sidebar:
         st.header("Quiz Sections")
@@ -528,8 +522,7 @@ elif st.session_state.page == 'user_study_main':
         video_id = current_video['video_id']
         timer_finished_key = f"timer_finished_{video_id}"
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
-            # --- REFACTORED: Title alignment row ---
-            title_col1, title_col2 = st.columns([1, 1.8])
+            title_col1, _ = st.columns([1, 1.8])
             with title_col1:
                 st.subheader("Watch the video")
 
@@ -566,7 +559,6 @@ elif st.session_state.page == 'user_study_main':
                         st.session_state[view_key]['interacted'][q_id] = True
                         st.session_state[view_key]['step'] = 6 + question_index + 1
             
-            # --- REFACTORED: Title alignment row ---
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
                 if current_step < 5 and caption_idx == 0:
@@ -695,8 +687,7 @@ elif st.session_state.page == 'user_study_main':
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
         timer_finished_key = f"timer_finished_{comparison_id}"
         if not st.session_state.get(timer_finished_key, False):
-            # --- REFACTORED: Title alignment row ---
-            title_col1, title_col2 = st.columns([1, 1.8])
+            title_col1, _ = st.columns([1, 1.8])
             with title_col1:
                 st.subheader("Watch the video")
             
@@ -729,7 +720,6 @@ elif st.session_state.page == 'user_study_main':
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
             
-            # --- REFACTORED: Title alignment row ---
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
                 if current_step < 5:
@@ -824,8 +814,7 @@ elif st.session_state.page == 'user_study_main':
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
         timer_finished_key = f"timer_finished_{change_id}"
         if not st.session_state.get(timer_finished_key, False):
-            # --- REFACTORED: Title alignment row ---
-            title_col1, title_col2 = st.columns([1, 1.8])
+            title_col1, _ = st.columns([1, 1.8])
             with title_col1:
                 st.subheader("Watch the video")
 
@@ -848,7 +837,6 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
             
-            # --- REFACTORED: Title alignment row ---
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
                 if current_step < 5:
