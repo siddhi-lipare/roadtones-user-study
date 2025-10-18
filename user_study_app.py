@@ -226,7 +226,7 @@ if st.session_state.all_data is None: st.stop()
 
 # --- SCROLL HANDLING LOGIC ---
 if st.session_state.get('scroll_to_top', False):
-    streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key="scroll_to_top")
+    streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key="js_scroller")
     st.session_state.scroll_to_top = False
 
 # --- Page Rendering Logic ---
