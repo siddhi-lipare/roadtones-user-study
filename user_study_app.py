@@ -418,7 +418,7 @@ elif st.session_state.page == 'quiz':
                         question_text_display = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
                     else: question_text_display = raw_text
                 elif question_data.get("question_type") == "multi":
-                    question_text_display = "Identify the 2 dominant tones projected by the captioner"
+                    question_text_display = "Identify the 2 dominant tones in the caption"
                     terms_to_define.update(question_data['options'])
                 else:
                     # --- UPDATED: Specific wording for identification questions ---
@@ -428,7 +428,7 @@ elif st.session_state.page == 'quiz':
                     elif category_text == "writing style":
                         question_text_display = "What is the most dominant writing style in the caption?"
                     else:
-                        question_text_display = f"Identify the most dominant {category_text} projected by the captioner"
+                        question_text_display = f"Identify the most dominant {category_text} in the caption"
                     terms_to_define.update(question_data['options'])
 
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text_display}</span></div>', unsafe_allow_html=True)
