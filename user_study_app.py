@@ -138,6 +138,19 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box h3 { margin-top: 0; padding-bottom: 0.5rem; font-size: 18px; font-weight: 600; }
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
+button {
+    background-color: #ADD8E6 !important;
+    color: #004C99 !important;
+    border: 1px solid #9AC7D3 !important;
+}
+button:hover {
+    background-color: #BEE3F8 !important;
+    border: 1px solid #A1CADB !important;
+}
+button:active {
+    background-color: #A1CADB !important;
+    border: 1px solid #7EBDD3 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -302,17 +315,16 @@ elif st.session_state.page == 'quiz':
     timer_finished_key = f"timer_finished_quiz_{sample_id}"
     if not st.session_state.get(timer_finished_key, False):
         st.subheader("Watch the video")
-        with st.spinner(""):
-            col1, _ = st.columns([1.2, 1.5])
-            with col1:
-                if sample.get("orientation") == "portrait":
-                    _, vid_col, _ = st.columns([1, 3, 1])
-                    with vid_col:
-                        st.video(sample['video_path'], autoplay=True, muted=True)
-                else:
+        col1, _ = st.columns([1.2, 1.5])
+        with col1:
+            if sample.get("orientation") == "portrait":
+                _, vid_col, _ = st.columns([1, 3, 1])
+                with vid_col:
                     st.video(sample['video_path'], autoplay=True, muted=True)
-            duration = sample.get('duration', 10)
-            time.sleep(duration)
+            else:
+                st.video(sample['video_path'], autoplay=True, muted=True)
+            with st.spinner("Please wait for the video to finish..."):
+                time.sleep(sample.get('duration', 10))
         st.session_state[timer_finished_key] = True
         st.rerun()
     else:
@@ -470,18 +482,17 @@ elif st.session_state.page == 'user_study_main':
         timer_finished_key = f"timer_finished_{video_id}"
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
-            with st.spinner(""):
-                col1, _ = st.columns([1, 1.8])
-                with col1:
-                    if current_video.get("orientation") == "portrait":
-                        _, vid_col, _ = st.columns([1, 3, 1])
-                        with vid_col:
-                            st.video(current_video['video_path'], autoplay=True, muted=True)
-                    else:
+            col1, _ = st.columns([1, 1.8])
+            with col1:
+                if current_video.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
                         st.video(current_video['video_path'], autoplay=True, muted=True)
-                duration = current_video.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+                else:
+                    st.video(current_video['video_path'], autoplay=True, muted=True)
+                with st.spinner("Please wait for the video to finish..."):
+                    time.sleep(current_video.get('duration', 10))
+            st.session_state[timer_finished_key] = True
             st.rerun()
         else:
             current_caption = current_video['captions'][caption_idx]
@@ -600,18 +611,17 @@ elif st.session_state.page == 'user_study_main':
         timer_finished_key = f"timer_finished_{comparison_id}"
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner(""):
-                col1, _ = st.columns([1, 1.8])
-                with col1:
-                    if current_comp.get("orientation") == "portrait":
-                        _, vid_col, _ = st.columns([1, 3, 1])
-                        with vid_col:
-                            st.video(current_comp['video_path'], autoplay=True, muted=True)
-                    else:
+            col1, _ = st.columns([1, 1.8])
+            with col1:
+                if current_comp.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
                         st.video(current_comp['video_path'], autoplay=True, muted=True)
-                duration = current_comp.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+                else:
+                    st.video(current_comp['video_path'], autoplay=True, muted=True)
+                with st.spinner("Please wait for the video to finish..."):
+                    time.sleep(current_comp.get('duration', 10))
+            st.session_state[timer_finished_key] = True
             st.rerun()
         else:
             view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
@@ -717,18 +727,17 @@ elif st.session_state.page == 'user_study_main':
         timer_finished_key = f"timer_finished_{change_id}"
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner(""):
-                col1, _ = st.columns([1, 1.8])
-                with col1:
-                    if current_change.get("orientation") == "portrait":
-                        _, vid_col, _ = st.columns([1, 3, 1])
-                        with vid_col:
-                            st.video(current_change['video_path'], autoplay=True, muted=True)
-                    else:
+            col1, _ = st.columns([1, 1.8])
+            with col1:
+                if current_change.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
                         st.video(current_change['video_path'], autoplay=True, muted=True)
-                duration = current_change.get('duration', 10)
-                time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+                else:
+                    st.video(current_change['video_path'], autoplay=True, muted=True)
+                with st.spinner("Please wait for the video to finish..."):
+                    time.sleep(current_change.get('duration', 10))
+            st.session_state[timer_finished_key] = True
             st.rerun()
         else:
             view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
@@ -818,7 +827,12 @@ if (!parent_document.arrowRightListenerAttached) {
 
         if (event.key === 'ArrowRight') {
             event.preventDefault();
-            const targetButtonLabels = ["Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer", "Next Question", "Show Questions", "Proceed to Caption", "Proceed to Captions", "Proceed to Summary", "Proceed to User Study", "Next"];
+            const targetButtonLabels = [
+                "Submit Ratings", "Submit Comparison", "Submit Answers", "Submit Answer", "Submit",
+                "Next Question", "Show Questions", "Proceed to Caption(s)", "Proceed to Caption", 
+                "Proceed to Captions", "Proceed to Question", "Proceed to Summary", 
+                "Proceed to User Study", "Next"
+            ];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
             
