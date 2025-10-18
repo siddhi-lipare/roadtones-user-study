@@ -408,7 +408,7 @@ elif st.session_state.page == 'quiz':
                     user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
                     if not isinstance(user_choice, list): user_choice = [user_choice]
                     if not isinstance(correct_answer, list): correct_answer = [correct_answer]
-                    st.write("**Your Answer vs Correct Answer:**")
+                    st.write(" ")
                     for opt in question_data['options']:
                         is_correct, is_user_choice = opt in correct_answer, opt in user_choice
                         css_class = "correct-answer" if is_correct else "wrong-answer" if is_user_choice else "normal-answer"
