@@ -568,14 +568,24 @@ elif st.session_state.page == 'user_study_main':
             st.rerun()
         else:
             view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
+            q_templates = st.session_state.all_data['questions']['part2_questions']
+            question_ids = [q['id'] for q in q_templates]
+
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
+                st.session_state[view_state_key] = {'step': 1, 'interacted': {qid: False for qid in question_ids}}
+                st.session_state[summary_typed_key] = False
+
             current_step = st.session_state[view_state_key]['step']
             
             if current_step < 3:
                 st.header("Watch the video")
             else:
                 st.header("Which caption is better?")
+
+            def mark_p2_interacted(q_id, view_key):
+                if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
+                    if not st.session_state[view_key]['interacted'][q_id]:
+                        st.session_state[view_key]['interacted'][q_id] = True
 
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
@@ -599,6 +609,7 @@ elif st.session_state.page == 'user_study_main':
                         streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p2_{comparison_id}")
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
+                validation_placeholder = st.empty()
                 if current_step >= 3:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
@@ -607,23 +618,38 @@ elif st.session_state.page == 'user_study_main':
                     control_scores = current_comp.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
                     terms_to_define.update(tone_traits); terms_to_define.update(style_traits)
                     tone_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in tone_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                    with st.form(key=f"study_form_comparison_{comp_idx}"):
-                        q_templates = st.session_state.all_data['questions']['part2_questions']
-                        part2_questions = [{"id": q["id"], "text": q["text"].format(tone_str if 'tone' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
-                        options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]; responses = {}
-                        question_cols = st.columns(4)
-                        for i, q in enumerate(part2_questions):
-                            with question_cols[i]:
-                                st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                                responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}")
-                        if st.form_submit_button("Submit Comparison"):
-                            if any(choice is None for choice in responses.values()): st.error("Please answer all four questions.")
+                    
+                    part2_questions = [{"id": q["id"], "text": q["text"].format(tone_str if 'tone' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
+                    options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
+                    
+                    interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
+                    num_interacted = sum(1 for flag in interacted_state.values() if flag)
+                    questions_to_show = num_interacted + 1
+                    
+                    question_cols = st.columns(4)
+
+                    def render_radio(q, col, q_index, view_key_arg):
+                        with col:
+                            st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                            st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"p2_{comparison_id}_{q['id']}", on_change=mark_p2_interacted, args=(q['id'], view_key_arg))
+
+                    if questions_to_show >= 1: render_radio(part2_questions[0], question_cols[0], 0, view_state_key)
+                    if questions_to_show >= 2: render_radio(part2_questions[1], question_cols[1], 1, view_state_key)
+                    if questions_to_show >= 3: render_radio(part2_questions[2], question_cols[2], 2, view_state_key)
+                    if questions_to_show >= 4: render_radio(part2_questions[3], question_cols[3], 3, view_state_key)
+
+                    if questions_to_show > len(part2_questions):
+                        if st.button("Submit Comparison", key=f"submit_comp_{comparison_id}"):
+                            responses = {q['id']: st.session_state.get(f"p2_{comparison_id}_{q['id']}") for q in part2_questions}
+                            if any(choice is None for choice in responses.values()):
+                                validation_placeholder.warning("⚠️ Please answer all four questions before submitting.")
                             else:
                                 with st.spinner("Saving your responses..."):
                                     for q_id, choice in responses.items():
                                         full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
                                         save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
                                 st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
+
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
