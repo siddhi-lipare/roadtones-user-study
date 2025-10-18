@@ -388,7 +388,6 @@ elif st.session_state.page == 'quiz':
                 st.subheader(display_title)
 
             if current_step == 3 or current_step == 4:
-                # --- NEW: Added vertical space before the quiz ---
                 st.markdown("<br><br>", unsafe_allow_html=True) 
                 render_comprehension_quiz(sample, view_state_key, proceed_step=5)
 
@@ -406,7 +405,11 @@ elif st.session_state.page == 'quiz':
             if current_step >= 6:
                 question_text_display = ""
                 if "Tone Controllability" in current_part_key:
-                    question_text_display = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                    # --- UPDATED: More natural wording for controllability questions ---
+                    trait = sample['tone_to_compare']
+                    change_type = sample['comparison_type']
+                    category_text = sample.get('category', 'Tone').lower()
+                    question_text_display = f"Has the <b class='highlight-trait'>{trait}</b> {category_text} {change_type} from Caption A to B?"
                     terms_to_define.add(sample['tone_to_compare'])
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
@@ -418,9 +421,12 @@ elif st.session_state.page == 'quiz':
                     question_text_display = "Identify the 2 dominant tones projected by the captioner"
                     terms_to_define.update(question_data['options'])
                 else:
+                    # --- UPDATED: Specific wording for identification questions ---
                     category_text = sample.get('category', 'tone').lower()
                     if category_text == "tone":
                         question_text_display = "What is the most dominant tone in the caption?"
+                    elif category_text == "writing style":
+                        question_text_display = "What is the most dominant writing style in the caption?"
                     else:
                         question_text_display = f"Identify the most dominant {category_text} projected by the captioner"
                     terms_to_define.update(question_data['options'])
@@ -510,7 +516,8 @@ elif st.session_state.page == 'user_study_main':
             view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
-            options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely Useful"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            # --- UPDATED: Slider options for "usefulness" question ---
+            options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
             
             if view_state_key not in st.session_state:
                 initial_step = 5 if caption_idx > 0 else 1
@@ -562,7 +569,6 @@ elif st.session_state.page == 'user_study_main':
                 validation_placeholder = st.empty()
 
                 if (current_step == 3 or current_step == 4) and caption_idx == 0:
-                    # --- NEW: Added vertical space before the quiz ---
                     st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_video, view_state_key, proceed_step=5)
 
@@ -575,10 +581,30 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 5 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
                         st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
-                    control_scores = current_caption.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys()); application_text = current_caption.get("application", "the intended application")
+                    control_scores = current_caption.get("control_scores", {})
+                    # --- UPDATED: Limit to max 2 tones/styles and format question string ---
+                    tone_traits = list(control_scores.get("tone", {}).keys())[:2]
+                    style_traits = list(control_scores.get("writing_style", {}).keys())[:2]
+                    application_text = current_caption.get("application", "the intended application")
+                    
                     terms_to_define.update(tone_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
-                    tone_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in tone_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                    questions_to_ask = [{"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(tone_str)}, {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)}, {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]}, {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}]
+
+                    def format_traits(traits):
+                        highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
+                        if len(highlighted) > 1: return " and ".join(highlighted)
+                        return highlighted[0] if highlighted else ""
+
+                    tone_str = format_traits(tone_traits)
+                    style_str = format_traits(style_traits)
+
+                    questions_to_ask = [
+                        {"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(tone_str)},
+                        {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)},
+                        {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]},
+                        {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")},
+                        {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}
+                    ]
+
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
                     question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
 
@@ -686,7 +712,6 @@ elif st.session_state.page == 'user_study_main':
                     st.subheader("Which caption is better?")
                 
                 if current_step == 3 or current_step == 4:
-                    # --- NEW: Added vertical space before the quiz ---
                     st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_comp, view_state_key, proceed_step=5)
 
@@ -795,7 +820,6 @@ elif st.session_state.page == 'user_study_main':
                     st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
 
                 if current_step == 3 or current_step == 4:
-                    # --- NEW: Added vertical space before the quiz ---
                     st.markdown("<br><br>", unsafe_allow_html=True)
                     render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
 

@@ -2,11 +2,11 @@
   "part1_questions": [
     {
       "id": "tone_relevance",
-      "text": "How much does the author's tone projected in the caption come across as {}?"
+      "text": "How {} does the caption sound?"
     },
     {
       "id": "style_relevance",
-      "text": "How strongly does the caption's writing style reflect {} tone(s)?"
+      "text": "How {} is the caption's writing style?"
     },
     {
       "id": "overall_relevance",
@@ -14,11 +14,11 @@
     },
     {
       "id": "factual_consistency",
-      "text": "To what extent is the factual information in the caption consistent with the video summary?"
+      "text": "How factually accurate is the caption (refer to video and summary)?"
     },
     {
       "id": "usefulness",
-      "text": "How useful do you think this caption is for {}?"
+      "text": "How useful would this caption be for {}?"
     },
     {
       "id": "human_likeness",
@@ -28,11 +28,11 @@
   "part2_questions": [
     {
       "id": "q1_tone",
-      "text": "Which caption better conveys the author's {} tone?"
+      "text": "Which caption sounds more {}?"
     },
     {
       "id": "q2_style",
-      "text": "Which caption better conveys a {} style of writing?"
+      "text": "Which caption's writing style is more {}?"
     },
     {
       "id": "q3_accuracy",

@@ -29,7 +29,7 @@
       ],
       "caption": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another.",
       "category": "writing style",
-      "options": ["Conversational", "Factual", "Advisory", "Judgmental"],
+      "options": ["Conversational", "Exaggeration", "Advisory", "Judgmental"],
       "correct_answer": "Advisory",
       "explanation": "The phrase \"Please remember, overtaking on sharp curves puts lives at risk\" highlights an advisory style by directly giving a warning and advice to other drivers.",
       "question_type": "single"
