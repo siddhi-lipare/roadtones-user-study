@@ -113,7 +113,7 @@ st.markdown("""
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-.slider-label { min-height: 80px; margin-bottom: 0.5rem; }
+.slider-label { height: 100px; margin-bottom: 0.5rem; }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
@@ -322,7 +322,7 @@ elif st.session_state.page == 'quiz':
         current_step = st.session_state[view_state_key]['step']
 
         def stream_text(text):
-            for word in text.split(" "): yield word + " "; time.sleep(0.07)
+            for word in text.split(" "): yield word + " "; time.sleep(0.08)
         
         title_col1, title_col2 = st.columns([1.2, 1.5])
         with title_col1:
@@ -338,7 +338,6 @@ elif st.session_state.page == 'quiz':
             
             if current_step >= 5:
                 st.subheader(display_title)
-        
         
         col1, col2 = st.columns([1.2, 1.5])
 
@@ -453,7 +452,7 @@ elif st.session_state.page == 'quiz_results':
 elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data: st.error("Data could not be loaded."); st.stop()
     def stream_text(text):
-        for word in text.split(" "): yield word + " "; time.sleep(0.07)
+        for word in text.split(" "): yield word + " "; time.sleep(0.08)
     with st.sidebar:
         st.header("Study Sections")
         st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
@@ -498,7 +497,7 @@ elif st.session_state.page == 'user_study_main':
             
             current_step = st.session_state[view_state_key]['step']
 
-            title_col1, title_col2 = st.columns([1, 1.8])
+            title_col1, title_col2 = st.columns([1.2, 1.5])
             with title_col1:
                 if current_step < 5:
                     st.subheader("Watch the video")
@@ -507,8 +506,6 @@ elif st.session_state.page == 'user_study_main':
             with title_col2:
                 if current_step >= 5:
                     st.subheader("Caption Quality Rating")
-
-            
 
             def mark_interacted(q_id, view_key, question_index):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
@@ -636,7 +633,6 @@ elif st.session_state.page == 'user_study_main':
             with title_col2:
                 if current_step >= 5:
                     st.subheader("Which caption is better?")
-            
 
             def mark_p2_interacted(q_id, view_key):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
@@ -749,7 +745,6 @@ elif st.session_state.page == 'user_study_main':
             with title_col2:
                  if current_step >= 5:
                     st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
-            
             
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
