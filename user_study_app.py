@@ -271,29 +271,23 @@ elif st.session_state.page == 'quiz':
     sample = questions_for_part[current_index]
     sample_id = sample.get('sample_id', f'quiz_{current_index}')
 
-    # --- CORRECTED TIMER AND PAGE RENDER LOGIC ---
-    timer_finished_key = f"timer_finished_quiz_{sample_id}"
-    if not st.session_state.get(timer_finished_key, False):
-        # This block runs ONLY ONCE when the question is first loaded.
-        with st.spinner(""):
-            st.header("Watch the video")
-            col1, _ = st.columns([1.2, 1.5])
-            with col1:
-                # Render the video for the timer
-                st.video(sample['video_path'], autoplay=True, muted=True)
-            
-            duration = sample.get('duration', 10)
-            time.sleep(duration)
-        
-        # Set the flag so this timer block doesn't run again for this question
-        st.session_state[timer_finished_key] = True
-        
-        # Force a rerun. This cleanly separates the timer from the main content render.
-        st.rerun()
+    # --- NEW ROBUST TIMER LOGIC ---
+    # We now use a button instead of time.sleep() to create a clean break.
+    video_watched_key = f"video_watched_quiz_{sample_id}"
 
+    if not st.session_state.get(video_watched_key, False):
+        # SCREEN 1: Video Watching Phase
+        st.header("Watch the video")
+        st.info("Please watch the entire video, then click the button below to proceed.")
+        col1, _ = st.columns([1.2, 1.5])
+        with col1:
+            st.video(sample['video_path'], autoplay=True, muted=True)
+            if st.button("I have watched the video, Proceed to Questions", key=f"proceed_btn_{sample_id}"):
+                st.session_state[video_watched_key] = True
+                st.rerun()
+    
     else:
-        # This 'else' block ONLY runs AFTER the timer has finished and the page has been rerun.
-        # This prevents the video from being rendered twice and fixes the ghosting.
+        # SCREEN 2: Question Answering Phase (runs after the button is clicked)
         view_state_key = f'view_state_{sample_id}'
         if view_state_key not in st.session_state:
             st.session_state[view_state_key] = {'step': 1, 'summary_typed': False}
@@ -301,15 +295,16 @@ elif st.session_state.page == 'quiz':
 
         def stream_text(text):
             for word in text.split(" "): yield word + " "; time.sleep(0.05)
+        
         display_title = re.sub(r'Part \d+: ', '', current_part_key)
         if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
         elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
 
-        st.header(display_title); st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
+        st.header(display_title)
+        st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
         col1, col2 = st.columns([1.2, 1.5])
 
         with col1:
-            # Render the video for the main page view
             st.video(sample['video_path'], autoplay=True, muted=True)
 
             if current_step == 1:
@@ -346,6 +341,7 @@ elif st.session_state.page == 'quiz':
                     st.rerun()
 
             if current_step >= 4:
+                # ... (The rest of the rendering logic for questions and feedback remains the same) ...
                 question_text_display = ""
                 if "Tone Controllability" in current_part_key:
                     question_text_display = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
@@ -366,7 +362,6 @@ elif st.session_state.page == 'quiz':
                 st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text_display}</span></div>', unsafe_allow_html=True)
 
                 if st.session_state.show_feedback:
-                    # Display feedback section
                     user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
                     if not isinstance(user_choice, list): user_choice = [user_choice]
                     if not isinstance(correct_answer, list): correct_answer = [correct_answer]
@@ -381,7 +376,6 @@ elif st.session_state.page == 'quiz':
                     st.button("Next Question", key=f"quiz_next_q_{sample_id}", on_click=handle_next_quiz_question, args=(view_state_key,))
 
                 else:
-                    # Display question form
                     with st.form("quiz_form"):
                         choice = None
                         if question_data.get("question_type") == "multi":
@@ -405,7 +399,6 @@ elif st.session_state.page == 'quiz':
                 if terms_to_define:
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
-
 
 
             
