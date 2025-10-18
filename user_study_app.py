@@ -248,12 +248,8 @@ elif st.session_state.page == 'intro_video':
 
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
-    with st.sidebar:
-        st.header("Quiz Sections")
-        for i, name in enumerate(part_keys):
-            st.button(name, on_click=jump_to_part, args=(i,), use_container_width=True)
 
-    if st.session_state.current_part_index >= len(part_keys): 
+    if st.session_state.current_part_index >= len(part_keys):
         st.session_state.page = 'quiz_results'
         st.rerun()
 
@@ -269,143 +265,142 @@ elif st.session_state.page == 'quiz':
 
     if not st.session_state[timer_finished_key]:
         with st.spinner(""):
-            st.header("Watch the video")
-            col1, _ = st.columns([1.2, 1.5])
-            with col1:
-                if sample.get("orientation") == "portrait":
-                    _, vid_col_main, _ = st.columns([1, 3, 1])
-                    with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
-                else:
-                    st.video(sample['video_path'], autoplay=True, muted=True)
             duration = sample.get('duration', 10)
             time.sleep(duration)
         st.session_state[timer_finished_key] = True
         st.rerun()
-    else:
-        view_state_key = f'view_state_{sample_id}'
-        if view_state_key not in st.session_state:
-            st.session_state[view_state_key] = {'step': 1, 'summary_typed': False}
-        current_step = st.session_state[view_state_key]['step']
 
-        def stream_text(text):
-            for word in text.split(" "): yield word + " "; time.sleep(0.05)
-        display_title = re.sub(r'Part \d+: ', '', current_part_key)
-        if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
-        elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
-        
-        st.header(display_title); st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
-        col1, col2 = st.columns([1.2, 1.5])
+    with st.sidebar:
+        st.header("Quiz Sections")
+        for i, name in enumerate(part_keys):
+            st.button(name, on_click=jump_to_part, args=(i,), use_container_width=True)
 
-        with col1:
-            if sample.get("orientation") == "portrait":
-                _, vid_col_main, _ = st.columns([1, 3, 1]);
-                with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
-            else: st.video(sample['video_path'], autoplay=True, muted=True)
+    view_state_key = f'view_state_{sample_id}'
+    if view_state_key not in st.session_state:
+        st.session_state[view_state_key] = {'step': 1, 'summary_typed': False}
+    current_step = st.session_state[view_state_key]['step']
 
-            if current_step == 1:
-                if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
-                    st.session_state[view_state_key]['step'] = 2
+    def stream_text(text):
+        for word in text.split(" "): yield word + " "; time.sleep(0.05)
+    
+    display_title = re.sub(r'Part \d+: ', '', current_part_key)
+    if "Tone Identification" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Identification"
+    elif "Tone Controllability" in current_part_key: display_title = f"{sample.get('category', 'Tone').title()} Comparison"
+    
+    st.header(display_title); st.progress(current_index / len(questions_for_part), text=f"Question: {current_index + 1}/{len(questions_for_part)}")
+    col1, col2 = st.columns([1.2, 1.5])
+
+    with col1:
+        if sample.get("orientation") == "portrait":
+            _, vid_col_main, _ = st.columns([1, 3, 1])
+            with vid_col_main: st.video(sample['video_path'], autoplay=True, muted=True)
+        else:
+            st.video(sample['video_path'], autoplay=True, muted=True)
+
+        if current_step == 1:
+            if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
+                st.session_state[view_state_key]['step'] = 2
+                st.rerun()
+
+        if current_step >= 2 and "video_summary" in sample:
+            st.subheader("Video Summary")
+            if st.session_state[view_state_key].get('summary_typed', False):
+                st.info(sample["video_summary"])
+            else:
+                with st.empty():
+                    st.write_stream(stream_text(sample["video_summary"]))
+                st.session_state[view_state_key]['summary_typed'] = True
+            
+            if current_step == 2:
+                if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
+                    streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_quiz_{sample_id}")
+                    st.session_state[view_state_key]['step'] = 3
                     st.rerun()
+    with col2:
+        question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
+        terms_to_define = set()
+        if current_step >= 3:
+            if "Tone Controllability" in current_part_key:
+                st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
 
-            if current_step >= 2 and "video_summary" in sample:
-                st.subheader("Video Summary")
-                if st.session_state[view_state_key].get('summary_typed', False):
-                    st.info(sample["video_summary"])
+            if "Caption Quality" in current_part_key:
+                if st.session_state.current_rating_question_index == 1:
+                    application_trait = sample.get("application")
+                    if application_trait:
+                        terms_to_define.add(application_trait)
+
+            if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
+                st.session_state[view_state_key]['step'] = 4
+                st.rerun()
+
+        if current_step >= 4:
+            question_text = ""
+            if "Tone Controllability" in current_part_key: 
+                question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
+                terms_to_define.add(sample['tone_to_compare'])
+            elif "Caption Quality" in current_part_key:
+                raw_text = question_data["question_text"]
+                app_trait = sample.get("application")
+                if app_trait and app_trait in raw_text:
+                    question_text = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
                 else:
-                    with st.empty():
-                        st.write_stream(stream_text(sample["video_summary"]))
-                    st.session_state[view_state_key]['summary_typed'] = True
-                
-                if current_step == 2:
-                    if st.button("Proceed to Caption", key=f"quiz_caption_{sample_id}"):
-                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_quiz_{sample_id}")
-                        st.session_state[view_state_key]['step'] = 3
-                        st.rerun()
-        with col2:
-            question_data = sample["questions"][st.session_state.current_rating_question_index] if "Caption Quality" in current_part_key else sample
-            terms_to_define = set()
-            if current_step >= 3:
-                if "Tone Controllability" in current_part_key:
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{sample["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box" style="margin-top:0.5rem;"><strong>Caption B</strong><p class="caption-text">{sample["caption_B"]}</p></div>', unsafe_allow_html=True)
-                else:
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{sample["caption"]}</p></div>', unsafe_allow_html=True)
+                    question_text = raw_text
+            elif question_data.get("question_type") == "multi": 
+                question_text = "Identify 2 dominant personality traits projected by the captioner"
+                terms_to_define.update(question_data['options'])
+            else: 
+                question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
+                terms_to_define.update(question_data['options'])
 
-                if "Caption Quality" in current_part_key:
-                    if st.session_state.current_rating_question_index == 1:
-                        application_trait = sample.get("application")
-                        if application_trait:
-                            terms_to_define.add(application_trait)
+            st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
 
-                if current_step == 3 and st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
-                    st.session_state[view_state_key]['step'] = 4
-                    st.rerun()
-
-            if current_step >= 4:
-                question_text = ""
-                if "Tone Controllability" in current_part_key: 
-                    question_text = f"Has the author's <b class='highlight-trait'>{sample['tone_to_compare']}</b> writing style <b class='highlight-trait'>{sample['comparison_type']}</b> from Caption A to B?"
-                    terms_to_define.add(sample['tone_to_compare'])
-                elif "Caption Quality" in current_part_key:
-                    raw_text = question_data["question_text"]
-                    app_trait = sample.get("application")
-                    if app_trait and app_trait in raw_text:
-                        question_text = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
+            if st.session_state.show_feedback:
+                user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
+                if not isinstance(user_choice, list): user_choice = [user_choice]
+                if not isinstance(correct_answer, list): correct_answer = [correct_answer]
+                st.write("**Your Answer vs Correct Answer:**")
+                for opt in question_data['options']:
+                    is_correct = opt in correct_answer
+                    is_user_choice = opt in user_choice
+                    
+                    if is_correct:
+                        display_text = f"<strong>{opt} (Correct Answer)</strong>"
+                        css_class = "correct-answer"
+                    elif is_user_choice:
+                        display_text = f"{opt} (Your selection)"
+                        css_class = "wrong-answer"
                     else:
-                        question_text = raw_text
-                elif question_data.get("question_type") == "multi": 
-                    question_text = "Identify 2 dominant personality traits projected by the captioner"
-                    terms_to_define.update(question_data['options'])
-                else: 
-                    question_text = f"Identify the most dominant {sample.get('category', 'tone').lower()} projected by the captioner"
-                    terms_to_define.update(question_data['options'])
-
-                st.markdown(f'<div class="quiz-question-box"><strong>Question:</strong><span class="question-text-part">{question_text}</span></div>', unsafe_allow_html=True)
-
-                if st.session_state.show_feedback:
-                    user_choice, correct_answer = st.session_state.last_choice, question_data.get('correct_answer')
-                    if not isinstance(user_choice, list): user_choice = [user_choice]
-                    if not isinstance(correct_answer, list): correct_answer = [correct_answer]
-                    st.write("**Your Answer vs Correct Answer:**")
-                    for opt in question_data['options']:
-                        is_correct = opt in correct_answer
-                        is_user_choice = opt in user_choice
+                        display_text = opt
+                        css_class = "normal-answer"
                         
-                        if is_correct:
-                            display_text = f"<strong>{opt} (Correct Answer)</strong>"
-                            css_class = "correct-answer"
-                        elif is_user_choice:
-                            display_text = f"{opt} (Your selection)"
-                            css_class = "wrong-answer"
+                    st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
+                
+                st.info(f"**Explanation:** {question_data['explanation']}")
+                if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
+            else:
+                with st.form("quiz_form"):
+                    choice = None
+                    if question_data.get("question_type") == "multi":
+                        st.write("Select all that apply:")
+                        selected_options = [opt for opt in question_data['options'] if st.checkbox(opt, key=f"cb_{current_index}_{st.session_state.current_rating_question_index}_{opt}")]
+                        choice = selected_options
+                    else:
+                        choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}_{st.session_state.current_rating_question_index}", index=None)
+                    if st.form_submit_button("Submit Answer"):
+                        if not choice: st.error("Please select an option.")
                         else:
-                            display_text = opt
-                            css_class = "normal-answer"
-                            
-                        st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
-                    
-                    st.info(f"**Explanation:** {question_data['explanation']}")
-                    if st.button("Next Question", key=f"quiz_next_q_{sample_id}"): go_to_next_quiz_question(); st.session_state.pop(view_state_key, None); st.rerun()
-                else:
-                    with st.form("quiz_form"):
-                        choice = None
-                        if question_data.get("question_type") == "multi":
-                            st.write("Select all that apply:")
-                            selected_options = [opt for opt in question_data['options'] if st.checkbox(opt, key=f"cb_{current_index}_{st.session_state.current_rating_question_index}_{opt}")]
-                            choice = selected_options
-                        else:
-                            choice = st.radio("Select one option:", question_data['options'], key=f"radio_{current_index}_{st.session_state.current_rating_question_index}", index=None)
-                        if st.form_submit_button("Submit Answer"):
-                            if not choice: st.error("Please select an option.")
-                            else:
-                                st.session_state.last_choice = choice; correct_answer = question_data.get('correct_answer')
-                                is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
-                                st.session_state.is_correct = is_correct;
-                                if is_correct: st.session_state.score += 1
-                                st.session_state.show_feedback = True; st.rerun()
-                    
-                if terms_to_define:
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
-                    st.markdown(reference_html, unsafe_allow_html=True)
+                            st.session_state.last_choice = choice; correct_answer = question_data.get('correct_answer')
+                            is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
+                            st.session_state.is_correct = is_correct;
+                            if is_correct: st.session_state.score += 1
+                            st.session_state.show_feedback = True; st.rerun()
+                
+            if terms_to_define:
+                reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'quiz_results':
     total_scorable_questions = sum(sum(len(item.get("questions",[])) for item in q_list) if "Quality" in p_name else len(q_list) for p_name, q_list in st.session_state.all_data['quiz'].items())
@@ -443,120 +438,111 @@ elif st.session_state.page == 'user_study_main':
             # --- TIMER LOGIC ---
             if caption_idx == 0 and not st.session_state[timer_finished_key]:
                 with st.spinner(""):
-                    st.header("Watch the video")
-                    col1, _ = st.columns([1, 1.8])
-                    with col1:
-                        if current_video.get("orientation") == "portrait":
-                            _, vid_col_main, _ = st.columns([1, 3, 1]);
-                            with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
-                        else: st.video(current_video['video_path'], autoplay=True, muted=True)
-                    
                     duration = current_video.get('duration', 10)
                     time.sleep(duration)
-                    st.session_state[timer_finished_key] = True
+                st.session_state[timer_finished_key] = True
                 st.rerun()
 
             # --- MAIN PAGE CONTENT (After Timer) ---
-            else:
-                st.header("Caption Quality Rating")
-                current_caption = current_video['captions'][caption_idx]
-                view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
-                q_templates = st.session_state.all_data['questions']['part1_questions']
-                questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
-                options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely Useful"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            st.header("Caption Quality Rating")
+            current_caption = current_video['captions'][caption_idx]
+            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
+            q_templates = st.session_state.all_data['questions']['part1_questions']
+            questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
+            options_map = {"personality_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all useful", "Slightly useful", "Moderately useful", "Very useful", "Extremely Useful"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            
+            if view_state_key not in st.session_state:
+                initial_step = 3 if caption_idx > 0 else 1
+                st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
+                if caption_idx == 0:
+                    st.session_state[summary_typed_key] = False
+
+            current_step = st.session_state[view_state_key]['step']
+
+            def mark_interacted(q_id, view_key, question_index):
+                if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
+                    if not st.session_state[view_key]['interacted'][q_id]:
+                        st.session_state[view_key]['interacted'][q_id] = True
+                        st.session_state[view_key]['step'] = 4 + question_index + 1
+            
+            col1, col2 = st.columns([1, 1.8])
+            validation_placeholder = st.empty()
+
+
+            with col1:
+                if current_video.get("orientation") == "portrait":
+                    _, vid_col_main, _ = st.columns([1, 3, 1]);
+                    with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
+                else: st.video(current_video['video_path'], autoplay=True, muted=True)
                 
-                if view_state_key not in st.session_state:
-                    initial_step = 3 if caption_idx > 0 else 1
-                    st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}}
-                    if caption_idx == 0:
-                        st.session_state[summary_typed_key] = False
+                if caption_idx == 0:
+                    if current_step == 1:
+                        if st.button("Proceed to Summary", key=f"proceed_summary_{video_idx}"):
+                            st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    elif current_step >= 2:
+                        st.subheader("Video Summary")
+                        if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
+                        else:
+                            with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
+                            st.session_state[summary_typed_key] = True
+                        if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
+                            streamlit_js_eval(js_expressions="window.parent.document.documentElement.scrollTop = 0;", key=f"scroll_p1_{video_idx}")
+                            st.session_state[view_state_key]['step'] = 3; st.rerun()
+                else:
+                    st.subheader("Video Summary"); st.info(current_video["video_summary"])
 
-                current_step = st.session_state[view_state_key]['step']
-
-                def mark_interacted(q_id, view_key, question_index):
-                    if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
-                        if not st.session_state[view_key]['interacted'][q_id]:
-                            st.session_state[view_key]['interacted'][q_id] = True
-                            st.session_state[view_key]['step'] = 4 + question_index + 1
-                
-                col1, col2 = st.columns([1, 1.8])
-                validation_placeholder = st.empty()
-
-
-                with col1:
-                    if current_video.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_video['video_path'], autoplay=True, muted=True)
-                    else: st.video(current_video['video_path'], autoplay=True, muted=True)
+            with col2:
+                terms_to_define = set()
+                if current_step >= 3:
+                    colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]; highlight_color = colors[caption_idx % len(colors)]
+                    caption_box_class = "part1-caption-box new-caption-highlight"
+                    st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p1_{current_caption['caption_id']}")
                     
-                    if caption_idx == 0:
-                        if current_step == 1:
-                            if st.button("Proceed to Summary", key=f"proceed_summary_{video_idx}"):
-                                st.session_state[view_state_key]['step'] = 2; st.rerun()
-                        elif current_step >= 2:
-                            st.subheader("Video Summary")
-                            if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
+                    if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
+                        st.session_state[view_state_key]['step'] = 4; st.rerun()
+                if current_step >= 4:
+                    control_scores = current_caption.get("control_scores", {}); personality_traits = list(control_scores.get("personality", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys()); application_text = current_caption.get("application", "the intended application")
+                    terms_to_define.update(personality_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
+                    personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+                    questions_to_ask = [{"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)}, {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)}, {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]}, {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}]
+                    interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
+                    question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
+
+                    def render_slider(q, col, q_index, view_key_arg):
+                        with col:
+                            slider_key = f"ss_{q['id']}_cap{caption_idx}"
+                            st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=options_map[q['id']][0])
+
+                    num_interacted = sum(1 for flag in interacted_state.values() if flag)
+                    questions_to_show = num_interacted + 1
+                    
+                    if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0, view_state_key)
+                    if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1, view_state_key)
+                    if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2, view_state_key)
+                    if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3, view_state_key)
+                    if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4, view_state_key)
+                    
+                    if questions_to_show > len(questions_to_ask):
+                        if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
+                            all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
+                            if not all_interacted:
+                                missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
+                                validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
                             else:
-                                with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
-                                st.session_state[summary_typed_key] = True
-                            if current_step == 2 and st.button("Proceed to Caption", key=f"proceed_caption_{video_idx}"):
-                                streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p1_{video_idx}")
-                                st.session_state[view_state_key]['step'] = 3; st.rerun()
-                    else:
-                        st.subheader("Video Summary"); st.info(current_video["video_summary"])
+                                with st.spinner("Saving your ratings..."):
+                                    responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
+                                    for q_id, choice_text in responses_to_save.items():
+                                        full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
+                                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
+                                st.session_state.current_caption_index += 1
+                                if st.session_state.current_caption_index >= len(current_video['captions']):
+                                    st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
+                                st.session_state.pop(view_state_key, None); st.rerun()
 
-                with col2:
-                    terms_to_define = set()
-                    if current_step >= 3:
-                        colors = ["#FFEEEE", "#EBF5FF", "#E6F7EA"]; highlight_color = colors[caption_idx % len(colors)]
-                        caption_box_class = "part1-caption-box new-caption-highlight"
-                        st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
-                        streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p1_{current_caption['caption_id']}")
-                        
-                        if current_step == 3 and st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
-                            st.session_state[view_state_key]['step'] = 4; st.rerun()
-                    if current_step >= 4:
-                        control_scores = current_caption.get("control_scores", {}); personality_traits = list(control_scores.get("personality", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys()); application_text = current_caption.get("application", "the intended application")
-                        terms_to_define.update(personality_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
-                        personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                        questions_to_ask = [{"id": questions_to_ask_raw[0]["id"], "text": questions_to_ask_raw[0]["text"].format(personality_str)}, {"id": questions_to_ask_raw[1]["id"], "text": questions_to_ask_raw[1]["text"].format(style_str)}, {"id": questions_to_ask_raw[2]["id"], "text": questions_to_ask_raw[2]["text"]}, {"id": questions_to_ask_raw[3]["id"], "text": questions_to_ask_raw[3]["text"].format(f"<b class='highlight-trait'>{application_text}</b>")}, {"id": questions_to_ask_raw[4]["id"], "text": questions_to_ask_raw[4]["text"]}]
-                        interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
-                        question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
-
-                        def render_slider(q, col, q_index, view_key_arg):
-                            with col:
-                                slider_key = f"ss_{q['id']}_cap{caption_idx}"
-                                st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                                st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=options_map[q['id']][0])
-
-                        num_interacted = sum(1 for flag in interacted_state.values() if flag)
-                        questions_to_show = num_interacted + 1
-                        
-                        if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0, view_state_key)
-                        if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1, view_state_key)
-                        if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2, view_state_key)
-                        if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3, view_state_key)
-                        if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4, view_state_key)
-                        
-                        if questions_to_show > len(questions_to_ask):
-                            if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
-                                all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
-                                if not all_interacted:
-                                    missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
-                                    validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
-                                else:
-                                    with st.spinner("Saving your ratings..."):
-                                        responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
-                                        for q_id, choice_text in responses_to_save.items():
-                                            full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
-                                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text)
-                                    st.session_state.current_caption_index += 1
-                                    if st.session_state.current_caption_index >= len(current_video['captions']):
-                                        st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
-                                    st.session_state.pop(view_state_key, None); st.rerun()
-
-                        reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
-                        st.markdown(reference_html, unsafe_allow_html=True)
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
             all_comparisons = st.session_state.all_data['study']['part2_comparisons']; comp_idx = st.session_state.current_comparison_index
@@ -569,73 +555,65 @@ elif st.session_state.page == 'user_study_main':
 
             if not st.session_state[timer_finished_key]:
                 with st.spinner(""):
-                    st.header("Watch the video")
-                    col1, _ = st.columns([1, 1.8])
-                    with col1:
-                        if current_comp.get("orientation") == "portrait":
-                            _, vid_col_main, _ = st.columns([1, 3, 1]);
-                            with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
-                        else: st.video(current_comp['video_path'], autoplay=True, muted=True)
                     duration = current_comp.get('duration', 10)
                     time.sleep(duration)
-                    st.session_state[timer_finished_key] = True
+                st.session_state[timer_finished_key] = True
                 st.rerun()
 
-            else:
-                st.header("Which caption is better?")
-                view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
-                if view_state_key not in st.session_state:
-                    st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
-                current_step = st.session_state[view_state_key]['step']
-                col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
-                
-                with col1:
-                    if current_comp.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
-                    else: st.video(current_comp['video_path'], autoplay=True, muted=True)
+            st.header("Which caption is better?")
+            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
+            if view_state_key not in st.session_state:
+                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
+            current_step = st.session_state[view_state_key]['step']
+            col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
+            
+            with col1:
+                if current_comp.get("orientation") == "portrait":
+                    _, vid_col_main, _ = st.columns([1, 3, 1]);
+                    with vid_col_main: st.video(current_comp['video_path'], autoplay=True, muted=True)
+                else: st.video(current_comp['video_path'], autoplay=True, muted=True)
 
-                    if current_step == 1:
-                        if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
-                            st.session_state[view_state_key]['step'] = 2; st.rerun()
-                    if current_step >= 2:
-                        st.subheader("Video Summary")
-                        if st.session_state.get(summary_typed_key, False): st.info(current_comp["video_summary"])
-                        else:
-                            with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
-                            st.session_state[summary_typed_key] = True
-                        if current_step == 2 and st.button("Proceed to Captions", key=f"p2_proceed_captions_{comparison_id}"):
-                            streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p2_{comparison_id}")
-                            st.session_state[view_state_key]['step'] = 3; st.rerun()
-                with col2:
-                    if current_step >= 3:
-                        st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
-                        st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
-                        
-                        if current_step == 3 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
-                    if current_step >= 4:
-                        control_scores = current_comp.get("control_scores", {}); personality_traits = list(control_scores.get("personality", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
-                        terms_to_define.update(personality_traits); terms_to_define.update(style_traits)
-                        personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
-                        with st.form(key=f"study_form_comparison_{comp_idx}"):
-                            q_templates = st.session_state.all_data['questions']['part2_questions']
-                            part2_questions = [{"id": q["id"], "text": q["text"].format(personality_str if 'personality' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
-                            options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]; responses = {}
-                            question_cols = st.columns(4)
-                            for i, q in enumerate(part2_questions):
-                                with question_cols[i]:
-                                    st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                                    responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}")
-                            if st.form_submit_button("Submit Comparison"):
-                                if any(choice is None for choice in responses.values()): st.error("Please answer all four questions.")
-                                else:
-                                    with st.spinner("Saving your responses..."):
-                                        for q_id, choice in responses.items():
-                                            full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
-                                            save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
-                                    st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
-                        reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
-                        st.markdown(reference_html, unsafe_allow_html=True)
+                if current_step == 1:
+                    if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
+                        st.session_state[view_state_key]['step'] = 2; st.rerun()
+                if current_step >= 2:
+                    st.subheader("Video Summary")
+                    if st.session_state.get(summary_typed_key, False): st.info(current_comp["video_summary"])
+                    else:
+                        with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
+                        st.session_state[summary_typed_key] = True
+                    if current_step == 2 and st.button("Proceed to Captions", key=f"p2_proceed_captions_{comparison_id}"):
+                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p2_{comparison_id}")
+                        st.session_state[view_state_key]['step'] = 3; st.rerun()
+            with col2:
+                if current_step >= 3:
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    
+                    if current_step == 3 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
+                if current_step >= 4:
+                    control_scores = current_comp.get("control_scores", {}); personality_traits = list(control_scores.get("personality", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
+                    terms_to_define.update(personality_traits); terms_to_define.update(style_traits)
+                    personality_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in personality_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+                    with st.form(key=f"study_form_comparison_{comp_idx}"):
+                        q_templates = st.session_state.all_data['questions']['part2_questions']
+                        part2_questions = [{"id": q["id"], "text": q["text"].format(personality_str if 'personality' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
+                        options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]; responses = {}
+                        question_cols = st.columns(4)
+                        for i, q in enumerate(part2_questions):
+                            with question_cols[i]:
+                                st.markdown(f"<div class='slider-label'><strong>{i+1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                                responses[q['id']] = st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"{current_comp['comparison_id']}_{q['id']}")
+                        if st.form_submit_button("Submit Comparison"):
+                            if any(choice is None for choice in responses.values()): st.error("Please answer all four questions.")
+                            else:
+                                with st.spinner("Saving your responses..."):
+                                    for q_id, choice in responses.items():
+                                        full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
+                                        save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text)
+                                st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 3:
         all_changes = st.session_state.all_data['study']['part3_intensity_change']
@@ -650,74 +628,66 @@ elif st.session_state.page == 'user_study_main':
 
         if not st.session_state[timer_finished_key]:
             with st.spinner(""):
-                st.header("Watch the video")
-                col1, _ = st.columns([1, 1.8])
-                with col1:
-                    if current_change.get("orientation") == "portrait":
-                        _, vid_col_main, _ = st.columns([1, 3, 1]);
-                        with vid_col_main: st.video(current_change['video_path'], autoplay=True, muted=True)
-                    else: st.video(current_change['video_path'], autoplay=True, muted=True)
                 duration = current_change.get('duration', 10)
                 time.sleep(duration)
-                st.session_state[timer_finished_key] = True
+            st.session_state[timer_finished_key] = True
             st.rerun()
 
-        else:
-            st.header(f"{field_type.replace('_', ' ').title()} Comparison")
-            view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
-            if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
-            current_step = st.session_state[view_state_key]['step']
-            col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
-            with col1:
-                if current_change.get("orientation") == "portrait":
-                    _, vid_col_main, _ = st.columns([1, 3, 1]);
-                    with vid_col_main: st.video(current_change['video_path'], autoplay=True, muted=True)
-                else: st.video(current_change['video_path'], autoplay=True, muted=True)
+        st.header(f"{field_type.replace('_', ' ').title()} Comparison")
+        view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
+        if view_state_key not in st.session_state:
+            st.session_state[view_state_key] = {'step': 1}; st.session_state[summary_typed_key] = False
+        current_step = st.session_state[view_state_key]['step']
+        col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
+        with col1:
+            if current_change.get("orientation") == "portrait":
+                _, vid_col_main, _ = st.columns([1, 3, 1]);
+                with vid_col_main: st.video(current_change['video_path'], autoplay=True, muted=True)
+            else: st.video(current_change['video_path'], autoplay=True, muted=True)
 
-                if current_step == 1:
-                    if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
-                        st.session_state[view_state_key]['step'] = 2; st.rerun()
-                if current_step >= 2:
-                    st.subheader("Video Summary")
-                    if st.session_state.get(summary_typed_key, False): st.info(current_change["video_summary"])
-                    else:
-                        with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
-                        st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
-                        streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p3_{change_id}")
-                        st.session_state[view_state_key]['step'] = 3; st.rerun()
-            with col2:
-                if current_step >= 3:
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
+            if current_step == 1:
+                if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
+                    st.session_state[view_state_key]['step'] = 2; st.rerun()
+            if current_step >= 2:
+                st.subheader("Video Summary")
+                if st.session_state.get(summary_typed_key, False): st.info(current_change["video_summary"])
+                else:
+                    with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
+                    st.session_state[summary_typed_key] = True
+                if current_step == 2 and st.button("Proceed to Captions", key=f"p3_proceed_captions_{change_id}"):
+                    streamlit_js_eval(js_expressions="window.scrollTo(0, 0);", key=f"scroll_p3_{change_id}")
+                    st.session_state[view_state_key]['step'] = 3; st.rerun()
+        with col2:
+            if current_step >= 3:
+                st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
 
-                    if current_step == 3 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
-                if current_step >= 4:
-                    trait = field_to_change[field_type]; terms_to_define.add(trait)
-                    with st.form(key=f"study_form_change_{change_idx}"):
-                        q_template_key = field_type.replace('_', ' ').title()
-                        q_template = st.session_state.all_data['questions']['part3_questions'][q_template_key]
-                        highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                        dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change['change_type'])
-                        dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
-                        q2_text = "Is the core factual content consistent across both captions?"
-                        col_q1, col_q2 = st.columns(2)
-                        with col_q1:
-                            st.markdown(f'**1. {dynamic_question_raw}**', unsafe_allow_html=True)
-                            choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
-                        with col_q2:
-                            st.markdown(f"**2. {q2_text}**")
-                            choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
-                        if st.form_submit_button("Submit Answers"):
-                            if choice1 is None or choice2 is None: st.error("Please answer both questions.")
-                            else:
-                                with st.spinner("Saving your responses..."): 
-                                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
-                                    save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                                st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
-                    st.markdown(reference_html, unsafe_allow_html=True)
+                if current_step == 3 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 4; st.rerun()
+            if current_step >= 4:
+                trait = field_to_change[field_type]; terms_to_define.add(trait)
+                with st.form(key=f"study_form_change_{change_idx}"):
+                    q_template_key = field_type.replace('_', ' ').title()
+                    q_template = st.session_state.all_data['questions']['part3_questions'][q_template_key]
+                    highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
+                    dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change['change_type'])
+                    dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
+                    q2_text = "Is the core factual content consistent across both captions?"
+                    col_q1, col_q2 = st.columns(2)
+                    with col_q1:
+                        st.markdown(f'**1. {dynamic_question_raw}**', unsafe_allow_html=True)
+                        choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
+                    with col_q2:
+                        st.markdown(f"**2. {q2_text}**")
+                        choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
+                    if st.form_submit_button("Submit Answers"):
+                        if choice1 is None or choice2 is None: st.error("Please answer both questions.")
+                        else:
+                            with st.spinner("Saving your responses..."): 
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
+                                save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                            st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
+                reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                st.markdown(reference_html, unsafe_allow_html=True)
 
 
 elif st.session_state.page == 'final_thank_you':
