@@ -274,7 +274,12 @@ elif st.session_state.page == 'quiz':
             st.header("Watch the video")
             col1, _ = st.columns([1.2, 1.5])
             with col1:
-                st.video(sample['video_path'], autoplay=True, muted=True)
+                if sample.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
+                        st.video(sample['video_path'], autoplay=True, muted=True)
+                else:
+                    st.video(sample['video_path'], autoplay=True, muted=True)
             duration = sample.get('duration', 10)
             time.sleep(duration)
         st.session_state[timer_finished_key] = True
@@ -301,7 +306,13 @@ elif st.session_state.page == 'quiz':
         col1, col2 = st.columns([1.2, 1.5])
 
         with col1:
-            st.video(sample['video_path'], autoplay=True, muted=True)
+            if sample.get("orientation") == "portrait":
+                _, vid_col, _ = st.columns([1, 3, 1])
+                with vid_col:
+                    st.video(sample['video_path'], autoplay=True, muted=True)
+            else:
+                st.video(sample['video_path'], autoplay=True, muted=True)
+
             if current_step == 1:
                 if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
                     st.session_state[view_state_key]['step'] = 2
@@ -377,6 +388,8 @@ elif st.session_state.page == 'quiz':
                         if st.form_submit_button("Submit Answer"):
                             if not choice:
                                 st.error("Please select an option.")
+                            elif question_data.get("question_type") == "multi" and len(choice) != 2:
+                                st.error("Please select exactly 2 options.")
                             else:
                                 st.session_state.last_choice = choice
                                 correct_answer = question_data.get('correct_answer')
@@ -421,7 +434,12 @@ elif st.session_state.page == 'user_study_main':
                 st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
-                    st.video(current_video['video_path'], autoplay=True, muted=True)
+                    if current_video.get("orientation") == "portrait":
+                        _, vid_col, _ = st.columns([1, 3, 1])
+                        with vid_col:
+                            st.video(current_video['video_path'], autoplay=True, muted=True)
+                    else:
+                        st.video(current_video['video_path'], autoplay=True, muted=True)
                 duration = current_video.get('duration', 10)
                 time.sleep(duration)
                 st.session_state[timer_finished_key] = True
@@ -454,7 +472,13 @@ elif st.session_state.page == 'user_study_main':
             col1, col2 = st.columns([1, 1.8])
             validation_placeholder = st.empty()
             with col1:
-                st.video(current_video['video_path'], autoplay=True, muted=True)
+                if current_video.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
+                        st.video(current_video['video_path'], autoplay=True, muted=True)
+                else:
+                    st.video(current_video['video_path'], autoplay=True, muted=True)
+
                 if caption_idx == 0:
                     if current_step == 1:
                         if st.button("Proceed to Summary", key=f"proceed_summary_{video_idx}"):
@@ -533,7 +557,12 @@ elif st.session_state.page == 'user_study_main':
                 st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
-                    st.video(current_comp['video_path'], autoplay=True, muted=True)
+                    if current_comp.get("orientation") == "portrait":
+                        _, vid_col, _ = st.columns([1, 3, 1])
+                        with vid_col:
+                            st.video(current_comp['video_path'], autoplay=True, muted=True)
+                    else:
+                        st.video(current_comp['video_path'], autoplay=True, muted=True)
                 duration = current_comp.get('duration', 10)
                 time.sleep(duration)
                 st.session_state[timer_finished_key] = True
@@ -551,7 +580,13 @@ elif st.session_state.page == 'user_study_main':
 
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
-                st.video(current_comp['video_path'], autoplay=True, muted=True)
+                if current_comp.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
+                        st.video(current_comp['video_path'], autoplay=True, muted=True)
+                else:
+                    st.video(current_comp['video_path'], autoplay=True, muted=True)
+
                 if current_step == 1:
                     if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
@@ -606,7 +641,12 @@ elif st.session_state.page == 'user_study_main':
                 st.header("Watch the video")
                 col1, _ = st.columns([1, 1.8])
                 with col1:
-                    st.video(current_change['video_path'], autoplay=True, muted=True)
+                    if current_change.get("orientation") == "portrait":
+                        _, vid_col, _ = st.columns([1, 3, 1])
+                        with vid_col:
+                            st.video(current_change['video_path'], autoplay=True, muted=True)
+                    else:
+                        st.video(current_change['video_path'], autoplay=True, muted=True)
                 duration = current_change.get('duration', 10)
                 time.sleep(duration)
                 st.session_state[timer_finished_key] = True
@@ -624,7 +664,13 @@ elif st.session_state.page == 'user_study_main':
             
             col1, col2 = st.columns([1, 1.8]); terms_to_define = set()
             with col1:
-                st.video(current_change['video_path'], autoplay=True, muted=True)
+                if current_change.get("orientation") == "portrait":
+                    _, vid_col, _ = st.columns([1, 3, 1])
+                    with vid_col:
+                        st.video(current_change['video_path'], autoplay=True, muted=True)
+                else:
+                    st.video(current_change['video_path'], autoplay=True, muted=True)
+
                 if current_step == 1:
                     if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
