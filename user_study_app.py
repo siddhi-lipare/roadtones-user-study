@@ -477,8 +477,8 @@ elif st.session_state.page == 'quiz':
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
                     app_trait = sample.get("application")
-                    if app_trait: # Ensure app_trait exists
-                        terms_to_define.add(app_trait) # Add to definitions
+                    if app_trait:
+                        terms_to_define.add(app_trait)
                         if app_trait in raw_text:
                             question_text_display = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
                         else: 
@@ -566,7 +566,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
-            with st.spinner("  "):
+            with st.spinner("Loading next video..."):
                 main_col, _ = st.columns([1, 1.8]) 
                 with main_col:
                     if current_video.get("orientation") == "portrait":
@@ -722,7 +722,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner("  "):
+            with st.spinner("Loading next video..."):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
                     if current_comp.get("orientation") == "portrait":
@@ -848,7 +848,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner("  "):
+            with st.spinner("Loading next video..."):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
                     if current_change.get("orientation") == "portrait":
@@ -951,7 +951,7 @@ if (!parent_document.arrowRightListenerAttached) {
                 "Submit Answer", "Next Question", "Show Questions", 
                 "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
                 "Proceed to Summary", "Proceed to Question", "Proceed to User Study", 
-                "Take Quiz Again", "Submit", "Next >>", "Start Quiz"
+                "Take Quiz Again", "Submit", "Next >>", "Start Quiz", "Next"
             ];
             const allButtons = Array.from(parent_document.querySelectorAll('button'));
             const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
