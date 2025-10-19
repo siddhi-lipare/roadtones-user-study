@@ -173,7 +173,7 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
 
-/* --- NEW: Direct and forceful h2 styling for consistency --- */
+/* --- Title font consistency --- */
 h2 {
     font-size: 1.75rem !important;
     font-weight: 600 !important;
@@ -477,9 +477,14 @@ elif st.session_state.page == 'quiz':
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
                     app_trait = sample.get("application")
-                    if app_trait and app_trait in raw_text:
-                        question_text_display = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
-                    else: question_text_display = raw_text
+                    if app_trait: # Ensure app_trait exists
+                        terms_to_define.add(app_trait) # Add to definitions
+                        if app_trait in raw_text:
+                            question_text_display = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
+                        else: 
+                            question_text_display = raw_text
+                    else:
+                        question_text_display = raw_text
                 elif question_data.get("question_type") == "multi":
                     question_text_display = "Identify the 2 dominant tones in the caption"
                     terms_to_define.update(question_data['options'])
@@ -561,7 +566,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
-            with st.spinner(" "):
+            with st.spinner("Loading next video..."):
                 main_col, _ = st.columns([1, 1.8]) 
                 with main_col:
                     if current_video.get("orientation") == "portrait":
@@ -750,7 +755,7 @@ elif st.session_state.page == 'user_study_main':
                 st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
-                    st.subheader("Which caption is better?")
+                    st.subheader("Caption Comparison")
 
             col1, col2 = st.columns([1, 1.8])
             with col1:
@@ -785,7 +790,14 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 6:
                     control_scores = current_comp.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
                     terms_to_define.update(tone_traits); terms_to_define.update(style_traits)
-                    tone_str = ", ".join(f"<b class='highlight-trait'>{p}</b>" for p in tone_traits); style_str = ", ".join(f"<b class='highlight-trait'>{s}</b>" for s in style_traits)
+                    
+                    def format_part2_traits(traits):
+                        highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
+                        if len(highlighted) > 1: return " and ".join(highlighted)
+                        return highlighted[0] if highlighted else ""
+
+                    tone_str = format_part2_traits(tone_traits)
+                    style_str = format_part2_traits(style_traits)
                     
                     part2_questions = [{"id": q["id"], "text": q["text"].format(tone_str if 'tone' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
                     options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
