@@ -566,7 +566,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
-            with st.spinner("Loading next video..."):
+            with st.spinner("  "):
                 main_col, _ = st.columns([1, 1.8]) 
                 with main_col:
                     if current_video.get("orientation") == "portrait":
@@ -722,7 +722,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner("Loading next video..."):
+            with st.spinner("  "):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
                     if current_comp.get("orientation") == "portrait":
@@ -848,7 +848,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner("Loading next video..."):
+            with st.spinner("  "):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
                     if current_change.get("orientation") == "portrait":
