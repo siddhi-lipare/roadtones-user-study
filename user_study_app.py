@@ -566,7 +566,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
-            with st.spinner("Loading next video..."):
+            with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8]) 
                 with main_col:
                     if current_video.get("orientation") == "portrait":
@@ -696,7 +696,7 @@ elif st.session_state.page == 'user_study_main':
                                 missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
                                 validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
                             else:
-                                with st.spinner("Saving your ratings..."):
+                                with st.spinner(""):
                                     all_saved = True
                                     responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
                                     for q_id, choice_text in responses_to_save.items():
@@ -722,7 +722,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner("Loading next video..."):
+            with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
                     if current_comp.get("orientation") == "portrait":
@@ -824,7 +824,7 @@ elif st.session_state.page == 'user_study_main':
                             if any(choice is None for choice in responses.values()):
                                 validation_placeholder.warning("⚠️ Please answer all four questions before submitting.")
                             else:
-                                with st.spinner("Saving your responses..."):
+                                with st.spinner(""):
                                     all_saved = True
                                     for q_id, choice in responses.items():
                                         full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N.A.")
@@ -848,7 +848,7 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            with st.spinner("Loading next video..."):
+            with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
                     if current_change.get("orientation") == "portrait":
@@ -920,7 +920,7 @@ elif st.session_state.page == 'user_study_main':
                         if st.form_submit_button("Submit Answers"):
                             if choice1 is None or choice2 is None: st.error("Please answer both questions.")
                             else:
-                                with st.spinner("Saving your responses..."): 
+                                with st.spinner(""): 
                                     success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
                                     success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
                                 if success1 and success2:
@@ -935,39 +935,38 @@ elif st.session_state.page == 'final_thank_you':
 # --- JavaScript ---
 js_script = """
 const parent_document = window.parent.document;
-if (!parent_document.arrowRightListenerAttached) {
-    console.log("Attaching ArrowRight key listener.");
-    parent_document.addEventListener('keyup', function(event) {
-        const activeElement = parent_document.activeElement;
-        // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
-            return;
-        }
 
-        if (event.key === 'ArrowRight') {
-            event.preventDefault();
-            const targetButtonLabels = [
-                "Submit Ratings", "Submit Comparison", "Submit Answers", 
-                "Submit Answer", "Next Question", "Show Questions", 
-                "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
-                "Proceed to Summary", "Proceed to Question", "Proceed to User Study", 
-                "Take Quiz Again", "Submit", "Next >>", "Start Quiz", "Next"
-            ];
-            const allButtons = Array.from(parent_document.querySelectorAll('button'));
-            const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
-            
-            for (const label of targetButtonLabels) {
-                // Find the LAST visible button on the page that matches the label
-                const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
-                if (targetButton) {
-                    console.log('ArrowRight detected, clicking button:', targetButton.textContent);
-                    targetButton.click();
-                    break; // Exit loop once a button is clicked
-                }
+// We always want the listener active, so we remove the check that prevents re-adding it.
+console.log("Attaching ArrowRight key listener.");
+parent_document.addEventListener('keyup', function(event) {
+    const activeElement = parent_document.activeElement;
+    // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+        return;
+    }
+
+    if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        const targetButtonLabels = [
+            "Submit Ratings", "Submit Comparison", "Submit Answers", 
+            "Submit Answer", "Next Question", "Show Questions", 
+            "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
+            "Proceed to Summary", "Proceed to Question", "Proceed to User Study", 
+            "Take Quiz Again", "Submit", "Next >>", "Start Quiz", "Next"
+        ];
+        const allButtons = Array.from(parent_document.querySelectorAll('button'));
+        const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
+        
+        for (const label of targetButtonLabels) {
+            // Find the LAST visible button on the page that matches the label
+            const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
+            if (targetButton) {
+                console.log('ArrowRight detected, clicking button:', targetButton.textContent);
+                targetButton.click();
+                break; // Exit loop once a button is clicked
             }
         }
-    });
-    parent_document.arrowRightListenerAttached = true;
-}
+    }
+});
 """
-streamlit_js_eval(js_expressions=js_script, key="keyboard_listener")
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v2") # Changed key to ensure re-run
