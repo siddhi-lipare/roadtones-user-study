@@ -57,9 +57,9 @@
     },
     {
       "video_id": "video_002",
-      "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
-      "video_summary": "The video, captured by multiple cameras showing various scenes and angles, depicts dangerous and reckless driving by a motorcyclist in India. The primary road event involves a motorcyclist in black performing stunts, specifically wheelies, on a busy public road. This motorcyclist was observed riding recklessly and leaving accident scenes. Other road entities, including other motorcyclists, cars, trucks, and pedestrians, were present, with pedestrians observing the events. The motorcyclist's actions appear to be motivated by thrill-seeking and a desire to show off or impress others. Evident traffic violations include reckless driving, performing stunts on public roads, leaving accident scenes, and potentially speeding.",
-      "road_event_answer": "A motorcyclist was recklessly performing dangerous stunts like wheelies on a busy public road.",
+      "video_path": "media/v_1774263154723451187_QFMMJd8wYMEMl2r7.mp4",
+      "video_summary": "A daytime near-miss incident involving dangerous driving behavior was captured by a vehicle-mounted camera in Osaka, Japan. The key road event involved the camera vehicle and a right-turning vehicle. The right-turning vehicle made a sudden and dangerous right turn, nearly colliding with the camera vehicle. This maneuver was likely due to the driver of the right-turning vehicle not paying attention or being impatient, resulting in a failure to yield right-of-way. The incident could have been avoided if the right-turning vehicle had waited for a clear opportunity to turn and checked for oncoming traffic.",
+      "road_event_answer": "",
       "distractor_answers": [
         "A group of motorcyclists were participating in an organized race.",
         "A car collided with a motorcycle at an intersection.",
@@ -68,11 +68,24 @@
       "captions": [
         {
           "caption_id": "video_002_caption1",
-          "text": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
+          "text": "I nearly got hit by a reckless right-turning driver who didn\u2019t even bother to yield. Some people never learn. #drivingfail",
           "control_scores": {
             "tone": {
-              "Serious": "Strong",
-              "Objective": "Moderate"
+              "Critical": "Strong", "Angry": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong"
+            }
+          },
+          "application": "Law Enforcement Alert"
+        },
+        {
+          "caption_id": "video_002_caption2",
+          "text": "Dashcam footage from Osaka captures a tense moment as a right-turning car fails to yield, narrowly missing the camera vehicle. Grateful this near-miss ended safely. \ud83d\ude97\ud83d\udca5 #RoadSafety #DashcamDrama",
+          "control_scores": {
+            "tone": {
+              "Appreciative": "Strong",
+              "Tense": "Strong"
             },
             "writing_style": {
               "Factual": "Very Strong"
@@ -81,30 +94,15 @@
           "application": "Law Enforcement Alert"
         },
         {
-          "caption_id": "video_002_caption2",
-          "text": "@TrafficPoliceIn video captures a motorcyclist in black doing wheelies and stunts on a busy Indian road, with pedestrians watching. #RoadSafety",
-          "control_scores": {
-            "tone": {
-              "Observant": "Strong",
-              "Objective": "Strong"
-            },
-            "writing_style": {
-              "Conversational": "Very Strong"
-            }
-          },
-          "application": "Law Enforcement Alert"
-        },
-        {
           "caption_id": "video_002_caption3",
-          "text": "@MumbaiPolice Reckless biker in black performing wheelies on busy Mumbai road, June 13. Why risk lives for thrill? Take action now.",
+          "text": "Was I just supposed to guess that car was about to dart in front of me? Near-miss moments like this really make me wonder\u2026 \ud83d\ude97\ud83d\udca5 Anyone else get surprised by these moves? #RoadRage",
           "control_scores": {
             "tone": {
-              "Critical": "Very Strong",
-              "Assertive": "Strong"
+              "Anxious": "Very Strong"
             },
             "writing_style": {
-              "CallToAction": "Very Strong",
-              "Judgmental": "Strong"
+              
+              "Rhetorical Question": "Strong", "Conversational": "Very Strong"
             }
           },
           "application": "Law Enforcement Alert"
@@ -113,9 +111,9 @@
     },
     {
       "video_id": "video_004",
-      "video_path": "media/v_770719942027145220__IBpd70dJt7nNSop.mp4",
-      "video_summary": "A dangerous driving near-miss incident was captured by a Cycliq Fly6 bike-mounted camera in the United Kingdom, specifically at the Five Ways island near Honiley and Shrewley. The key event involved a vehicle, likely a car, performing a maneuver at a roundabout without proper indication, nearly causing a collision with a cyclist. The driver was potentially unaware of the cyclist and the potential danger. This incident constituted a traffic rule violation due to the failure to use proper indicators at a roundabout and could have been prevented if the driver had used appropriate signaling before making their maneuver.",
-      "road_event_answer": "A car at a roundabout failed to signal, nearly causing a collision with a cyclist.",
+      "video_path": "media/v_1740563927124296059_EKhCnd-cJchesHdB.mp4",
+      "video_summary": "A daytime road event in Hyderabad, India, captured by a hand-held or cell-phone camera, depicts multiple traffic violations endangering pedestrian safety. The key event involved vehicles, including an orange car, failing to stop at a red light and making illegal U-turns. Other vehicles also did not stop before zebra crossings, while an auto-rickshaw was observed obstructing a lane. Pedestrians were seen crossing the road even though their signal was still red, amidst the disregard for traffic rules by drivers.",
+      "road_event_answer": "",
       "distractor_answers": [
         "A cyclist ran a red light and was almost hit by a car.",
         "Two cars collided at high speed on a motorway.",
@@ -124,45 +122,42 @@
       "captions": [
         {
           "caption_id": "video_004_caption1",
-          "text": "Serious near-miss at Five Ways island, Honiley—@Cycliq cam shows car failed to indicate at roundabout.",
+          "text": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
           "control_scores": {
             "tone": {
-              "Serious": "Very Strong",
-              "Observant": "Strong"
+              "Sarcastic": "Very Strong",
+              "Questioning": "Strong"
             },
             "writing_style": {
-              "Factual": "Strong"
+              "Conversational": "Strong"
             }
           },
           "application": "Public Safety Alert"
         },
         {
           "caption_id": "video_004_caption2",
-          "text": "Had a close call on my bike at the Five Ways roundabout—car just swung through with zero indication. Honestly, it’s moments like these that make me second-guess if drivers even notice cyclists. Does anyone else ever feel weirdly invisible out there, or is it just me? Some days you wonder how much luck you’re riding on. #CyclistLife #NearMiss #RoadSafety #ShareTheRoad #CyclingAdventures",
+          "text": "I watched drivers run red lights, ignore zebra crossings, and make illegal U-turns while pedestrians crossed on a red. It\u2019s frustrating seeing such disregard for safety.",
           "control_scores": {
             "tone": {
-              "Anxious": "Strong",
-              "Reflective": "Strong"
+              "Critical": "Strong"
             },
             "writing_style": {
-              "Conversational": "Very Strong",
-              "Rhetorical Question": "Very Strong"
+              "Judgmental": "Very Strong",
+              "Factual": "Very Strong"
             }
           },
           "application": "Public Safety Awareness"
         },
         {
           "caption_id": "video_004_caption3",
-          "text": "Love how some drivers at Five Ways island think indicators are optional. @Cycliq caught this genius nearly clipping me—textbook roundabout etiquette, right?",
+          "text": "I just watched Hyderabad chaos\u2014wow, what a show! \ud83d\udea6\ud83d\ude33 #Hyderabad",
           "control_scores": {
             "tone": {
-              "Sarcastic": "Strong",
-              "Cynical": "Strong"
+              "Amusing": "Strong"
             },
             "writing_style": {
-              "Judgmental": "Very Strong",
-              "Conversational": "Strong",
-              "Rhetorical Question": "Strong"
+              "Exaggeration": "Very Strong",
+              "Conversational": "Strong"
             }
           },
           "application": "Driver Behavior Monitoring"
@@ -173,10 +168,10 @@
   "part2_comparisons": [
     {
       "comparison_id": "comp_001",
-      "video_id": "video_002",
-      "video_path": "media/v_1706917197313155420_pctWuDwUOC9RREx_.mp4",
-      "video_summary": "The video, captured by multiple cameras showing various scenes and angles, depicts dangerous and reckless driving by a motorcyclist in India. The primary road event involves a motorcyclist in black performing stunts, specifically wheelies, on a busy public road. This motorcyclist was observed riding recklessly and leaving accident scenes. Other road entities, including other motorcyclists, cars, trucks, and pedestrians, were present, with pedestrians observing the events. The motorcyclist's actions appear to be motivated by thrill-seeking and a desire to show off or impress others. Evident traffic violations include reckless driving, performing stunts on public roads, leaving accident scenes, and potentially speeding.",
-      "road_event_answer": "A motorcyclist was recklessly performing dangerous stunts like wheelies on a busy public road.",
+      "video_id": "video_009",
+      "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
+      "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
+      "road_event_answer": "",
       "distractor_answers": [
         "A group of motorcyclists were participating in an organized race.",
         "A car collided with a motorcycle at an intersection.",
@@ -184,15 +179,15 @@
       ],
       "control_scores": {
         "tone": {
-          "Serious": "Strong",
-          "Objective": "Strong"
+          "Amusing": "Strong",
+          "Casual": "Strong"
         },
         "writing_style": {
-          "Factual": "Strong"
+          "Exaggeration": "Strong"
         }
       },
-      "caption_A": "@TrafficPoliceHQ Reckless motorcyclist performs dangerous wheelies and flees accident scenes, endangering everyone on the road. Such thrill-seeking behavior must not be tolerated. #RoadSafety",
-      "caption_B": "Look at this absolute clown trying to be a movie star. Someone's going to get hurt because of this idiot."
+      "caption_A": "Brampton nights really bringing out the creative drivers 😂. Wet roads and wild stops! #Brampton",
+      "caption_B": "Brampton nights really bringing out the creative drivers 😂. Wet roads and wild stops! #Brampton"
     },
     {
       "comparison_id": "comp_002",
