@@ -344,6 +344,7 @@ elif st.session_state.page == 'what_is_tone':
     
     st.markdown("<h3 style='text-align: center;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</h3>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</h3>", unsafe_allow_html=True)
+    
     st.markdown("---")
     st.subheader("For example:")
     col1, col2 = st.columns(2)
