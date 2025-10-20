@@ -351,7 +351,7 @@ elif st.session_state.page == 'what_is_tone':
     col1, col2 = st.columns(2, gap="small")
     with col1:
         # Nest the video to make it small and centered
-        _, vid_col, _ = st.columns([1, 2, 1]) 
+        _, vid_col, _ = st.columns([1.25, 1, 1.25]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
