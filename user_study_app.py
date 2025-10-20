@@ -342,17 +342,15 @@ elif st.session_state.page == 'intro_video':
 elif st.session_state.page == 'what_is_tone':
     st.markdown("<h1 style='text-align: center;'>Tone and Writing Style</h1>", unsafe_allow_html=True)
     
-    # Definitions are now smaller, centered, and black
     st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</p>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</p>", unsafe_allow_html=True)
     
     st.subheader("For example:")
     
-    # Use equal columns for the main layout
     col1, col2 = st.columns(2)
     with col1:
-        # Nested columns to make the video smaller and center it
-        _, vid_col, _ = st.columns([1, 2, 1]) 
+        # UPDATED: Nested columns to make the video even smaller
+        _, vid_col, _ = st.columns([1, 1.5, 1]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -360,7 +358,7 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        # Nested columns to keep the image size the same as before
+        # Image column remains the same
         _, img_col, _ = st.columns([1, 3, 1])
         with img_col:
             image_path = "media/tone_meaning.jpg"
