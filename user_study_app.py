@@ -342,14 +342,17 @@ elif st.session_state.page == 'intro_video':
 elif st.session_state.page == 'what_is_tone':
     st.markdown("<h1 style='text-align: center;'>Tone and Writing Style</h1>", unsafe_allow_html=True)
     
-    st.markdown("<h3 style='text-align: center;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</h3>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</h3>", unsafe_allow_html=True)
+    # Definitions are now smaller, centered, and black
+    st.markdown("<p style='text-align: center; font-size: 1.25rem;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 1.25rem;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</p>", unsafe_allow_html=True)
     
     st.markdown("---")
     st.subheader("For example:")
+    
+    # Using columns to make both video and image smaller
     col1, col2 = st.columns(2)
     with col1:
-        _, vid_col, _ = st.columns([1,3,1])
+        _, vid_col, _ = st.columns([1, 2, 1])
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -357,7 +360,7 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        _, img_col, _ = st.columns([1,3,1])
+        _, img_col, _ = st.columns([1, 2, 1])
         with img_col:
             image_path = "media/tone_meaning.jpg"
             if os.path.exists(image_path):
@@ -372,9 +375,10 @@ elif st.session_state.page == 'what_is_tone':
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
     
-    col1, col2 = st.columns([1, 2])
+    # Using columns to make the video smaller while the image remains large
+    col1, col2 = st.columns(2)
     with col1:
-        _, vid_col, _ = st.columns([1,3,1])
+        _, vid_col, _ = st.columns([1, 2, 1])
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -392,6 +396,7 @@ elif st.session_state.page == 'factual_info':
         st.session_state.page = 'quiz'
         st.rerun()
 
+        
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
     with st.sidebar:
