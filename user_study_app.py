@@ -347,17 +347,21 @@ elif st.session_state.page == 'what_is_tone':
     st.subheader("For example:")
     col1, col2 = st.columns(2)
     with col1:
-        video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
-        if os.path.exists(video_path):
-            st.video(video_path, autoplay=True, muted=True)
-        else:
-            st.warning(f"Video not found at {video_path}")
+        _, vid_col, _ = st.columns([1,3,1])
+        with vid_col:
+            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
+            if os.path.exists(video_path):
+                st.video(video_path, autoplay=True, muted=True, loop=True)
+            else:
+                st.warning(f"Video not found at {video_path}")
     with col2:
-        image_path = "media/tone_meaning.jpg"
-        if os.path.exists(image_path):
-            st.image(image_path)
-        else:
-            st.warning(f"Image not found at {image_path}")
+        _, img_col, _ = st.columns([1,3,1])
+        with img_col:
+            image_path = "media/tone_meaning.jpg"
+            if os.path.exists(image_path):
+                st.image(image_path)
+            else:
+                st.warning(f"Image not found at {image_path}")
 
     if st.button("Next >>"):
         st.session_state.page = 'factual_info'
@@ -368,17 +372,21 @@ elif st.session_state.page == 'factual_info':
     
     col1, col2 = st.columns(2)
     with col1:
-        video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
-        if os.path.exists(video_path):
-            st.video(video_path, autoplay=True, muted=True)
-        else:
-            st.warning(f"Video not found at {video_path}")
+        _, vid_col, _ = st.columns([1,3,1])
+        with vid_col:
+            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
+            if os.path.exists(video_path):
+                st.video(video_path, autoplay=True, muted=True, loop=True)
+            else:
+                st.warning(f"Video not found at {video_path}")
     with col2:
-        image_path = "media/factual_info_new.jpg"
-        if os.path.exists(image_path):
-            st.image(image_path)
-        else:
-            st.warning(f"Image not found at {image_path}")
+        _, img_col, _ = st.columns([1,3,1])
+        with img_col:
+            image_path = "media/factual_info_new.jpg"
+            if os.path.exists(image_path):
+                st.image(image_path)
+            else:
+                st.warning(f"Image not found at {image_path}")
 
     if st.button("Start Quiz"):
         st.session_state.page = 'quiz'
