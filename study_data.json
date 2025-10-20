@@ -59,7 +59,7 @@
       "video_id": "video_002",
       "video_path": "media/v_1774263154723451187_QFMMJd8wYMEMl2r7.mp4",
       "video_summary": "A daytime near-miss incident involving dangerous driving behavior was captured by a vehicle-mounted camera in Osaka, Japan. The key road event involved the camera vehicle and a right-turning vehicle. The right-turning vehicle made a sudden and dangerous right turn, nearly colliding with the camera vehicle. This maneuver was likely due to the driver of the right-turning vehicle not paying attention or being impatient, resulting in a failure to yield right-of-way. The incident could have been avoided if the right-turning vehicle had waited for a clear opportunity to turn and checked for oncoming traffic.",
-      "road_event_answer": "",
+      "road_event_answer": "A vehicle makes a sudden, dangerous right turn, failing to yield and nearly colliding with the camera vehicle.",
       "distractor_answers": [
         "A group of motorcyclists were participating in an organized race.",
         "A car collided with a motorcycle at an intersection.",
@@ -68,7 +68,7 @@
       "captions": [
         {
           "caption_id": "video_002_caption1",
-          "text": "I nearly got hit by a reckless right-turning driver who didn\u2019t even bother to yield. Some people never learn. #drivingfail",
+          "text": "I nearly got hit by a reckless right-turning driver who didn’t even bother to yield. Some people never learn. #drivingfail",
           "control_scores": {
             "tone": {
               "Critical": "Strong", "Angry": "Strong"
@@ -81,7 +81,7 @@
         },
         {
           "caption_id": "video_002_caption2",
-          "text": "Dashcam footage from Osaka captures a tense moment as a right-turning car fails to yield, narrowly missing the camera vehicle. Grateful this near-miss ended safely. \ud83d\ude97\ud83d\udca5 #RoadSafety #DashcamDrama",
+          "text": "Dashcam footage from Osaka captures a tense moment as a right-turning car fails to yield, narrowly missing the camera vehicle. Grateful this near-miss ended safely. 🚗💥 #RoadSafety #DashcamDrama",
           "control_scores": {
             "tone": {
               "Appreciative": "Strong",
@@ -95,13 +95,12 @@
         },
         {
           "caption_id": "video_002_caption3",
-          "text": "Was I just supposed to guess that car was about to dart in front of me? Near-miss moments like this really make me wonder\u2026 \ud83d\ude97\ud83d\udca5 Anyone else get surprised by these moves? #RoadRage",
+          "text": "Was I just supposed to guess that car was about to dart in front of me? Near-miss moments like this really make me wonder… 🚗💥 Anyone else get surprised by these moves? #RoadRage",
           "control_scores": {
             "tone": {
               "Anxious": "Very Strong"
             },
             "writing_style": {
-              
               "Rhetorical Question": "Strong", "Conversational": "Very Strong"
             }
           },
@@ -113,7 +112,7 @@
       "video_id": "video_004",
       "video_path": "media/v_1740563927124296059_EKhCnd-cJchesHdB.mp4",
       "video_summary": "A daytime road event in Hyderabad, India, captured by a hand-held or cell-phone camera, depicts multiple traffic violations endangering pedestrian safety. The key event involved vehicles, including an orange car, failing to stop at a red light and making illegal U-turns. Other vehicles also did not stop before zebra crossings, while an auto-rickshaw was observed obstructing a lane. Pedestrians were seen crossing the road even though their signal was still red, amidst the disregard for traffic rules by drivers.",
-      "road_event_answer": "",
+      "road_event_answer": "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
       "distractor_answers": [
         "A cyclist ran a red light and was almost hit by a car.",
         "Two cars collided at high speed on a motorway.",
@@ -136,7 +135,7 @@
         },
         {
           "caption_id": "video_004_caption2",
-          "text": "I watched drivers run red lights, ignore zebra crossings, and make illegal U-turns while pedestrians crossed on a red. It\u2019s frustrating seeing such disregard for safety.",
+          "text": "I watched drivers run red lights, ignore zebra crossings, and make illegal U-turns while pedestrians crossed on a red. It’s frustrating seeing such disregard for safety.",
           "control_scores": {
             "tone": {
               "Critical": "Strong"
@@ -150,7 +149,7 @@
         },
         {
           "caption_id": "video_004_caption3",
-          "text": "I just watched Hyderabad chaos\u2014wow, what a show! \ud83d\udea6\ud83d\ude33 #Hyderabad",
+          "text": "I just watched Hyderabad chaos—wow, what a show! 🚦🤯 #Hyderabad",
           "control_scores": {
             "tone": {
               "Amusing": "Strong"
@@ -171,7 +170,7 @@
       "video_id": "video_009",
       "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
       "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
-      "road_event_answer": "",
+      "road_event_answer": "A car stops beyond the designated stop line at a red light.",
       "distractor_answers": [
         "A group of motorcyclists were participating in an organized race.",
         "A car collided with a motorcycle at an intersection.",
@@ -241,7 +240,7 @@
       "video_id": "video_008",
       "video_path": "media/v_1788433740043272490_Sfyt0MJb5efc8XNY.mp4",
       "video_summary": "A vehicle-mounted camera recorded hazardous driving conditions caused by extreme weather in Nagpur city, India, during the morning. The vehicle from which the video was captured had halted due to the severe weather, which also affected other vehicles present on the road.",
-      "road_event_answer": "",
+      "road_event_answer": "A vehicle has stopped on the road due to hazardous driving conditions from extreme weather.",
       "distractor_answers": [
         "Pedestrians were crossing the street outside of the designated crosswalks.",
         "A traffic light at a busy intersection was not working.",
@@ -256,8 +255,8 @@
           "Exaggeration": "Strong"
         }
       },
-      "caption_A": "Absolutely wild weather hit Nagpur at 7am\u2014visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
-      "caption_B": "Absolutely wild weather hit Nagpur at 7am\u2014visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India"
+      "caption_A": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
+      "caption_B": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India"
     }
   ],
   "part3_intensity_change": [
