@@ -1,7 +1,7 @@
 {
   "part1_ratings": [
     {
-      "video_id": "video_003",
+      "video_id": "video_001",
       "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
       "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
       "road_event_answer": "A semi-truck made an unsafe lane change, nearly colliding with another vehicle.",
@@ -12,7 +12,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_003_caption1",
+          "caption_id": "video_001_caption1",
           "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
           "control_scores": {
             "tone": {
@@ -22,10 +22,10 @@
               "Factual": "Strong"
             }
           },
-          "application": "Public Safety Alert"
+          "application": "Traffic Safety Bulletin"
         },
         {
-          "caption_id": "video_003_caption2",
+          "caption_id": "video_001_caption2",
           "text": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
           "control_scores": {
             "tone": {
@@ -36,10 +36,10 @@
               "Conversational": "Very Strong"
             }
           },
-          "application": "Community Road Safety Awareness"
+          "application": "Community Awareness Post"
         },
         {
-          "caption_id": "video_003_caption3",
+          "caption_id": "video_001_caption3",
           "text": "Semi-trailer trucks pulling moves like this—unsafe lane changes, no signal, barely a glance—almost as if mirrors are just for decoration. Near Cornwall, Ontario, another close call caught on dashcam. #RoadSafety #TruckAccidents",
           "control_scores": {
             "tone": {
@@ -51,7 +51,7 @@
               "Factual": "Strong"
             }
           },
-          "application": "Driver Behavior Monitoring"
+          "application": "Driver Behavior Analysis"
         }
       ]
     },
@@ -77,7 +77,7 @@
               "Judgmental": "Very Strong"
             }
           },
-          "application": "Law Enforcement Alert"
+          "application": "Road User Experience Post"
         },
         {
           "caption_id": "video_002_caption2",
@@ -91,7 +91,7 @@
               "Factual": "Very Strong"
             }
           },
-          "application": "Law Enforcement Alert"
+          "application": "Traffic Safety Awareness"
         },
         {
           "caption_id": "video_002_caption3",
@@ -104,12 +104,12 @@
               "Rhetorical Question": "Strong", "Conversational": "Very Strong"
             }
           },
-          "application": "Law Enforcement Alert"
+          "application": "Driver Sentiment Post"
         }
       ]
     },
     {
-      "video_id": "video_004",
+      "video_id": "video_003",
       "video_path": "media/v_1740563927124296059_EKhCnd-cJchesHdB.mp4",
       "video_summary": "A daytime road event in Hyderabad, India, captured by a hand-held or cell-phone camera, depicts multiple traffic violations endangering pedestrian safety. The key event involved vehicles, including an orange car, failing to stop at a red light and making illegal U-turns. Other vehicles also did not stop before zebra crossings, while an auto-rickshaw was observed obstructing a lane. Pedestrians were seen crossing the road even though their signal was still red, amidst the disregard for traffic rules by drivers.",
       "road_event_answer": "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
@@ -120,7 +120,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_004_caption1",
+          "caption_id": "video_003_caption1",
           "text": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
           "control_scores": {
             "tone": {
@@ -131,10 +131,10 @@
               "Conversational": "Strong"
             }
           },
-          "application": "Public Safety Alert"
+          "application": "Public Commentary Post"
         },
         {
-          "caption_id": "video_004_caption2",
+          "caption_id": "video_003_caption2",
           "text": "I watched drivers run red lights, ignore zebra crossings, and make illegal U-turns while pedestrians crossed on a red. It’s frustrating seeing such disregard for safety.",
           "control_scores": {
             "tone": {
@@ -145,10 +145,10 @@
               "Factual": "Very Strong"
             }
           },
-          "application": "Public Safety Awareness"
+          "application": "Traffic Rule Enforcement Awareness"
         },
         {
-          "caption_id": "video_004_caption3",
+          "caption_id": "video_003_caption3",
           "text": "I just watched Hyderabad chaos—wow, what a show! 🚦🤯 #Hyderabad",
           "control_scores": {
             "tone": {
@@ -159,7 +159,7 @@
               "Conversational": "Strong"
             }
           },
-          "application": "Driver Behavior Monitoring"
+          "application": "Urban Traffic Observation"
         }
       ]
     }
@@ -167,7 +167,7 @@
   "part2_comparisons": [
     {
       "comparison_id": "comp_001",
-      "video_id": "video_009",
+      "video_id": "video_004",
       "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
       "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
       "road_event_answer": "A car stops beyond the designated stop line at a red light.",
@@ -186,11 +186,12 @@
         }
       },
       "caption_A": "Brampton nights really bringing out the creative drivers 😂. Wet roads and wild stops! #Brampton",
-      "caption_B": "Brampton nights really bringing out the creative drivers 😂. Wet roads and wild stops! #Brampton"
+      "caption_B": "Brampton nights really bringing out the creative drivers 😂. Wet roads and wild stops! #Brampton",
+      "application": "Community Humor Post"
     },
     {
       "comparison_id": "comp_002",
-      "video_id": "video_007",
+      "video_id": "video_005",
       "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
       "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
       "road_event_answer": "A Nissan car ran a red light and collided with the side of a Suzuki truck.",
@@ -209,11 +210,12 @@
         }
       },
       "caption_A": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident.",
-      "caption_B": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident."
+      "caption_B": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident.",
+      "application": "Accident Report Summary"
     },
     {
       "comparison_id": "comp_003",
-      "video_id": "video_005",
+      "video_id": "video_006",
       "video_path": "media/v_921439559250038784_P14L18RmB2Nh7wA4.mp4",
       "video_summary": "A dashcam captured unsafe driving behavior, specifically lane hogging, on the M61 Northbound motorway in the UK during the daytime. Multiple vehicles were involved, occupying the middle lane and failing to move to the left lane when it was clear, which constitutes improper lane usage on a motorway.",
       "road_event_answer": "Multiple vehicles were improperly occupying the middle lane on a motorway instead of moving to the left.",
@@ -233,11 +235,12 @@
         }
       },
       "caption_A": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
-      "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story."
+      "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
+      "application": "Driving Etiquette Commentary"
     },
     {
       "comparison_id": "comp_004",
-      "video_id": "video_008",
+      "video_id": "video_007",
       "video_path": "media/v_1788433740043272490_Sfyt0MJb5efc8XNY.mp4",
       "video_summary": "A vehicle-mounted camera recorded hazardous driving conditions caused by extreme weather in Nagpur city, India, during the morning. The vehicle from which the video was captured had halted due to the severe weather, which also affected other vehicles present on the road.",
       "road_event_answer": "A vehicle has stopped on the road due to hazardous driving conditions from extreme weather.",
@@ -256,13 +259,14 @@
         }
       },
       "caption_A": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
-      "caption_B": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India"
+      "caption_B": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
+      "application": "Weather Impact Alert"
     }
   ],
   "part3_intensity_change": [
     {
       "change_id": "change_002",
-      "video_id": "video_001",
+      "video_id": "video_008",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
       "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
@@ -276,11 +280,12 @@
       "field_to_change": {
         "tone": "Emotional"
       },
-      "change_type": "increased"
+      "change_type": "increased",
+      "application": "Crash Awareness Post"
     },
     {
       "change_id": "change_003",
-      "video_id": "video_001",
+      "video_id": "video_008",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
       "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
@@ -294,7 +299,8 @@
       "field_to_change": {
         "writing_style": "Advisory"
       },
-      "change_type": "decreased"
+      "change_type": "decreased",
+      "application": "Road Safety Advisory"
     }
   ]
 }
