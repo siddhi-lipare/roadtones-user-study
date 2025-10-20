@@ -345,12 +345,13 @@ elif st.session_state.page == 'what_is_tone':
     st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</p>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</p>", unsafe_allow_html=True)
     
-    st.subheader("                                               For example:")
+    # UPDATED: Replaced st.subheader with st.markdown to add left padding
+    st.markdown("<h2 style='padding-left: 20px;'>For example:</h2>", unsafe_allow_html=True)
     
-    # Main columns remain the same
+    # Use equal columns with a small gap
     col1, col2 = st.columns(2, gap="small")
     with col1:
-        # UPDATED: Reduced the right-side spacer to shift the video right
+        # This nesting remains the same to keep the video small
         _, vid_col, _ = st.columns([1.5, 1, 0.25]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
@@ -359,7 +360,7 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        # UPDATED: Reduced the left-side spacer to shift the image left
+        # This nesting remains the same to keep the image size
         _, img_col, _ = st.columns([0.25, 2, 1])
         with img_col:
             image_path = "media/tone_meaning.jpg"
@@ -372,6 +373,7 @@ elif st.session_state.page == 'what_is_tone':
         st.session_state.page = 'factual_info'
         st.rerun()
 
+        
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
     
