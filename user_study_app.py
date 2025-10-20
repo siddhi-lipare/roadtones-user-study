@@ -351,7 +351,7 @@ elif st.session_state.page == 'what_is_tone':
     col1, col2 = st.columns(2, gap="small")
     with col1:
         # UPDATED: Reduced the right-side spacer to shift the video right
-        _, vid_col, _ = st.columns([1.25, 1, 0.25]) 
+        _, vid_col, _ = st.columns([1.5, 1, 0.25]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
