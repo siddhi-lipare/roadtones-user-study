@@ -357,7 +357,7 @@ elif st.session_state.page == 'what_is_tone':
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>What does <span style='color: #4F46E5;'>“Factual Information”</span> of a caption indicate?</h1>", unsafe_allow_html=True)
     
-    image_path = "media/factual_info.jpg"
+    image_path = "media/factual_info_new.jpg"
     if os.path.exists(image_path):
         _, img_col, _ = st.columns([1, 2, 1])
         with img_col:
