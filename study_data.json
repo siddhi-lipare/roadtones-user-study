@@ -226,12 +226,10 @@
       "control_scores": {
         "tone": {
           "Sarcastic": "Very Strong",
-          "Critical": "Strong",
           "Amusing": "Strong"
         },
         "writing_style": {
           "Exaggeration": "Strong",
-          "Conversational": "Strong",
           "Metaphorical": "Very Strong"
         }
       },
@@ -241,9 +239,9 @@
     {
       "comparison_id": "comp_004",
       "video_id": "video_008",
-      "video_path": "media/v_990650492777844736_nlt2mTIkMFF3I7da.mp4",
-      "video_summary": "The video, captured during daytime with varying weather conditions from partly cloudy to sunny, depicts traffic violations at an all-way stop intersection in Manhattan, New York City, United States. Multiple static camera shots from different angles show cars failing to make full stops at the stop signs, posing a safety concern for pedestrians who are observed crossing the street at designated crossings. The road entities involved include cars, pedestrians, stop signs, pedestrian crossings, construction barriers, and sidewalks.",
-      "road_event_answer": "Multiple cars failed to make a full stop at an all-way stop intersection, endangering pedestrians.",
+      "video_path": "media/v_1788433740043272490_Sfyt0MJb5efc8XNY.mp4",
+      "video_summary": "A vehicle-mounted camera recorded hazardous driving conditions caused by extreme weather in Nagpur city, India, during the morning. The vehicle from which the video was captured had halted due to the severe weather, which also affected other vehicles present on the road.",
+      "road_event_answer": "",
       "distractor_answers": [
         "Pedestrians were crossing the street outside of the designated crosswalks.",
         "A traffic light at a busy intersection was not working.",
@@ -251,17 +249,15 @@
       ],
       "control_scores": {
         "tone": {
-          "Assertive": "Strong",
-          "Serious": "Strong"
+          "Dramatic": "Very Strong",
+          "Observant": "Strong"
         },
         "writing_style": {
-          "Rhetorical Question": "Strong",
-          "Judgmental": "Strong",
-          "Persuasive": "Strong"
+          "Exaggeration": "Strong"
         }
       },
-      "caption_A": "I just witnessed cars constantly rolling through stop signs at a Manhattan all-way stop. As a pedestrian, it’s honestly frustrating and dangerous to see drivers ignore basic rules. @NYC_DOT, isn’t it time for stricter enforcement?  NYPDTraffic Manhattan, New York City.",
-      "caption_B": "I just witnessed cars constantly rolling through stop signs at a Manhattan all-way stop. As a pedestrian, it’s honestly frustrating and dangerous to see drivers ignore basic rules. @NYC_DOT, isn’t it time for stricter enforcement?  NYPDTraffic Manhattan, New York City."
+      "caption_A": "Absolutely wild weather hit Nagpur at 7am\u2014visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
+      "caption_B": "Absolutely wild weather hit Nagpur at 7am\u2014visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India"
     }
   ],
   "part3_intensity_change": [
