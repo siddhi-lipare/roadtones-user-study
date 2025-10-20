@@ -341,27 +341,27 @@ elif st.session_state.page == 'intro_video':
 
 elif st.session_state.page == 'what_is_tone':
     st.markdown("<h1 style='text-align: center;'>Tone and Writing Style</h1>", unsafe_allow_html=True)
-    st.info("**Tone** refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., *Sarcastic, Angry, Caring*).")
-    st.success("**Writing Style** refers to the author's technique or method of writing (e.g., *Advisory, Factual, Conversational*).")
+    
+    def_col1, def_col2 = st.columns(2)
+    with def_col1:
+        st.warning("**Tone** refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., *Sarcastic, Angry, Caring*).")
+    with def_col2:
+        st.success("**Writing Style** refers to the author's technique or method of writing (e.g., *Advisory, Factual, Conversational*).")
     
     st.subheader("For example:")
-    col1, col2 = st.columns(2)
-    with col1:
-        _, vid_col, _ = st.columns([1,3,1])
-        with vid_col:
-            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
-            if os.path.exists(video_path):
-                st.video(video_path, autoplay=True, muted=True, loop=True)
-            else:
-                st.warning(f"Video not found at {video_path}")
-    with col2:
-        _, img_col, _ = st.columns([1,3,1])
-        with img_col:
-            image_path = "media/tone_meaning.jpg"
-            if os.path.exists(image_path):
-                st.image(image_path)
-            else:
-                st.warning(f"Image not found at {image_path}")
+    ex_col1, ex_col2 = st.columns([2, 3])
+    with ex_col1:
+        video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
+        if os.path.exists(video_path):
+            st.video(video_path, autoplay=True, muted=True, loop=True)
+        else:
+            st.warning(f"Video not found at {video_path}")
+    with ex_col2:
+        image_path = "media/tone_meaning.jpg"
+        if os.path.exists(image_path):
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
 
     if st.button("Next >>"):
         st.session_state.page = 'factual_info'
@@ -370,23 +370,19 @@ elif st.session_state.page == 'what_is_tone':
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
     
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1, 2])
     with col1:
-        _, vid_col, _ = st.columns([1,3,1])
-        with vid_col:
-            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
-            if os.path.exists(video_path):
-                st.video(video_path, autoplay=True, muted=True, loop=True)
-            else:
-                st.warning(f"Video not found at {video_path}")
+        video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
+        if os.path.exists(video_path):
+            st.video(video_path, autoplay=True, muted=True, loop=True)
+        else:
+            st.warning(f"Video not found at {video_path}")
     with col2:
-        _, img_col, _ = st.columns([1,3,1])
-        with img_col:
-            image_path = "media/factual_info_new.jpg"
-            if os.path.exists(image_path):
-                st.image(image_path)
-            else:
-                st.warning(f"Image not found at {image_path}")
+        image_path = "media/factual_info_new.jpg"
+        if os.path.exists(image_path):
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
 
     if st.button("Start Quiz"):
         st.session_state.page = 'quiz'
