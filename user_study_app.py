@@ -345,7 +345,7 @@ elif st.session_state.page == 'what_is_tone':
     st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</p>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</p>", unsafe_allow_html=True)
     
-    st.subheader("For example:")
+    st.subheader("                                               For example:")
     
     # Main columns remain the same
     col1, col2 = st.columns(2, gap="small")
