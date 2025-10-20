@@ -360,7 +360,7 @@ elif st.session_state.page == 'what_is_tone':
                 st.warning(f"Video not found at {video_path}")
     with col2:
         # UPDATED: Less aggressive nesting to slightly increase image size
-        _, img_col, _ = st.columns([1, 2.5, 1])
+        _, img_col, _ = st.columns([1, 3, 1])
         with img_col:
             image_path = "media/tone_meaning.jpg"
             if os.path.exists(image_path):
