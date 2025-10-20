@@ -342,18 +342,17 @@ elif st.session_state.page == 'intro_video':
 elif st.session_state.page == 'what_is_tone':
     st.markdown("<h1 style='text-align: center;'>Tone and Writing Style</h1>", unsafe_allow_html=True)
     
-    # Definitions are now smaller, centered, and black
     st.markdown("<h3 style='text-align: center;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</h3>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</h3>", unsafe_allow_html=True)
     
     st.markdown("---")
     st.subheader("For example:")
     
-    # Use columns to position smaller content
-    col1, col2 = st.columns(2)
+    # Use a 2:3 ratio to give the image more space
+    col1, col2 = st.columns([2, 3])
     with col1:
-        # Nested columns shrink the video and center it
-        _, vid_col, _ = st.columns([1, 1, 1]) 
+        # Nested columns to control and center the video size
+        _, vid_col, _ = st.columns([1, 2, 1]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -361,27 +360,26 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        # Nested columns shrink the image and center it
-        _, img_col, _ = st.columns([1, 1, 1])
-        with img_col:
-            image_path = "media/tone_meaning.jpg"
-            if os.path.exists(image_path):
-                st.image(image_path)
-            else:
-                st.warning(f"Image not found at {image_path}")
+        # This image will fill the larger column, making it bigger
+        image_path = "media/tone_meaning.jpg"
+        if os.path.exists(image_path):
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
 
     if st.button("Next >>"):
         st.session_state.page = 'factual_info'
         st.rerun()
 
+
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
     
-    # Use a [1, 2] ratio to give the image more space
-    col1, col2 = st.columns([1, 2])
+    # Use the same 2:3 ratio for consistency
+    col1, col2 = st.columns([2, 3])
     with col1:
-        # Nested columns shrink the video to the same size as the previous slide
-        _, vid_col, _ = st.columns([1, 1, 1]) 
+        # Use IDENTICAL nested columns to ensure the video size is the same
+        _, vid_col, _ = st.columns([1, 2, 1]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -389,7 +387,7 @@ elif st.session_state.page == 'factual_info':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        # Image is not nested, so it will fill the larger second column
+        # This image will fill the larger column. The ratio change makes it slightly smaller than before.
         image_path = "media/factual_info_new.jpg"
         if os.path.exists(image_path):
             st.image(image_path)
@@ -401,7 +399,6 @@ elif st.session_state.page == 'factual_info':
         st.rerun()
 
 
-        
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
     with st.sidebar:
