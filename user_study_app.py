@@ -347,10 +347,10 @@ elif st.session_state.page == 'what_is_tone':
     
     st.subheader("For example:")
     
-    # Use equal columns for the main layout
-    col1, col2 = st.columns(2)
+    # UPDATED: Added gap="small" to bring the columns closer
+    col1, col2 = st.columns(2, gap="small")
     with col1:
-        # UPDATED: More aggressive nesting to shrink the video
+        # This nesting remains the same to keep the video small
         _, vid_col, _ = st.columns([1.25, 1, 1.25]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
@@ -359,7 +359,7 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        # UPDATED: Less aggressive nesting to slightly increase image size
+        # This nesting remains the same to keep the image size
         _, img_col, _ = st.columns([1, 3, 1])
         with img_col:
             image_path = "media/tone_meaning.jpg"
