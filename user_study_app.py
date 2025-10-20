@@ -1192,6 +1192,7 @@ h2 {
 .part3-question-text {
     font-size: 1.1rem !important;
     font-weight: 600;
+    padding-bottom: 0.5rem;
 }
 
 /* --- CUSTOM BUTTON STYLING --- */
@@ -1993,7 +1994,6 @@ elif st.session_state.page == 'user_study_main':
                     else:
                         with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
                         st.session_state[summary_typed_key] = True
-                    
                     p_col, n_col = st.columns(2)
                     with p_col:
                         st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key,), use_container_width=True, key=f"prev_from_p3_summary_{change_id}")
@@ -2030,24 +2030,23 @@ elif st.session_state.page == 'user_study_main':
                             st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
                             choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
                         with col_q2:
-                            st.markdown(f'<div class="part3-question-text">2. {q2_text}</div>', unsafe_allow_html=True)
+                            st.markdown(f"<div class='part3-question-text'>2. {q2_text}</div>", unsafe_allow_html=True)
                             choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
                         
-                        p_col, n_col = st.columns(2)
-                        with p_col:
-                            # Dummy button for spacing
-                            st.form_submit_button(" ", use_container_width=True, disabled=True)
-                        with n_col:
-                            if st.form_submit_button("Submit Answers", use_container_width=True):
-                                if choice1 is None or choice2 is None: st.error("Please answer both questions.")
-                                else:
-                                    with st.spinner(""): 
-                                        success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
-                                        success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                                    if success1 and success2:
-                                        st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
+                        s_p_col, s_n_col = st.columns(2)
+                        with s_n_col:
+                            st.form_submit_button("Submit Answers", use_container_width=True)
+                    
+                    st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key,), use_container_width=True, key=f"prev_from_p3_questions_{change_idx}")
 
-                    st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key,), use_container_width=True, key=f"prev_from_p3_questions_{change_id}")
+                    if st.session_state.get(f"form_submitted_{change_idx}"):
+                        if choice1 is None or choice2 is None: st.error("Please answer both questions.")
+                        else:
+                            with st.spinner(""): 
+                                success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
+                                success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                            if success1 and success2:
+                                st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
 
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
