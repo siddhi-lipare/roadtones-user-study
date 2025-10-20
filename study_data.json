@@ -237,35 +237,11 @@
       "caption_A": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
       "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
       "application": "Driving Etiquette Commentary"
-    },
-    {
-      "comparison_id": "comp_004",
-      "video_id": "video_007",
-      "video_path": "media/v_1788433740043272490_Sfyt0MJb5efc8XNY.mp4",
-      "video_summary": "A vehicle-mounted camera recorded hazardous driving conditions caused by extreme weather in Nagpur city, India, during the morning. The vehicle from which the video was captured had halted due to the severe weather, which also affected other vehicles present on the road.",
-      "road_event_answer": "A vehicle has stopped on the road due to hazardous driving conditions from extreme weather.",
-      "distractor_answers": [
-        "Pedestrians were crossing the street outside of the designated crosswalks.",
-        "A traffic light at a busy intersection was not working.",
-        "A car was double-parked, blocking traffic at a stop sign."
-      ],
-      "control_scores": {
-        "tone": {
-          "Dramatic": "Very Strong",
-          "Observant": "Strong"
-        },
-        "writing_style": {
-          "Exaggeration": "Strong"
-        }
-      },
-      "caption_A": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
-      "caption_B": "Absolutely wild weather hit Nagpur at 7am—visibility vanished, roads turned chaotic, and I had to pull over as everything just stopped. #NagpurWeather #India",
-      "application": "Weather Impact Alert"
     }
   ],
   "part3_intensity_change": [
     {
-      "change_id": "change_002",
+      "change_id": "change_001",
       "video_id": "video_008",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
@@ -284,7 +260,7 @@
       "application": "Crash Awareness Post"
     },
     {
-      "change_id": "change_003",
+      "change_id": "change_002",
       "video_id": "video_008",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
@@ -301,6 +277,25 @@
       },
       "change_type": "decreased",
       "application": "Road Safety Advisory"
+    },
+    {
+      "change_id": "change_003",
+      "video_id": "video_007",
+      "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
+      "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "Pedestrians were crossing the street outside of the designated crosswalks.",
+        "A traffic light at a busy intersection was not working.",
+        "A car was double-parked, blocking traffic at a stop sign."
+      ],
+      "caption_A": "On Hyderabad’s roads, wisdom is a steady hand—follow traffic rules or invite chaos. #RoadSafety",
+      "caption_B": "On Hyderabad’s roads, wisdom is a steady hand—follow traffic rules or invite chaos. #RoadSafety",
+      "field_to_change": {
+        "writing_style": "Judgmental"
+      },
+      "change_type": "decreased",
+      "application": "Weather Impact Alert"
     }
   ]
 }
