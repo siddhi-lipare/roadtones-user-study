@@ -215,6 +215,60 @@
           "application": ""
         }
       ]
+    },
+    {
+      "video_id": "video_012",
+      "video_path": "media/v_1665532513672916992_4Dk4ik7bxkyRbXIu.mp4",
+      "video_summary": "The video, captured in Chicago, United States, from multiple street-level and elevated camera perspectives across morning, afternoon, and dusk, showcases an urban environment with various road entities. Cyclists are observed riding in designated lanes, pedestrians are using crosswalks, and vehicles including cars, trucks, and buses are moving in both directions. All road users are seen respecting traffic signals, crosswalks, and lane markings, highlighting safe cycling infrastructure and general road safety awareness. No apparent traffic rule violations are observed, as all road users appear to be following proper traffic regulations.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A cyclist ran a red light and was almost hit by a car.",
+        "Two cars collided at high speed on a motorway.",
+        "A driver was ticketed for using a phone while driving through a roundabout."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_012_caption1",
+          "text": "Chicago streets show how safe cycling lanes and attentive road users make a difference. 🚴‍♂️ Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Appreciative": "Strong",
+              "Considerate": "Strong"
+            },
+            "writing_style": {
+              "Advisory": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_012_caption2",
+          "text": "Isn’t it interesting how on a typical morning, afternoon, or dusk, everyone just goes about their way, following signals and lanes? Does anyone even notice the calm routine?",
+          "control_scores": {
+            "tone": {
+              "Thoughtful": "Very Strong"
+            },
+            "writing_style": {
+              "Rhetorical Question": "Very Strong",
+              "Conversational": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_012_caption3",
+          "text": "Chicago roads looking smooth today, don’t you think? 🚲",
+          "control_scores": {
+            "tone": {
+              "Casual": "Strong"
+            },
+            "writing_style": {
+              "Rhetorical Question": "Very Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
     }
   ],
   "part2_comparisons": [
@@ -292,7 +346,7 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_003",
+      "comparison_id": "comp_004",
       "video_id": "video_007",
       "video_path": "media/v_921439559250038784_P14L18RmB2Nh7wA4.mp4",
       "video_summary": "A dashcam captured unsafe driving behavior, specifically lane hogging, on the M61 Northbound motorway in the UK during the daytime. Multiple vehicles were involved, occupying the middle lane and failing to move to the left lane when it was clear, which constitutes improper lane usage on a motorway.",
@@ -315,6 +369,104 @@
       "caption_A": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
       "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
       "application": "Driving Etiquette Commentary"
+    },
+    {
+      "comparison_id": "comp_005",
+      "video_id": "video_008",
+      "video_path": "media/v_1695748178056974456_FxGj0jW1c_4xuTXE.mp4",
+      "video_summary": "A vehicle-mounted camera, providing a driver's perspective, captured a road event in Japan during daytime. The key event depicted dangerous driving behavior, specifically illegal turns and lane changes at intersections. A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately. Traffic rule violations included illegal lane changes, improper turns at intersections, and potentially running yellow lights, involving these vehicles, traffic lights, and other vehicles in traffic.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Angry": "Very Strong",
+          "Critical": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong",
+          "Rhetorical Question": "Strong"
+        }
+      },
+      "caption_A": "Is following basic traffic rules too much to ask? 🤨 #fail",
+      "caption_B": "Is following basic traffic rules too much to ask? 🤨 #fail",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_006",
+      "video_id": "video_012",
+      "video_path": "media/v_1620271366900703234_12P3R9m3EqbJlb8Y.mp4",
+      "video_summary": "A severe car accident occurred during the pre-dawn hours near Kasa bridge on the Mumbai-Ahmedabad Highway in India. A white high-end car, traveling at high speed, smashed into a road divider before colliding head-on with a luxury bus. Speeding was identified as the primary cause and traffic violation. The accident resulted in multiple fatalities and injuries. The high-end car sustained severe damage, with its front end completely destroyed, hood crumpled, windshield shattered, and passenger-side door hanging open. The video, captured by a hand-held camera, shows static close-up shots of the damaged vehicle.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Passionate": "Very Strong",
+          "Reflective": "Strong"
+        },
+        "writing_style": {
+          "Motivational": "Strong",
+          "Advisory": "Strong"
+        }
+      },
+      "caption_A": "Speed’s shadow can leave nothing but silence and shattered dreams. Each journey is a reminder—roads demand respect, or consequences will follow. Drive as if every mile matters.",
+      "caption_B": "Speed’s shadow can leave nothing but silence and shattered dreams. Each journey is a reminder—roads demand respect, or consequences will follow. Drive as if every mile matters.",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_006",
+      "video_id": "video_012",
+      "video_path": "media/v_1665532513672916992_4Dk4ik7bxkyRbXIu.mp4",
+      "video_summary": "The video, captured in Chicago, United States, from multiple street-level and elevated camera perspectives across morning, afternoon, and dusk, showcases an urban environment with various road entities. Cyclists are observed riding in designated lanes, pedestrians are using crosswalks, and vehicles including cars, trucks, and buses are moving in both directions. All road users are seen respecting traffic signals, crosswalks, and lane markings, highlighting safe cycling infrastructure and general road safety awareness. No apparent traffic rule violations are observed, as all road users appear to be following proper traffic regulations.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Appreciative": "Very Strong",
+          "Considerate": "Strong"
+        },
+        "writing_style": {
+          "Advisory": "Strong"
+        }
+      },
+      "caption_A": "Chicago streets show how safe cycling lanes and attentive road users make a difference. 🚴‍♂️ Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+      "caption_B": "Chicago streets show how safe cycling lanes and attentive road users make a difference. 🚴‍♂️ Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_007",
+      "video_id": "video_013",
+      "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
+      "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Curious": "Very Strong",
+          "Questioning": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong"
+        }
+      },
+      "caption_A": "Have you ever seen roads like this in Gachibowli or Abdullahpurmet? 🚦 What goes on here? #Hyderabad",
+      "caption_B": "Have you ever seen roads like this in Gachibowli or Abdullahpurmet? 🚦 What goes on here? #Hyderabad",
+      "application": ""
     }
   ],
   "part3_intensity_change": [
@@ -395,24 +547,23 @@
       "application": ""
     },
     {
-      "change_id": "change_003",
-      "video_id": "video_010",
-      "video_path": "media/v_1290909686519091201_9vmNpHDC5937f9MW.mp4",
-      "video_summary": "A vehicle-mounted camera captured a near-miss incident at night on the M7 highway in Sydney, Australia. The key road event involved the driver's vehicle and possibly a stationary vehicle or unexpected obstacle on the road. The driver demonstrated quick reflexes to avoid a potential collision, motivated by self-preservation and the need for quick decision-making. The incident could have been prevented by maintaining a safe speed, increasing vigilance while driving at night, and being prepared for unexpected obstacles.",
+      "change_id": "change_004",
+      "video_id": "video_013",
+      "video_path": "media/v_1614378859859939328_VErVoLZl_Gr9In55.mp4",
+      "video_summary": "A dashcam video captured a key road event of reckless driving and dangerous lane changing at night in Toronto, Ontario, Canada, specifically on Highway 427 South near the Highway 407 exit. An SUV, identified as a Durango, performed a dangerous lane change by passing a truck on the left and then cutting sharply in front of it. The truck driver demonstrated good driving by successfully avoiding a collision. The SUV driver's actions are suspected to be due to impatience and possibly being in a rush after missing an exit. This incident involved traffic rule violations including reckless driving, illegal lane changing, and potentially speeding.",
       "road_event_answer": "",
       "distractor_answers": [
         "Pedestrians were crossing the street outside of the designated crosswalks.",
         "A traffic light at a busy intersection was not working.",
         "A car was double-parked, blocking traffic at a stop sign."
       ],
-      "caption_A": "A stitch in time saves nine—always anticipate the unexpected when driving at night. Safety before speed, always.",
-      "caption_B": "A stitch in time saves nine—always anticipate the unexpected when driving at night. Safety before speed, always.",
+      "caption_A": "Not sure what I just saw tonight, but I’m honestly a little shaken. #recklessdrivers",
+      "caption_B": "Not sure what I just saw tonight, but I’m honestly a little shaken. #recklessdrivers",
       "field_to_change": {
-        "writing_style": "Proverbial"
+        "tone": "Bewildered"
       },
       "change_type": "decreased",
       "application": ""
     }
-
   ]
 }
