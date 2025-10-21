@@ -162,12 +162,65 @@
           "application": "Urban Traffic Observation"
         }
       ]
+    },
+    {
+      "video_id": "video_004",
+      "video_path": "media/v_1737449031834751231_fTKTFF6LWCFx0fPj.mp4",
+      "video_summary": "A dashcam video captured a dangerous driving incident in Japan, involving a large truck, oncoming traffic, and the dashcam vehicle. The key road event was a hazardous overtaking maneuver performed by the large truck. The truck driver executed a dangerous overtake despite the presence of oncoming traffic, suggesting impatience or being in a rush. This action resulted in evident traffic violations, including illegal overtaking and potentially crossing solid lane markings.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A cyclist ran a red light and was almost hit by a car.",
+        "Two cars collided at high speed on a motorway.",
+        "A driver was ticketed for using a phone while driving through a roundabout."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_004_caption1",
+          "text": "My heart nearly stopped—a huge truck just decided to overtake in front of me, ignoring oncoming cars like it’s nothing! Seriously, never try this chaos. Stay patient. #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Anxious": "Strong"
+            },
+            "writing_style": {
+              "Advisory": "Strong"
+            }
+          },
+          "application": "Public Commentary Post"
+        },
+        {
+          "caption_id": "video_004_caption2",
+          "text": "That truck driver in Japan is unbelievable. Complete disregard for everyone. #JapanRoads",
+          "control_scores": {
+            "tone": {
+              "Angry": "Very Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong"
+            }
+          },
+          "application": "Traffic Rule Enforcement Awareness"
+        },
+        {
+          "caption_id": "video_004_caption3",
+          "text": "Reckless truck overtaking in Japan puts lives at risk, ignoring oncoming traffic and road rules. 🚛 #TrafficViolation #Japan",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
     }
   ],
   "part2_comparisons": [
     {
       "comparison_id": "comp_001",
-      "video_id": "video_004",
+      "video_id": "video_005",
       "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
       "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
       "road_event_answer": "A car stops beyond the designated stop line at a red light.",
@@ -191,7 +244,7 @@
     },
     {
       "comparison_id": "comp_002",
-      "video_id": "video_005",
+      "video_id": "video_006",
       "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
       "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
       "road_event_answer": "A Nissan car ran a red light and collided with the side of a Suzuki truck.",
@@ -215,7 +268,32 @@
     },
     {
       "comparison_id": "comp_003",
-      "video_id": "video_006",
+      "video_id": "video_008",
+      "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
+      "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Curious": "Very Strong",
+          "Appreciative": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong",
+          "Rhetorical Question": "Strong"
+        }
+      },
+      "caption_A": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone’s okay—@SafeDrivingAU, is this a common risk on the roads?",
+      "caption_B": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone’s okay—@SafeDrivingAU, is this a common risk on the roads?",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_003",
+      "video_id": "video_007",
       "video_path": "media/v_921439559250038784_P14L18RmB2Nh7wA4.mp4",
       "video_summary": "A dashcam captured unsafe driving behavior, specifically lane hogging, on the M61 Northbound motorway in the UK during the daytime. Multiple vehicles were involved, occupying the middle lane and failing to move to the left lane when it was clear, which constitutes improper lane usage on a motorway.",
       "road_event_answer": "Multiple vehicles were improperly occupying the middle lane on a motorway instead of moving to the left.",
@@ -261,7 +339,7 @@
     },
     {
       "change_id": "change_002",
-      "video_id": "video_008",
+      "video_id": "video_009",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
       "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
@@ -280,7 +358,7 @@
     },
     {
       "change_id": "change_003",
-      "video_id": "video_007",
+      "video_id": "video_010",
       "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
       "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
       "road_event_answer": "",
@@ -292,10 +370,49 @@
       "caption_A": "On Hyderabad’s roads, wisdom is a steady hand—follow traffic rules or invite chaos. #RoadSafety",
       "caption_B": "On Hyderabad’s roads, wisdom is a steady hand—follow traffic rules or invite chaos. #RoadSafety",
       "field_to_change": {
-        "writing_style": "Judgmental"
+        "writing_style": "Conversational"
+      },
+      "change_type": "increased",
+      "application": ""
+    },
+    {
+      "change_id": "change_003",
+      "video_id": "video_010",
+      "video_path": "media/v_1290909686519091201_9vmNpHDC5937f9MW.mp4",
+      "video_summary": "A vehicle-mounted camera captured a near-miss incident at night on the M7 highway in Sydney, Australia. The key road event involved the driver's vehicle and possibly a stationary vehicle or unexpected obstacle on the road. The driver demonstrated quick reflexes to avoid a potential collision, motivated by self-preservation and the need for quick decision-making. The incident could have been prevented by maintaining a safe speed, increasing vigilance while driving at night, and being prepared for unexpected obstacles.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "Pedestrians were crossing the street outside of the designated crosswalks.",
+        "A traffic light at a busy intersection was not working.",
+        "A car was double-parked, blocking traffic at a stop sign."
+      ],
+      "caption_A": "A stitch in time saves nine—always anticipate the unexpected when driving at night. Safety before speed, always.",
+      "caption_B": "A stitch in time saves nine—always anticipate the unexpected when driving at night. Safety before speed, always.",
+      "field_to_change": {
+        "writing_style": "Proverbial"
       },
       "change_type": "decreased",
-      "application": "Weather Impact Alert"
+      "application": ""
+    },
+    {
+      "change_id": "change_003",
+      "video_id": "video_010",
+      "video_path": "media/v_1290909686519091201_9vmNpHDC5937f9MW.mp4",
+      "video_summary": "A vehicle-mounted camera captured a near-miss incident at night on the M7 highway in Sydney, Australia. The key road event involved the driver's vehicle and possibly a stationary vehicle or unexpected obstacle on the road. The driver demonstrated quick reflexes to avoid a potential collision, motivated by self-preservation and the need for quick decision-making. The incident could have been prevented by maintaining a safe speed, increasing vigilance while driving at night, and being prepared for unexpected obstacles.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "Pedestrians were crossing the street outside of the designated crosswalks.",
+        "A traffic light at a busy intersection was not working.",
+        "A car was double-parked, blocking traffic at a stop sign."
+      ],
+      "caption_A": "A stitch in time saves nine—always anticipate the unexpected when driving at night. Safety before speed, always.",
+      "caption_B": "A stitch in time saves nine—always anticipate the unexpected when driving at night. Safety before speed, always.",
+      "field_to_change": {
+        "writing_style": "Proverbial"
+      },
+      "change_type": "decreased",
+      "application": ""
     }
+
   ]
 }
