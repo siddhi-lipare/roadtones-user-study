@@ -1,7 +1,7 @@
 {
   "part1_ratings": [
     {
-      "video_id": "video_017",
+      "video_id": "video_1720384416374038862",
       "video_path": "media/v_1720384416374038862_hluZCTmaLM_-9M70.mp4",
       "video_summary": "A key road event, captured by what appears to be a stationary camera, depicts an instance of dangerous and rash driving behavior in Colombia. A motorcyclist, wearing a plaid shirt and jeans, was observed performing a risky stunt by standing on the seat of a small, red motorcycle with white handlebars while it was moving. The rider maintained balance while holding the handlebars. This action constitutes traffic rule violations such as reckless driving and performing stunts on a public road.",
       "road_event_answer": "",
@@ -12,7 +12,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_017_caption1",
+          "caption_id": "video_1720384416374038862_caption1",
           "text": "Caught this on Thursday morning 😅 what a ride!",
           "control_scores": {
             "tone": {
@@ -26,7 +26,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_017_caption2",
+          "caption_id": "video_1720384416374038862_caption2",
           "text": "A stationary camera in Colombia recorded a motorcyclist, dressed in a plaid shirt and jeans, performing a stunt by standing on the seat of a moving red motorcycle while holding the handlebars, constituting a traffic violation. #Colombia #RoadSafety",
           "control_scores": {
             "tone": {
@@ -39,7 +39,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_017_caption3",
+          "caption_id": "video_1720384416374038862_caption3",
           "text": "Standing on a moving motorcycle is not just reckless—it’s a blatant disregard for traffic laws and public safety. Don’t glorify lawbreakers; reject dangerous stunts and demand real responsibility.",
           "control_scores": {
             "tone": {
@@ -56,7 +56,117 @@
       ]
     },
     {
-      "video_id": "video_001",
+      "video_id": "video_1749410676656030046",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A semi-truck jackknifed on a slippery road.",
+        "Two trucks were involved in a minor fender-bender.",
+        "A car cut off a semi-truck, causing it to brake suddenly."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1749410676656030046_caption1",
+          "text": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another. 🚫🏍️🚗 #RoadSafety #DriveResponsibly",
+          "control_scores": {
+            "tone": {
+              "Caring": "Strong",
+              "Serious": "Strong"
+            },
+            "writing_style": {
+              "Advisory": "Strong",
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_1749410676656030046_caption2",
+          "text": "Trying to overtake on a hairpin bend? That’s just asking for trouble. It’s baffling how some people ignore basic safety, risking lives without a second thought. This level of carelessness is unreal.",
+          "control_scores": {
+            "tone": {
+              "Angry": "Very Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_1749410676656030046_caption3",
+          "text": "I just experienced a close call on a hairpin bend when a car and a two-wheeler tried to overtake at the same time, almost causing an accident right in front of me.",
+          "control_scores": {
+            "tone": {
+              "Observant": "Very Strong",
+              "Serious": "Very Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
+    },
+        {
+      "video_id": "video_1763928814290354479",
+      "video_path": "media/v_1763928814290354479_LJNZA0ytfZxtQyUO.mp4",
+      "video_summary": "A vehicle-mounted camera, capturing both interior and exterior views, recorded an instance of unsafe driving behavior in the United States, possibly in the Florida Keys. The key road event involved two cars and their respective drivers. One driver abruptly cut across another driver's lane, potentially due to being in a rush or impatience. In response, the other driver likely performed a defensive or retaliatory action, possibly stemming from frustration or an attempt to teach a lesson. This incident potentially involved traffic violations such as unsafe lane change and aggressive driving.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A semi-truck jackknifed on a slippery road.",
+        "Two trucks were involved in a minor fender-bender.",
+        "A car cut off a semi-truck, causing it to brake suddenly."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1763928814290354479_caption1",
+          "text": "@SafeRoadsWatch Reckless lane changes and aggressive responses are a threat to everyone. Impatience behind the wheel isn’t just careless—it’s dangerous. Drivers need to control their tempers and stop escalating road risks.",
+          "control_scores": {
+            "tone": {
+              "Assertive": "Strong",
+              "Critical": "Strong"
+            },
+            "writing_style": {
+              "Advisory": "Strong",
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_1763928814290354479_caption2",
+          "text": "Two cars encounter each other in the Florida Keys 🚗 #FloridaKeys",
+          "control_scores": {
+            "tone": {
+              "Casual": "Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_1763928814290354479_caption3",
+          "text": "What is it about the Florida Keys that turns drivers reckless? Two cars, one dangerous lane change—seriously? #RoadRage 🚗🇺🇸",
+          "control_scores": {
+            "tone": {
+              "Critical": "Very Strong"
+            },
+            "writing_style": {
+              "Rhetorical Question": "Strong",
+              "Judgmental": "Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
+    },
+    {
+      "video_id": "video_1685698185946140672",
       "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
       "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
       "road_event_answer": "A semi-truck made an unsafe lane change, nearly colliding with another vehicle.",
@@ -67,7 +177,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_001_caption1",
+          "caption_id": "video_1685698185946140672_caption1",
           "text": "Near-miss in Cornwall, Ontario: semi-truck’s unsafe lane change almost causes crash with another vehicle. 🚚 #CanadaRoads",
           "control_scores": {
             "tone": {
@@ -80,7 +190,7 @@
           "application": "Traffic Safety Bulletin"
         },
         {
-          "caption_id": "video_001_caption2",
+          "caption_id": "video_1685698185946140672_caption2",
           "text": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
           "control_scores": {
             "tone": {
@@ -93,7 +203,7 @@
           "application": "Community Awareness Post"
         },
         {
-          "caption_id": "video_001_caption3",
+          "caption_id": "video_1685698185946140672_caption3",
           "text": "Semi-trailer trucks pulling moves like this—unsafe lane changes, no signal, barely a glance—almost as if mirrors are just for decoration. Near Cornwall, Ontario, another close call caught on dashcam. #RoadSafety #TruckAccidents",
           "control_scores": {
             "tone": {
@@ -110,7 +220,7 @@
       ]
     },
     {
-      "video_id": "video_002",
+      "video_id": "video_1774263154723451187",
       "video_path": "media/v_1774263154723451187_QFMMJd8wYMEMl2r7.mp4",
       "video_summary": "A daytime near-miss incident involving dangerous driving behavior was captured by a vehicle-mounted camera in Osaka, Japan. The key road event involved the camera vehicle and a right-turning vehicle. The right-turning vehicle made a sudden and dangerous right turn, nearly colliding with the camera vehicle. This maneuver was likely due to the driver of the right-turning vehicle not paying attention or being impatient, resulting in a failure to yield right-of-way. The incident could have been avoided if the right-turning vehicle had waited for a clear opportunity to turn and checked for oncoming traffic.",
       "road_event_answer": "A vehicle makes a sudden, dangerous right turn, failing to yield and nearly colliding with the camera vehicle.",
@@ -121,7 +231,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_002_caption1",
+          "caption_id": "video_1774263154723451187_caption1",
           "text": "I nearly got hit by a reckless right-turning driver who didn’t even bother to yield. Some people never learn. #drivingfail",
           "control_scores": {
             "tone": {
@@ -134,7 +244,7 @@
           "application": "Road User Experience Post"
         },
         {
-          "caption_id": "video_002_caption2",
+          "caption_id": "video_1774263154723451187_caption2",
           "text": "Dashcam footage from Osaka captures a tense moment as a right-turning car fails to yield, narrowly missing the camera vehicle. Grateful this near-miss ended safely. 🚗💥 #RoadSafety #DashcamDrama",
           "control_scores": {
             "tone": {
@@ -148,7 +258,7 @@
           "application": "Traffic Safety Awareness"
         },
         {
-          "caption_id": "video_002_caption3",
+          "caption_id": "video_1774263154723451187_caption3",
           "text": "Was I just supposed to guess that car was about to dart in front of me? Near-miss moments like this really make me wonder… 🚗💥 Anyone else get surprised by these moves? #RoadRage",
           "control_scores": {
             "tone": {
@@ -163,7 +273,7 @@
       ]
     },
     {
-      "video_id": "video_003",
+      "video_id": "video_1740563927124296059",
       "video_path": "media/v_1740563927124296059_EKhCnd-cJchesHdB.mp4",
       "video_summary": "A daytime road event in Hyderabad, India, captured by a hand-held or cell-phone camera, depicts multiple traffic violations endangering pedestrian safety. The key event involved vehicles, including an orange car, failing to stop at a red light and making illegal U-turns. Other vehicles also did not stop before zebra crossings, while an auto-rickshaw was observed obstructing a lane. Pedestrians were seen crossing the road even though their signal was still red, amidst the disregard for traffic rules by drivers.",
       "road_event_answer": "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
@@ -174,7 +284,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_003_caption1",
+          "caption_id": "video_1740563927124296059_caption1",
           "text": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
           "control_scores": {
             "tone": {
@@ -188,7 +298,7 @@
           "application": "Public Commentary Post"
         },
         {
-          "caption_id": "video_003_caption2",
+          "caption_id": "video_1740563927124296059_caption2",
           "text": "I watched drivers run red lights, ignore zebra crossings, and make illegal U-turns while pedestrians crossed on a red. It’s frustrating seeing such disregard for safety.",
           "control_scores": {
             "tone": {
@@ -202,7 +312,7 @@
           "application": "Traffic Rule Enforcement Awareness"
         },
         {
-          "caption_id": "video_003_caption3",
+          "caption_id": "video_1740563927124296059_caption3",
           "text": "I just watched Hyderabad chaos—wow, what a show! 🚦🤯 #Hyderabad",
           "control_scores": {
             "tone": {
@@ -218,7 +328,7 @@
       ]
     },
     {
-      "video_id": "video_004",
+      "video_id": "video_1737449031834751231",
       "video_path": "media/v_1737449031834751231_fTKTFF6LWCFx0fPj.mp4",
       "video_summary": "A dashcam video captured a dangerous driving incident in Japan, involving a large truck, oncoming traffic, and the dashcam vehicle. The key road event was a hazardous overtaking maneuver performed by the large truck. The truck driver executed a dangerous overtake despite the presence of oncoming traffic, suggesting impatience or being in a rush. This action resulted in evident traffic violations, including illegal overtaking and potentially crossing solid lane markings.",
       "road_event_answer": "",
@@ -229,7 +339,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_004_caption1",
+          "caption_id": "video_1737449031834751231_caption1",
           "text": "My heart nearly stopped—a huge truck just decided to overtake in front of me, ignoring oncoming cars like it’s nothing! Seriously, never try this chaos. Stay patient. #RoadSafety",
           "control_scores": {
             "tone": {
@@ -242,7 +352,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_004_caption2",
+          "caption_id": "video_1737449031834751231_caption2",
           "text": "That truck driver in Japan is unbelievable. Complete disregard for everyone. #JapanRoads",
           "control_scores": {
             "tone": {
@@ -255,7 +365,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_004_caption3",
+          "caption_id": "video_1737449031834751231_caption3",
           "text": "Reckless truck overtaking in Japan puts lives at risk, ignoring oncoming traffic and road rules. 🚛 #TrafficViolation #Japan",
           "control_scores": {
             "tone": {
@@ -271,7 +381,7 @@
       ]
     },
     {
-      "video_id": "video_012",
+      "video_id": "video_1665532513672916992",
       "video_path": "media/v_1665532513672916992_4Dk4ik7bxkyRbXIu.mp4",
       "video_summary": "The video, captured in Chicago, United States, from multiple street-level and elevated camera perspectives across morning, afternoon, and dusk, showcases an urban environment with various road entities. Cyclists are observed riding in designated lanes, pedestrians are using crosswalks, and vehicles including cars, trucks, and buses are moving in both directions. All road users are seen respecting traffic signals, crosswalks, and lane markings, highlighting safe cycling infrastructure and general road safety awareness. No apparent traffic rule violations are observed, as all road users appear to be following proper traffic regulations.",
       "road_event_answer": "",
@@ -282,7 +392,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_012_caption1",
+          "caption_id": "video_1665532513672916992_caption1",
           "text": "Chicago streets show how safe cycling lanes and attentive road users make a difference. 🚴‍♂️ Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
           "control_scores": {
             "tone": {
@@ -296,7 +406,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_012_caption2",
+          "caption_id": "video_1665532513672916992_caption2",
           "text": "Isn’t it interesting how on a typical morning, afternoon, or dusk, everyone just goes about their way, following signals and lanes? Does anyone even notice the calm routine?",
           "control_scores": {
             "tone": {
@@ -310,7 +420,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_012_caption3",
+          "caption_id": "video_1665532513672916992_caption3",
           "text": "Chicago roads looking smooth today, don’t you think? 🚲",
           "control_scores": {
             "tone": {
@@ -325,7 +435,7 @@
       ]
     },
     {
-      "video_id": "video_014",
+      "video_id": "video_1683698289500360704",
       "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
       "video_summary": "A vehicle-mounted camera on a motorcycle captured a key road event during daytime in Bangalore, India, depicting reckless and dangerous driving behavior by the motorcycle rider in heavy traffic. The road entities involved included the motorcycle, cars, auto-rickshaws, trucks, buses, and trees lining the streets. The motorcyclist was observed riding recklessly, maneuvering dangerously between buses and other vehicles, riding without hands on the steering, and making inappropriate gestures. Evident traffic violations included using a hidden or foldable license plate, reckless driving, and dangerous maneuvering.",
       "road_event_answer": "",
@@ -336,7 +446,7 @@
       ],
       "captions": [
         {
-          "caption_id": "video_014_caption1",
+          "caption_id": "video_1683698289500360704_caption1",
           "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
           "control_scores": {
             "tone": {
@@ -350,7 +460,8 @@
           "application": ""
         },
         {
-          "caption_id": "How is this even real? 🤔",
+          "caption_id": "video_1683698289500360704_caption2",
+          "text": "How is this even real? 🤔",
           "control_scores": {
             "tone": {
               "Bewildered": "Strong"
@@ -362,7 +473,7 @@
           "application": ""
         },
         {
-          "caption_id": "video_014_caption3",
+          "caption_id": "video_1683698289500360704_caption3",
           "text": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
           "control_scores": {
             "tone": {
@@ -376,12 +487,67 @@
           "application": ""
         }
       ]
+    },
+    {
+      "video_id": "video_1703606261588390352",
+      "video_path": "media/v_1703606261588390352_Z2L25V3LkQdLUVxM.mp4",
+      "video_summary": "A video, likely captured using a cell-phone or hand-held camera, depicts a dangerous and rash driving event in India. The key road event involves a motorcyclist performing wheelies at high speed on a busy road, amidst other moving vehicles and potential pedestrians. The motorcyclist's actions, suspected to be for thrill-seeking or showing off, constitute multiple traffic violations including reckless driving, performing stunts on a public road, and endangering other road users.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A semi-truck jackknifed on a slippery road.",
+        "Two trucks were involved in a minor fender-bender.",
+        "A car cut off a semi-truck, causing it to brake suddenly."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1703606261588390352_caption1",
+          "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
+          "control_scores": {
+            "tone": {
+              "Angry": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "CallToAction": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_1703606261588390352_caption2",
+          "text": "Hold your breath—today’s roads have their own drama.",
+          "control_scores": {
+            "tone": {
+              "Dramatic": "Strong"
+            },
+            "writing_style": {
+              "Metaphorical": "Very Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_1703606261588390352_caption3",
+          "text": "Just saw a biker tearing through Mumbai traffic pulling wild wheelies—pure adrenaline! Can’t believe the guts on display. @MumbaiPolice, what a scene! #RoadSafety 🚨",
+          "control_scores": {
+            "tone": {
+              "Adventurous": "Strong",
+              "Exciting": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Strong",
+              "Exaggeration": "Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
     }
   ],
   "part2_comparisons": [
     {
       "comparison_id": "comp_001",
-      "video_id": "video_005",
+      "video_id": "video_1781029134916784442",
       "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
       "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
       "road_event_answer": "A car stops beyond the designated stop line at a red light.",
@@ -405,7 +571,7 @@
     },
     {
       "comparison_id": "comp_003",
-      "video_id": "video_008",
+      "video_id": "video_1601008232847536128",
       "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
       "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
       "road_event_answer": "",
@@ -429,8 +595,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_005",
-      "video_id": "video_008",
+      "comparison_id": "comp_002",
+      "video_id": "video_1695748178056974456",
       "video_path": "media/v_1695748178056974456_FxGj0jW1c_4xuTXE.mp4",
       "video_summary": "A vehicle-mounted camera, providing a driver's perspective, captured a road event in Japan during daytime. The key event depicted dangerous driving behavior, specifically illegal turns and lane changes at intersections. A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately. Traffic rule violations included illegal lane changes, improper turns at intersections, and potentially running yellow lights, involving these vehicles, traffic lights, and other vehicles in traffic.",
       "road_event_answer": "",
@@ -454,8 +620,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_006",
-      "video_id": "video_012",
+      "comparison_id": "comp_003",
+      "video_id": "video_1620271366900703234",
       "video_path": "media/v_1620271366900703234_12P3R9m3EqbJlb8Y.mp4",
       "video_summary": "A severe car accident occurred during the pre-dawn hours near Kasa bridge on the Mumbai-Ahmedabad Highway in India. A white high-end car, traveling at high speed, smashed into a road divider before colliding head-on with a luxury bus. Speeding was identified as the primary cause and traffic violation. The accident resulted in multiple fatalities and injuries. The high-end car sustained severe damage, with its front end completely destroyed, hood crumpled, windshield shattered, and passenger-side door hanging open. The video, captured by a hand-held camera, shows static close-up shots of the damaged vehicle.",
       "road_event_answer": "",
@@ -479,8 +645,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_006",
-      "video_id": "video_012",
+      "comparison_id": "comp_004",
+      "video_id": "video_1665532513672916992",
       "video_path": "media/v_1665532513672916992_4Dk4ik7bxkyRbXIu.mp4",
       "video_summary": "The video, captured in Chicago, United States, from multiple street-level and elevated camera perspectives across morning, afternoon, and dusk, showcases an urban environment with various road entities. Cyclists are observed riding in designated lanes, pedestrians are using crosswalks, and vehicles including cars, trucks, and buses are moving in both directions. All road users are seen respecting traffic signals, crosswalks, and lane markings, highlighting safe cycling infrastructure and general road safety awareness. No apparent traffic rule violations are observed, as all road users appear to be following proper traffic regulations.",
       "road_event_answer": "",
@@ -503,8 +669,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_007",
-      "video_id": "video_013",
+      "comparison_id": "comp_005",
+      "video_id": "video_1798581666879086946",
       "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
       "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
       "road_event_answer": "",
@@ -527,8 +693,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_008",
-      "video_id": "video_015",
+      "comparison_id": "comp_006",
+      "video_id": "video_1724793343144837589",
       "video_path": "media/v_1724793343144837589_-Jno5Mt1kFvHGx4N.mp4",
       "video_summary": "A near-miss incident occurred at night near Marathahalli, India, captured by a 4K dashcam. A car, driving straight with the right of way, was almost collided with by a motorcycle. The motorcyclist failed to yield to the car, stopping at the last moment, which constituted a traffic rule violation. It was suggested that the biker might have been rushing to meet delivery targets. The incident could have been avoided if the biker had yielded and both parties had practiced defensive driving.",
       "road_event_answer": "",
@@ -551,8 +717,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_009",
-      "video_id": "video_016",
+      "comparison_id": "comp_007",
+      "video_id": "video_1789273033116692714",
       "video_path": "media/v_1789273033116692714_4mmEvHIRSyWa2VQU.mp4",
       "video_summary": "A vehicle-mounted camera or dashcam captured a dangerous driving incident and traffic violation in Japan during daylight hours. The key road event involved an elderly driver's car, the recorder's vehicle, and lane markings. The elderly driver improperly continued straight from a lane clearly designated for left turns, while the recorder's vehicle honked to alert the driver of the violation. The traffic rule violation was improper lane usage.",
       "road_event_answer": "",
@@ -576,8 +742,8 @@
       "application": ""
     },
     {
-      "comparison_id": "comp_006",
-      "video_id": "video_019",
+      "comparison_id": "comp_008",
+      "video_id": "video_1666322163429679105",
       "video_path": "media/v_1666322163429679105_JVN7GXcomAkqW4_8.mp4",
       "video_summary": "A massive multiple vehicle crash, involving numerous vehicles including large trucks, cars (such as white cars and a red hatchback), and a police car, occurred on the N12 highway near the Delmas off-ramp in South Africa. The incident took place during the morning or early hours, with poor visibility due to heavy fog identified as the primary cause. Vehicles were observed driving slowly, stopping, or parked, with some trucks illuminating their brake lights. People in high-visibility vests were present, inspecting or interacting with the vehicles. The event was captured by a vehicle-mounted camera, showing perspectives from inside a vehicle and focusing on side mirrors.",
       "road_event_answer": "",
@@ -597,12 +763,59 @@
       "caption_A": "Morning fog leads to a multi-vehicle crash on N12 near Delmas. 🚨 #SouthAfrica",
       "caption_B": "Morning fog leads to a multi-vehicle crash on N12 near Delmas. 🚨 #SouthAfrica",
       "application": ""
+    },
+    {
+      "comparison_id": "comp_009",
+      "video_id": "video_1703606261588390352",
+      "video_path": "media/v_1703606261588390352_Z2L25V3LkQdLUVxM.mp4",
+      "video_summary": "A video, likely captured using a cell-phone or hand-held camera, depicts a dangerous and rash driving event in India. The key road event involves a motorcyclist performing wheelies at high speed on a busy road, amidst other moving vehicles and potential pedestrians. The motorcyclist's actions, suspected to be for thrill-seeking or showing off, constitute multiple traffic violations including reckless driving, performing stunts on a public road, and endangering other road users.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Calm": "Very Strong"
+        },
+        "writing_style": {
+          "Factual": "Very Strong"
+        }
+      },
+      "caption_A": "Just saw a biker tearing through Mumbai traffic pulling wild wheelies—pure adrenaline! Can’t believe the guts on display. @MumbaiPolice, what a scene! #RoadSafety 🚨",
+      "caption_B": "Just saw a biker tearing through Mumbai traffic pulling wild wheelies—pure adrenaline! Can’t believe the guts on display. @MumbaiPolice, what a scene! #RoadSafety 🚨",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_010",
+      "video_id": "video_1797729718998798734",
+      "video_path": "media/v_1797729718998798734_uJ4e_SauJ025C-gl.mp4",
+      "video_summary": "During the daytime on a busy city street, likely in a European or Asian country, a surveillance camera captured an accident involving a motor scooter rider and a pedestrian. The motor scooter rider, wearing a pink sweater and a white helmet, approached a white sedan and opened its door. This action caused a pedestrian, wearing a black jacket and carrying a bag, to stumble and fall. Other road entities present included a yellow taxi and a parked silver scooter. After the pedestrian fell, the scooter rider dismounted and stood near the fallen person, appearing unconcerned, before continuing to navigate through traffic. The incident involved traffic rule violations including reckless driving, failure to yield to a pedestrian, and potentially leaving the scene of an accident without providing assistance.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Casual": "Strong",
+          "Playful": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Very Strong"
+        }
+      },
+      "caption_A": "Captured at 3PM today. \ud83d\udea6 Watch out for surprises!",
+      "caption_B": "Captured at 3PM today. \ud83d\udea6 Watch out for surprises!",
+      "application": ""
     }
   ],
   "part3_intensity_change": [
     {
-      "change_id": "change_001",
-      "video_id": "video_008",
+      "change_id": "change_011",
+      "video_id": "video_1772082398257127647",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
       "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
@@ -617,11 +830,68 @@
         "tone": "Emotional"
       },
       "change_type": "increased",
-      "application": "Crash Awareness Post"
+      "application": ""
     },
     {
-      "change_id": "change_002",
-      "video_id": "video_009",
+      "change_id": "change_012",
+      "video_id": "video_1772082398257127647",
+      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
+      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
+      "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
+      "distractor_answers": [
+        "A police chase ended with a suspect being arrested after a crash.",
+        "A pickup truck was involved in a minor collision with a fence.",
+        "A driver was practicing stunts in a residential area."
+      ],
+      "caption_A": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
+      "caption_B": "My heart races watching this—out of nowhere, a car comes crashing over a fence, metal everywhere, people running. It’s so overwhelming. #CarCrash 😰",
+      "field_to_change": {
+        "tone": "Emotional"
+      },
+      "change_type": "increased",
+      "application": ""
+    },
+    {
+      "change_id": "change_013",
+      "video_id": "video_1612557874131095564",
+      "video_path": "media/v_1612557874131095564_hEvyM8YOgxYD8iIs.mp4",
+      "video_summary": "A serious accident occurred on Highway 403 near Fairview Street in Burlington, Ontario, Canada, captured by a dashcam mounted on the transport truck. The key road event involved a car turning into the path of an oncoming transport truck, resulting in a collision. The car was severely damaged with its front end crumpled and hood raised, while the transport truck was positioned behind it. Emergency vehicles, including police cars with flashing lights, were present at the scene, with responders attending to the accident. The primary reason for the accident was the car driver's failure to yield right-of-way, potentially involving an improper lane change or unsafe turning.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "Pedestrians were crossing the street outside of the designated crosswalks.",
+        "A traffic light at a busy intersection was not working.",
+        "A car was double-parked, blocking traffic at a stop sign."
+      ],
+      "caption_A": "Did @OPP_News notice what just happened? Was this crash avoidable? #traffic #roadincident",
+      "caption_B": "@OPP_News did anyone else see that? Am I the only one worried? #Highway403",
+      "field_to_change": {
+        "tone": "Anxious"
+      },
+      "change_type": "increased",
+      "application": ""
+    },
+    {
+      "change_id": "change_014",
+      "video_id": "video_1614378859859939328",
+      "video_path": "media/v_1614378859859939328_VErVoLZl_Gr9In55.mp4",
+      "video_summary": "A dashcam video captured a key road event of reckless driving and dangerous lane changing at night in Toronto, Ontario, Canada, specifically on Highway 427 South near the Highway 407 exit. An SUV, identified as a Durango, performed a dangerous lane change by passing a truck on the left and then cutting sharply in front of it. The truck driver demonstrated good driving by successfully avoiding a collision. The SUV driver's actions are suspected to be due to impatience and possibly being in a rush after missing an exit. This incident involved traffic rule violations including reckless driving, illegal lane changing, and potentially speeding.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "Pedestrians were crossing the street outside of the designated crosswalks.",
+        "A traffic light at a busy intersection was not working.",
+        "A car was double-parked, blocking traffic at a stop sign."
+      ],
+      "caption_A": "Not sure what I just saw tonight, but I’m honestly a little shaken. #recklessdrivers",
+      "caption_B": "I witnessed wild driving late last night, October 17. #HighwayLife gets intense sometimes.",
+      "field_to_change": {
+        "tone": "Bewildered"
+      },
+      "change_type": "decreased",
+      "application": ""
+    },
+    {
+      "change_id": "change_015",
+      "video_id": "video_1772082398257127647",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
       "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
       "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
@@ -639,8 +909,8 @@
       "application": "Road Safety Advisory"
     },
     {
-      "change_id": "change_003",
-      "video_id": "video_010",
+      "change_id": "change_016",
+      "video_id": "video_1798581666879086946",
       "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
       "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
       "road_event_answer": "",
@@ -658,8 +928,8 @@
       "application": ""
     },
     {
-      "change_id": "change_003",
-      "video_id": "video_010",
+      "change_id": "change_017",
+      "video_id": "video_1290909686519091201",
       "video_path": "media/v_1290909686519091201_9vmNpHDC5937f9MW.mp4",
       "video_summary": "A vehicle-mounted camera captured a near-miss incident at night on the M7 highway in Sydney, Australia. The key road event involved the driver's vehicle and possibly a stationary vehicle or unexpected obstacle on the road. The driver demonstrated quick reflexes to avoid a potential collision, motivated by self-preservation and the need for quick decision-making. The incident could have been prevented by maintaining a safe speed, increasing vigilance while driving at night, and being prepared for unexpected obstacles.",
       "road_event_answer": "",
@@ -677,23 +947,23 @@
       "application": ""
     },
     {
-      "change_id": "change_004",
-      "video_id": "video_013",
-      "video_path": "media/v_1614378859859939328_VErVoLZl_Gr9In55.mp4",
-      "video_summary": "A dashcam video captured a key road event of reckless driving and dangerous lane changing at night in Toronto, Ontario, Canada, specifically on Highway 427 South near the Highway 407 exit. An SUV, identified as a Durango, performed a dangerous lane change by passing a truck on the left and then cutting sharply in front of it. The truck driver demonstrated good driving by successfully avoiding a collision. The SUV driver's actions are suspected to be due to impatience and possibly being in a rush after missing an exit. This incident involved traffic rule violations including reckless driving, illegal lane changing, and potentially speeding.",
+      "change_id": "change_018",
+      "video_id": "video_1797729718998798734",
+      "video_path": "media/v_1797729718998798734_uJ4e_SauJ025C-gl.mp4",
+      "video_summary": "During the daytime on a busy city street, likely in a European or Asian country, a surveillance camera captured an accident involving a motor scooter rider and a pedestrian. The motor scooter rider, wearing a pink sweater and a white helmet, approached a white sedan and opened its door. This action caused a pedestrian, wearing a black jacket and carrying a bag, to stumble and fall. Other road entities present included a yellow taxi and a parked silver scooter. After the pedestrian fell, the scooter rider dismounted and stood near the fallen person, appearing unconcerned, before continuing to navigate through traffic. The incident involved traffic rule violations including reckless driving, failure to yield to a pedestrian, and potentially leaving the scene of an accident without providing assistance.",
       "road_event_answer": "",
       "distractor_answers": [
         "Pedestrians were crossing the street outside of the designated crosswalks.",
         "A traffic light at a busy intersection was not working.",
         "A car was double-parked, blocking traffic at a stop sign."
       ],
-      "caption_A": "Not sure what I just saw tonight, but I’m honestly a little shaken. #recklessdrivers",
-      "caption_B": "I witnessed wild driving late last night, October 17. #HighwayLife gets intense sometimes.",
+      "caption_A": "Captured at 3PM today. 🚦 Watch out for surprises!",
+      "caption_B": "It\u2019s a midday ballet of chaos\u2014scooter, sedan, and a stumble. Watch out, Wednesday! \ud83d\udea6",
       "field_to_change": {
-        "tone": "Bewildered"
+        "writing_style": "Metaphorical"
       },
-      "change_type": "decreased",
+      "change_type": "increased",
       "application": ""
-    }
+    }    
   ]
 }
