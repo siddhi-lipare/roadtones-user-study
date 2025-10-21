@@ -1,6 +1,61 @@
 {
   "part1_ratings": [
     {
+      "video_id": "video_017",
+      "video_path": "media/v_1720384416374038862_hluZCTmaLM_-9M70.mp4",
+      "video_summary": "A key road event, captured by what appears to be a stationary camera, depicts an instance of dangerous and rash driving behavior in Colombia. A motorcyclist, wearing a plaid shirt and jeans, was observed performing a risky stunt by standing on the seat of a small, red motorcycle with white handlebars while it was moving. The rider maintained balance while holding the handlebars. This action constitutes traffic rule violations such as reckless driving and performing stunts on a public road.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A semi-truck jackknifed on a slippery road.",
+        "Two trucks were involved in a minor fender-bender.",
+        "A car cut off a semi-truck, causing it to brake suddenly."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_017_caption1",
+          "text": "Caught this on Thursday morning 😅 what a ride!",
+          "control_scores": {
+            "tone": {
+              "Casual": "Strong",
+              "Playful": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_017_caption2",
+          "text": "A stationary camera in Colombia recorded a motorcyclist, dressed in a plaid shirt and jeans, performing a stunt by standing on the seat of a moving red motorcycle while holding the handlebars, constituting a traffic violation. #Colombia #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Objective": "Very Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_017_caption3",
+          "text": "Standing on a moving motorcycle is not just reckless—it’s a blatant disregard for traffic laws and public safety. Don’t glorify lawbreakers; reject dangerous stunts and demand real responsibility.",
+          "control_scores": {
+            "tone": {
+              "Assertive": "Very Strong",
+              "Critical": "Very Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Strong",
+              "Persuasive": "Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
+    },
+    {
       "video_id": "video_001",
       "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
       "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
@@ -29,11 +84,10 @@
           "text": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
           "control_scores": {
             "tone": {
-              "Adventurous": "Strong",
-              "Energetic": "Strong"
+              "Adventurous": "Strong"
             },
             "writing_style": {
-              "Conversational": "Very Strong"
+              "Conversational": "Strong"
             }
           },
           "application": "Community Awareness Post"
@@ -71,7 +125,7 @@
           "text": "I nearly got hit by a reckless right-turning driver who didn’t even bother to yield. Some people never learn. #drivingfail",
           "control_scores": {
             "tone": {
-              "Critical": "Strong", "Angry": "Strong"
+              "Critical": "Strong", "Assertive": "Strong"
             },
             "writing_style": {
               "Judgmental": "Very Strong"
@@ -185,7 +239,7 @@
               "Advisory": "Strong"
             }
           },
-          "application": "Public Commentary Post"
+          "application": ""
         },
         {
           "caption_id": "video_004_caption2",
@@ -198,7 +252,7 @@
               "Judgmental": "Very Strong"
             }
           },
-          "application": "Traffic Rule Enforcement Awareness"
+          "application": ""
         },
         {
           "caption_id": "video_004_caption3",
@@ -269,6 +323,59 @@
           "application": ""
         }
       ]
+    },
+    {
+      "video_id": "video_014",
+      "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
+      "video_summary": "A vehicle-mounted camera on a motorcycle captured a key road event during daytime in Bangalore, India, depicting reckless and dangerous driving behavior by the motorcycle rider in heavy traffic. The road entities involved included the motorcycle, cars, auto-rickshaws, trucks, buses, and trees lining the streets. The motorcyclist was observed riding recklessly, maneuvering dangerously between buses and other vehicles, riding without hands on the steering, and making inappropriate gestures. Evident traffic violations included using a hidden or foldable license plate, reckless driving, and dangerous maneuvering.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A semi-truck jackknifed on a slippery road.",
+        "Two trucks were involved in a minor fender-bender.",
+        "A car cut off a semi-truck, causing it to brake suddenly."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_014_caption1",
+          "text": "@blrcitytraffic Another reckless biker risking lives—caught on cam weaving through heavy traffic, riding hands-free, and hiding their license plate. This dangerous behavior is unacceptable! 🚨 Strict action is needed now.",
+          "control_scores": {
+            "tone": {
+              "Angry": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "CallToAction": "Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "How is this even real? 🤔",
+          "control_scores": {
+            "tone": {
+              "Bewildered": "Strong"
+            },
+            "writing_style": {
+              "Rhetorical Question": "Very Strong"
+            }
+          },
+          "application": ""
+        },
+        {
+          "caption_id": "video_014_caption3",
+          "text": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong",
+              "Observant": "Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
+          },
+          "application": ""
+        }
+      ]
     }
   ],
   "part2_comparisons": [
@@ -297,30 +404,6 @@
       "application": "Community Humor Post"
     },
     {
-      "comparison_id": "comp_002",
-      "video_id": "video_006",
-      "video_path": "media/v_988741606391009282_aG9gbwBWJLQVFXT_.mp4",
-      "video_summary": "A dashcam captured a daytime traffic accident in Japan where a Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry light truck. The primary reason for the accident was the Nissan Note's red light violation. The Suzuki Carry sustained damage to its side from the impact, but there were no reported casualties, and its occupants were uninjured.",
-      "road_event_answer": "A Nissan car ran a red light and collided with the side of a Suzuki truck.",
-      "distractor_answers": [
-        "A Suzuki truck failed to yield and was hit by a Nissan car.",
-        "Two drivers were arguing after a minor parking incident.",
-        "A red light was malfunctioning, causing a collision at an intersection."
-      ],
-      "control_scores": {
-        "tone": {
-          "Objective": "Very Strong",
-          "Serious": "Strong"
-        },
-        "writing_style": {
-          "Conversational": "Very Strong"
-        }
-      },
-      "caption_A": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident.",
-      "caption_B": "A Nissan Note ran a red light at an intersection and collided with the side of a Suzuki Carry, causing damage to the truck’s side. No injuries or casualties were reported from the accident.",
-      "application": "Accident Report Summary"
-    },
-    {
       "comparison_id": "comp_003",
       "video_id": "video_008",
       "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
@@ -344,31 +427,6 @@
       "caption_A": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone’s okay—@SafeDrivingAU, is this a common risk on the roads?",
       "caption_B": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone’s okay—@SafeDrivingAU, is this a common risk on the roads?",
       "application": ""
-    },
-    {
-      "comparison_id": "comp_004",
-      "video_id": "video_007",
-      "video_path": "media/v_921439559250038784_P14L18RmB2Nh7wA4.mp4",
-      "video_summary": "A dashcam captured unsafe driving behavior, specifically lane hogging, on the M61 Northbound motorway in the UK during the daytime. Multiple vehicles were involved, occupying the middle lane and failing to move to the left lane when it was clear, which constitutes improper lane usage on a motorway.",
-      "road_event_answer": "Multiple vehicles were improperly occupying the middle lane on a motorway instead of moving to the left.",
-      "distractor_answers": [
-        "A vehicle was pulled over by police for speeding in the right lane.",
-        "Heavy traffic caused a complete standstill on the motorway.",
-        "A driver was changing lanes without using a turn signal."
-      ],
-      "control_scores": {
-        "tone": {
-          "Sarcastic": "Very Strong",
-          "Amusing": "Strong"
-        },
-        "writing_style": {
-          "Exaggeration": "Strong",
-          "Metaphorical": "Very Strong"
-        }
-      },
-      "caption_A": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
-      "caption_B": "Middle lane on the M61 Northbound: where cars roam free, rules take a nap, and @HighwaysEngland lane discipline must be a bedtime story.",
-      "application": "Driving Etiquette Commentary"
     },
     {
       "comparison_id": "comp_005",
@@ -466,6 +524,78 @@
       },
       "caption_A": "Have you ever seen roads like this in Gachibowli or Abdullahpurmet? 🚦 What goes on here? #Hyderabad",
       "caption_B": "Have you ever seen roads like this in Gachibowli or Abdullahpurmet? 🚦 What goes on here? #Hyderabad",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_008",
+      "video_id": "video_015",
+      "video_path": "media/v_1724793343144837589_-Jno5Mt1kFvHGx4N.mp4",
+      "video_summary": "A near-miss incident occurred at night near Marathahalli, India, captured by a 4K dashcam. A car, driving straight with the right of way, was almost collided with by a motorcycle. The motorcyclist failed to yield to the car, stopping at the last moment, which constituted a traffic rule violation. It was suggested that the biker might have been rushing to meet delivery targets. The incident could have been avoided if the biker had yielded and both parties had practiced defensive driving.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Humorous": "Very Strong",
+          "Sarcastic": "Strong"
+        },
+        "writing_style": {
+          "Pop Culture References": "Strong"
+        }
+      },
+      "caption_A": "@BlrCityPolice Marathahalli got its own Fast & Furious last night—biker’s need for speed almost turned car into a bumper sticker.",
+      "caption_B": "@BlrCityPolice Marathahalli got its own Fast & Furious last night—biker’s need for speed almost turned car into a bumper sticker.",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_009",
+      "video_id": "video_016",
+      "video_path": "media/v_1789273033116692714_4mmEvHIRSyWa2VQU.mp4",
+      "video_summary": "A vehicle-mounted camera or dashcam captured a dangerous driving incident and traffic violation in Japan during daylight hours. The key road event involved an elderly driver's car, the recorder's vehicle, and lane markings. The elderly driver improperly continued straight from a lane clearly designated for left turns, while the recorder's vehicle honked to alert the driver of the violation. The traffic rule violation was improper lane usage.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Critical": "Very Strong",
+          "Opinionated": "Strong"
+        },
+        "writing_style": {
+          "Persuasive": "Strong",
+          "CallToAction": "Strong"
+        }
+      },
+      "caption_A": "I just witnessed an elderly driver blatantly ignore the lane markings and go straight from a left-turn-only lane, right in front of my dashcam. I had to honk to warn them—seriously, why do some people act like the rules don’t apply to them? It’s reckless and dangerous. We need stricter enforcement! #TrafficViolation #RoadSafety",
+      "caption_B": "I just witnessed an elderly driver blatantly ignore the lane markings and go straight from a left-turn-only lane, right in front of my dashcam. I had to honk to warn them—seriously, why do some people act like the rules don’t apply to them? It’s reckless and dangerous. We need stricter enforcement! #TrafficViolation #RoadSafety",
+      "application": ""
+    },
+    {
+      "comparison_id": "comp_006",
+      "video_id": "video_019",
+      "video_path": "media/v_1666322163429679105_JVN7GXcomAkqW4_8.mp4",
+      "video_summary": "A massive multiple vehicle crash, involving numerous vehicles including large trucks, cars (such as white cars and a red hatchback), and a police car, occurred on the N12 highway near the Delmas off-ramp in South Africa. The incident took place during the morning or early hours, with poor visibility due to heavy fog identified as the primary cause. Vehicles were observed driving slowly, stopping, or parked, with some trucks illuminating their brake lights. People in high-visibility vests were present, inspecting or interacting with the vehicles. The event was captured by a vehicle-mounted camera, showing perspectives from inside a vehicle and focusing on side mirrors.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A vehicle was pulled over by police for speeding in the right lane.",
+        "Heavy traffic caused a complete standstill on the motorway.",
+        "A driver was changing lanes without using a turn signal."
+      ],
+      "control_scores": {
+        "tone": {
+          "Calm": "Very Strong"
+        },
+        "writing_style": {
+          "Factual": "Very Strong"
+        }
+      },
+      "caption_A": "Morning fog leads to a multi-vehicle crash on N12 near Delmas. 🚨 #SouthAfrica",
+      "caption_B": "Morning fog leads to a multi-vehicle crash on N12 near Delmas. 🚨 #SouthAfrica",
       "application": ""
     }
   ],
