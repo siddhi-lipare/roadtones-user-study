@@ -1228,11 +1228,10 @@ DEFINITIONS = { 'Adventurous': 'Shows a willingness to take risks or try out new
 def go_to_previous_step(view_key, decrement=1):
     if view_key in st.session_state:
         st.session_state[view_key]['step'] -= decrement
-        # Clear specific flags when going back
         st.session_state[view_key].pop('comp_feedback', None)
         st.session_state[view_key].pop('comp_choice', None)
-        st.session_state.pop('show_feedback', None) # Clear quiz feedback flag
-        st.session_state[view_key]['interacted'] = {qid: False for qid in st.session_state[view_key].get('interacted', {})} # Reset interaction flags for sliders/radios
+        st.session_state.pop('show_feedback', None)
+        st.session_state[view_key]['interacted'] = {qid: False for qid in st.session_state[view_key].get('interacted', {})}
         st.rerun()
 
 def go_to_previous_page(target_page):
@@ -1243,6 +1242,9 @@ def skip_to_questions(view_key):
     if view_key in st.session_state:
         st.session_state[view_key]['step'] = 6 # Step 6 is where questions are shown
         st.session_state[view_key]['summary_typed'] = True # Mark summary as typed
+        st.session_state[view_key]['comp_feedback'] = False # Ensure comp quiz feedback isn't shown
+        st.session_state.pop(f"timer_finished_{view_key.split('_')[-1]}", None) # Clear video timer flag if exists
+        st.session_state.pop(f"timer_finished_quiz_{view_key.split('_')[-1]}", None)
         st.rerun()
 
 def handle_next_quiz_question(view_key_to_pop):
@@ -1467,7 +1469,10 @@ elif st.session_state.page == 'quiz':
     timer_finished_key = f"timer_finished_quiz_{sample_id}"
     if not st.session_state.get(timer_finished_key, False):
         st.subheader("Watch the video")
-        st.button("DEBUG: Skip Video >>", on_click=skip_video_timer, args=(timer_finished_key,))
+        # Only show skip video if video timer isn't finished
+        if not st.session_state.get(timer_finished_key, False):
+             st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_{sample_id}")
+
         with st.spinner(""):
             col1, _ = st.columns([1.2, 1.5])
             with col1:
@@ -1479,8 +1484,10 @@ elif st.session_state.page == 'quiz':
                     st.video(sample['video_path'], autoplay=True, muted=True)
             duration = sample.get('duration', 10)
             time.sleep(duration)
-        st.session_state[timer_finished_key] = True
-        st.rerun()
+        # Only set if not already skipped
+        if not st.session_state.get(timer_finished_key, False):
+            st.session_state[timer_finished_key] = True
+            st.rerun()
     else:
         view_state_key = f'view_state_{sample_id}'
         if view_state_key not in st.session_state:
@@ -1505,7 +1512,7 @@ elif st.session_state.page == 'quiz':
             else:
                 st.video(sample['video_path'], autoplay=True, muted=True)
             
-            # Add Skip to Questions button after video plays
+            # Show skip button after video
             st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key,), key=f"skip_to_q_quiz_{sample_id}")
 
             if current_step == 1:
@@ -1602,7 +1609,6 @@ elif st.session_state.page == 'quiz':
                         display_text = f"<strong>{opt} (Correct Answer)</strong>" if is_correct else f"{opt} (Your selection)" if is_user_choice else opt
                         st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
                     st.info(f"**Explanation:** {question_data['explanation']}")
-                    # REMOVED Previous button from feedback
                     st.button("Next Question", key=f"quiz_next_q_{sample_id}", on_click=handle_next_quiz_question, args=(view_state_key,), use_container_width=True)
                 else:
                     with st.form("quiz_form"):
@@ -1661,7 +1667,8 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
-            st.button("DEBUG: Skip Video >>", on_click=skip_video_timer, args=(timer_finished_key,))
+            if not st.session_state.get(timer_finished_key, False):
+                st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_p1_{video_id}")
             with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8]) 
                 with main_col:
@@ -1672,8 +1679,9 @@ elif st.session_state.page == 'user_study_main':
                         st.video(current_video['video_path'], autoplay=True, muted=True)
                     duration = current_video.get('duration', 10)
                     time.sleep(duration)
-            st.session_state[timer_finished_key] = True
-            st.rerun()
+            if not st.session_state.get(timer_finished_key, False):
+                st.session_state[timer_finished_key] = True
+                st.rerun()
         else:
             current_caption = current_video['captions'][caption_idx]
             view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
@@ -1703,7 +1711,6 @@ elif st.session_state.page == 'user_study_main':
                 else:
                     st.video(current_video['video_path'], autoplay=True, muted=True)
                 
-                # Add Skip to Questions button after video plays
                 st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key,), key=f"skip_to_q_p1_{video_id}")
 
                 if caption_idx == 0:
@@ -1829,7 +1836,8 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            st.button("DEBUG: Skip Video >>", on_click=skip_video_timer, args=(timer_finished_key,))
+            if not st.session_state.get(timer_finished_key, False):
+                st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_p2_{comparison_id}")
             with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
@@ -1840,8 +1848,9 @@ elif st.session_state.page == 'user_study_main':
                         st.video(current_comp['video_path'], autoplay=True, muted=True)
                     duration = current_comp.get('duration', 10)
                     time.sleep(duration)
-            st.session_state[timer_finished_key] = True
-            st.rerun()
+            if not st.session_state.get(timer_finished_key, False):
+                st.session_state[timer_finished_key] = True
+                st.rerun()
         else:
             view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
             q_templates = st.session_state.all_data['questions']['part2_questions']
@@ -1974,7 +1983,8 @@ elif st.session_state.page == 'user_study_main':
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
-            st.button("DEBUG: Skip Video >>", on_click=skip_video_timer, args=(timer_finished_key,))
+            if not st.session_state.get(timer_finished_key, False):
+                 st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_p3_{change_id}")
             with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
                 with main_col:
@@ -1985,8 +1995,9 @@ elif st.session_state.page == 'user_study_main':
                         st.video(current_change['video_path'], autoplay=True, muted=True)
                     duration = current_change.get('duration', 10)
                     time.sleep(duration)
-            st.session_state[timer_finished_key] = True
-            st.rerun()
+            if not st.session_state.get(timer_finished_key, False):
+                st.session_state[timer_finished_key] = True
+                st.rerun()
         else:
             view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
             if view_state_key not in st.session_state:
@@ -2044,6 +2055,11 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 6:
                     terms_to_define = set()
                     trait = field_to_change[field_type]; terms_to_define.add(trait)
+                    # Use a session state flag to check if form was submitted
+                    form_submitted_key = f"form_submitted_{change_idx}"
+                    if form_submitted_key not in st.session_state:
+                         st.session_state[form_submitted_key] = False
+
                     with st.form(key=f"study_form_change_{change_idx}"):
                         q_template_key = field_type.replace('_', ' ').title()
                         q_template = st.session_state.all_data['questions']['part3_questions'][q_template_key]
@@ -2059,24 +2075,28 @@ elif st.session_state.page == 'user_study_main':
                             st.markdown(f"<div class='part3-question-text'>2. {q2_text}</div>", unsafe_allow_html=True)
                             choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
                         
-                        st.form_submit_button("Submit Answers", use_container_width=True, on_click=lambda: st.session_state.update({f"form_submitted_{change_idx}": True}))
-                    
+                        submitted = st.form_submit_button("Submit Answers", use_container_width=True)
+                        if submitted:
+                            st.session_state[form_submitted_key] = True # Set flag on submit
+
                     st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key,), use_container_width=True, key=f"prev_from_p3_questions_{change_idx}")
 
-                    if st.session_state.get(f"form_submitted_{change_idx}"):
+                    if st.session_state[form_submitted_key]:
                         # Re-fetch choices after potential submit
                         choice1 = st.session_state.get(f"{current_change['change_id']}_q1")
                         choice2 = st.session_state.get(f"{current_change['change_id']}_q2")
-                        if choice1 is None or choice2 is None: st.error("Please answer both questions.")
+                        if choice1 is None or choice2 is None: 
+                            st.error("Please answer both questions.")
+                            st.session_state[form_submitted_key] = False # Reset flag if invalid
                         else:
                             with st.spinner(""): 
                                 success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
                                 success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
                             if success1 and success2:
-                                st.session_state.pop(f"form_submitted_{change_idx}", None) # Clear flag after processing
+                                st.session_state.pop(form_submitted_key, None) # Clear flag after processing
                                 st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
                             else:
-                                st.session_state.pop(f"form_submitted_{change_idx}", None) # Clear flag even on failure
+                                st.session_state.pop(form_submitted_key, None) # Clear flag even on failure
 
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
