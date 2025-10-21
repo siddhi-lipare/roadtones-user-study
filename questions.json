@@ -9,10 +9,6 @@
       "text": "How {} is the caption's writing style?"
     },
     {
-      "id": "overall_relevance",
-      "text": "To what extent is the author's tone and writing style relevant for the given video content?"
-    },
-    {
       "id": "factual_consistency",
       "text": "How factually accurate is the caption (refer to video and summary)?"
     },
