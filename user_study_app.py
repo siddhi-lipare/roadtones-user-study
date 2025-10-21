@@ -1024,6 +1024,7 @@ STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
 QUESTIONS_DATA_PATH = "questions.json"
+DEFINITIONS_PATH = "definitions.json"  # <-- ADDED
 LOCAL_BACKUP_FILE = "responses_backup.jsonl"
 
 # --- JAVASCRIPT FOR ANIMATION ---
@@ -1112,13 +1113,27 @@ def load_data():
     data = {}
     required_files = {
         "instructions": INSTRUCTIONS_PATH, "quiz": QUIZ_DATA_PATH,
-        "study": STUDY_DATA_PATH, "questions": QUESTIONS_DATA_PATH
+        "study": STUDY_DATA_PATH, "questions": QUESTIONS_DATA_PATH,
+        "definitions": DEFINITIONS_PATH  # <-- ADDED
     }
     for key, path in required_files.items():
         if not os.path.exists(path):
             st.error(f"Error: Required data file not found at '{path}'.")
             return None
         with open(path, 'r', encoding='utf-8') as f: data[key] = json.load(f)
+
+    # --- MODIFIED: Load and flatten definitions ---
+    if 'definitions' in data:
+        nested_definitions = data.pop('definitions') # Get nested data
+        flat_definitions = {}
+        flat_definitions.update(nested_definitions.get('tones', {}))
+        flat_definitions.update(nested_definitions.get('writing_styles', {}))
+        flat_definitions.update(nested_definitions.get('applications', {}))
+        data['definitions'] = flat_definitions # Add flat data back
+    else:
+        st.error("Definitions file was not loaded correctly.")
+        data['definitions'] = {}
+    # --- END MODIFICATION ---
 
     if not os.path.exists(INTRO_VIDEO_PATH):
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
@@ -1222,7 +1237,7 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 """, unsafe_allow_html=True)
 
 # --- CENTRAL DICTIONARY ---
-DEFINITIONS = { 'Adventurous': 'Shows a willingness to take risks or try out new experiences.', 'Amusing': 'Causes lighthearted laughter or provides entertainment in a playful way.', 'Angry': 'Expresses strong annoyance, displeasure, or hostility towards an event.', 'Anxious': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.', 'Appreciative': 'Expresses gratitude, admiration, or praise for an action or event.', 'Assertive': 'Expresses opinions or desires confidently and forcefully.', 'Caring': 'Displays kindness and concern for others.', 'Considerate': 'Shows careful thought and concern for the well-being or safety of others.', 'Critical': 'Expresses disapproving comments or judgments about an action or behavior.', 'Cynical (Doubtful, Skeptical)': "Shows a distrust of others' sincerity or integrity.", 'Emotional': 'Expresses feelings openly and strongly, such as happiness, sadness, or fear.', 'Energetic': 'Displays a high level of activity, excitement, or dynamism.', 'Enthusiastic': 'Shows intense and eager enjoyment or interest in an event.', 'Observant': 'States facts or details about an event in a neutral, notice-based way.', 'Objective (Detached, Impartial)': 'Presents information without personal feelings or bias.', 'Questioning': 'Raises questions or expresses uncertainty about a situation.', 'Reflective': 'Shows deep thought or contemplation about an event or idea.', 'Sarcastic': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.', 'Serious': 'Treats the subject with gravity and importance, without humor.', 'Advisory': 'Gives advice, suggestions, or warnings about a situation.', 'CallToAction': 'Encourages the reader to take a specific action.', 'Conversational': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.', 'Exaggeration': 'Represents something as being larger, better, or worse than it really is for effect.', 'Factual': 'Presents information objectively and accurately, like a news report.', 'Instructional': 'Provides clear directions or information on how to do something.', 'Judgmental': 'Displays an overly critical or moralizing point of view on actions shown.', 'Metaphorical': 'Uses symbolic language or comparisons to describe something.', 'Persuasive': 'Aims to convince the reader to agree with a particular point of view.', 'Rhetorical Question': 'Asks a question not for an answer, but to make a point or create a dramatic effect.', 'Public Safety Alert': 'Intended to inform the public about potential dangers or safety issues.', 'Social Media Update': 'A casual post for sharing personal experiences or observations with friends and followers.', 'Driver Behavior Monitoring': 'Used in systems that track and analyze driving patterns for insurance or fleet management.', 'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.', 'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.', 'Community Road Safety Awareness': 'Aimed at educating the local community about road safety practices.', 'Public Safety Awareness': 'General information to raise public consciousness about safety.', 'Road Safety Education': 'Content designed to teach drivers or the public about safe road use.', 'Traffic Awareness': 'Information focused on current traffic conditions or general traffic issues.'}
+# <-- REMOVED large hard-coded DEFINITIONS dictionary -->
 
 # --- NAVIGATION & STATE HELPERS ---
 def go_to_previous_step(view_key, decrement=1):
@@ -1625,7 +1640,8 @@ elif st.session_state.page == 'quiz':
                     st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key,), key=f"prev_from_q_form_{sample_id}")
 
                 if terms_to_define:
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    # --- MODIFIED: Use st.session_state.all_data['definitions'] ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {st.session_state.all_data['definitions'].get(term)}</li>" for term in sorted(list(terms_to_define)) if st.session_state.all_data['definitions'].get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'quiz_results':
@@ -1812,7 +1828,8 @@ elif st.session_state.page == 'user_study_main':
                                             st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
                                         st.session_state.pop(view_state_key, None); st.rerun()
 
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    # --- MODIFIED: Use st.session_state.all_data['definitions'] ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {st.session_state.all_data['definitions'].get(term)}</li>" for term in sorted(list(terms_to_define)) if st.session_state.all_data['definitions'].get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
@@ -1948,7 +1965,8 @@ elif st.session_state.page == 'user_study_main':
                                     if all_saved:
                                         st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
 
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    # --- MODIFIED: Use st.session_state.all_data['definitions'] ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {st.session_state.all_data['definitions'].get(term)}</li>" for term in sorted(list(terms_to_define)) if st.session_state.all_data['definitions'].get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 3:
@@ -2070,7 +2088,8 @@ elif st.session_state.page == 'user_study_main':
                             else:
                                 st.session_state.pop(form_submitted_key, None)
 
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    # --- MODIFIED: Use st.session_state.all_data['definitions'] ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {st.session_state.all_data['definitions'].get(term)}</li>" for term in sorted(list(terms_to_define)) if st.session_state.all_data['definitions'].get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'final_thank_you':
