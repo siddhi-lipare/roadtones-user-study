@@ -111,7 +111,7 @@
       "application": "Public Safety Alert",
       "questions": [
         {
-          "question_text": "Is the factual information in the caption consistent with the video summary?",
+          "question_text": "Is the caption factually accurate based on the video summary?",
           "options": ["Yes", "No"],
           "correct_answer": "Yes",
           "explanation": "The caption phrases '...cab attempt a dangerous overtake...' and 'A bus also overtook unsafely' directly match the key events described in the video summary."
