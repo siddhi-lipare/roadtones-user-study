@@ -456,9 +456,20 @@ elif st.session_state.page == 'what_is_tone':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    if st.button("Next >>"):
-        st.session_state.page = 'factual_info'
-        st.rerun()
+    # --- MODIFIED BUTTONS ---
+    st.markdown("<br>", unsafe_allow_html=True) # Add a little space
+    _, prev_col, next_col, _ = st.columns([1.5, 1, 1, 1.5]) # Center the two buttons
+    
+    with prev_col:
+        if st.button("Prev <<", use_container_width=True):
+            st.session_state.page = 'intro_video' # Go back to intro video
+            st.rerun()
+            
+    with next_col:
+        if st.button("Next >>", use_container_width=True):
+            st.session_state.page = 'factual_info' # Go to factual info
+            st.rerun()
+    # --- END MODIFIED BUTTONS ---
 
 
 elif st.session_state.page == 'factual_info':
@@ -480,9 +491,20 @@ elif st.session_state.page == 'factual_info':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    if st.button("Start Quiz"):
-        st.session_state.page = 'quiz'
-        st.rerun()
+    # --- MODIFIED BUTTONS ---
+    st.markdown("<br>", unsafe_allow_html=True) # Add a little space
+    _, prev_col, next_col, _ = st.columns([1.5, 1, 1, 1.5]) # Center the two buttons
+    
+    with prev_col:
+        if st.button("Prev <<", use_container_width=True):
+            st.session_state.page = 'what_is_tone' # Go back to what_is_tone
+            st.rerun()
+            
+    with next_col:
+        if st.button("Start Quiz >>", use_container_width=True): # Modified text
+            st.session_state.page = 'quiz'
+            st.rerun()
+    # --- END MODIFIED BUTTONS ---
 
 
 elif st.session_state.page == 'quiz':
@@ -630,7 +652,7 @@ elif st.session_state.page == 'quiz':
                 if "Tone Controllability" in current_part_key:
                     trait = sample['tone_to_compare']
                     change_type = sample['comparison_type']
-                    question_text_display = f"Has the <b class='highlight-trait'>{trait}</b> level {change_type} from Caption A to B?"
+                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> {change_type}?"
                     terms_to_define.add(trait)
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
@@ -1246,7 +1268,7 @@ console.log("Attaching ArrowRight key listener.");
 parent_document.addEventListener('keyup', function(event) {
     const activeElement = parent_document.activeElement;
     // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
-    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || active_element.getAttribute('role') === 'slider')) {
         return;
     }
 
@@ -1257,7 +1279,7 @@ parent_document.addEventListener('keyup', function(event) {
             "Submit Answer", "Next Question", "Show Questions",
             "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
             "Proceed to Summary", "Proceed to Question", "Proceed to User Study",
-            "Take Quiz Again", "Submit", "Next >>", "Start Quiz", "Next"
+            "Take Quiz Again", "Submit", "Next >>", "Start Quiz >>", "Next"
         ];
         const allButtons = Array.from(parent_document.querySelectorAll('button'));
         const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
