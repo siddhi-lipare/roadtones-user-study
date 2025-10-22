@@ -1503,7 +1503,7 @@ if st.session_state.page == 'demographics':
 
     st.header("Welcome! Before you begin, please provide some basic information:")
     email = st.text_input("Please enter your email address:")
-    # Use None as the default value for selectbox placeholders
+    # --- CORRECTED SELECTBOXES ---
     age = st.selectbox(
         "Age:",
         options=list(range(18, 61)),  # Options are just the numbers
@@ -1516,16 +1516,17 @@ if st.session_state.page == 'demographics':
         index=None,                         # Nothing selected by default
         placeholder="Select your gender..." # Display text for default
     )
+    # --- END CORRECTION ---
+
     if st.checkbox("I am over 18 and agree to participate in this study. I understand my responses will be recorded anonymously."):
         nav_cols = st.columns([1, 6]) # Next, Spacer
         with nav_cols[0]:
             if st.button("Next", use_container_width=True, key="demographics_next"):
                 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-                # Check for None selections
+                # Check for None selections explicitly
                 if not all([email, age is not None, gender is not None]): st.error("Please fill in all fields to continue.")
                 elif not re.match(email_regex, email): st.error("Please enter a valid email address.")
-                # Age check removed as it's handled by options, but keep if needed
-                # elif age < 18: st.error("You must be 18 or older to participate.")
+                # Removed age < 18 check as options handle it
                 else:
                     st.session_state.email = email; st.session_state.age = age; st.session_state.gender = gender
                     st.session_state.page = 'intro_video'; st.rerun()
@@ -1806,7 +1807,7 @@ elif st.session_state.page == 'quiz':
                     # Form for answering
                     with st.form(f"quiz_form_{sample_id}"):
                         choice = None
-                        q_type = question_data.get("question_type")
+                        q_type = question_data.get("question_type") # Get type from specific question if Quality, else from sample
                         if q_type == "multi":
                             st.write("Select all that apply (exactly 2):")
                             choice = [opt for opt in options_list if st.checkbox(opt, key=f"cb_{sample_id}_{opt}")]
@@ -1958,7 +1959,7 @@ elif st.session_state.page == 'user_study_main':
                             with st.empty(): st.write_stream(stream_text(current_video["video_summary"]))
                             st.session_state[summary_typed_key] = True
 
-                        if current_step == 2:
+                        if current_step == 2: # Only show these buttons at step 2
                            st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key,), key=f"prev_from_p1_summary_{video_idx}")
                            if current_video.get('distractor_answers'): # Check if comp quiz exists
                                 if st.button("Proceed to Comprehension Question", key=f"p1_proceed_comp_q_{video_idx}"):
@@ -2078,6 +2079,7 @@ elif st.session_state.page == 'user_study_main':
                                     all_saved = True
                                     responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
                                     for q_id, choice_text in responses_to_save.items():
+                                        # Use the exact question text shown to the user for saving
                                         full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
                                         if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_video, current_caption, choice_text, 'user_study_part1', full_q_text):
                                             all_saved = False; break
@@ -2190,8 +2192,10 @@ elif st.session_state.page == 'user_study_main':
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
                     if current_step == 5:
+                        # --- CORRECTED: Use current_comp for check ---
                         prev_decrement = 1
-                        if current_comp.get('distractor_answers'): prev_decrement = 2 # Go back further if comp quiz was shown
+                        if current_comp.get('distractor_answers'): prev_decrement = 2
+                        # --- END CORRECTION ---
                         st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key, prev_decrement), key=f"prev_from_p2_caption_{comparison_id}")
                         if st.button("Show Questions", key=f"p2_show_q_{comparison_id}"):
                             st.session_state[view_state_key]['step'] = 6; st.rerun()
@@ -2199,8 +2203,9 @@ elif st.session_state.page == 'user_study_main':
                 # Step 6+: Show Questions
                 if current_step >= 6:
                     control_scores = current_comp.get("control_scores", {});
+                    # Still use 'writing_style' to access data from study_data.json
                     tone_traits = list(control_scores.get("tone", {}).keys())
-                    style_traits = list(control_scores.get("writing_style", {}).keys()) # Still use 'writing_style' key from study_data
+                    style_traits = list(control_scores.get("writing_style", {}).keys())
                     main_style_trait = style_traits[0] if style_traits else None
 
                     terms_to_define.update(tone_traits); terms_to_define.update(style_traits)
@@ -2210,7 +2215,7 @@ elif st.session_state.page == 'user_study_main':
                         return " and ".join(hl) if hl else ""
 
                     tone_str = format_part2_traits(tone_traits)
-                    style_str = format_part2_traits(style_traits)
+                    style_str = format_part2_traits(style_traits) # Format all styles identified in data
 
                     # --- Generate questions list dynamically for Part 2 ---
                     part2_questions = []
@@ -2218,7 +2223,7 @@ elif st.session_state.page == 'user_study_main':
                         q_id = q_template['id']
                         q_text = ""
                         if q_id == 'q2_style':
-                            style_q_config = q_template
+                            style_q_config = q_template # q_template is the config for q2_style
                             default_text = style_q_config.get("default_text", "Which caption's style is more {}?")
                             override = style_q_config.get("overrides", {}).get(main_style_trait, {})
                             text_template = override.get("text", default_text)
@@ -2262,6 +2267,7 @@ elif st.session_state.page == 'user_study_main':
                                 with st.spinner("Saving response..."):
                                     all_saved = True
                                     for q_id, choice in responses.items():
+                                        # Use the dynamically generated question text for saving
                                         full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A")
                                         if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text):
                                             all_saved = False; break
@@ -2357,15 +2363,17 @@ elif st.session_state.page == 'user_study_main':
             with col2: # Captions and Questions
                 # Step 3/4: Comp Quiz
                 if (current_step == 3 or current_step == 4) and current_change.get('distractor_answers'):
-                    render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
+                    render_comprehension_quiz(current_change, view_state_key, proceed_step=5) # Go to step 5 after quiz
 
                 # Step 5: Show Captions
                 if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
                     if current_step == 5:
+                        # --- CORRECTED: Use current_change for check ---
                         prev_decrement = 1
                         if current_change.get('distractor_answers'): prev_decrement = 2
+                        # --- END CORRECTION ---
                         st.button("<< Previous", on_click=go_to_previous_step, args=(view_state_key, prev_decrement), key=f"prev_from_p3_caption_{change_id}")
                         if st.button("Show Questions", key=f"p3_show_q_{change_id}"):
                             st.session_state[view_state_key]['step'] = 6; st.rerun()
@@ -2376,13 +2384,14 @@ elif st.session_state.page == 'user_study_main':
                     trait = field_to_change.get(field_type)
                     if trait: terms_to_define.add(trait)
 
-                    form_submitted_key = f"form_submitted_{change_idx}" # Use index for unique key across reruns
+                    form_submitted_key = f"form_submitted_{change_idx}"
+                    if form_submitted_key not in st.session_state:
+                         st.session_state[form_submitted_key] = False
 
                     with st.form(key=f"study_form_change_{change_idx}"):
-                        # --- MODIFICATION: Use correct key "Style" ---
+                        # Use correct key "Style"
                         q_template_key = "Style" if field_type == 'writing_style' else field_type.title()
                         q_template = st.session_state.all_data['questions']['part3_questions'].get(q_template_key, "Question template not found for {}")
-                        # --- END MODIFICATION ---
 
                         highlighted_trait = f"<b class='highlight-trait'>{trait}</b>" if trait else "the trait"
                         dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change.get('change_type', 'changed'))
@@ -2398,7 +2407,7 @@ elif st.session_state.page == 'user_study_main':
                             choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{change_id}_q2", label_visibility="collapsed")
 
                         submitted = st.form_submit_button("Submit Answers", use_container_width=True)
-                        if submitted: st.session_state[form_submitted_key] = True # Set flag on submit
+                        if submitted: st.session_state[form_submitted_key] = True
 
                     # Previous button outside form
                     st.button("<< Previous", on_click=go_to_previous_item, args=('part3', view_state_key), key=f"prev_from_p3_questions_{change_idx}")
@@ -2450,7 +2459,7 @@ if (!parent_document.arrowKeyListenerAttached) {
             const targetButtonLabels = [
                 "Submit Ratings", "Submit Comparison", "Submit Answers",
                 "Submit Answer", "Next Question", "Show Questions",
-                "Proceed to Caption(s)", // Covers variations like "Proceed to Caption"
+                "Proceed to Caption(s)", // Covers variations
                 "Proceed to Summary", "Proceed to Question", "Proceed to User Study",
                 "Take Quiz Again", "Submit", "Next >>", "Start Quiz", "Next",
                 "DEBUG: Skip Video >>", "DEBUG: Skip to Questions >>" // Include debug buttons
