@@ -114,7 +114,7 @@
       "text": "How human-like does this caption sound?"
     }
   ],
-  "part2_questions": [
+  "part3_questions": [
     {
       "id": "q1_tone",
       "text": "Which caption sounds more {}?"
@@ -158,7 +158,7 @@
       "text": "Which caption sounds more human-like to you?"
     }
   ],
-  "part3_questions": {
+  "part2_questions": {
     "Tone": "Has the {} level {change_type} from Caption A to B?",
     "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
   }

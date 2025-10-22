@@ -546,7 +546,7 @@
       ]
     }
   ],
-  "part2_comparisons": [
+  "part3_comparisons": [
     {
       "comparison_id": "comp_001",
       "video_id": "video_1781029134916784442",
@@ -940,7 +940,7 @@
       "application": "Public Commentary Post"
     }
   ],
-  "part3_intensity_change": [
+  "part2_intensity_change": [
     {
       "change_id": "change_001",
       "video_id": "video_1772082398257127647",
@@ -1073,6 +1073,25 @@
       },
       "change_type": "increased",
       "application": "Law Enforcement Reporting"
+    },
+    {
+      "change_id": "change_011",
+      "video_id": "video_1601008232847536128",
+      "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
+      "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
+      "road_event_answer": "A motorcyclist, approaching at high speed, performs a tactical roll to avoid colliding with a turning truck.",
+      "distractor_answers": [
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+      ],
+      "caption_A": "Had a near-miss today with a motorcyclist who sped past as I turned my truck. It\u2019s irresponsible not to slow for turning vehicles\u2014reckless driving puts everyone at risk.",
+      "caption_B": "I witnessed a reckless motorcyclist nearly collide with a turning truck. Instead of slowing down, he sped up and had to roll to avoid disaster. Completely irresponsible behavior on the road.",
+      "field_to_change": {
+        "writing_style": "Advisory"
+      },
+      "change_type": "decreased",
+      "application": "Community Discussion"
     },
     {
       "change_id": "change_007",
