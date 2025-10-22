@@ -512,7 +512,7 @@ elif st.session_state.page == 'quiz':
     # Only play video initially if timer isn't finished AND it's not the second quality question
     if not st.session_state.get(timer_finished_key, False) and not is_second_quality_question:
         st.subheader("Watch the video")
-        with st.spinner("Video loading and playing..."): # Added spinner text
+        with st.spinner(" "): # Added spinner text
             col1, _ = st.columns([1.2, 1.5])
             with col1:
                 if sample.get("orientation") == "portrait":
