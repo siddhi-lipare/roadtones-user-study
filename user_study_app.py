@@ -478,7 +478,6 @@ elif st.session_state.page == 'what_is_tone':
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
 
-    # --- MODIFIED: Added gap="small" ---
     col1, col2 = st.columns([2, 3], gap="small")
     with col1:
         _, vid_col, _ = st.columns([1, 1.5, 1])
@@ -491,6 +490,9 @@ elif st.session_state.page == 'factual_info':
     with col2:
         image_path = "media/factual_info_new.jpg"
         if os.path.exists(image_path):
+            # --- ADDED THIS LINE ---
+            st.markdown("<br>", unsafe_allow_html=True) # Add vertical space
+            # --- END ADDED LINE ---
             st.image(image_path)
         else:
             st.warning(f"Image not found at {image_path}")
@@ -508,7 +510,6 @@ elif st.session_state.page == 'factual_info':
         if st.button("Start Quiz >>"): # Small button on the right
             st.session_state.page = 'quiz'
             st.rerun()
-    # --- END MODIFIED BUTTONS ---
 
 
 elif st.session_state.page == 'quiz':
