@@ -867,6 +867,77 @@
       "caption_A": "Unsafe merges are just a suggestion now? #RoadSafety",
       "caption_B": "Unsafe merges are just a suggestion now? #RoadSafety",
       "application": "Law Enforcement Reporting"
+    },
+    {
+      "comparison_id": "comp_014",
+      "video_id": "video_1685698185946140672",
+      "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+      "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
+      "road_event_answer": "A semi-truck made an unsafe lane change, nearly colliding with another vehicle.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "Cyclists, pedestrians, and vehicles are all seen respecting traffic signals and lane markings.",
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+      ],
+      "control_scores": {
+        "tone": {
+          "Adventurous": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Very Strong"
+        }
+      },
+      "caption_A": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
+      "caption_B": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
+      "application": "Law Enforcement Reporting"
+    },
+    {
+      "comparison_id": "comp_015",
+      "video_id": "video_1774263154723451187",
+      "video_path": "media/v_1774263154723451187_QFMMJd8wYMEMl2r7.mp4",
+      "video_summary": "A daytime near-miss incident involving dangerous driving behavior was captured by a vehicle-mounted camera in Osaka, Japan. The key road event involved the camera vehicle and a right-turning vehicle. The right-turning vehicle made a sudden and dangerous right turn, nearly colliding with the camera vehicle. This maneuver was likely due to the driver of the right-turning vehicle not paying attention or being impatient, resulting in a failure to yield right-of-way. The incident could have been avoided if the right-turning vehicle had waited for a clear opportunity to turn and checked for oncoming traffic.",
+      "road_event_answer": "A vehicle makes a sudden, dangerous right turn, failing to yield and nearly colliding with the camera vehicle.",
+      "distractor_answers": [
+        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles.",
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A driver on a highway at night has a near-miss after reacting quickly to an unexpected obstacle."
+      ],
+      "control_scores": {
+        "tone": {
+          "Critical": "Strong",
+          "Assertive": "Strong"
+        },
+        "writing_style": {
+          "Judgmental": "Very Strong"
+        }
+      },
+      "caption_A": "I nearly got hit by a reckless right-turning driver who didn\u2019t even bother to yield. Some people never learn. #drivingfail",
+      "caption_B": "I nearly got hit by a reckless right-turning driver who didn\u2019t even bother to yield. Some people never learn. #drivingfail",
+      "application": "Law Enforcement Reporting"
+    },
+    {
+      "comparison_id": "comp_016",
+      "video_id": "video_1740563927124296059",
+      "video_path": "media/v_1740563927124296059_EKhCnd-cJchesHdB.mp4",
+      "video_summary": "A daytime road event in Hyderabad, India, captured by a hand-held or cell-phone camera, depicts multiple traffic violations endangering pedestrian safety. The key event involved vehicles, including an orange car, failing to stop at a red light and making illegal U-turns. Other vehicles also did not stop before zebra crossings, while an auto-rickshaw was observed obstructing a lane. Pedestrians were seen crossing the road even though their signal was still red, amidst the disregard for traffic rules by drivers.",
+      "road_event_answer": "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
+      ],
+      "control_scores": {
+        "tone": {
+          "Questioning": "Very Strong",
+          "Sarcastic": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong"
+        }
+      },
+      "caption_A": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
+      "caption_B": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
+      "application": "Public Commentary Post"
     }
   ],
   "part3_intensity_change": [
