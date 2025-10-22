@@ -161,7 +161,7 @@ st.markdown("""
     height: 80px; 
     margin-bottom: 0; 
     font-size: 1.05rem; /* <-- Larger question font */
-    font-family: 'Lato', sans-serif;
+            
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -193,7 +193,6 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
     font-size: 1.05rem; 
     font-weight: 600;
     margin-bottom: 0.5rem; /* Add space above radio buttons */
-    font-family: 'Lato', sans-serif;
 }
 /* --- END ADDED --- */
 
