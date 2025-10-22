@@ -414,7 +414,7 @@ elif st.session_state.page == 'what_is_tone':
         # This nesting remains the same to keep the image size
         _, img_col, _ = st.columns([0.25, 2, 1])
         with img_col:
-            image_path = "media/tone_meaning.jpg"
+            image_path = "media/tone_meaning1.jpg"
             if os.path.exists(image_path):
                 st.image(image_path)
             else:
