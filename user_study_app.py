@@ -161,7 +161,8 @@ st.markdown("""
     height: 80px;
     margin-bottom: 0;
     font-size: 1.05rem; /* Keeps the size */
-    font-weight: 600; /* Makes the font bolder */
+    font-weight: 600; /* Keeps it bold */
+    font-family: 'Roboto', sans-serif; /* CHANGE FONT HERE */
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -189,10 +190,12 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box li { margin-bottom: 0.5rem; }
 
 /* --- ADDED: Larger font for Part 3 questions --- */
+/* For Part 3 questions */
 .part3-question-text {
     font-size: 1.05rem; /* Keeps the size */
-    font-weight: 600; /* Makes the font bolder */
+    font-weight: 600; /* Keeps it bold */
     margin-bottom: 0.5rem;
+    font-family: 'Roboto', sans-serif; /* CHANGE FONT HERE */
 }
 /* --- END ADDED --- */
 
