@@ -1050,7 +1050,8 @@ def connect_to_gsheet():
         spreadsheet = client.open("roadtones-streamlit-userstudy-responses")
         return spreadsheet.sheet1
     except Exception as e:
-        st.error(f"Error connecting to Google Sheets: {e}") # More specific error
+        # Check for specific auth errors if needed, but keep generic for now
+        st.error(f"Error connecting to Google Sheets: {e}. Please ensure APIs are enabled, the sheet is shared with the service account, and the app is published.")
         return None
 
 def save_response_locally(response_dict):
@@ -1082,10 +1083,22 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
         try:
             # Check if worksheet is empty to add header row
             header = worksheet.row_values(1) if worksheet.row_count > 0 else []
-            if not header:
+            if not header or len(header) < len(response_dict.keys()): # Check if header exists and has enough columns
+                 # Clear sheet and add header if mismatch or empty
+                 worksheet.clear()
                  worksheet.append_row(list(response_dict.keys()))
+                 st.info("Spreadsheet header initialized.") # Let user know header was added/fixed
+            elif list(header) != list(response_dict.keys()): # Check if header matches keys order
+                 # Optional: Log a warning or attempt to reorder if headers don't match exactly
+                 st.warning("Spreadsheet header columns may not match data order. Attempting to save anyway.")
+
             worksheet.append_row(list(response_dict.values()))
             return True
+        except gspread.exceptions.APIError as e:
+             # More specific error handling for GSpread API issues
+             st.error(f"Google Sheets API Error: {e}. Check permissions and sheet validity.")
+             st.warning("Saving a local backup.")
+             return save_response_locally(response_dict)
         except Exception as e:
             st.warning(f"Could not save to Google Sheets ({e}). Saving a local backup.")
             return save_response_locally(response_dict)
@@ -1161,7 +1174,12 @@ def load_data():
     if 'study' in data:
         for part_key in data['study']:
             if isinstance(data['study'][part_key], list):
-                for item in data['study'][part_key]:
+                for item_index, item in enumerate(data['study'][part_key]):
+                    # --- Check for duplicate IDs ---
+                    item_id = item.get('video_id') or item.get('comparison_id') or item.get('change_id')
+                    if not item_id:
+                        st.warning(f"Item at index {item_index} in {part_key} is missing an ID.")
+
                     video_path = item.get('video_path')
                     if video_path and os.path.exists(video_path):
                         metadata = get_video_metadata(video_path)
@@ -1175,7 +1193,9 @@ def load_data():
     if 'quiz' in data:
         for part_key in data['quiz']:
             if isinstance(data['quiz'][part_key], list):
-                for item in data['quiz'][part_key]:
+                 for item_index, item in enumerate(data['quiz'][part_key]):
+                    if not item.get('sample_id'):
+                         st.warning(f"Quiz item at index {item_index} in {part_key} is missing 'sample_id'.")
                     video_path = item.get('video_path')
                     if video_path and os.path.exists(video_path):
                         metadata = get_video_metadata(video_path)
@@ -1188,20 +1208,22 @@ def load_data():
 
 # --- UI & STYLING ---
 st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
-# --- FONT FIX: Reverted CSS styles to original ---
+# --- FONT FIX: Restored original styles + larger question fonts ---
 st.markdown("""
 <style>
 @import url('https.fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
-.new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-.slider-label { height: 80px; margin-bottom: 0; }
-.highlight-trait { color: #4f46e5; font-weight: 600; }
+.new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; } /* This is the yellow highlight */
+.slider-label { min-height: 80px; margin-bottom: 0; display: flex; align-items: center;} /* Use min-height and flex for alignment */
+.highlight-trait { color: #4f46e5; font-weight: 600; } /* This is the indigo blue highlight */
+/* FONT FIX: Restored original caption text size */
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
 .part1-caption-box .caption-text { margin: 0.5em 0 0 0; color: #111827 !important; }
 .comparison-caption-box { background-color: var(--secondary-background-color); border-left: 5px solid #6366f1; padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0.25rem; }
 .comparison-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; }
+/* FONT FIX: Restored original quiz question text size */
 .quiz-question-box { background-color: #F0F2F6; padding: 1rem 1.5rem; border: 1px solid var(--gray-300); border-bottom: none; border-radius: 0.5rem 0.5rem 0 0; }
 body[theme="dark"] .quiz-question-box { background-color: var(--secondary-background-color); }
 .quiz-question-box > strong { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; }
@@ -1227,12 +1249,28 @@ h2 {
     font-weight: 600 !important;
 }
 
-/* --- CUSTOM BUTTON STYLING --- */
+/* --- User Study Question Font Size --- */
+/* ADDED BACK: Larger font size for user study questions */
+.slider-label strong, [data-testid="stRadio"] label span {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important; /* Make radio labels bold too */
+}
+.part3-question-text {
+    font-size: 1.1rem !important;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+}
+/* END ADDED BACK */
+
+
+/* --- CUSTOM BUTTON STYLING (Small Buttons) --- */
+/* BUTTON FIX: Removed width settings to keep buttons small */
 div[data-testid="stButton"] > button, .stForm [data-testid="stButton"] > button {
     background-color: #FAFAFA; /* Very light grey */
     color: #1F2937; /* Dark grey text for readability */
     border: 1px solid #D1D5DB; /* Light grey border */
     transition: background-color 0.2s ease, border-color 0.2s ease;
+    /* Removed padding, width, max-width */
 }
 div[data-testid="stButton"] > button:hover, .stForm [data-testid="stButton"] > button:hover {
     background-color: #F3F4F6; /* Slightly darker grey on hover */
@@ -1251,7 +1289,7 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 }
 </style>
 """, unsafe_allow_html=True)
-# --- END FONT FIX ---
+# --- END FONT FIX & BUTTON FIX ---
 
 # --- NAVIGATION & STATE HELPERS ---
 def go_to_previous_page(target_page):
@@ -1268,25 +1306,22 @@ def skip_to_questions(view_key, summary_key=None):
         st.session_state[view_key]['comp_feedback'] = False
 
         view_id_parts = view_key.split('_')
-        view_id = view_id_parts[-1] if len(view_id_parts) > 1 else view_key # Handle different key formats
-
-        # Clear relevant timer flags
-        st.session_state.pop(f"timer_finished_{view_id}", None)
-        st.session_state.pop(f"timer_finished_quiz_{view_id}", None)
-        st.session_state.pop(f"timer_finished_p1_{view_id}", None)
-        st.session_state.pop(f"timer_finished_p2_{view_id}", None)
-        st.session_state.pop(f"timer_finished_p3_{view_id}", None)
+        view_id = "_".join(view_id_parts[3:]) if len(view_id_parts) > 3 else view_key # Adjusted extraction for potentially longer IDs
+        # Clear relevant timer flags more robustly
+        for k in list(st.session_state.keys()):
+            if k.startswith("timer_finished_") and k.endswith(view_id):
+                 st.session_state.pop(k, None)
 
         st.rerun()
 
 def handle_next_quiz_question(view_key_to_pop):
-    part_keys = list(st.session_state.all_data['quiz'].keys())
+    part_keys = list(st.session_state.all_data.get('quiz', {}).keys()) # Use .get for safety
     # Ensure current indices are valid
     if st.session_state.current_part_index >= len(part_keys):
         st.error("Quiz navigation error: Invalid part index.")
         return
     current_part_key = part_keys[st.session_state.current_part_index]
-    questions_for_part = st.session_state.all_data['quiz'][current_part_key]
+    questions_for_part = st.session_state.all_data['quiz'].get(current_part_key, []) # Use .get
     if st.session_state.current_sample_index >= len(questions_for_part):
          st.error("Quiz navigation error: Invalid sample index.")
          return
@@ -1295,10 +1330,13 @@ def handle_next_quiz_question(view_key_to_pop):
     question_text = "N/A"
     try:
         if "Tone Controllability" in current_part_key:
-            question_text = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
+            trait = sample.get('tone_to_compare', 'N/A')
+            comp_type = sample.get('comparison_type', 'N/A')
+            question_text = f"Intensity of '{trait}' has {comp_type}"
         elif "Caption Quality" in current_part_key:
-            if st.session_state.current_rating_question_index < len(sample.get("questions",[])):
-                question_text = sample["questions"][st.session_state.current_rating_question_index].get("question_text", "N/A")
+            questions = sample.get("questions", [])
+            if st.session_state.current_rating_question_index < len(questions):
+                question_text = questions[st.session_state.current_rating_question_index].get("question_text", "N/A")
             else:
                  st.error("Quiz navigation error: Invalid rating question index.")
                  return
@@ -1310,7 +1348,18 @@ def handle_next_quiz_question(view_key_to_pop):
          return
 
 
-    success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
+    success = save_response(
+        st.session_state.email,
+        st.session_state.age,
+        st.session_state.gender,
+        sample, # video_data
+        sample, # caption_data (using sample for quiz)
+        st.session_state.get('last_choice', 'N/A'), # Use .get
+        'quiz',
+        question_text,
+        was_correct=st.session_state.get('is_correct', False) # Use .get
+    )
+
     if not success:
         st.error("Failed to save response. Please check your connection and try again.")
         return
@@ -1364,18 +1413,20 @@ def jump_to_study_part(part_number):
 
 # --- Helper for sidebar navigation in main study ---
 def jump_to_study_item(part_key, item_index):
+    # Clear *all* existing study view states before jumping
+    for key in list(st.session_state.keys()):
+        if key.startswith('view_state_p1_') or key.startswith('view_state_p2_') or key.startswith('view_state_p3_'):
+            st.session_state.pop(key, None)
+
+    # Set the new indices
     if part_key == 'part1':
         st.session_state.current_video_index = item_index
-        st.session_state.current_caption_index = 0 # Start from first caption of that video
+        st.session_state.current_caption_index = 0 # Start from first caption
     elif part_key == 'part2':
         st.session_state.current_comparison_index = item_index
     elif part_key == 'part3':
         st.session_state.current_change_index = item_index
-    
-    # Clean up *all* study view states to force a refresh of the new item
-    for key in list(st.session_state.keys()):
-        if key.startswith('view_state_p1_') or key.startswith('view_state_p2_') or key.startswith('view_state_p3_'):
-            st.session_state.pop(key, None)
+
     st.rerun()
 
 
@@ -1435,6 +1486,7 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
 
         # Unique key using sample_id
         proceed_key = f"proceed_to_captions_{sample.get('sample_id', sample.get('video_id', 'unknown'))}"
+        # BUTTON FIX: Removed use_container_width
         if st.button("Proceed to Caption(s)", key=proceed_key):
             st.session_state[view_state_key]['step'] = proceed_step
             st.rerun()
@@ -1444,6 +1496,7 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
         radio_key = f"comp_radio_{sample.get('sample_id', sample.get('video_id', 'unknown'))}"
         with st.form(key=form_key):
             choice = st.radio("Select one option:", options, key=radio_key, index=None, label_visibility="collapsed")
+            # BUTTON FIX: Removed use_container_width from form submit
             if st.form_submit_button("Submit"):
                 if choice:
                     st.session_state[view_state_key]['comp_choice'] = choice
@@ -1471,6 +1524,7 @@ if st.session_state.all_data is None:
 if st.session_state.page == 'demographics':
     st.title("Tone-controlled Video Captioning")
     # Debug skip button at the top
+    # BUTTON FIX: Removed use_container_width
     if st.button("DEBUG: Skip to Main Study"):
         st.session_state.email = "debug@test.com"; st.session_state.age = 25
         st.session_state.gender = "Prefer not to say"; st.session_state.page = 'user_study_main'; st.rerun()
@@ -1495,7 +1549,8 @@ if st.session_state.page == 'demographics':
     if st.checkbox("I am over 18 and agree to participate in this study. I understand my responses will be recorded anonymously."):
         nav_cols = st.columns([1, 6]) # Next, Spacer
         with nav_cols[0]:
-            if st.button("Next", use_container_width=True, key="demographics_next"):
+            # BUTTON FIX: Removed use_container_width
+            if st.button("Next", key="demographics_next"):
                 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
                 # Check for None selections explicitly
                 if not all([email, age is not None, gender is not None]): st.error("Please fill in all fields to continue.")
@@ -1514,9 +1569,11 @@ elif st.session_state.page == 'intro_video':
     nav_cols = st.columns([1, 1, 5]) # Prev, Next, Spacer
     with nav_cols[0]:
         # --- KEPT PREVIOUS BUTTON ---
-        st.button("<< Previous", on_click=go_to_previous_page, args=('demographics',), key="prev_intro", use_container_width=True)
+        # BUTTON FIX: Removed use_container_width
+        st.button("<< Previous", on_click=go_to_previous_page, args=('demographics',), key="prev_intro")
     with nav_cols[1]:
-        if st.button("Next >>", key="next_intro", use_container_width=True):
+        # BUTTON FIX: Removed use_container_width
+        if st.button("Next >>", key="next_intro"):
             st.session_state.page = 'what_is_tone'
             st.rerun()
 
@@ -1551,9 +1608,11 @@ elif st.session_state.page == 'what_is_tone':
     nav_cols = st.columns([1, 1, 5]) # Prev, Next, Spacer
     with nav_cols[0]:
         # --- KEPT PREVIOUS BUTTON ---
-        st.button("<< Previous", on_click=go_to_previous_page, args=('intro_video',), key="prev_tone", use_container_width=True)
+        # BUTTON FIX: Removed use_container_width
+        st.button("<< Previous", on_click=go_to_previous_page, args=('intro_video',), key="prev_tone")
     with nav_cols[1]:
-        if st.button("Next >>", key="next_tone", use_container_width=True):
+        # BUTTON FIX: Removed use_container_width
+        if st.button("Next >>", key="next_tone"):
             st.session_state.page = 'factual_info'
             st.rerun()
 
@@ -1579,9 +1638,11 @@ elif st.session_state.page == 'factual_info':
     nav_cols = st.columns([1, 1, 5]) # Prev, Start, Spacer
     with nav_cols[0]:
         # --- KEPT PREVIOUS BUTTON ---
-        st.button("<< Previous", on_click=go_to_previous_page, args=('what_is_tone',), key="prev_factual", use_container_width=True)
+        # BUTTON FIX: Removed use_container_width
+        st.button("<< Previous", on_click=go_to_previous_page, args=('what_is_tone',), key="prev_factual")
     with nav_cols[1]:
-        if st.button("Start Quiz", key="start_quiz", use_container_width=True):
+        # BUTTON FIX: Removed use_container_width
+        if st.button("Start Quiz", key="start_quiz"):
             st.session_state.page = 'quiz'
             st.rerun()
 
@@ -1595,14 +1656,15 @@ elif st.session_state.page == 'quiz':
     with st.sidebar:
         st.header("Quiz Sections")
         for i, name in enumerate(part_keys):
-            st.button(name, on_click=jump_to_part, args=(i,), use_container_width=True, key=f"jump_part_{i}")
+            # BUTTON FIX: Removed use_container_width
+            st.button(name, on_click=jump_to_part, args=(i,), key=f"jump_part_{i}_{name}") # Added name to key
 
     if st.session_state.current_part_index >= len(part_keys):
         st.session_state.page = 'quiz_results'
         st.rerun()
 
     current_part_key = part_keys[st.session_state.current_part_index]
-    questions_for_part = st.session_state.all_data['quiz'][current_part_key]
+    questions_for_part = st.session_state.all_data['quiz'].get(current_part_key, []) # Use .get
     if not questions_for_part: # Check if part has questions
          st.warning(f"No questions found for {current_part_key}. Skipping.")
          st.session_state.current_part_index += 1
@@ -1629,6 +1691,7 @@ elif st.session_state.page == 'quiz':
     if not st.session_state.get(timer_finished_key, False):
         st.session_state[view_state_key]['step'] = 0 # Ensure step is 0
         st.subheader("Watch the video")
+        # BUTTON FIX: Removed use_container_width
         st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_quiz_{sample_id}")
 
         with st.spinner("Video playing..."):
@@ -1652,7 +1715,7 @@ elif st.session_state.page == 'quiz':
             st.session_state[view_state_key]['step'] = 1 # --- SET STEP TO 1 ---
             st.rerun() # Rerun to proceed to the next step
     else: # --- Post-Video Steps (Summary, Comprehension, Questions) ---
-        current_step = st.session_state[view_state_key]['step']
+        current_step = st.session_state[view_state_key].get('step', 1) # Default to step 1 if somehow missing
         # If video was just skipped, timer is true but step might be 0, so set it to 1
         if current_step == 0: 
             st.session_state[view_state_key]['step'] = 1
@@ -1685,29 +1748,35 @@ elif st.session_state.page == 'quiz':
             # --- MODIFIED: Step 1 shows buttons to proceed ---
             if current_step == 1: # After video finishes/skips
                 # REMOVED: Watch Video Again button
-                if "video_summary" in sample:
-                    if st.button("Proceed to Summary", key=f"quiz_summary_btn_{sample_id}"):
-                        st.session_state[view_state_key]['step'] = 2; st.rerun()
-                
-                # Show "Skip to Questions" regardless of summary
-                if st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, None), key=f"skip_to_q_quiz_{sample_id}"):
-                     pass # on_click handles rerun
-                
-                # If no summary, show button to skip directly to comp/captions
-                if "video_summary" not in sample:
-                    if sample.get('distractor_answers'): # Go to comp quiz
+                button_col1, button_col2, _ = st.columns([1, 1, 3]) # Layout for buttons
+                with button_col1:
+                    if "video_summary" in sample:
+                        # BUTTON FIX: Removed use_container_width
+                        if st.button("Proceed to Summary", key=f"quiz_summary_btn_{sample_id}"):
+                            st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    # If no summary, show button to skip directly to comp/captions
+                    elif sample.get('distractor_answers'): # Go to comp quiz
+                        # BUTTON FIX: Removed use_container_width
                         if st.button("Proceed to Comprehension Question", key=f"quiz_comp_q_{sample_id}"):
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
                     else: # Skip to captions
+                        # BUTTON FIX: Removed use_container_width
                         if st.button("Proceed to Caption(s)", key=f"quiz_skip_comp_{sample_id}"):
                              st.session_state[view_state_key]['step'] = 5; st.rerun()
+                with button_col2:
+                    # BUTTON FIX: Removed use_container_width
+                    if st.button("DEBUG: Skip to Questions >>", key=f"skip_to_q_quiz_{sample_id}"):
+                         skip_to_questions(view_state_key) # Call function directly
+
 
             # --- MODIFIED: Step 2 shows buttons after summary ---
             if current_step == 2: # After summary is shown
                 if sample.get('distractor_answers'): # Check if comp quiz exists
+                    # BUTTON FIX: Removed use_container_width
                     if st.button("Proceed to Comprehension Question", key=f"quiz_comp_q_{sample_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun() # Step 3 is comp quiz
                 else: # Skip comprehension if no distractors
+                     # BUTTON FIX: Removed use_container_width
                      if st.button("Proceed to Caption(s)", key=f"quiz_skip_comp_{sample_id}"):
                          st.session_state[view_state_key]['step'] = 5; st.rerun() # Step 5 is show captions
 
@@ -1733,6 +1802,7 @@ elif st.session_state.page == 'quiz':
 
                  if current_step == 5: # Buttons after showing captions
                       # REMOVED: Previous button
+                      # BUTTON FIX: Removed use_container_width
                       if st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
                           st.session_state[view_state_key]['step'] = 6 # Jump to question step
                           st.rerun()
@@ -1746,8 +1816,9 @@ elif st.session_state.page == 'quiz':
                 terms_to_define = set() # Define here to be accessible later
 
                 if "Caption Quality" in current_part_key:
-                    if st.session_state.current_rating_question_index < len(sample.get("questions", [])):
-                        question_data = sample["questions"][st.session_state.current_rating_question_index]
+                    questions = sample.get("questions", []) # Use .get
+                    if st.session_state.current_rating_question_index < len(questions):
+                        question_data = questions[st.session_state.current_rating_question_index]
                         options_list = question_data.get('options', [])
                         raw_text = question_data.get("question_text", "")
                         app_trait = sample.get("application")
@@ -1783,22 +1854,34 @@ elif st.session_state.page == 'quiz':
                     # Feedback display logic
                     user_choice = st.session_state.get('last_choice')
                     correct_answer = question_data.get('correct_answer')
-                    if user_choice is None: # Handle case where user hasn't chosen yet (shouldn't happen here)
+                    if user_choice is None: # Handle case where user hasn't chosen yet
                          st.warning("Cannot show feedback without a user choice.")
                     else:
+                        is_correct_user_choice = st.session_state.get('is_correct', False) # Get correctness from state
+
                         if not isinstance(user_choice, list): user_choice = [user_choice]
                         if not isinstance(correct_answer, list): correct_answer = [correct_answer]
 
                         st.write(" ")
                         for opt in options_list:
-                            is_correct = opt in correct_answer
-                            is_user_choice = opt in user_choice
-                            css_class = "correct-answer" if is_correct else ("wrong-answer" if is_user_choice else "normal-answer")
-                            display_text = f"<strong>{opt} (Correct Answer)</strong>" if is_correct else (f"{opt} (Your selection)" if is_user_choice else opt)
+                            is_correct_option = opt in correct_answer
+                            is_user_selected_option = opt in user_choice
+
+                            if is_correct_option:
+                                display_text = f"<strong>{opt} (Correct Answer)</strong>"
+                                css_class = "correct-answer"
+                            elif is_user_selected_option: # User chose this, and it's incorrect
+                                display_text = f"{opt} (Your selection)"
+                                css_class = "wrong-answer"
+                            else: # Option is neither correct nor selected by user
+                                display_text = opt
+                                css_class = "normal-answer"
                             st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
 
-                        st.info(f"**Explanation:** {question_data.get('explanation', 'No explanation provided.')}")
-                        st.button("Next Question", key=f"quiz_next_q_{sample_id}", on_click=handle_next_quiz_question, args=(view_state_key,))
+                        explanation = question_data.get('explanation', 'No explanation provided.')
+                        st.info(f"**Explanation:** {explanation}")
+                        # BUTTON FIX: Removed use_container_width
+                        st.button("Next Question", key=f"quiz_next_q_{sample_id}", on_click=handle_next_quiz_question, args=(view_key_to_pop,))
                 else:
                     # Form for answering
                     with st.form(f"quiz_form_{sample_id}"):
@@ -1810,6 +1893,7 @@ elif st.session_state.page == 'quiz':
                         else: # Single choice (default)
                             choice = st.radio("Select one option:", options_list, key=f"radio_{sample_id}", index=None, label_visibility="collapsed")
 
+                        # BUTTON FIX: Removed use_container_width from form submit
                         if st.form_submit_button("Submit Answer"):
                             valid = True
                             if not choice:
@@ -1826,11 +1910,14 @@ elif st.session_state.page == 'quiz':
                                 try: # Comparison logic
                                     if isinstance(correct_ans, list): is_correct = (set(choice) == set(correct_ans))
                                     else: is_correct = (choice == correct_ans)
-                                except TypeError: # Handle potential comparison errors (e.g., list vs non-list)
+                                except TypeError: # Handle potential comparison errors
                                      st.warning("Could not determine correctness due to data mismatch.")
 
                                 st.session_state.is_correct = is_correct
-                                if is_correct: st.session_state.score += 1
+                                if is_correct:
+                                     # Ensure score exists before incrementing
+                                     if 'score' not in st.session_state: st.session_state.score = 0
+                                     st.session_state.score += 1
                                 st.session_state.show_feedback = True
                                 st.rerun() # Rerun to show feedback
 
@@ -1853,13 +1940,19 @@ elif st.session_state.page == 'quiz_results':
                      total_scorable_questions += len(q_list)
     except Exception as e:
         st.error(f"Error calculating total questions: {e}")
+        total_scorable_questions = 7 # Fallback to default if calculation fails
 
     passing_score = 5 # Adjust as needed
     st.header(f"Your Final Score: {st.session_state.score} / {total_scorable_questions}")
     if st.session_state.score >= passing_score:
         st.success("**Status: Passed**");
+        # BUTTON FIX: Removed use_container_width
         if st.button("Proceed to User Study"): st.session_state.page = 'user_study_main'; st.rerun()
-    else: st.error("**Status: Failed**"); st.markdown(f"Unfortunately, you did not meet the passing score of {passing_score}. You can try again."); st.button("Take Quiz Again", on_click=restart_quiz)
+    else:
+        st.error("**Status: Failed**");
+        st.markdown(f"Unfortunately, you did not meet the passing score of {passing_score}. You can try again.");
+        # BUTTON FIX: Removed use_container_width
+        st.button("Take Quiz Again", on_click=restart_quiz)
 
 elif st.session_state.page == 'user_study_main':
     # --- Start Main Study Logic ---
@@ -1867,36 +1960,43 @@ elif st.session_state.page == 'user_study_main':
     def stream_text(text):
         for word in text.split(" "): yield word + " "; time.sleep(0.05) # Slightly faster
     
-    # --- MODIFIED: Sidebar Navigation ---
+    # --- Sidebar Navigation ---
     with st.sidebar:
         st.header("Study Sections")
-        st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
-        st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
-        st.button("Part 3: Style Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
+        # BUTTON FIX: Removed use_container_width
+        st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,))
+        st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,))
+        st.button("Part 3: Style Intensity Change", on_click=jump_to_study_part, args=(3,))
         
         st.divider()
 
-        # --- NEW: Item-specific navigation ---
+        # --- Item-specific navigation ---
         if st.session_state.study_part == 1:
             st.subheader("Part 1 Items")
             all_videos = st.session_state.all_data['study'].get('part1_ratings', [])
             for i, video in enumerate(all_videos):
                 video_id = video.get('video_id', f'Video {i+1}')
-                st.button(video_id, on_click=jump_to_study_item, args=('part1', i), key=f"nav_p1_{video_id}", use_container_width=True)
+                # KEY FIX: Added index i to the key
+                # BUTTON FIX: Removed use_container_width
+                st.button(video_id, on_click=jump_to_study_item, args=('part1', i), key=f"nav_p1_{video_id}_{i}")
         
         elif st.session_state.study_part == 2:
             st.subheader("Part 2 Items")
             all_comparisons = st.session_state.all_data['study'].get('part2_comparisons', [])
             for i, comp in enumerate(all_comparisons):
                 comp_id = comp.get('comparison_id', f'Comp {i+1}')
-                st.button(comp_id, on_click=jump_to_study_item, args=('part2', i), key=f"nav_p2_{comp_id}", use_container_width=True)
+                # KEY FIX: Added index i to the key
+                # BUTTON FIX: Removed use_container_width
+                st.button(comp_id, on_click=jump_to_study_item, args=('part2', i), key=f"nav_p2_{comp_id}_{i}")
         
         elif st.session_state.study_part == 3:
             st.subheader("Part 3 Items")
             all_changes = st.session_state.all_data['study'].get('part3_intensity_change', [])
             for i, change in enumerate(all_changes):
                 change_id = change.get('change_id', f'Change {i+1}')
-                st.button(change_id, on_click=jump_to_study_item, args=('part3', i), key=f"nav_p3_{change_id}", use_container_width=True)
+                # KEY FIX: Added index i to the key
+                # BUTTON FIX: Removed use_container_width
+                st.button(change_id, on_click=jump_to_study_item, args=('part3', i), key=f"nav_p3_{change_id}_{i}")
     # --- END Sidebar Navigation ---
 
     # --- Part 1 ---
@@ -1912,12 +2012,17 @@ elif st.session_state.page == 'user_study_main':
              st.session_state.current_caption_index = 0
              st.rerun()
 
-        video_id = current_video['video_id']
+        video_id = current_video.get('video_id', f'video_{video_idx}') # Fallback ID
+        current_caption = current_video['captions'][caption_idx]
+        caption_id = current_caption.get('caption_id', f'{video_id}_cap_{caption_idx}') # Fallback ID
         timer_finished_key = f"timer_finished_p1_{video_id}"
+        view_state_key = f"view_state_p1_{caption_id}"; # Use caption ID for uniqueness
+        summary_typed_key = f"summary_typed_p1_{video_id}" # Summary is per video
 
         # Video watching step (only for first caption)
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
+            # BUTTON FIX: Removed use_container_width
             st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_p1_{video_id}")
             with st.spinner("Video playing..."):
                 main_col, _ = st.columns([1, 1.8])
@@ -1933,8 +2038,6 @@ elif st.session_state.page == 'user_study_main':
             if not st.session_state.get(timer_finished_key, False):
                 st.session_state[timer_finished_key] = True; st.rerun()
         else: # Post-video steps
-            current_caption = current_video['captions'][caption_idx]
-            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_p1_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
 
@@ -1971,7 +2074,8 @@ elif st.session_state.page == 'user_study_main':
 
                 if caption_idx == 0: # Only show summary steps for the first caption
                     if current_step == 1:
-                        if st.button("Proceed to Summary", key=f"proceed_summary_{video_idx}"):
+                        # BUTTON FIX: Removed use_container_width
+                        if st.button("Proceed to Summary", key=f"proceed_summary_{video_id}"): # Use video_id
                             st.session_state[view_state_key]['step'] = 2; st.rerun()
                     elif current_step >= 2:
                         st.subheader("Video Summary")
@@ -1983,16 +2087,20 @@ elif st.session_state.page == 'user_study_main':
                         if current_step == 2: # Only show these buttons at step 2
                            # REMOVED: Previous button
                            if current_video.get('distractor_answers'): # Check if comp quiz exists
-                                if st.button("Proceed to Comprehension Question", key=f"p1_proceed_comp_q_{video_idx}"):
+                                # BUTTON FIX: Removed use_container_width
+                                if st.button("Proceed to Comprehension Question", key=f"p1_proceed_comp_q_{video_id}"): # Use video_id
                                     st.session_state[view_state_key]['step'] = 3; st.rerun()
                            else: # Skip comp quiz
-                                if st.button("Proceed to Caption", key=f"p1_skip_comp_{video_idx}"):
+                                # BUTTON FIX: Removed use_container_width
+                                if st.button("Proceed to Caption", key=f"p1_skip_comp_{video_id}"): # Use video_id
                                      st.session_state[view_state_key]['step'] = 5; st.rerun() # Go directly to caption display
                 else: # Subsequent captions
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
 
                 if current_step < 6: # Show skip before questions
-                    st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, summary_typed_key), key=f"skip_to_q_p1_{video_id}")
+                    # BUTTON FIX: Removed use_container_width
+                    if st.button("DEBUG: Skip to Questions >>", key=f"skip_to_q_p1_{caption_id}"): # Use caption_id
+                        skip_to_questions(view_state_key, summary_typed_key)
 
             with col2: # Rating column
                 validation_placeholder = st.empty()
@@ -2006,11 +2114,12 @@ elif st.session_state.page == 'user_study_main':
                     # Apply yellow highlight animation class
                     caption_box_class = "part1-caption-box new-caption-highlight"
                     st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption {caption_idx + 1}:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
-                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p1_{current_caption['caption_id']}") # Reset animation
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p1_{caption_id}") # Reset animation
 
                     if current_step == 5: # Buttons after showing caption
                         # REMOVED: Previous button
-                        if st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
+                        # BUTTON FIX: Removed use_container_width
+                        if st.button("Show Questions", key=f"show_q_{caption_id}"): # Use caption_id
                             st.session_state[view_state_key]['step'] = 6; st.rerun()
 
                 # Step 6 onwards: Show Questions
@@ -2065,7 +2174,8 @@ elif st.session_state.page == 'user_study_main':
 
                     def render_slider(q, col, q_index, view_key_arg):
                         with col:
-                            slider_key = f"ss_{q['id']}_cap{caption_idx}"
+                            # Use caption_id and q_id for unique slider key
+                            slider_key = f"ss_{q['id']}_{caption_id}"
                             st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
                             q_options = dynamic_options_map.get(q['id'], default_options) # Use correct options
                             st.select_slider(q['id'], options=q_options, key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=q_options[0])
@@ -2084,7 +2194,8 @@ elif st.session_state.page == 'user_study_main':
                     if questions_to_show > len(questions_to_ask):
                         # REMOVED: Previous button
                         
-                        if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
+                        # BUTTON FIX: Removed use_container_width
+                        if st.button("Submit Ratings", key=f"submit_{caption_id}"): # Use caption_id
                             all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
                             if not all_interacted:
                                 missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
@@ -2092,7 +2203,7 @@ elif st.session_state.page == 'user_study_main':
                             else:
                                 with st.spinner("Saving response..."):
                                     all_saved = True
-                                    responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
+                                    responses_to_save = {qid: st.session_state.get(f"ss_{qid}_{caption_id}") for qid in question_ids} # Use caption_id in key
                                     for q_id, choice_text in responses_to_save.items():
                                         # Use the exact question text shown to the user for saving
                                         full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N/A")
@@ -2100,7 +2211,7 @@ elif st.session_state.page == 'user_study_main':
                                             all_saved = False; break
                                     if all_saved:
                                         st.session_state.current_caption_index += 1
-                                        if st.session_state.current_caption_index >= len(current_video['captions']):
+                                        if st.session_state.current_caption_index >= len(current_video.get('captions', [])): # Use .get
                                             st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
                                         st.session_state.pop(view_state_key, None); st.rerun()
                                     else:
@@ -2118,11 +2229,15 @@ elif st.session_state.page == 'user_study_main':
         comp_idx = st.session_state.current_comparison_index
         if comp_idx >= len(all_comparisons): st.session_state.study_part = 3; st.rerun()
 
-        current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
+        current_comp = all_comparisons[comp_idx]; comparison_id = current_comp.get('comparison_id', f'comp_{comp_idx}') # Fallback ID
         timer_finished_key = f"timer_finished_p2_{comparison_id}"
+        view_state_key = f"view_state_p2_{comparison_id}"; # Use comparison_id
+        summary_typed_key = f"summary_typed_p2_{comparison_id}" # Use comparison_id
+
 
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
+            # BUTTON FIX: Removed use_container_width
             st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_p2_{comparison_id}")
             with st.spinner("Video playing..."):
                 main_col, _ = st.columns([1, 1.8])
@@ -2138,7 +2253,6 @@ elif st.session_state.page == 'user_study_main':
             if not st.session_state.get(timer_finished_key, False):
                 st.session_state[timer_finished_key] = True; st.rerun()
         else:
-            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
             q_templates = st.session_state.all_data['questions']['part2_questions']
             question_ids = [q['id'] for q in q_templates]
 
@@ -2153,8 +2267,11 @@ elif st.session_state.page == 'user_study_main':
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
                         # Advance step based on question index
-                        q_index = question_ids.index(q_id)
-                        st.session_state[view_state_key]['step'] = min(6 + len(question_ids), 6 + q_index + 1)
+                        try:
+                             q_index = question_ids.index(q_id)
+                             st.session_state[view_state_key]['step'] = min(6 + len(question_ids), 6 + q_index + 1)
+                        except ValueError: # Should not happen if question_ids is correct
+                             pass
 
 
             title_col1, title_col2 = st.columns([1, 1.8])
@@ -2174,6 +2291,7 @@ elif st.session_state.page == 'user_study_main':
 
 
                 if current_step == 1:
+                    # BUTTON FIX: Removed use_container_width
                     if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
                 if current_step >= 2:
@@ -2186,14 +2304,18 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 2:
                        # REMOVED: Previous button
                        if current_comp.get('distractor_answers'): # Check if comp quiz exists
+                           # BUTTON FIX: Removed use_container_width
                            if st.button("Proceed to Comprehension Question", key=f"p2_proceed_captions_{comparison_id}"):
                                st.session_state[view_state_key]['step'] = 3; st.rerun()
                        else: # Skip comp quiz
+                            # BUTTON FIX: Removed use_container_width
                             if st.button("Proceed to Captions", key=f"p2_skip_comp_{comparison_id}"):
                                 st.session_state[view_state_key]['step'] = 5; st.rerun() # Go directly to caption display
 
                 if current_step < 6:
-                    st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, summary_typed_key), key=f"skip_to_q_p2_{comparison_id}")
+                    # BUTTON FIX: Removed use_container_width
+                    if st.button("DEBUG: Skip to Questions >>", key=f"skip_to_q_p2_{comparison_id}"):
+                        skip_to_questions(view_state_key, summary_typed_key)
 
             with col2: # Captions and Questions
                 # Step 3/4: Comp Quiz
@@ -2204,10 +2326,11 @@ elif st.session_state.page == 'user_study_main':
                 terms_to_define = set()
                 # Step 5: Show Captions
                 if current_step >= 5:
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp.get("caption_A", "Caption A Missing")}</p></div>', unsafe_allow_html=True) # Use .get
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp.get("caption_B", "Caption B Missing")}</p></div>', unsafe_allow_html=True) # Use .get
                     if current_step == 5:
                         # REMOVED: Previous button
+                        # BUTTON FIX: Removed use_container_width
                         if st.button("Show Questions", key=f"p2_show_q_{comparison_id}"):
                             st.session_state[view_state_key]['step'] = 6; st.rerun()
 
@@ -2263,13 +2386,16 @@ elif st.session_state.page == 'user_study_main':
                     # Render questions progressively
                     for i, q in enumerate(part2_questions):
                          if questions_to_show > i:
-                              render_radio(q, question_cols[i], i, view_key_arg)
+                              # Ensure column index doesn't go out of bounds
+                              if i < len(question_cols):
+                                  render_radio(q, question_cols[i], i, view_state_key)
 
 
                     # Show submit button only when all questions are potentially visible
                     if questions_to_show > len(part2_questions):
                         # REMOVED: Previous button
 
+                        # BUTTON FIX: Removed use_container_width
                         if st.button("Submit Comparison", key=f"submit_comp_{comparison_id}"):
                             responses = {q['id']: st.session_state.get(f"p2_{comparison_id}_{q['id']}") for q in part2_questions}
                             if any(choice is None for choice in responses.values()):
@@ -2298,10 +2424,13 @@ elif st.session_state.page == 'user_study_main':
         change_idx = st.session_state.current_change_index
         if change_idx >= len(all_changes): st.session_state.page = 'final_thank_you'; st.rerun()
 
-        current_change = all_changes[change_idx]; change_id = current_change['change_id']
+        current_change = all_changes[change_idx]; change_id = current_change.get('change_id', f'change_{change_idx}') # Fallback ID
         field_to_change = current_change.get('field_to_change', {});
         field_type = list(field_to_change.keys())[0] if field_to_change else None
         timer_finished_key = f"timer_finished_p3_{change_id}"
+        view_state_key = f"view_state_p3_{change_id}"; # Use change_id
+        summary_typed_key = f"summary_typed_p3_{change_id}" # Use change_id
+
 
         if not field_type: # Skip item if data is malformed
             st.warning(f"Skipping item {change_id} due to missing 'field_to_change'.")
@@ -2311,6 +2440,7 @@ elif st.session_state.page == 'user_study_main':
         # Video watching step
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
+            # BUTTON FIX: Removed use_container_width
             st.button("DEBUG: Skip Video >>", on_click=lambda k=timer_finished_key: st.session_state.update({k: True}) or st.rerun(), key=f"skip_video_p3_{change_id}")
             with st.spinner("Video playing..."):
                 main_col, _ = st.columns([1, 1.8])
@@ -2326,7 +2456,6 @@ elif st.session_state.page == 'user_study_main':
             if not st.session_state.get(timer_finished_key, False):
                 st.session_state[timer_finished_key] = True; st.rerun()
         else: # Post-video steps
-            view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
             if view_state_key not in st.session_state:
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
@@ -2350,6 +2479,7 @@ elif st.session_state.page == 'user_study_main':
                 else: st.warning(f"Video not found for {change_id}")
 
                 if current_step == 1:
+                    # BUTTON FIX: Removed use_container_width
                     if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
                 if current_step >= 2:
@@ -2362,14 +2492,18 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 2:
                        # REMOVED: Previous button
                        if current_change.get('distractor_answers'): # Check if comp quiz exists
+                           # BUTTON FIX: Removed use_container_width
                            if st.button("Proceed to Comprehension Question", key=f"p3_proceed_captions_{change_id}"):
                                st.session_state[view_state_key]['step'] = 3; st.rerun()
                        else: # Skip comp quiz
+                            # BUTTON FIX: Removed use_container_width
                             if st.button("Proceed to Captions", key=f"p3_skip_comp_{change_id}"):
                                 st.session_state[view_state_key]['step'] = 5; st.rerun() # Go directly to caption display
 
                 if current_step < 6:
-                    st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, summary_typed_key), key=f"skip_to_q_p3_{change_id}")
+                    # BUTTON FIX: Removed use_container_width
+                    if st.button("DEBUG: Skip to Questions >>", key=f"skip_to_q_p3_{change_id}"):
+                         skip_to_questions(view_state_key, summary_typed_key)
 
             with col2: # Captions and Questions
                 # Step 3/4: Comp Quiz
@@ -2378,10 +2512,11 @@ elif st.session_state.page == 'user_study_main':
 
                 # Step 5: Show Captions
                 if current_step >= 5:
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change.get("caption_A", "Caption A Missing")}</p></div>', unsafe_allow_html=True) # Use .get
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change.get("caption_B", "Caption B Missing")}</p></div>', unsafe_allow_html=True) # Use .get
                     if current_step == 5:
                         # REMOVED: Previous button
+                        # BUTTON FIX: Removed use_container_width
                         if st.button("Show Questions", key=f"p3_show_q_{change_id}"):
                             st.session_state[view_state_key]['step'] = 6; st.rerun()
 
@@ -2391,14 +2526,15 @@ elif st.session_state.page == 'user_study_main':
                     trait = field_to_change.get(field_type)
                     if trait: terms_to_define.add(trait)
 
-                    form_submitted_key = f"form_submitted_{change_idx}"
+                    form_submitted_key = f"form_submitted_{change_id}" # Use change_id
                     if form_submitted_key not in st.session_state:
                          st.session_state[form_submitted_key] = False
 
-                    with st.form(key=f"study_form_change_{change_idx}"):
+                    with st.form(key=f"study_form_change_{change_id}"): # Use change_id
                         # Use correct key "Style"
                         q_template_key = "Style" if field_type == 'writing_style' else field_type.title()
-                        q_template = st.session_state.all_data['questions']['part3_questions'].get(q_template_key, "Question template not found for {}")
+                        # Use .get with a fallback message for safety
+                        q_template = st.session_state.all_data['questions']['part3_questions'].get(q_template_key, "Question template not found: {} / {change_type}")
 
                         highlighted_trait = f"<b class='highlight-trait'>{trait}</b>" if trait else "the trait"
                         dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change.get('change_type', 'changed'))
@@ -2407,20 +2543,21 @@ elif st.session_state.page == 'user_study_main':
 
                         col_q1, col_q2 = st.columns(2)
                         with col_q1:
-                            # FONT FIX: Reverted to st.markdown
-                            st.markdown(f'**1. {dynamic_question_raw}**', unsafe_allow_html=True)
+                            # FONT FIX: Restored st.markdown with class
+                            st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
                             choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{change_id}_q1", label_visibility="collapsed")
                         with col_q2:
-                            # FONT FIX: Reverted to st.markdown
-                            st.markdown(f"**2. {q2_text}**")
+                            # FONT FIX: Restored st.markdown with class
+                            st.markdown(f"<div class='part3-question-text'>2. {q2_text}</div>", unsafe_allow_html=True)
                             choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{change_id}_q2", label_visibility="collapsed")
 
-                        submitted = st.form_submit_button("Submit Answers", use_container_width=True)
+                        # BUTTON FIX: Removed use_container_width from form submit
+                        submitted = st.form_submit_button("Submit Answers")
                         if submitted: st.session_state[form_submitted_key] = True
 
                     # REMOVED: Previous button
 
-                    # Process submission *after* rendering the Previous button
+                    # Process submission *after* rendering the button area
                     if st.session_state.get(form_submitted_key, False): # Check if form was submitted
                         choice1 = st.session_state.get(f"{change_id}_q1")
                         choice2 = st.session_state.get(f"{change_id}_q2")
@@ -2457,7 +2594,7 @@ if (!parent_document.arrowKeyListenerAttached) {
     parent_document.addEventListener('keyup', function(event) {
         const activeElement = parent_document.activeElement;
         // Check if focus is inside an input, textarea, or slider
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeAElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
             return; // Don't trigger button clicks if typing or sliding
         }
 
@@ -2479,6 +2616,7 @@ if (!parent_document.arrowKeyListenerAttached) {
             // Find the *last* visible button matching any label (most likely the primary action)
             let buttonToClick = null;
             for (const label of targetButtonLabels) {
+                 // Use includes() for partial matches (like "Proceed to Caption(s)")
                  const foundButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
                  if (foundButton) {
                      buttonToClick = foundButton;
@@ -2500,4 +2638,4 @@ if (!parent_document.arrowKeyListenerAttached) {
 }
 """
 # Use a unique key to ensure JS re-runs if the script changes
-streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v6") # Incremented key
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v7") # Incremented key
