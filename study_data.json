@@ -960,6 +960,25 @@
       "change_type": "increased",
       "application": "Public Safety Awareness"
     },
+        {
+      "change_id": "change_012",
+      "video_id": "video_1763928814290354479",
+      "video_path": "media/v_1763928814290354479_LJNZA0ytfZxtQyUO.mp4",
+      "video_summary": "A vehicle-mounted camera, capturing both interior and exterior views, recorded an instance of unsafe driving behavior in the United States, possibly in the Florida Keys. The key road event involved two cars and their respective drivers. One driver abruptly cut across another driver's lane, potentially due to being in a rush or impatience. In response, the other driver likely performed a defensive or retaliatory action, possibly stemming from frustration or an attempt to teach a lesson. This incident potentially involved traffic violations such as unsafe lane change and aggressive driving.",
+      "road_event_answer": "One driver abruptly cuts off another, causing an aggressive response from the second driver.",
+      "distractor_answers": [
+        "A massive multi-vehicle pileup on a highway caused by heavy fog.",
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall.",
+        "A car stops beyond the designated stop line at a red light."
+      ],
+      "caption_A": "Tense moments on the roads in the Florida Keys today \ud83d\ude2c #FloridaDriving",
+      "caption_B": "Two cars encounter each other in the Florida Keys 🚗 #FloridaKeys",
+      "field_to_change": {
+        "tone": "Emotional"
+      },
+      "change_type": "decreased",
+      "application": "Public Safety Awareness"
+    },
     {
       "change_id": "change_003",
       "video_id": "video_1612557874131095564",
@@ -978,6 +997,25 @@
       },
       "change_type": "increased",
       "application": "Public Safety Awareness"
+    },
+    {
+      "change_id": "change_013",
+      "video_id": "video_1737449031834751231",
+      "video_path": "media/v_1737449031834751231_fTKTFF6LWCFx0fPj.mp4",
+      "video_summary": "A dashcam video captured a dangerous driving incident in Japan, involving a large truck, oncoming traffic, and the dashcam vehicle. The key road event was a hazardous overtaking maneuver performed by the large truck. The truck driver executed a dangerous overtake despite the presence of oncoming traffic, suggesting impatience or being in a rush. This action resulted in evident traffic violations, including illegal overtaking and potentially crossing solid lane markings.",
+      "road_event_answer": "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic.",
+      "distractor_answers": [
+        "A car stops beyond the designated stop line at a red light.",
+        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles.",
+        "One driver abruptly cuts off another, causing an aggressive response from the second driver."
+      ],
+      "caption_A": "My heart nearly stopped—a huge truck just decided to overtake in front of me, ignoring oncoming cars like it’s nothing! Seriously, never try this chaos. Stay patient. #RoadSafety",
+      "caption_B": "I just witnessed a massive truck making a reckless overtake right in front of me, nearly colliding with oncoming cars. Such impatience on the road is unbelievable. #RoadSafety",
+      "field_to_change": {
+        "tone": "Anxious"
+      },
+      "change_type": "decreased",
+      "application": "Law Enforcement Reporting"
     },
     {
       "change_id": "change_004",
