@@ -160,6 +160,6 @@
   ],
   "part3_questions": {
     "Tone": "Has the {} level {change_type} from Caption A to B?",
-    "Style": "Has the {} strength {change_type} from Caption A to B?"
+    "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
   }
 }
