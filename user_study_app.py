@@ -439,9 +439,9 @@ elif st.session_state.page == 'what_is_tone':
     with title:
         st.subheader("For example:")
 
-    col1, col2 = st.columns(2, gap="small")
+    col1, col2 = st.columns([2, 3])
     with col1:
-        _, vid_col, _ = st.columns([1.5, 1, 0.25])
+        _, vid_col, _ = st.columns([1, 1.5, 1])
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -449,13 +449,11 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        _, img_col, _ = st.columns([0.25, 2, 1])
-        with img_col:
-            image_path = "media/tone_meaning1.jpg"
-            if os.path.exists(image_path):
-                st.image(image_path)
-            else:
-                st.warning(f"Image not found at {image_path}")
+        image_path = "media/tone_meaning1.jpg"
+        if os.path.exists(image_path):
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
 
     if st.button("Next >>"):
         st.session_state.page = 'factual_info'
