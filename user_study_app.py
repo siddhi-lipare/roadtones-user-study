@@ -399,11 +399,11 @@ elif st.session_state.page == 'what_is_tone':
     with title:
         st.subheader("For example:")
     
-    # Use equal columns with a small gap
-    col1, col2 = st.columns(2, gap="small")
+    # Use the same 2:3 ratio for consistency
+    col1, col2 = st.columns([2, 3])
     with col1:
-        # This nesting remains the same to keep the video small
-        _, vid_col, _ = st.columns([1.5, 1, 0.25]) 
+        # Use IDENTICAL nested columns to ensure the video size is the same
+        _, vid_col, _ = st.columns([1, 1.5, 1]) 
         with vid_col:
             video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
             if os.path.exists(video_path):
@@ -411,14 +411,12 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        # This nesting remains the same to keep the image size
-        _, img_col, _ = st.columns([0.25, 2, 1])
-        with img_col:
-            image_path = "media/tone_meaning1.jpg"
-            if os.path.exists(image_path):
-                st.image(image_path)
-            else:
-                st.warning(f"Image not found at {image_path}")
+        # This image will fill the larger column. The ratio change makes it slightly smaller than before.
+        image_path = "media/tone_meaning1.jpg"
+        if os.path.exists(image_path):
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
 
     if st.button("Next >>"):
         st.session_state.page = 'factual_info'
