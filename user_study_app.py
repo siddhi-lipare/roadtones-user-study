@@ -2139,7 +2139,7 @@ elif st.session_state.page == 'user_study_main':
                                     with st.spinner("Saving response..."):
                                         all_saved = True
                                         for q_id, choice in responses.items(): full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N/A");
-                                            if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text): all_saved = False; break
+                                        if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text): all_saved = False; break
                                         if all_saved: st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
                                         else: st.error("Failed to save all responses.")
                     definitions = st.session_state.all_data.get('definitions', {}); reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {definitions.get(term, 'Def not found.')}</li>" for term in sorted(list(terms_to_define)) if term) + "</ul></div>"; st.markdown(reference_html, unsafe_allow_html=True)
