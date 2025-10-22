@@ -1112,6 +1112,25 @@
       "application": "Public Safety Awareness"
     },
     {
+      "change_id": "change_014",
+      "video_id": "video_1798581666879086946",
+      "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
+      "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
+      "road_event_answer": "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
+      "distractor_answers": [
+        "One driver abruptly cuts off another, causing an aggressive response from the second driver.",
+        "Cyclists, pedestrians, and vehicles are all seen respecting traffic signals and lane markings.",
+        "A semi-truck made an unsafe lane change, nearly colliding with another vehicle."
+      ],
+      "caption_A": "Have you ever seen roads like this in Gachibowli or Abdullahpurmet? 🚦 What goes on here? #Hyderabad",
+      "caption_B": "Did I just see every traffic rule broken in Hyderabad? How do people even survive this chaos? \ud83e\udd14\ud83d\udea6 #Hyderabad #TrafficDrama",
+      "field_to_change": {
+        "writing_style": "Exaggeration"
+      },
+      "change_type": "increased",
+      "application": "Road Safety Education"
+    },
+    {
       "change_id": "change_006",
       "video_id": "video_1798581666879086946",
       "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
@@ -1166,6 +1185,25 @@
         "writing_style": "Proverbial"
       },
       "change_type": "decreased",
+      "application": "Public Safety Awareness"
+    },
+    {
+      "change_id": "change_010",
+      "video_id": "video_1695748178056974456",
+      "video_path": "media/v_1695748178056974456_FxGj0jW1c_4xuTXE.mp4",
+      "video_summary": "A vehicle-mounted camera, providing a driver's perspective, captured a road event in Japan during daytime. The key event depicted dangerous driving behavior, specifically illegal turns and lane changes at intersections. A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately. Traffic rule violations included illegal lane changes, improper turns at intersections, and potentially running yellow lights, involving these vehicles, traffic lights, and other vehicles in traffic.",
+      "road_event_answer": "A beginner driver's car and a yellow car are seen making illegal turns/lane changes at intersections.",
+      "distractor_answers": [
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping."
+      ],
+      "caption_A": "Stay alert at intersections in Japan always.",
+      "caption_B": "In Japan, haste makes waste at intersections.",
+      "field_to_change": {
+        "writing_style": "Proverbial"
+      },
+      "change_type": "increased",
       "application": "Public Safety Awareness"
     },
     {
