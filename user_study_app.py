@@ -161,6 +161,7 @@ st.markdown("""
     height: 80px; 
     margin-bottom: 0; 
     font-size: 1.05rem; /* <-- Larger question font */
+    font-family: 'Inter', sans-serif;
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
