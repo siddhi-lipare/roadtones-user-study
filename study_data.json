@@ -937,6 +937,30 @@
       "caption_A": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
       "caption_B": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
       "application": "Public Commentary Post"
+    },
+    {
+      "comparison_id": "comp_017",
+      "video_id": "video_1775427324160389268",
+      "video_path": "media/v_1775427324160389268_77JT7vEFE5ILkG6L.mp4",
+      "video_summary": "A hand-held or cell-phone camera captured a public transportation disruption in Japan, where a stray dog was lying on train tracks at a station. The key event involved a train stopping to avoid hitting the dog, which appeared comfortable and unafraid on the tracks. Passengers at the station were observed interacting with and observing the dog, with train operators and passengers seemingly motivated by concern for the dog's safety. The incident involved a stray dog, train tracks, trains, trams, and passengers.",
+      "road_event_answer": "",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
+      ],
+      "control_scores": {
+        "tone": {
+          "Questioning": "Very Strong",
+          "Sarcastic": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong"
+        }
+      },
+      "caption_A": "Japan, where even stray dogs have better public transport experiences than I do 😂",
+      "caption_B": "Japan, where even stray dogs have better public transport experiences than I do 😂",
+      "application": "Public Commentary Post"
     }
   ],
   "part2_intensity_change": [
@@ -1224,6 +1248,44 @@
       },
       "change_type": "increased",
       "application": "Reaction Post"
+    },
+    {
+      "change_id": "change_015",
+      "video_id": "video_1685698185946140672",
+      "video_path": "media/v_1685698185946140672_m7xZrN10cPS2eFp6.mp4",
+      "video_summary": "A dashcam video captured a near-miss accident in Canada, near Cornwall, Ontario. The key road event involved a semi-trailer truck performing an unsafe lane change, potentially without signaling or checking mirrors, nearly colliding with another vehicle (possibly a truck) traveling in the adjacent lane. The incident highlights potential traffic rule violations including unsafe lane change, failure to signal, and failure to check mirrors.",
+      "road_event_answer": "A semi-truck made an unsafe lane change, nearly colliding with another vehicle.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "Cyclists, pedestrians, and vehicles are all seen respecting traffic signals and lane markings.",
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+      ],
+      "caption_A": "I just had a wild near-miss with a semi in Cornwall, Ontario! #trucking",
+      "caption_B": "Just had a Fast & Furious moment dodging a semi\u2019s wild lane change near Cornwall, Ontario. #FastAndFuriousMoment",
+      "field_to_change": {
+        "writing_style": "Pop Culture Reference"
+      },
+      "change_type": "increased",
+      "application": "Reaction Post"
+    },
+    {
+      "change_id": "change_016",
+      "video_id": "video_1683698289500360704",
+      "video_path": "media/v_1683698289500360704_yZhIy2eH_7sTL1QV.mp4",
+      "video_summary": "A vehicle-mounted camera on a motorcycle captured a key road event during daytime in Bangalore, India, depicting reckless and dangerous driving behavior by the motorcycle rider in heavy traffic. The road entities involved included the motorcycle, cars, auto-rickshaws, trucks, buses, and trees lining the streets. The motorcyclist was observed riding recklessly, maneuvering dangerously between buses and other vehicles, riding without hands on the steering, and making inappropriate gestures. Evident traffic violations included using a hidden or foldable license plate, reckless driving, and dangerous maneuvering.",
+      "road_event_answer": "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
+      "distractor_answers": [
+        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+        "An SUV dangerously cuts in front of a truck, forcing the truck to take evasive action.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
+      ],
+      "caption_A": "Motorcyclist seen weaving through Bangalore traffic, hands off controls, plate hidden. #RoadSafety",
+      "caption_B": "Like a slalom on Bangalore streets: reckless motorcycle weaving, hidden plate. #Bangalore",
+      "field_to_change": {
+        "writing_style": "Analogy"
+      },
+      "change_type": "increased",
+      "application": "Law Enforcement Reporting"
     }
   ]
 }
