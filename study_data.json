@@ -546,7 +546,7 @@
       ]
     }
   ],
-  "part2_comparisons": [
+"part2_comparisons": [
     {
       "comparison_id": "comp_001",
       "video_id": "video_1781029134916784442",
@@ -826,7 +826,7 @@
       "video_id": "video_1616743651690057730",
       "video_path": "media/v_1616743651690057730_BkObxC8SUxoD1Un0.mp4",
       "video_summary": "A rear-end collision, a type of traffic accident, occurred during the daytime in the USA, captured by a dashcam from both the driver's and back seats of a car. The key road event involved two cars, where one car was stationary or had come to a stop, and the other car failed to stop, colliding with the rear of the stopped vehicle. The primary reason for the accident appears to be the rear driver's failure to maintain a safe following distance and possibly driver inattention or distracted driving. This incident could have been prevented by the rear driver maintaining a safe following distance, paying attention to the road ahead, and anticipating potential stops by the vehicle in front.",
-      "road_event_answer": "",
+      "road_event_answer": "A car failed to stop and rear-ended a stationary vehicle.",
       "distractor_answers": [
         "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
         "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
@@ -849,7 +849,7 @@
       "video_id": "video_1534754660984033282",
       "video_path": "media/v_1534754660984033282_BkObxC8SUxoD1Un0.mp4",
       "video_summary": "A dashcam in Queensland, Australia, captured an unsafe driving incident involving a car, a truck, and another vehicle. The car performed an unsafe merge by suddenly pulling out in front of the truck, cutting it off as it merged between the truck and the other vehicle. This action constitutes a traffic violation for unsafe merging.",
-      "road_event_answer": "",
+      "road_event_answer": "A car performed an unsafe merge, cutting off a truck.",
       "distractor_answers": [
         "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
         "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
