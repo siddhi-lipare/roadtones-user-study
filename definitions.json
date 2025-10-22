@@ -47,35 +47,20 @@
     "Proverbial": "Uses well-known proverbs or sayings to convey wisdom.",
     "Rhetorical Question": "Asks a question not for an answer, but to make a point or create a dramatic effect."
   },
-  "applications": {
-    "ADAS and Driver Assistance Systems": "Used for developing or demonstrating advanced driver-assistance systems (ADAS) features like collision avoidance or lane-keeping.",
-    "Community Awareness Post": "A casual post intended to inform a local community or group about a specific incident or observation.",
-    "Community Discussion": "A post designed to start a conversation or solicit opinions from a community.",
-    "Community Humor Post": "A lighthearted post intended to share an amusing or bizarre road-related observation with a local community.",
-    "Crash Report": "A formal or semi-formal summary describing the details of an accident, often for official records or news.",
-    "Driver Behavior Analysis": "Content used to study, analyze, or comment on the patterns and habits of drivers.",
-    "Driver Behavior Monitoring": "Used in systems that track and analyze driving patterns for insurance or fleet management.",
-    "Driver Sentiment Post": "A post expressing the personal feelings (like frustration, anxiety, or gratitude) of a driver.",
-    "Driving Tip or Advice": "Provides specific, actionable advice to other drivers to improve safety or skill.",
-    "Law Enforcement Alert": "A formal notification directed at police or traffic authorities to report violations.",
-    "Law Enforcement Reporting": "A direct report or tag to police to bring a specific violation to their attention for enforcement.",
-    "Public Commentary Post": "A general post offering an opinion or observation on a public event, intended for a wide audience.",
-    "Public Reporting and Awareness": "Informing the public about an incident, often while also notifying authorities or stakeholders.",
-    "Public Safety Alert": "Intended to inform the public about potential dangers or safety issues.",
-    "Public Safety Awareness": "General information to raise public consciousness about safety.",
-    "Public Safety Campaigns": "Content designed to be part of a broader campaign to promote safe behavior.",
-    "Reaction Post": "A caption that primarily expresses a personal, immediate reaction to an event.",
-    "Research and Analytics": "Data-driven content used for studying traffic patterns, road conditions, or incident frequencies.",
-    "Road Incident Summary": "A concise summary of a specific road event, often for informational purposes.",
-    "Road Safety Advisory": "A specific warning or piece of advice related to road safety.",
-    "Road Safety Education": "Content designed to teach drivers or the public about safe road use.",
-    "Road User Experience Post": "A post from the perspective of a road user (driver, cyclist, pedestrian) sharing an experience.",
-    "Traffic Analysis": "Data-driven content used for studying traffic flow, violations, and road conditions.",
-    "Traffic Rule Enforcement Awareness": "A post aimed at highlighting the need for stricter enforcement of traffic laws.",
-    "Traffic Rule Violation": "A direct report or description focusing specifically on the breaking of a traffic law.",
-    "Traffic Safety Awareness": "Content focused on making drivers more aware of specific safety issues or rules.",
-    "Traffic Safety Bulletin": "An official or semi-official notice about traffic safety.",
-    "Urban Traffic Observation": "A post commenting on the nature or state of traffic in a city environment.",
-    "Weather Hazard Alert": "A specific warning about dangerous road conditions due to weather."
-  }
+    "applications": {
+        "Community Awareness Post": "A casual post intended to inform a local community or group about a specific incident or observation.",
+        "Community Discussion": "A post designed to start a conversation or solicit opinions from a community.",
+        "Community Humor Post": "A lighthearted post intended to share an amusing or bizarre road-related observation with a local community.",
+        "Driver Behavior Monitoring": "Used in systems that track and analyze driving patterns for insurance or fleet management.",
+        "Driver Sentiment Post": "A post expressing the personal feelings (like frustration, anxiety, or gratitude) of a driver.",
+        "Law Enforcement Reporting": "A direct report or tag to police to bring a specific violation to their attention for enforcement.",
+        "Public Commentary Post": "A general post offering an opinion or observation on a public event, intended for a wide audience.",
+        "Public Safety Alert": "Intended to inform the public about potential dangers or safety issues.",
+        "Public Safety Awareness": "General information to raise public consciousness about safety.",
+        "Reaction Post": "A caption that primarily expresses a personal, immediate reaction to an event.",
+        "Road Incident Summary": "A concise summary of a specific road event, often for informational purposes.",
+        "Road Safety Education": "Content designed to teach drivers or the public about safe road use.",
+        "Urban Traffic Observation": "A post commenting on the nature or state of traffic in a city environment."
+    }
+
 }
