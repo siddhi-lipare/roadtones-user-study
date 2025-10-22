@@ -453,7 +453,7 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Video not found at {video_path}")
     with col2:
-        image_path = "media/tone_meaning1.jpg"
+        image_path = "media/tone_meaning2.jpg"
         if os.path.exists(image_path):
             st.image(image_path)
         else:
