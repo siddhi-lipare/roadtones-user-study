@@ -440,7 +440,8 @@ elif st.session_state.page == 'what_is_tone':
     with title:
         st.subheader("For example:")
 
-    col1, col2 = st.columns([2, 3])
+    # --- MODIFIED: Added gap="small" ---
+    col1, col2 = st.columns([2, 3], gap="small") 
     with col1:
         _, vid_col, _ = st.columns([1, 1.5, 1])
         with vid_col:
@@ -456,17 +457,17 @@ elif st.session_state.page == 'what_is_tone':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    # --- MODIFIED BUTTONS ---
+    # --- MODIFIED BUTTONS: Removed use_container_width ---
     st.markdown("<br>", unsafe_allow_html=True) # Add a little space
     _, prev_col, next_col, _ = st.columns([1.5, 1, 1, 1.5]) # Center the two buttons
     
     with prev_col:
-        if st.button("Prev <<", use_container_width=True):
+        if st.button("Prev <<"): # Removed use_container_width
             st.session_state.page = 'intro_video' # Go back to intro video
             st.rerun()
             
     with next_col:
-        if st.button("Next >>", use_container_width=True):
+        if st.button("Next >>"): # Removed use_container_width
             st.session_state.page = 'factual_info' # Go to factual info
             st.rerun()
     # --- END MODIFIED BUTTONS ---
@@ -475,7 +476,8 @@ elif st.session_state.page == 'what_is_tone':
 elif st.session_state.page == 'factual_info':
     st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
 
-    col1, col2 = st.columns([2, 3])
+    # --- MODIFIED: Added gap="small" ---
+    col1, col2 = st.columns([2, 3], gap="small")
     with col1:
         _, vid_col, _ = st.columns([1, 1.5, 1])
         with vid_col:
@@ -491,17 +493,17 @@ elif st.session_state.page == 'factual_info':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    # --- MODIFIED BUTTONS ---
+    # --- MODIFIED BUTTONS: Removed use_container_width ---
     st.markdown("<br>", unsafe_allow_html=True) # Add a little space
     _, prev_col, next_col, _ = st.columns([1.5, 1, 1, 1.5]) # Center the two buttons
     
     with prev_col:
-        if st.button("Prev <<", use_container_width=True):
+        if st.button("Prev <<"): # Removed use_container_width
             st.session_state.page = 'what_is_tone' # Go back to what_is_tone
             st.rerun()
             
     with next_col:
-        if st.button("Start Quiz >>", use_container_width=True): # Modified text
+        if st.button("Start Quiz >>"): # Removed use_container_width
             st.session_state.page = 'quiz'
             st.rerun()
     # --- END MODIFIED BUTTONS ---
@@ -1261,14 +1263,15 @@ elif st.session_state.page == 'final_thank_you':
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
 
 # --- JavaScript ---
+# --- MODIFIED: Added ArrowLeft logic and fixed typos ---
 js_script = """
 const parent_document = window.parent.document;
 
-console.log("Attaching ArrowRight key listener.");
+console.log("Attaching Arrow key listener.");
 parent_document.addEventListener('keyup', function(event) {
     const activeElement = parent_document.activeElement;
     // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
-    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || active_element.getAttribute('role') === 'slider')) {
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
         return;
     }
 
@@ -1293,7 +1296,24 @@ parent_document.addEventListener('keyup', function(event) {
                 break; // Exit loop once a button is clicked
             }
         }
+    } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        const targetButtonLabels = [
+            "Prev <<"
+        ];
+        const allButtons = Array.from(parent_document.querySelectorAll('button'));
+        const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
+
+        for (const label of targetButtonLabels) {
+            // Find the LAST visible button on the page that matches the label
+            const targetButton = [...visibleButtons].reverse().find(btn => btn.textContent.trim().includes(label));
+            if (targetButton) {
+                console.log('ArrowLeft detected, clicking button:', targetButton.textContent);
+                targetButton.click();
+                break; // Exit loop once a button is clicked
+            }
+        }
     }
 });
 """
-streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v2") # Reverted key if needed, or use v3
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v3") # Incremented key
