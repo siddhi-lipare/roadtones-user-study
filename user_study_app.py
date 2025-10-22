@@ -14,10 +14,10 @@ from streamlit_js_eval import streamlit_js_eval
 
 # --- Configuration ---
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
-STUDY_DATA_PATH = "study_data.json"
+STUDY_DATA_PATH = "study_data.json" # Assumes this file now has swapped part2/part3 data
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
-QUESTIONS_DATA_PATH = "questions.json"
+QUESTIONS_DATA_PATH = "questions.json" # Assumes this file now has swapped part2/part3 questions
 DEFINITIONS_PATH = "definitions.json"
 LOCAL_BACKUP_FILE = "responses_backup.jsonl"
 
@@ -292,6 +292,7 @@ def jump_to_study_part(part_number):
     st.session_state.current_comparison_index = 0
     st.session_state.current_change_index = 0
 
+# --- MODIFIED --- Swap logic in jump_to_study_item
 def jump_to_study_item(part_number, item_index):
     """Jumps to a specific item index within a study part."""
     st.session_state.study_part = part_number
@@ -300,23 +301,20 @@ def jump_to_study_item(part_number, item_index):
     if part_number == 1:
         st.session_state.current_video_index = item_index
         st.session_state.current_caption_index = 0 # Always start at first caption
-    # --- SWAPPED ---
-    elif part_number == 3: # Was 2
-        st.session_state.current_change_index = item_index # Was current_comparison_index
-    elif part_number == 2: # Was 3
-        st.session_state.current_comparison_index = item_index # Was current_change_index
-    # --- END SWAP ---
+    elif part_number == 2: # Part 2 is now Intensity Change
+        st.session_state.current_change_index = item_index
+    elif part_number == 3: # Part 3 is now Comparison
+        st.session_state.current_comparison_index = item_index
 
     # Reset other parts' indices to avoid confusion
     if part_number != 1:
         st.session_state.current_video_index = 0
         st.session_state.current_caption_index = 0
-    # --- SWAPPED ---
-    if part_number != 3: # Was 2
-        st.session_state.current_change_index = 0 # Was current_comparison_index
-    if part_number != 2: # Was 3
-        st.session_state.current_comparison_index = 0 # Was current_change_index
-    # --- END SWAP ---
+    if part_number != 2: # Reset Intensity Change if not Part 2
+        st.session_state.current_change_index = 0
+    if part_number != 3: # Reset Comparison if not Part 3
+        st.session_state.current_comparison_index = 0
+# --- END MODIFIED ---
 
 def restart_quiz():
     st.session_state.page = 'quiz'
@@ -775,14 +773,14 @@ elif st.session_state.page == 'user_study_main':
     def stream_text(text):
         for word in text.split(" "): yield word + " "; time.sleep(0.08)
 
-    # --- SIDEBAR LOGIC SWAPPED ---
+    # --- MODIFIED: Sidebar logic reflects new Part 2/3 order ---
     with st.sidebar:
         st.header("Study Sections")
         st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
-        # Button label says "Part 2", but jumps to actual part 3 (Intensity Change)
-        st.button("Part 2: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
-        # Button label says "Part 3", but jumps to actual part 2 (Comparison)
-        st.button("Part 3: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
+        # Button label says "Part 2", jumps to part 2 (Intensity Change)
+        st.button("Part 2: Tone Intensity Change", on_click=jump_to_study_part, args=(2,), use_container_width=True)
+        # Button label says "Part 3", jumps to part 3 (Comparison)
+        st.button("Part 3: Caption Comparison", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
         st.divider()
 
@@ -794,32 +792,34 @@ elif st.session_state.page == 'user_study_main':
                     st.button(f"`{video_id}`", key=f"jump_vid_{video_id}", use_container_width=True,
                               on_click=jump_to_study_item, args=(1, i))
 
-            # Show Intensity Change items when study_part is 3
-            elif st.session_state.study_part == 3:
-                all_changes = st.session_state.all_data['study']['part3_intensity_change']
+            # Show Intensity Change items when study_part is 2
+            elif st.session_state.study_part == 2:
+                # Use the correct key for Intensity Change data (now part2)
+                all_changes = st.session_state.all_data['study']['part2_intensity_change']
                 for i, change in enumerate(all_changes):
                     change_id = change['change_id']
                     st.button(f"`{change_id}`", key=f"jump_chg_{change_id}", use_container_width=True,
-                              on_click=jump_to_study_item, args=(3, i)) # Jumps to part 3
+                              on_click=jump_to_study_item, args=(2, i)) # Jumps to part 2
 
-            # Show Comparison items when study_part is 2
-            elif st.session_state.study_part == 2:
-                all_comparisons = st.session_state.all_data['study']['part2_comparisons']
+            # Show Comparison items when study_part is 3
+            elif st.session_state.study_part == 3:
+                # Use the correct key for Comparison data (now part3)
+                all_comparisons = st.session_state.all_data['study']['part3_comparisons']
                 for i, comp in enumerate(all_comparisons):
                     comp_id = comp['comparison_id']
                     st.button(f"`{comp_id}`", key=f"jump_comp_{comp_id}", use_container_width=True,
-                              on_click=jump_to_study_item, args=(2, i)) # Jumps to part 2
-    # --- END SIDEBAR SWAP ---
+                              on_click=jump_to_study_item, args=(3, i)) # Jumps to part 3
+    # --- END MODIFIED ---
 
-    # --- MAIN CONTENT LOGIC SWAPPED ---
+    # --- MODIFIED: Main content logic swapped ---
 
-    # Part 1: Caption Rating (Remains the same)
+    # Part 1: Caption Rating (Remains mostly the same)
     if st.session_state.study_part == 1:
         all_videos = st.session_state.all_data['study']['part1_ratings']
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
         # --- Progression updated ---
         if video_idx >= len(all_videos):
-            st.session_state.study_part = 3 # Go to Intensity Change next
+            st.session_state.study_part = 2 # Go to Intensity Change (now Part 2) next
             st.rerun()
         # --- End Progression update ---
 
@@ -844,7 +844,7 @@ elif st.session_state.page == 'user_study_main':
         else:
             current_caption = current_video['captions'][caption_idx]
             view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
-            q_templates = st.session_state.all_data['questions']['part1_questions']
+            q_templates = st.session_state.all_data['questions']['part1_questions'] # Part 1 questions
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
             options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
 
@@ -1002,23 +1002,24 @@ elif st.session_state.page == 'user_study_main':
                                         st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
                                     st.session_state.pop(view_state_key, None); st.rerun()
 
-                    # --- UPDATED: Use definitions from session state ---
+                    # Use definitions from session state
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term, 'Definition not found.')}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
-    # --- SWAPPED: Part 3 (Intensity Change) is now rendered when study_part is 3 ---
-    elif st.session_state.study_part == 3:
-        all_changes = st.session_state.all_data['study']['part3_intensity_change']
+    # --- MODIFIED: Part 2 (Intensity Change) ---
+    elif st.session_state.study_part == 2:
+        # --- DATA KEY SWAPPED ---
+        all_changes = st.session_state.all_data['study']['part2_intensity_change'] # Changed key
         change_idx = st.session_state.current_change_index
         # --- Progression updated ---
         if change_idx >= len(all_changes):
-            st.session_state.study_part = 2 # Go to Comparison next
+            st.session_state.study_part = 3 # Go to Comparison (now Part 3) next
             st.rerun()
         # --- End Progression update ---
 
         current_change = all_changes[change_idx]; change_id = current_change['change_id']
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
-        timer_finished_key = f"timer_finished_{change_id}"
+        timer_finished_key = f"timer_finished_{change_id}" # Keep timer key based on unique change_id
 
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
@@ -1035,7 +1036,8 @@ elif st.session_state.page == 'user_study_main':
             st.session_state[timer_finished_key] = True
             st.rerun()
         else:
-            view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
+            # --- State keys use 'p2' now ---
+            view_state_key = f"view_state_p2_{change_id}"; summary_typed_key = f"summary_typed_p2_{change_id}"
             if view_state_key not in st.session_state:
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
@@ -1045,7 +1047,8 @@ elif st.session_state.page == 'user_study_main':
                 st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
-                    st.subheader(f"{field_type.replace('_', ' ').title()} Comparison")
+                     # --- Title updated ---
+                    st.subheader(f"Tone Intensity Change") # Simpler title
 
             col1, col2 = st.columns([1, 1.8])
             with col1:
@@ -1056,7 +1059,8 @@ elif st.session_state.page == 'user_study_main':
                     st.video(current_change['video_path'], autoplay=True, muted=True)
 
                 if current_step == 1:
-                    if st.button("Proceed to Summary", key=f"p3_proceed_summary_{change_id}"):
+                    # --- Key updated ---
+                    if st.button("Proceed to Summary", key=f"p2_proceed_summary_{change_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
                 if current_step >= 2:
                     st.subheader("Video Summary")
@@ -1064,7 +1068,8 @@ elif st.session_state.page == 'user_study_main':
                     else:
                         with st.empty(): st.write_stream(stream_text(current_change["video_summary"]))
                         st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Question", key=f"p3_proceed_captions_{change_id}"):
+                    # --- Key updated ---
+                    if current_step == 2 and st.button("Proceed to Question", key=f"p2_proceed_captions_{change_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
             with col2:
                 if current_step == 3 or current_step == 4:
@@ -1073,70 +1078,71 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
-                    if current_step == 5 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 6; st.rerun()
+                    # --- Key updated ---
+                    if current_step == 5 and st.button("Show Questions", key=f"p2_show_q_{change_id}"):
+                        st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
                     terms_to_define = set()
                     trait = field_to_change[field_type]
                     terms_to_define.add(trait)
 
-                    # --- CORRECTED LOGIC ---
-                    # Determine the correct key for the question template BEFORE the form
-                    q_template = None # Initialize q_template to None
+                    q_template = None
                     if field_type == 'writing_style':
                         q_template_key = 'Writing Style'
                     elif field_type == 'tone':
                         q_template_key = 'Tone'
                     else:
                         st.error(f"Unknown field type for question template: {field_type}")
-                        # Don't render the form if the type is unknown
-                        q_template_key = None # Set key to None to indicate error
+                        q_template_key = None
 
-                    # Check if the key is valid and exists before proceeding
-                    if q_template_key: # Only proceed if key is not None
-                        if q_template_key not in st.session_state.all_data['questions']['part3_questions']:
+                    if q_template_key:
+                        # --- QUESTION KEY SWAPPED ---
+                        if q_template_key not in st.session_state.all_data['questions']['part2_questions']: # Changed key
                             st.error(f"Question template key '{q_template_key}' not found in questions.json")
-                            # Don't render the form if the key is missing
                         else:
-                            # Key is valid and exists, get the template
-                            q_template = st.session_state.all_data['questions']['part3_questions'][q_template_key]
+                            # --- QUESTION KEY SWAPPED ---
+                            q_template = st.session_state.all_data['questions']['part2_questions'][q_template_key] # Changed key
 
-                    # Only render the form if we successfully found the q_template
                     if q_template:
-                        with st.form(key=f"study_form_change_{change_idx}"):
+                        # --- Form key updated ---
+                        with st.form(key=f"study_form_p2_{change_idx}"):
                             highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
                             dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change['change_type'])
-                            # Remove HTML tags for saving to sheet
                             dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
                             q2_text = "Is the core factual content consistent across both captions?"
                             col_q1, col_q2 = st.columns(2)
                             with col_q1:
-                                st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
-                                choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
+                                st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True) # Kept class name for styling
+                                # --- Radio key updated ---
+                                choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"p2_{current_change['change_id']}_q1", label_visibility="collapsed")
                             with col_q2:
-                                st.markdown(f'<div class="part3-question-text">2. {q2_text}</div>', unsafe_allow_html=True)
-                                choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
+                                st.markdown(f'<div class="part3-question-text">2. {q2_text}</div>', unsafe_allow_html=True) # Kept class name for styling
+                                # --- Radio key updated ---
+                                choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"p2_{current_change['change_id']}_q2", label_visibility="collapsed")
 
                             if st.form_submit_button("Submit Answers"):
                                 if choice1 is None or choice2 is None:
                                     st.error("Please answer both questions.")
                                 else:
                                     with st.spinner("Saving response..."):
-                                        # Use correct study phase string
-                                        success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
-                                        success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                                        # --- STUDY PHASE SWAPPED ---
+                                        success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part2', dynamic_question_save) # Changed phase
+                                        success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part2', q2_text) # Changed phase
                                     if success1 and success2:
                                         st.session_state.current_change_index += 1
-                                        st.session_state.pop(view_state_key, None) # Clear state for this item
-                                        st.rerun() # Move to the next item
+                                        st.session_state.pop(view_state_key, None)
+                                        st.rerun()
 
-                    # Display reference box regardless of whether the form rendered, if terms were added
                     if terms_to_define:
                         reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term, 'Definition not found.')}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                         st.markdown(reference_html, unsafe_allow_html=True)
 
-    # --- SWAPPED: Part 2 (Comparison) is now rendered when study_part is 2 ---
-    elif st.session_state.study_part == 2:
-        all_comparisons = st.session_state.all_data['study']['part2_comparisons']; comp_idx = st.session_state.current_comparison_index
+
+    # --- MODIFIED: Part 3 (Comparison) ---
+    elif st.session_state.study_part == 3: # Changed condition to == 3
+        # --- DATA KEY SWAPPED ---
+        all_comparisons = st.session_state.all_data['study']['part3_comparisons'] # Changed key
+        comp_idx = st.session_state.current_comparison_index
         # --- Progression updated ---
         if comp_idx >= len(all_comparisons):
             st.session_state.page = 'final_thank_you' # Go to end after this part
@@ -1144,7 +1150,7 @@ elif st.session_state.page == 'user_study_main':
         # --- End Progression update ---
 
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
-        timer_finished_key = f"timer_finished_{comparison_id}"
+        timer_finished_key = f"timer_finished_{comparison_id}" # Keep timer key based on unique comparison_id
 
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
@@ -1161,8 +1167,10 @@ elif st.session_state.page == 'user_study_main':
             st.session_state[timer_finished_key] = True
             st.rerun()
         else:
-            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
-            q_templates = st.session_state.all_data['questions']['part2_questions']
+            # --- State keys use 'p3' now ---
+            view_state_key = f"view_state_p3_{comparison_id}"; summary_typed_key = f"summary_typed_p3_{comparison_id}"
+            # --- QUESTION KEY SWAPPED ---
+            q_templates = st.session_state.all_data['questions']['part3_questions'] # Changed key
             question_ids = [q['id'] for q in q_templates]
 
             if view_state_key not in st.session_state:
@@ -1171,7 +1179,8 @@ elif st.session_state.page == 'user_study_main':
 
             current_step = st.session_state[view_state_key]['step']
 
-            def mark_p2_interacted(q_id, view_key):
+            # --- Function name updated for clarity ---
+            def mark_p3_interacted(q_id, view_key):
                 if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
                     if not st.session_state[view_key]['interacted'][q_id]:
                         st.session_state[view_key]['interacted'][q_id] = True
@@ -1181,6 +1190,7 @@ elif st.session_state.page == 'user_study_main':
                 st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
+                     # --- Title updated ---
                     st.subheader("Caption Comparison")
 
             col1, col2 = st.columns([1, 1.8])
@@ -1192,7 +1202,8 @@ elif st.session_state.page == 'user_study_main':
                     st.video(current_comp['video_path'], autoplay=True, muted=True)
 
                 if current_step == 1:
-                    if st.button("Proceed to Summary", key=f"p2_proceed_summary_{comparison_id}"):
+                     # --- Key updated ---
+                    if st.button("Proceed to Summary", key=f"p3_proceed_summary_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
                 if current_step >= 2:
                     st.subheader("Video Summary")
@@ -1200,7 +1211,8 @@ elif st.session_state.page == 'user_study_main':
                     else:
                         with st.empty(): st.write_stream(stream_text(current_comp["video_summary"]))
                         st.session_state[summary_typed_key] = True
-                    if current_step == 2 and st.button("Proceed to Question", key=f"p2_proceed_captions_{comparison_id}"):
+                    # --- Key updated ---
+                    if current_step == 2 and st.button("Proceed to Question", key=f"p3_proceed_captions_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
 
             with col2:
@@ -1212,22 +1224,26 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
-                    if current_step == 5 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 6; st.rerun()
+                    # --- Key updated ---
+                    if current_step == 5 and st.button("Show Questions", key=f"p3_show_q_{comparison_id}"):
+                        st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
                     control_scores = current_comp.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
-                    terms_to_define.update(tone_traits) # Start with tones
+                    terms_to_define.update(tone_traits)
 
-                    def format_part2_traits(traits):
+                    # --- Function name updated for clarity ---
+                    def format_part3_traits(traits):
                         highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
                         if len(highlighted) > 1: return " and ".join(highlighted)
                         return highlighted[0] if highlighted else ""
 
-                    tone_str = format_part2_traits(tone_traits)
+                    # --- Function name updated for clarity ---
+                    tone_str = format_part3_traits(tone_traits)
 
-                    part2_questions = []
-                    for q in q_templates:
+                    part3_questions = [] # Renamed variable
+                    for q in q_templates: # q_templates now holds part3 questions
                         q_id = q['id']
-                        if q_id == 'q2_style':
+                        if q_id == 'q2_style': # This ID remains the same based on questions.json structure
                             style_overrides = q.get('overrides', {})
                             found_override = False
                             style_q_text_final = ""
@@ -1238,15 +1254,15 @@ elif st.session_state.page == 'user_study_main':
                                     found_override = True
                                     break
                             if not found_override:
-                                style_str = format_part2_traits(style_traits)
+                                # --- Function name updated ---
+                                style_str = format_part3_traits(style_traits)
                                 style_q_text_final = q.get('default_text', "Which caption's style is more {}?").format(style_str)
                                 terms_to_define.update(style_traits)
-                            part2_questions.append({"id": q_id, "text": style_q_text_final})
-                        elif q_id == 'q1_tone':
-                            part2_questions.append({"id": q_id, "text": q['text'].format(tone_str)})
+                            part3_questions.append({"id": q_id, "text": style_q_text_final})
+                        elif q_id == 'q1_tone': # This ID remains the same
+                            part3_questions.append({"id": q_id, "text": q['text'].format(tone_str)})
                         else:
-                            # For q3_accuracy, q4_preference which have no formatting
-                            part2_questions.append({"id": q_id, "text": q.get('text', '')})
+                            part3_questions.append({"id": q_id, "text": q.get('text', '')})
 
                     options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
 
@@ -1256,38 +1272,45 @@ elif st.session_state.page == 'user_study_main':
 
                     question_cols = st.columns(4)
 
-                    def render_radio(q, col, q_index, view_key_arg):
+                    # --- Function name updated for clarity ---
+                    def render_p3_radio(q, col, q_index, view_key_arg):
                         with col:
                             st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"p2_{comparison_id}_{q['id']}", on_change=mark_p2_interacted, args=(q['id'], view_key_arg))
+                            # --- Radio key updated ---
+                            st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"p3_{comparison_id}_{q['id']}", on_change=mark_p3_interacted, args=(q['id'], view_key_arg))
 
-                    if questions_to_show >= 1: render_radio(part2_questions[0], question_cols[0], 0, view_state_key)
-                    if questions_to_show >= 2: render_radio(part2_questions[1], question_cols[1], 1, view_state_key)
-                    if questions_to_show >= 3: render_radio(part2_questions[2], question_cols[2], 2, view_state_key)
-                    if questions_to_show >= 4: render_radio(part2_questions[3], question_cols[3], 3, view_state_key)
+                    # --- Function name and variable updated ---
+                    if questions_to_show >= 1: render_p3_radio(part3_questions[0], question_cols[0], 0, view_state_key)
+                    if questions_to_show >= 2: render_p3_radio(part3_questions[1], question_cols[1], 1, view_state_key)
+                    if questions_to_show >= 3: render_p3_radio(part3_questions[2], question_cols[2], 2, view_state_key)
+                    if questions_to_show >= 4: render_p3_radio(part3_questions[3], question_cols[3], 3, view_state_key)
 
-                    if questions_to_show > len(part2_questions):
-                        if st.button("Submit Comparison", key=f"submit_comp_{comparison_id}"):
-                            responses = {q['id']: st.session_state.get(f"p2_{comparison_id}_{q['id']}") for q in part2_questions}
+                    # --- Variable updated ---
+                    if questions_to_show > len(part3_questions):
+                         # --- Button key updated ---
+                        if st.button("Submit Comparison", key=f"submit_comp_p3_{comparison_id}"):
+                            # --- Radio key and variable updated ---
+                            responses = {q['id']: st.session_state.get(f"p3_{comparison_id}_{q['id']}") for q in part3_questions}
                             if any(choice is None for choice in responses.values()):
                                 validation_placeholder.warning("⚠️ Please answer all four questions before submitting.")
                             else:
                                 with st.spinner(""):
                                     all_saved = True
                                     for q_id, choice in responses.items():
-                                        full_q_text = next((q['text'] for q in part2_questions if q['id'] == q_id), "N.A.")
-                                        # Use correct study phase string
-                                        if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part2', full_q_text):
+                                        # --- Variable updated ---
+                                        full_q_text = next((q['text'] for q in part3_questions if q['id'] == q_id), "N.A.")
+                                        # --- STUDY PHASE SWAPPED ---
+                                        if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice, 'user_study_part3', full_q_text): # Changed phase
                                             all_saved = False
                                             break
                                 if all_saved:
                                     st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
 
-                    # --- UPDATED: Use definitions from session state ---
+                    # Use definitions from session state
                     reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term, 'Definition not found.')}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
-    # --- END MAIN CONTENT SWAP ---
+    # --- END MODIFIED ---
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You!")
