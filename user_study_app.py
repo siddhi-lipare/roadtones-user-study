@@ -630,7 +630,7 @@ elif st.session_state.page == 'quiz':
                 if "Tone Controllability" in current_part_key:
                     trait = sample['tone_to_compare']
                     change_type = sample['comparison_type']
-                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> {change_type}?"
+                    question_text_display = f"Has the <b class='highlight-trait'>{trait}</b> level {change_type} from Caption A to B?"
                     terms_to_define.add(trait)
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
