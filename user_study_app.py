@@ -157,11 +157,12 @@ st.markdown("""
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-.slider-label { 
-    height: 80px; 
-    margin-bottom: 0; 
-    font-size: 1.05rem; /* <-- Larger question font */
-            
+.slider-label {
+    height: 80px;
+    margin-bottom: 0;
+    font-size: 1.05rem;
+    font-weight: 600; /* Semi-bold */
+    font-family: 'Inter', sans-serif; /* Explicitly use Inter */
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -190,9 +191,10 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 
 /* --- ADDED: Larger font for Part 3 questions --- */
 .part3-question-text {
-    font-size: 1.05rem; 
-    font-weight: 600;
-    margin-bottom: 0.5rem; /* Add space above radio buttons */
+    font-size: 1.05rem;
+    font-weight: 600; /* Semi-bold */
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', sans-serif; /* Explicitly use Inter */
 }
 /* --- END ADDED --- */
 
