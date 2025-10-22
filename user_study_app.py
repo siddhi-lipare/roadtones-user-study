@@ -1248,7 +1248,6 @@ def go_to_previous_page(target_page):
     st.session_state.page = target_page
     st.rerun()
 
-# --- MODIFIED ---
 def go_to_previous_item(part_key, view_key_to_pop):
     """Navigates to the previous item (caption/comparison) in the main study."""
     st.session_state.pop(view_key_to_pop, None) # Pop current view state
@@ -1270,7 +1269,6 @@ def go_to_previous_item(part_key, view_key_to_pop):
             st.session_state.current_change_index -= 1
     st.rerun()
 
-# --- MODIFIED ---
 def skip_to_questions(view_key, summary_key=None):
     """Skips video, summary, and comprehension quiz, jumping directly to questions."""
     if view_key in st.session_state:
@@ -1405,7 +1403,6 @@ if st.session_state.page == 'demographics':
     gender = st.selectbox("Gender:", options=["Male", "Female", "Other / Prefer not to say"], index=None, placeholder="Select your gender...")
     
     if st.checkbox("I am over 18 and agree to participate in this study. I understand my responses will be recorded anonymously."):
-        # --- MODIFIED: Button layout ---
         nav_cols = st.columns([1, 6]) # Next, Spacer
         with nav_cols[0]:
             if st.button("Next", use_container_width=True):
@@ -1422,7 +1419,6 @@ elif st.session_state.page == 'intro_video':
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
     
-    # --- MODIFIED: Button layout ---
     nav_cols = st.columns([1, 1, 5]) # Prev, Next, Spacer
     with nav_cols[0]:
         st.button("<< Previous", on_click=go_to_previous_page, args=('demographics',), key="prev_intro", use_container_width=True)
@@ -1459,7 +1455,6 @@ elif st.session_state.page == 'what_is_tone':
             else:
                 st.warning(f"Image not found at {image_path}")
 
-    # --- MODIFIED: Button layout ---
     nav_cols = st.columns([1, 1, 5]) # Prev, Next, Spacer
     with nav_cols[0]:
         st.button("<< Previous", on_click=go_to_previous_page, args=('intro_video',), key="prev_tone", use_container_width=True)
@@ -1487,7 +1482,6 @@ elif st.session_state.page == 'factual_info':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    # --- MODIFIED: Button layout ---
     nav_cols = st.columns([1, 1, 5]) # Prev, Start, Spacer
     with nav_cols[0]:
         st.button("<< Previous", on_click=go_to_previous_page, args=('what_is_tone',), key="prev_factual", use_container_width=True)
@@ -1577,7 +1571,6 @@ elif st.session_state.page == 'quiz':
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
             
-            # --- MODIFIED: Moved Skip button here and added visibility condition ---
             if current_step < 6:
                 st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, None), key=f"skip_to_q_quiz_{sample_id}")
 
@@ -1705,7 +1698,7 @@ elif st.session_state.page == 'user_study_main':
 
         current_video = all_videos[video_idx]
         video_id = current_video['video_id']
-        timer_finished_key = f"timer_finished_p1_{video_id}" # --- Unique timer key for Part 1 ---
+        timer_finished_key = f"timer_finished_p1_{video_id}"
         
         if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
             st.subheader("Watch the video")
@@ -1726,10 +1719,12 @@ elif st.session_state.page == 'user_study_main':
                 st.rerun()
         else:
             current_caption = current_video['captions'][caption_idx]
-            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_p1_{current_video['video_id']}" # --- Unique summary key for Part 1 ---
+            view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_p1_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions']
             questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
-            options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            
+            # --- MODIFICATION: Remove 'style_relevance' from static map ---
+            options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
             
             if view_state_key not in st.session_state:
                 initial_step = 5 if caption_idx > 0 else 1
@@ -1776,7 +1771,6 @@ elif st.session_state.page == 'user_study_main':
                 else:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
                 
-                # --- MODIFIED: Moved Skip button here and added visibility condition ---
                 if current_step < 6:
                     st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, summary_typed_key), key=f"skip_to_q_p1_{video_id}")
 
@@ -1792,39 +1786,78 @@ elif st.session_state.page == 'user_study_main':
                     st.markdown(f'<div class="{caption_box_class}" style="background-color: {highlight_color};"><strong>Caption:</strong><p class="caption-text">{current_caption["text"]}</p></div>', unsafe_allow_html=True)
                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p1_{current_caption['caption_id']}")
                     if current_step == 5:
-                        if caption_idx > 0 or video_idx > 0: # --- Only show previous if not the very first caption ---
+                        if caption_idx > 0 or video_idx > 0:
                             st.button("<< Previous", on_click=go_to_previous_item, args=('part1', view_state_key), key=f"prev_from_p1_caption_{video_id}")
                         if st.button("Show Questions", key=f"show_q_{current_caption['caption_id']}"):
                             st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
                     control_scores = current_caption.get("control_scores", {})
                     tone_traits = list(control_scores.get("tone", {}).keys())[:2]
-                    style_traits = list(control_scores.get("writing_style", {}).keys())[:2]
                     application_text = current_caption.get("application", "the intended application")
                     
-                    terms_to_define.update(tone_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
+                    # --- MODIFICATION: Start of new logic for dynamic style questions ---
+                    
+                    # 1. Get only the FIRST style trait
+                    style_traits = list(control_scores.get("writing_style", {}).keys())[:1]
+                    main_style_trait = style_traits[0] if style_traits else None
+                    
+                    terms_to_define.update(tone_traits); terms_to_define.add(application_text)
+                    if main_style_trait:
+                        terms_to_define.add(main_style_trait)
 
+                    # 2. Get the full config object for style_relevance
+                    style_q_config = next((q for q in q_templates if q['id'] == 'style_relevance'), {})
+                    
+                    # 3. Get defaults
+                    default_text_template = style_q_config.get("default_text", "How {} is the caption's writing style?")
+                    default_options = style_q_config.get("default_options", ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"])
+                    
+                    # 4. Find the override for this specific style, or use defaults
+                    style_override = style_q_config.get("overrides", {}).get(main_style_trait, {})
+                    style_q_text_template = style_override.get("text", default_text_template)
+                    style_q_options = style_override.get("options", default_options)
+                    
+                    # 5. Create the dynamic options map for *this* slider render
+                    dynamic_options_map = {
+                        "tone_relevance": options_map["tone_relevance"],
+                        "style_relevance": style_q_options, # <-- The dynamic options
+                        "factual_consistency": options_map["factual_consistency"],
+                        "usefulness": options_map["usefulness"],
+                        "human_likeness": options_map["human_likeness"]
+                    }
+                    
+                    # 6. Format trait strings
                     def format_traits(traits):
                         highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
                         if len(highlighted) > 1: return " and ".join(highlighted)
                         return highlighted[0] if highlighted else ""
 
                     tone_str = format_traits(tone_traits)
-                    style_str = format_traits(style_traits)
+                    style_str = format_traits(style_traits) # Will just be the single style name
                     
+                    # 7. Get other question templates (unchanged)
                     tone_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'tone_relevance'), "How {} does the caption sound?")
-                    style_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'style_relevance'), "How {} is the caption's writing style?")
                     fact_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'factual_consistency'), "How factually accurate is the caption?")
                     useful_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'usefulness'), "How useful is this caption for {}?")
                     human_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'human_likeness'), "How human-like does this caption sound?")
 
+                    # 8. Create the final style question text, handling placeholders
+                    final_style_q_text = ""
+                    if "{}" in style_q_text_template:
+                        final_style_q_text = style_q_text_template.format(style_str)
+                    else:
+                        final_style_q_text = style_q_text_template # Use the text as-is
+
+                    # 9. Build the final questions list
                     questions_to_ask = [
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
-                        {"id": "style_relevance", "text": style_q_template.format(style_str)},
+                        {"id": "style_relevance", "text": final_style_q_text},
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
                         {"id": "human_likeness", "text": human_q_template}
                     ]
+                    
+                    # --- END OF MODIFICATION ---
 
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
                     question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
@@ -1833,7 +1866,8 @@ elif st.session_state.page == 'user_study_main':
                         with col:
                             slider_key = f"ss_{q['id']}_cap{caption_idx}"
                             st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
-                            st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=options_map[q['id']][0])
+                            # --- MODIFICATION: Use dynamic_options_map ---
+                            st.select_slider(q['id'], options=dynamic_options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=dynamic_options_map[q['id']][0])
                     
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
@@ -1845,8 +1879,7 @@ elif st.session_state.page == 'user_study_main':
                     if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4, view_state_key)
                     
                     if questions_to_show > len(questions_to_ask):
-                        # --- MODIFIED: Previous button logic ---
-                        if caption_idx > 0 or video_idx > 0: # Only show if not the very first item
+                        if caption_idx > 0 or video_idx > 0:
                             st.button("<< Previous", on_click=go_to_previous_item, args=('part1', view_state_key), key=f"prev_from_p1_questions_{caption_idx}")
                         
                         if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
@@ -1877,7 +1910,7 @@ elif st.session_state.page == 'user_study_main':
         if comp_idx >= len(all_comparisons): st.session_state.study_part = 3; st.rerun()
 
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
-        timer_finished_key = f"timer_finished_p2_{comparison_id}" # --- Unique timer key for Part 2 ---
+        timer_finished_key = f"timer_finished_p2_{comparison_id}"
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
@@ -1897,7 +1930,7 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[timer_finished_key] = True
                 st.rerun()
         else:
-            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}" # --- Unique summary key for Part 2 ---
+            view_state_key = f"view_state_p2_{comparison_id}"; summary_typed_key = f"summary_typed_p2_{comparison_id}"
             q_templates = st.session_state.all_data['questions']['part2_questions']
             question_ids = [q['id'] for q in q_templates]
 
@@ -1941,7 +1974,6 @@ elif st.session_state.page == 'user_study_main':
                     if st.button("Proceed to Question", key=f"p2_proceed_captions_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
 
-                # --- MODIFIED: Moved Skip button here and added visibility condition ---
                 if current_step < 6:
                     st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, summary_typed_key), key=f"skip_to_q_p2_{comparison_id}")
 
@@ -1991,8 +2023,7 @@ elif st.session_state.page == 'user_study_main':
                     if questions_to_show >= 4: render_radio(part2_questions[3], question_cols[3], 3, view_state_key)
 
                     if questions_to_show > len(part2_questions):
-                        # --- MODIFIED: Previous button logic ---
-                        if comp_idx > 0: # Only show if not the first item
+                        if comp_idx > 0:
                             st.button("<< Previous", on_click=go_to_previous_item, args=('part2', view_state_key), key=f"prev_from_p2_questions_{comparison_id}")
 
                         if st.button("Submit Comparison", key=f"submit_comp_{comparison_id}"):
@@ -2020,7 +2051,7 @@ elif st.session_state.page == 'user_study_main':
         
         current_change = all_changes[change_idx]; change_id = current_change['change_id']
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
-        timer_finished_key = f"timer_finished_p3_{change_id}" # --- Unique timer key for Part 3 ---
+        timer_finished_key = f"timer_finished_p3_{change_id}"
         
         if not st.session_state.get(timer_finished_key, False):
             st.subheader("Watch the video")
@@ -2040,7 +2071,7 @@ elif st.session_state.page == 'user_study_main':
                 st.session_state[timer_finished_key] = True
                 st.rerun()
         else:
-            view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}" # --- Unique summary key for Part 3 ---
+            view_state_key = f"view_state_p3_{change_id}"; summary_typed_key = f"summary_typed_p3_{change_id}"
             if view_state_key not in st.session_state:
                 st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
             current_step = st.session_state[view_state_key]['step']
@@ -2074,7 +2105,6 @@ elif st.session_state.page == 'user_study_main':
                     if st.button("Proceed to Question", key=f"p3_proceed_captions_{change_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
                 
-                # --- MODIFIED: Moved Skip button here and added visibility condition ---
                 if current_step < 6:
                     st.button("DEBUG: Skip to Questions >>", on_click=skip_to_questions, args=(view_state_key, summary_typed_key), key=f"skip_to_q_p3_{change_id}")
             
@@ -2117,8 +2147,7 @@ elif st.session_state.page == 'user_study_main':
                         if submitted:
                             st.session_state[form_submitted_key] = True
                     
-                    # --- MODIFIED: Previous button logic ---
-                    if change_idx > 0: # Only show if not the first item
+                    if change_idx > 0:
                         st.button("<< Previous", on_click=go_to_previous_item, args=('part3', view_state_key), key=f"prev_from_p3_questions_{change_idx}")
 
                     if st.session_state[form_submitted_key]:
@@ -2179,4 +2208,4 @@ parent_document.addEventListener('keyup', function(event) {
     }
 });
 """
-streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v3") # Changed key again to ensure re-run
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v3")

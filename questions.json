@@ -6,7 +6,60 @@
     },
     {
       "id": "style_relevance",
-      "text": "How {} is the caption's writing style?"
+      "default_text": "How {} is the caption's writing style?",
+      "default_options": [
+        "Not at all",
+        "Weak",
+        "Moderate",
+        "Strong",
+        "Very Strong"
+      ],
+      "overrides": {
+        "Exaggeration": {
+          "text": "How strongly does the caption use exaggeration?",
+          "options": [
+            "Not at all",
+            "Slightly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
+        },
+        "CallToAction": {
+          "text": "How strongly does the caption use a call to action?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Directly"
+          ]
+        },
+        "Rhetorical Question": {
+          "text": "How strongly does the caption use a rhetorical question?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
+        },
+        "Pop Culture References": {
+          "text": "How strongly does the caption use a pop culture reference?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
+        }
+      }
+    },
+    {
+      "id": "overall_relevance",
+      "text": "To what extent is the author's tone and writing style relevant for the given video content?"
     },
     {
       "id": "factual_consistency",
