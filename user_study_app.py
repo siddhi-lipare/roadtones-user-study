@@ -18,6 +18,7 @@ STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
 QUESTIONS_DATA_PATH = "questions.json"
+DEFINITIONS_PATH = "definitions.json" # <-- ADDED
 LOCAL_BACKUP_FILE = "responses_backup.jsonl"
 
 # --- JAVASCRIPT FOR ANIMATION ---
@@ -106,7 +107,8 @@ def load_data():
     data = {}
     required_files = {
         "instructions": INSTRUCTIONS_PATH, "quiz": QUIZ_DATA_PATH,
-        "study": STUDY_DATA_PATH, "questions": QUESTIONS_DATA_PATH
+        "study": STUDY_DATA_PATH, "questions": QUESTIONS_DATA_PATH,
+        "definitions": DEFINITIONS_PATH # <-- ADDED
     }
     for key, path in required_files.items():
         if not os.path.exists(path):
@@ -117,6 +119,14 @@ def load_data():
     if not os.path.exists(INTRO_VIDEO_PATH):
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
         return None
+    
+    # --- ADDED: Flatten definitions from JSON ---
+    flat_definitions = {}
+    flat_definitions.update(data['definitions'].get('tones', {}))
+    flat_definitions.update(data['definitions'].get('writing_styles', {}))
+    flat_definitions.update(data['definitions'].get('applications', {}))
+    data['all_definitions'] = flat_definitions
+    # --- END ADDED ---
 
     for part_key in data['study']:
         for item in data['study'][part_key]:
@@ -147,7 +157,11 @@ st.markdown("""
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-.slider-label { height: 80px; margin-bottom: 0; }
+.slider-label { 
+    height: 80px; 
+    margin-bottom: 0; 
+    font-size: 1.05rem; /* <-- Larger question font */
+}
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
@@ -172,6 +186,14 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box h3 { margin-top: 0; padding-bottom: 0.5rem; font-size: 18px; font-weight: 600; }
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
+
+/* --- ADDED: Larger font for Part 3 questions --- */
+.part3-question-text {
+    font-size: 1.05rem; 
+    font-weight: 600;
+    margin-bottom: 0.5rem; /* Add space above radio buttons */
+}
+/* --- END ADDED --- */
 
 /* --- Title font consistency --- */
 h2 {
@@ -204,8 +226,7 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# --- CENTRAL DICTIONARY ---
-DEFINITIONS = { 'Adventurous': 'Shows a willingness to take risks or try out new experiences.', 'Amusing': 'Causes lighthearted laughter or provides entertainment in a playful way.', 'Angry': 'Expresses strong annoyance, displeasure, or hostility towards an event.', 'Anxious': 'Shows a feeling of worry, nervousness, or unease about an uncertain outcome.', 'Appreciative': 'Expresses gratitude, admiration, or praise for an action or event.', 'Assertive': 'Expresses opinions or desires confidently and forcefully.', 'Caring': 'Displays kindness and concern for others.', 'Considerate': 'Shows careful thought and concern for the well-being or safety of others.', 'Critical': 'Expresses disapproving comments or judgments about an action or behavior.', 'Cynical (Doubtful, Skeptical)': "Shows a distrust of others' sincerity or integrity.", 'Emotional': 'Expresses feelings openly and strongly, such as happiness, sadness, or fear.', 'Energetic': 'Displays a high level of activity, excitement, or dynamism.', 'Enthusiastic': 'Shows intense and eager enjoyment or interest in an event.', 'Observant': 'States facts or details about an event in a neutral, notice-based way.', 'Objective (Detached, Impartial)': 'Presents information without personal feelings or bias.', 'Questioning': 'Raises questions or expresses uncertainty about a situation.', 'Reflective': 'Shows deep thought or contemplation about an event or idea.', 'Sarcastic': 'Uses irony or mockery to convey contempt, often by saying the opposite of what is meant.', 'Serious': 'Treats the subject with gravity and importance, without humor.', 'Advisory': 'Gives advice, suggestions, or warnings about a situation.', 'CallToAction': 'Encourages the reader to take a specific action.', 'Conversational': 'Uses an informal, personal, and chatty style, as if talking directly to a friend.', 'Exaggeration': 'Represents something as being larger, better, or worse than it really is for effect.', 'Factual': 'Presents information objectively and accurately, like a news report.', 'Instructional': 'Provides clear directions or information on how to do something.', 'Judgmental': 'Displays an overly critical or moralizing point of view on actions shown.', 'Metaphorical': 'Uses symbolic language or comparisons to describe something.', 'Persuasive': 'Aims to convince the reader to agree with a particular point of view.', 'Rhetorical Question': 'Asks a question not for an answer, but to make a point or create a dramatic effect.', 'Public Safety Alert': 'Intended to inform the public about potential dangers or safety issues.', 'Social Media Update': 'A casual post for sharing personal experiences or observations with friends and followers.', 'Driver Behavior Monitoring': 'Used in systems that track and analyze driving patterns for insurance or fleet management.', 'Law Enforcement Alert': 'A formal notification directed at police or traffic authorities to report violations.', 'Traffic Analysis': 'Data-driven content used for studying traffic flow, violations, and road conditions.', 'Community Road Safety Awareness': 'Aimed at educating the local community about road safety practices.', 'Public Safety Awareness': 'General information to raise public consciousness about safety.', 'Road Safety Education': 'Content designed to teach drivers or the public about safe road use.', 'Traffic Awareness': 'Information focused on current traffic conditions or general traffic issues.'}
+# --- REMOVED HARDCODED DICTIONARY ---
 
 # --- NAVIGATION & STATE HELPERS ---
 def handle_next_quiz_question(view_key_to_pop):
@@ -438,6 +459,9 @@ elif st.session_state.page == 'quiz':
     if st.session_state.current_part_index >= len(part_keys):
         st.session_state.page = 'quiz_results'
         st.rerun()
+    
+    # --- ADDED: Get definitions from session state ---
+    ALL_DEFINITIONS = st.session_state.all_data['all_definitions']
 
     current_part_key = part_keys[st.session_state.current_part_index]
     questions_for_part = st.session_state.all_data['quiz'][current_part_key]
@@ -591,7 +615,8 @@ elif st.session_state.page == 'quiz':
                                 st.session_state.show_feedback = True
                                 st.rerun()
                 if terms_to_define:
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    # --- UPDATED: Use definitions from session state ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'quiz_results':
@@ -604,6 +629,10 @@ elif st.session_state.page == 'quiz_results':
 
 elif st.session_state.page == 'user_study_main':
     if not st.session_state.all_data: st.error("Data could not be loaded."); st.stop()
+    
+    # --- ADDED: Get definitions from session state ---
+    ALL_DEFINITIONS = st.session_state.all_data['all_definitions']
+
     def stream_text(text):
         for word in text.split(" "): yield word + " "; time.sleep(0.08)
     with st.sidebar:
@@ -822,7 +851,8 @@ elif st.session_state.page == 'user_study_main':
                                         st.session_state.current_video_index += 1; st.session_state.current_caption_index = 0
                                     st.session_state.pop(view_state_key, None); st.rerun()
 
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    # --- UPDATED: Use definitions from session state ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 2:
@@ -967,8 +997,9 @@ elif st.session_state.page == 'user_study_main':
                                             break
                                 if all_saved:
                                     st.session_state.current_comparison_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
-
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    
+                    # --- UPDATED: Use definitions from session state ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
     elif st.session_state.study_part == 3:
@@ -1046,10 +1077,12 @@ elif st.session_state.page == 'user_study_main':
                         q2_text = "Is the core factual content consistent across both captions?"
                         col_q1, col_q2 = st.columns(2)
                         with col_q1:
-                            st.markdown(f'**1. {dynamic_question_raw}**', unsafe_allow_html=True)
+                            # --- UPDATED: Use new class for larger font ---
+                            st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
                             choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
                         with col_q2:
-                            st.markdown(f"**2. {q2_text}**")
+                            # --- UPDATED: Use new class for larger font ---
+                            st.markdown(f'<div class="part3-question-text">2. {q2_text}</div>', unsafe_allow_html=True)
                             choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
                         if st.form_submit_button("Submit Answers"):
                             if choice1 is None or choice2 is None: st.error("Please answer both questions.")
@@ -1059,7 +1092,9 @@ elif st.session_state.page == 'user_study_main':
                                     success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
                                 if success1 and success2:
                                     st.session_state.current_change_index += 1; st.session_state.pop(view_state_key, None); st.rerun()
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if DEFINITIONS.get(term)) + "</ul></div>"
+                    
+                    # --- UPDATED: Use definitions from session state ---
+                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term)}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
                     st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'final_thank_you':
