@@ -1,60 +1,59 @@
 {
   "part1_ratings": [
-    {
-      "video_id": "video_1720384416374038862",
-      "video_path": "media/v_1720384416374038862_hluZCTmaLM_-9M70.mp4",
-      "video_summary": "A key road event, captured by what appears to be a stationary camera, depicts an instance of dangerous and rash driving behavior in Colombia. A motorcyclist, wearing a plaid shirt and jeans, was observed performing a risky stunt by standing on the seat of a small, red motorcycle with white handlebars while it was moving. The rider maintained balance while holding the handlebars. This action constitutes traffic rule violations such as reckless driving and performing stunts on a public road.",
-      "road_event_answer": "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle.",
-      "distractor_answers": [
-        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
-        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
-        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
-      ],
-      "captions": [
-        {
-          "caption_id": "video_1720384416374038862_caption1",
-          "text": "Caught this on Thursday morning \ud83d\ude05 what a ride!",
-          "control_scores": {
-            "tone": {
-              "Casual": "Strong",
-              "Playful": "Strong"
-            },
-            "writing_style": {
-              "Conversational": "Strong"
-            }
+  {
+    "video_id": "video_1769884200818389269",
+    "video_path": "media/v_1769884200818389269_OM_cnGr9ZV6CKcY7.mp4",
+    "video_summary": "During daytime in clear, sunny conditions in Japan, a vehicle-mounted camera on a motorcycle captured an instance of unsafe driving behavior and a traffic violation. A car driver obstructed the path of the motorcycle and complained to the rider, despite the motorcycle legally using the road. The road was marked as one-way for other vehicles but included an exception for two-wheelers and bicycles, which the motorcycle rider was adhering to. The car driver's actions constituted obstruction of traffic and potentially failing to yield right of way to the legally present motorcycle.",
+    "road_event_answer": "A car driver obstructs and complains to a motorcyclist legally using a one-way street.",
+    "distractor_answers": [
+      "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+      "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
+      "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+    ],
+    "captions": [
+      {
+        "caption_id": "video_1769884200818389269_caption1",
+        "text": "Car driver blocks legally permitted motorcycle on a one-way street, committing clear traffic obstruction.",
+        "control_scores": {
+          "tone": {
+            "Critical": "Strong"
           },
-          "application": "Reaction Post"
+          "writing_style": {
+            "Factual": "Strong"
+          }
         },
-        {
-          "caption_id": "video_1720384416374038862_caption2",
-          "text": "A stationary camera in Colombia recorded a motorcyclist, dressed in a plaid shirt and jeans, performing a stunt by standing on the seat of a moving red motorcycle while holding the handlebars, constituting a traffic violation. #Colombia #RoadSafety",
-          "control_scores": {
-            "tone": {
-              "Objective": "Very Strong"
-            },
-            "writing_style": {
-              "Factual": "Strong"
-            }
+        "application": "Traffic Rule Violation"
+      },
+      {
+        "caption_id": "video_1769884200818389269_caption2",
+        "text": "Just out here minding my ride while drama unfolds 😂🛵",
+        "control_scores": {
+          "tone": {
+            "Amusing": "Very Strong",
+            "Casual": "Strong"
           },
-          "application": "Law Enforcement Reporting"
+          "writing_style": {
+            "Conversational": "Strong"
+          }
         },
-        {
-          "caption_id": "video_1720384416374038862_caption3",
-          "text": "Standing on a moving motorcycle is not just reckless\u2014it\u2019s a blatant disregard for traffic laws and public safety. Don\u2019t glorify lawbreakers; reject dangerous stunts and demand real responsibility.",
-          "control_scores": {
-            "tone": {
-              "Assertive": "Very Strong",
-              "Critical": "Very Strong"
-            },
-            "writing_style": {
-              "Judgmental": "Strong",
-              "Persuasive": "Strong"
-            }
+        "application": "Reaction Post"
+      },
+      {
+        "caption_id": "video_1769884200818389269_caption3",
+        "text": "In Tokyo, a car blocked a motorcycle on a one-way street that’s open to two-wheelers. What makes drivers react this way even when the rules are clear? 🤔 Road moments like this really make you think. #JapanTraffic",
+        "control_scores": {
+          "tone": {
+            "Curious": "Very Strong",
+            "Reflective": "Very Strong"
           },
-          "application": "Law Enforcement Reporting"
-        }
-      ]
-    },
+          "writing_style": {
+            "Rhetorical Question": "Strong"
+          }
+        },
+        "application": "Community Discussion"
+      }
+    ]
+  },
     {
       "video_id": "video_1749410676656030046",
       "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
@@ -1049,6 +1048,25 @@
       ],
       "caption_A": "Seriously, what was that cyclist thinking in Japan, @JapanPolice? #Tokyo",
       "caption_B": "Wow, @JapanPolice, is reckless cycling just a Tokyo thing now? #Japan",
+      "field_to_change": {
+        "tone": "Sarcastic"
+      },
+      "change_type": "increased",
+      "application": "Law Enforcement Reporting"
+    },
+    {
+      "change_id": "change_002",
+      "video_id": "video_1749410676656030046",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
+      "road_event_answer": "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+      "distractor_answers": [
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall.",
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+        "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic."
+      ],
+      "caption_A": "Trying to overtake on a hairpin bend? That’s just asking for trouble. It’s baffling how some people ignore basic safety, risking lives without a second thought. This level of carelessness is unreal.",
+      "caption_B": "Oh, brilliant move\u2014overtaking on a hairpin bend! Because who needs traffic rules or the slightest hint of common sense, right? What\u2019s next, racing on mountain cliffs for fun?",
       "field_to_change": {
         "tone": "Sarcastic"
       },
