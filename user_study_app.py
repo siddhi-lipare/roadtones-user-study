@@ -587,6 +587,36 @@ elif st.session_state.page == 'user_study_main':
         st.button("Part 2: Caption Comparison", on_click=jump_to_study_part, args=(2,), use_container_width=True)
         st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
+        st.divider()
+        st.subheader("Current Item")
+        try:
+            if st.session_state.study_part == 1:
+                all_videos = st.session_state.all_data['study']['part1_ratings']
+                video_idx = st.session_state.current_video_index
+                if video_idx < len(all_videos):
+                    current_video = all_videos[video_idx]
+                    st.markdown(f"**Video:** `{current_video['video_id']}`")
+                    caption_idx = st.session_state.current_caption_index
+                    if caption_idx < len(current_video['captions']):
+                        st.markdown(f"**Caption:** {caption_idx + 1} / {len(current_video['captions'])}")
+            elif st.session_state.study_part == 2:
+                all_comparisons = st.session_state.all_data['study']['part2_comparisons']
+                comp_idx = st.session_state.current_comparison_index
+                if comp_idx < len(all_comparisons):
+                    current_comp = all_comparisons[comp_idx]
+                    st.markdown(f"**Comparison:** `{current_comp['comparison_id']}`")
+                    st.markdown(f"**Video:** `{current_comp['video_id']}`")
+            elif st.session_state.study_part == 3:
+                all_changes = st.session_state.all_data['study']['part3_intensity_change']
+                change_idx = st.session_state.current_change_index
+                if change_idx < len(all_changes):
+                    current_change = all_changes[change_idx]
+                    st.markdown(f"**Change:** `{current_change['change_id']}`")
+                    st.markdown(f"**Video:** `{current_change['video_id']}`")
+        except Exception:
+            st.warning("Loading item info...")
+
+
     if st.session_state.study_part == 1:
         all_videos = st.session_state.all_data['study']['part1_ratings']
         video_idx, caption_idx = st.session_state.current_video_index, st.session_state.current_caption_index
@@ -680,7 +710,8 @@ elif st.session_state.page == 'user_study_main':
                     style_traits = list(control_scores.get("writing_style", {}).keys())[:2]
                     application_text = current_caption.get("application", "the intended application")
                     
-                    terms_to_define.update(tone_traits); terms_to_define.update(style_traits); terms_to_define.add(application_text)
+                    terms_to_define.update(tone_traits)
+                    terms_to_define.add(application_text)
 
                     def format_traits(traits):
                         highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
@@ -688,17 +719,44 @@ elif st.session_state.page == 'user_study_main':
                         return highlighted[0] if highlighted else ""
 
                     tone_str = format_traits(tone_traits)
-                    style_str = format_traits(style_traits)
+                    
+                    # --- Handle Style Relevance Overrides ---
+                    style_q_template_obj = next((q for q in questions_to_ask_raw if q['id'] == 'style_relevance'), None)
+                    style_overrides = style_q_template_obj.get('overrides', {}) if style_q_template_obj else {}
+                    found_override = False
+                    style_q_text_final = ""
+                    style_q_options_final = []
+
+                    for trait in style_traits:
+                        if trait in style_overrides:
+                            style_q_text_final = style_overrides[trait]['text']
+                            style_q_options_final = style_overrides[trait]['options']
+                            terms_to_define.add(trait)
+                            found_override = True
+                            break
+                    
+                    if not found_override:
+                        style_str = format_traits(style_traits)
+                        default_text = "How {} is the caption's style?"
+                        default_options = ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"]
+                        if style_q_template_obj:
+                            default_text = style_q_template_obj.get('default_text', default_text)
+                            default_options = style_q_template_obj.get('default_options', default_options)
+                        style_q_text_final = default_text.format(style_str)
+                        style_q_options_final = default_options
+                        terms_to_define.update(style_traits)
+                    
+                    options_map['style_relevance'] = style_q_options_final # Update the options map
+                    # --- End Handle Style Relevance Overrides ---
                     
                     tone_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'tone_relevance'), "How {} does the caption sound?")
-                    style_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'style_relevance'), "How {} is the caption's writing style?")
                     fact_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'factual_consistency'), "How factually accurate is the caption?")
                     useful_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'usefulness'), "How useful is this caption for {}?")
                     human_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'human_likeness'), "How human-like does this caption sound?")
 
                     questions_to_ask = [
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
-                        {"id": "style_relevance", "text": style_q_template.format(style_str)},
+                        {"id": "style_relevance", "text": style_q_text_final},
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
                         {"id": "human_likeness", "text": human_q_template}
@@ -822,7 +880,7 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 5 and st.button("Show Questions", key=f"p2_show_q_{comparison_id}"): st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
                     control_scores = current_comp.get("control_scores", {}); tone_traits = list(control_scores.get("tone", {}).keys()); style_traits = list(control_scores.get("writing_style", {}).keys())
-                    terms_to_define.update(tone_traits); terms_to_define.update(style_traits)
+                    terms_to_define.update(tone_traits) # Start with tones
                     
                     def format_part2_traits(traits):
                         highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
@@ -830,9 +888,31 @@ elif st.session_state.page == 'user_study_main':
                         return highlighted[0] if highlighted else ""
 
                     tone_str = format_part2_traits(tone_traits)
-                    style_str = format_part2_traits(style_traits)
                     
-                    part2_questions = [{"id": q["id"], "text": q["text"].format(tone_str if 'tone' in q['id'] else style_str if 'style' in q['id'] else '')} for q in q_templates]
+                    part2_questions = []
+                    for q in q_templates:
+                        q_id = q['id']
+                        if q_id == 'q2_style':
+                            style_overrides = q.get('overrides', {})
+                            found_override = False
+                            style_q_text_final = ""
+                            for trait in style_traits:
+                                if trait in style_overrides:
+                                    style_q_text_final = style_overrides[trait]['text']
+                                    terms_to_define.add(trait)
+                                    found_override = True
+                                    break
+                            if not found_override:
+                                style_str = format_part2_traits(style_traits)
+                                style_q_text_final = q.get('default_text', "Which caption's style is more {}?").format(style_str)
+                                terms_to_define.update(style_traits)
+                            part2_questions.append({"id": q_id, "text": style_q_text_final})
+                        elif q_id == 'q1_tone':
+                            part2_questions.append({"id": q_id, "text": q['text'].format(tone_str)})
+                        else:
+                            # For q3_accuracy, q4_preference which have no formatting
+                            part2_questions.append({"id": q_id, "text": q.get('text', '')})
+
                     options = ["Caption A", "Caption B", "Both A and B", "Neither A nor B"]
                     
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
