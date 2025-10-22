@@ -16,7 +16,7 @@
       ],
       "overrides": {
         "Exaggeration": {
-          "text": "How strongly does the caption use exaggeration?",
+          "text": "How strongly does the caption use <b class='highlight-trait'>Exaggeration</b>?",
           "options": [
             "Not at all",
             "Slightly",
@@ -26,7 +26,7 @@
           ]
         },
         "CallToAction": {
-          "text": "How strongly does the caption use a call to action?",
+          "text": "How strongly does the caption use a <b class='highlight-trait'>CallToAction</b>?",
           "options": [
             "Not at all",
             "Subtly",
@@ -36,7 +36,7 @@
           ]
         },
         "Rhetorical Question": {
-          "text": "How strongly does the caption use a rhetorical question?",
+          "text": "How strongly does the caption use a <b class='highlight-trait'>Rhetorical Question</b>?",
           "options": [
             "Not at all",
             "Subtly",
@@ -46,7 +46,7 @@
           ]
         },
         "Pop Culture References": {
-          "text": "How strongly does the caption use a pop culture reference?",
+          "text": "How strongly does the caption use <b class='highlight-trait'>Pop Culture References</b>?",
           "options": [
             "Not at all",
             "Subtly",
@@ -56,7 +56,7 @@
           ]
         },
         "Analogy": {
-          "text": "How strongly does the caption use an analogy?",
+          "text": "How strongly does the caption use an <b class='highlight-trait'>Analogy</b>?",
           "options": [
             "Not at all",
             "Subtly",
@@ -66,7 +66,7 @@
           ]
         },
         "Metaphorical": {
-          "text": "How strongly does the caption use metaphorical language?",
+          "text": "How strongly does the caption use <b class='highlight-trait'>Metaphorical</b> language?",
           "options": [
             "Not at all",
             "Subtly",
@@ -76,7 +76,7 @@
           ]
         },
         "Proverbial": {
-          "text": "How strongly does the caption use a proverb?",
+          "text": "How strongly does the caption use a <b class='highlight-trait'>Proverbial</b> saying?",
           "options": [
             "Not at all",
             "Subtly",
@@ -86,7 +86,7 @@
           ]
         },
         "Understatement": {
-          "text": "How strongly does the caption use understatement?",
+          "text": "How strongly does the caption use <b class='highlight-trait'>Understatement</b>?",
           "options": [
             "Not at all",
             "Subtly",
@@ -124,28 +124,28 @@
       "default_text": "Which caption's style is more {}?",
       "overrides": {
         "Exaggeration": {
-          "text": "Which caption uses exaggeration more strongly?"
+          "text": "Which caption uses <b class='highlight-trait'>Exaggeration</b> more strongly?"
         },
         "CallToAction": {
-          "text": "Which caption uses a call to action more strongly/directly?"
+          "text": "Which caption uses a <b class='highlight-trait'>CallToAction</b> more strongly/directly?"
         },
         "Rhetorical Question": {
-          "text": "Which caption uses a rhetorical question more strongly?"
+          "text": "Which caption uses a <b class='highlight-trait'>Rhetorical Question</b> more strongly?"
         },
         "Pop Culture References": {
-          "text": "Which caption uses a pop culture reference more strongly?"
+          "text": "Which caption uses <b class='highlight-trait'>Pop Culture References</b> more strongly?"
         },
         "Analogy": {
-          "text": "Which caption uses an analogy more strongly?"
+          "text": "Which caption uses an <b class='highlight-trait'>Analogy</b> more strongly?"
         },
         "Metaphorical": {
-          "text": "Which caption uses metaphorical language more strongly?"
+          "text": "Which caption uses <b class='highlight-trait'>Metaphorical</b> language more strongly?"
         },
         "Proverbial": {
-          "text": "Which caption uses a proverb more strongly?"
+          "text": "Which caption uses a <b class='highlight-trait'>Proverbial</b> saying more strongly?"
         },
         "Understatement": {
-          "text": "Which caption uses understatement more strongly?"
+          "text": "Which caption uses <b class='highlight-trait'>Understatement</b> more strongly?"
         }
       }
     },
