@@ -1177,52 +1177,62 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 5 and st.button("Show Questions", key=f"p3_show_q_{change_id}"): st.session_state[view_state_key]['step'] = 6; st.rerun()
                 if current_step >= 6:
                     terms_to_define = set()
-                    trait = field_to_change[field_type]; terms_to_define.add(trait)
-                    with st.form(key=f"study_form_change_{change_idx}"):
-                        # Determine the correct key for the question template based on fixed logic
-                        if field_type == 'writing_style':
-                            q_template_key = 'Writing Style' # Use the key from questions.json
-                        elif field_type == 'tone':
-                            q_template_key = 'Tone' # Use the key from questions.json
-                        else:
-                            st.error(f"Unknown field type for question template: {field_type}")
-                            continue # Skip item if type is unknown
+                    trait = field_to_change[field_type]
+                    terms_to_define.add(trait)
 
-                        # Check if the key exists before accessing
+                    # --- CORRECTED LOGIC ---
+                    # Determine the correct key for the question template BEFORE the form
+                    q_template = None # Initialize q_template to None
+                    if field_type == 'writing_style':
+                        q_template_key = 'Writing Style'
+                    elif field_type == 'tone':
+                        q_template_key = 'Tone'
+                    else:
+                        st.error(f"Unknown field type for question template: {field_type}")
+                        # Don't render the form if the type is unknown
+                        q_template_key = None # Set key to None to indicate error
+
+                    # Check if the key is valid and exists before proceeding
+                    if q_template_key: # Only proceed if key is not None
                         if q_template_key not in st.session_state.all_data['questions']['part3_questions']:
                             st.error(f"Question template key '{q_template_key}' not found in questions.json")
-                            continue # Skip item if key is missing
+                            # Don't render the form if the key is missing
+                        else:
+                            # Key is valid and exists, get the template
+                            q_template = st.session_state.all_data['questions']['part3_questions'][q_template_key]
 
-                        q_template = st.session_state.all_data['questions']['part3_questions'][q_template_key]
-                        highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                        dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change['change_type'])
-                        # Remove HTML tags for saving to sheet
-                        dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
-                        q2_text = "Is the core factual content consistent across both captions?"
-                        col_q1, col_q2 = st.columns(2)
-                        with col_q1:
-                            st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
-                            choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
-                        with col_q2:
-                            st.markdown(f'<div class="part3-question-text">2. {q2_text}</div>', unsafe_allow_html=True)
-                            choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
+                    # Only render the form if we successfully found the q_template
+                    if q_template:
+                        with st.form(key=f"study_form_change_{change_idx}"):
+                            highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
+                            dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change['change_type'])
+                            # Remove HTML tags for saving to sheet
+                            dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
+                            q2_text = "Is the core factual content consistent across both captions?"
+                            col_q1, col_q2 = st.columns(2)
+                            with col_q1:
+                                st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
+                                choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q1", label_visibility="collapsed")
+                            with col_q2:
+                                st.markdown(f'<div class="part3-question-text">2. {q2_text}</div>', unsafe_allow_html=True)
+                                choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{current_change['change_id']}_q2", label_visibility="collapsed")
 
-                        if st.form_submit_button("Submit Answers"):
-                            if choice1 is None or choice2 is None:
-                                st.error("Please answer both questions.")
-                            else:
-                                with st.spinner("Saving response..."):
-                                    success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
-                                    success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
-                                if success1 and success2:
-                                    st.session_state.current_change_index += 1
-                                    st.session_state.pop(view_state_key, None) # Clear state for this item
-                                    st.rerun() # Move to the next item
+                            if st.form_submit_button("Submit Answers"):
+                                if choice1 is None or choice2 is None:
+                                    st.error("Please answer both questions.")
+                                else:
+                                    with st.spinner("Saving response..."):
+                                        success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part3', dynamic_question_save)
+                                        success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part3', q2_text)
+                                    if success1 and success2:
+                                        st.session_state.current_change_index += 1
+                                        st.session_state.pop(view_state_key, None) # Clear state for this item
+                                        st.rerun() # Move to the next item
 
-                    # --- UPDATED: Use definitions from session state ---
-                    reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term, 'Definition not found.')}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
-                    st.markdown(reference_html, unsafe_allow_html=True)
-
+                    # Display reference box regardless of whether the form rendered, if terms were added
+                    if terms_to_define:
+                        reference_html = '<div class="reference-box"><h3>Reference</h3><ul>' + "".join(f"<li><strong>{term}:</strong> {ALL_DEFINITIONS.get(term, 'Definition not found.')}</li>" for term in sorted(list(terms_to_define)) if ALL_DEFINITIONS.get(term)) + "</ul></div>"
+                        st.markdown(reference_html, unsafe_allow_html=True)
 
 elif st.session_state.page == 'final_thank_you':
     st.title("Study Complete! Thank You!")
