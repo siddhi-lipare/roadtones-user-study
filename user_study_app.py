@@ -247,9 +247,34 @@ def jump_to_part(part_index):
     st.session_state.current_rating_question_index = 0; st.session_state.show_feedback = False
 
 def jump_to_study_part(part_number):
-    st.session_state.study_part = part_number; st.session_state.current_video_index = 0
-    st.session_state.current_caption_index = 0; st.session_state.current_comparison_index = 0
+    st.session_state.study_part = part_number
+    # Reset all indices
+    st.session_state.current_video_index = 0
+    st.session_state.current_caption_index = 0
+    st.session_state.current_comparison_index = 0
     st.session_state.current_change_index = 0
+
+def jump_to_study_item(part_number, item_index):
+    """Jumps to a specific item index within a study part."""
+    st.session_state.study_part = part_number
+    
+    # Set target part's index
+    if part_number == 1:
+        st.session_state.current_video_index = item_index
+        st.session_state.current_caption_index = 0 # Always start at first caption
+    elif part_number == 2:
+        st.session_state.current_comparison_index = item_index
+    elif part_number == 3:
+        st.session_state.current_change_index = item_index
+    
+    # Reset other parts' indices
+    if part_number != 1:
+        st.session_state.current_video_index = 0
+        st.session_state.current_caption_index = 0
+    if part_number != 2:
+        st.session_state.current_comparison_index = 0
+    if part_number != 3:
+        st.session_state.current_change_index = 0
 
 def restart_quiz():
     st.session_state.page = 'quiz'; st.session_state.current_part_index = 0
@@ -588,33 +613,29 @@ elif st.session_state.page == 'user_study_main':
         st.button("Part 3: Tone Intensity Change", on_click=jump_to_study_part, args=(3,), use_container_width=True)
 
         st.divider()
-        st.subheader("Current Item")
-        try:
+
+        # --- NEW EXPANDER FOR ITEM NAVIGATION ---
+        with st.expander("Jump to Item", expanded=True):
             if st.session_state.study_part == 1:
                 all_videos = st.session_state.all_data['study']['part1_ratings']
-                video_idx = st.session_state.current_video_index
-                if video_idx < len(all_videos):
-                    current_video = all_videos[video_idx]
-                    st.markdown(f"**Video:** `{current_video['video_id']}`")
-                    caption_idx = st.session_state.current_caption_index
-                    if caption_idx < len(current_video['captions']):
-                        st.markdown(f"**Caption:** {caption_idx + 1} / {len(current_video['captions'])}")
+                for i, video in enumerate(all_videos):
+                    video_id = video['video_id']
+                    st.button(f"`{video_id}`", key=f"jump_vid_{video_id}", use_container_width=True,
+                              on_click=jump_to_study_item, args=(1, i))
+            
             elif st.session_state.study_part == 2:
                 all_comparisons = st.session_state.all_data['study']['part2_comparisons']
-                comp_idx = st.session_state.current_comparison_index
-                if comp_idx < len(all_comparisons):
-                    current_comp = all_comparisons[comp_idx]
-                    st.markdown(f"**Comparison:** `{current_comp['comparison_id']}`")
-                    st.markdown(f"**Video:** `{current_comp['video_id']}`")
+                for i, comp in enumerate(all_comparisons):
+                    comp_id = comp['comparison_id']
+                    st.button(f"`{comp_id}`", key=f"jump_comp_{comp_id}", use_container_width=True,
+                              on_click=jump_to_study_item, args=(2, i))
+
             elif st.session_state.study_part == 3:
                 all_changes = st.session_state.all_data['study']['part3_intensity_change']
-                change_idx = st.session_state.current_change_index
-                if change_idx < len(all_changes):
-                    current_change = all_changes[change_idx]
-                    st.markdown(f"**Change:** `{current_change['change_id']}`")
-                    st.markdown(f"**Video:** `{current_change['video_id']}`")
-        except Exception:
-            st.warning("Loading item info...")
+                for i, change in enumerate(all_changes):
+                    change_id = change['change_id']
+                    st.button(f"`{change_id}`", key=f"jump_chg_{change_id}", use_container_width=True,
+                              on_click=jump_to_study_item, args=(3, i))
 
 
     if st.session_state.study_part == 1:
