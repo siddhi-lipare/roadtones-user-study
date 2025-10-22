@@ -441,7 +441,7 @@ elif st.session_state.page == 'what_is_tone':
         st.subheader("For example:")
 
     # --- MODIFIED: Added gap="small" ---
-    col1, col2 = st.columns([2, 3], gap="small") 
+    col1, col2 = st.columns([2, 3], gap="small")
     with col1:
         _, vid_col, _ = st.columns([1, 1.5, 1])
         with vid_col:
@@ -457,17 +457,17 @@ elif st.session_state.page == 'what_is_tone':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    # --- MODIFIED BUTTONS: Removed use_container_width ---
+    # --- MODIFIED BUTTONS: Bottom Left & Right ---
     st.markdown("<br>", unsafe_allow_html=True) # Add a little space
-    _, prev_col, next_col, _ = st.columns([1.5, 1, 1, 1.5]) # Center the two buttons
-    
+    prev_col, _, next_col = st.columns([1, 5, 1]) # Adjust ratios for left/right placement
+
     with prev_col:
-        if st.button("Prev <<"): # Removed use_container_width
+        if st.button("Prev <<"): # Small button on the left
             st.session_state.page = 'intro_video' # Go back to intro video
             st.rerun()
-            
+
     with next_col:
-        if st.button("Next >>"): # Removed use_container_width
+        if st.button("Next >>"): # Small button on the right
             st.session_state.page = 'factual_info' # Go to factual info
             st.rerun()
     # --- END MODIFIED BUTTONS ---
@@ -493,21 +493,19 @@ elif st.session_state.page == 'factual_info':
         else:
             st.warning(f"Image not found at {image_path}")
 
-    # --- MODIFIED BUTTONS: Removed use_container_width ---
+    # --- MODIFIED BUTTONS: Bottom Left & Right ---
     st.markdown("<br>", unsafe_allow_html=True) # Add a little space
-    _, prev_col, next_col, _ = st.columns([1.5, 1, 1, 1.5]) # Center the two buttons
-    
+    prev_col, _, next_col = st.columns([1, 5, 1]) # Adjust ratios for left/right placement
+
     with prev_col:
-        if st.button("Prev <<"): # Removed use_container_width
+        if st.button("Prev <<"): # Small button on the left
             st.session_state.page = 'what_is_tone' # Go back to what_is_tone
             st.rerun()
-            
+
     with next_col:
-        if st.button("Start Quiz >>"): # Removed use_container_width
+        if st.button("Start Quiz >>"): # Small button on the right
             st.session_state.page = 'quiz'
             st.rerun()
-    # --- END MODIFIED BUTTONS ---
-
 
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
@@ -1270,7 +1268,7 @@ const parent_document = window.parent.document;
 console.log("Attaching Arrow key listener.");
 parent_document.addEventListener('keyup', function(event) {
     const activeElement = parent_document.activeElement;
-    // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
+    // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER/INPUT/TEXTAREA
     if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
         return;
     }
@@ -1282,7 +1280,7 @@ parent_document.addEventListener('keyup', function(event) {
             "Submit Answer", "Next Question", "Show Questions",
             "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
             "Proceed to Summary", "Proceed to Question", "Proceed to User Study",
-            "Take Quiz Again", "Submit", "Next >>", "Start Quiz >>", "Next"
+            "Take Quiz Again", "Submit", "Next >>", "Start Quiz >>", "Next" // Added "Start Quiz >>"
         ];
         const allButtons = Array.from(parent_document.querySelectorAll('button'));
         const visibleButtons = allButtons.filter(btn => btn.offsetParent !== null); // Check if button is visible
@@ -1316,4 +1314,4 @@ parent_document.addEventListener('keyup', function(event) {
     }
 });
 """
-streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v3") # Incremented key
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v4") # Incremented key
