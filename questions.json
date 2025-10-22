@@ -6,7 +6,7 @@
     },
     {
       "id": "style_relevance",
-      "default_text": "How {} is the caption's writing style?",
+      "default_text": "How {} is the caption's style?",
       "default_options": [
         "Not at all",
         "Weak",
@@ -54,12 +54,52 @@
             "Strongly",
             "Very Strongly"
           ]
+        },
+        "Analogy": {
+          "text": "How strongly does the caption use an analogy?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
+        },
+        "Metaphorical": {
+          "text": "How strongly does the caption use metaphorical language?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
+        },
+        "Proverbial": {
+          "text": "How strongly does the caption use a proverb?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
+        },
+        "Understatement": {
+          "text": "How strongly does the caption use understatement?",
+          "options": [
+            "Not at all",
+            "Subtly",
+            "Moderately",
+            "Strongly",
+            "Very Strongly"
+          ]
         }
       }
     },
     {
       "id": "overall_relevance",
-      "text": "To what extent is the author's tone and writing style relevant for the given video content?"
+      "text": "To what extent is the author's tone and style relevant for the given video content?"
     },
     {
       "id": "factual_consistency",
@@ -81,7 +121,33 @@
     },
     {
       "id": "q2_style",
-      "text": "Which caption's writing style is more {}?"
+      "default_text": "Which caption's style is more {}?",
+      "overrides": {
+        "Exaggeration": {
+          "text": "Which caption uses exaggeration more strongly?"
+        },
+        "CallToAction": {
+          "text": "Which caption uses a call to action more strongly/directly?"
+        },
+        "Rhetorical Question": {
+          "text": "Which caption uses a rhetorical question more strongly?"
+        },
+        "Pop Culture References": {
+          "text": "Which caption uses a pop culture reference more strongly?"
+        },
+        "Analogy": {
+          "text": "Which caption uses an analogy more strongly?"
+        },
+        "Metaphorical": {
+          "text": "Which caption uses metaphorical language more strongly?"
+        },
+        "Proverbial": {
+          "text": "Which caption uses a proverb more strongly?"
+        },
+        "Understatement": {
+          "text": "Which caption uses understatement more strongly?"
+        }
+      }
     },
     {
       "id": "q3_accuracy",
@@ -94,6 +160,6 @@
   ],
   "part3_questions": {
     "Tone": "Has the {} level {change_type} from Caption A to B?",
-    "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
+    "Style": "Has the {} strength {change_type} from Caption A to B?"
   }
 }
