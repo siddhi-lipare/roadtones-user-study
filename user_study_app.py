@@ -540,49 +540,50 @@ elif st.session_state.page == 'quiz':
 
         col1, col2 = st.columns([1.2, 1.5])
 
+        # --- MODIFIED BLOCK ---
         with col1:
             # --- Conditionally display video and summary ---
-            # Show only if NOT (Caption Quality part AND second question index > 0)
-            if not is_second_quality_question:
-                if current_step < 5:
-                    st.subheader("Watch the video")
-                else:
-                    st.subheader("Video")
-
-                if sample.get("orientation") == "portrait":
-                    _, vid_col, _ = st.columns([1, 3, 1])
-                    with vid_col:
-                        st.video(sample['video_path'], autoplay=True, muted=True)
-                else:
-                    st.video(sample['video_path'], autoplay=True, muted=True)
-
-                if current_step == 1:
-                    if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
-                        st.session_state[view_state_key]['step'] = 2
-                        st.rerun()
-                if current_step >= 2 and "video_summary" in sample:
-                    st.subheader("Video Summary")
-                    # Check if summary has already been typed out
-                    summary_typed_key = f"{view_state_key}_summary_typed"
-                    if st.session_state.get(summary_typed_key, False):
-                        st.info(sample["video_summary"])
-                    else:
-                        with st.empty(): # Use empty container for streaming
-                            st.write_stream(stream_text(sample["video_summary"]))
-                        st.session_state[summary_typed_key] = True # Mark as typed
-                    if current_step == 2:
-                        if st.button("Proceed to Question", key=f"quiz_comp_q_{sample_id}"):
-                            st.session_state[view_state_key]['step'] = 3
-                            st.rerun()
+            
+            # Show "Watch the video" title only if it's the first question and before step 5
+            if not is_second_quality_question and current_step < 5:
+                st.subheader("Watch the video")
             else:
-                 # If skipping video/summary for the second quality question, still show "Video" title
-                 st.subheader("Video")
-                 if sample.get("orientation") == "portrait":
-                    _, vid_col, _ = st.columns([1, 3, 1])
-                    with vid_col:
-                        st.video(sample['video_path'], autoplay=True, muted=True)
-                 else:
+                st.subheader("Video")
+
+            # Always show the video player
+            if sample.get("orientation") == "portrait":
+                _, vid_col, _ = st.columns([1, 3, 1])
+                with vid_col:
                     st.video(sample['video_path'], autoplay=True, muted=True)
+            else:
+                st.video(sample['video_path'], autoplay=True, muted=True)
+
+            # Show "Proceed to Summary" button only on step 1
+            if current_step == 1:
+                if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
+                    st.session_state[view_state_key]['step'] = 2
+                    st.rerun()
+            
+            # Show Video Summary if step >= 2 (this now includes step 6 for the second question)
+            if current_step >= 2 and "video_summary" in sample:
+                st.subheader("Video Summary")
+                summary_typed_key = f"{view_state_key}_summary_typed"
+                
+                # If summary is already typed (i.e., first question done), just show it
+                if st.session_state.get(summary_typed_key, False):
+                    st.info(sample["video_summary"])
+                else:
+                    # Otherwise, stream it for the first time
+                    with st.empty(): # Use empty container for streaming
+                        st.write_stream(stream_text(sample["video_summary"]))
+                    st.session_state[summary_typed_key] = True # Mark as typed
+                
+                # Show "Proceed to Question" button only on step 2
+                if current_step == 2:
+                    if st.button("Proceed to Question", key=f"quiz_comp_q_{sample_id}"):
+                        st.session_state[view_state_key]['step'] = 3
+                        st.rerun()
+        # --- END MODIFIED BLOCK ---
 
 
         with col2:
@@ -1245,7 +1246,7 @@ console.log("Attaching ArrowRight key listener.");
 parent_document.addEventListener('keyup', function(event) {
     const activeElement = parent_document.activeElement;
     // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
-    if (activeElement && (activeElement.tagName === 'INPUT' || activeTagelement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
         return;
     }
 
