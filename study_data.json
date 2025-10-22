@@ -890,25 +890,6 @@
       "application": "Reaction Post"
     },
     {
-      "change_id": "change_002",
-      "video_id": "video_1772082398257127647",
-      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
-      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
-      "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
-      "distractor_answers": [
-        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
-        "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic.",
-        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries."
-      ],
-      "caption_A": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
-      "caption_B": "My heart races watching this—out of nowhere, a car comes crashing over a fence, metal everywhere, people running. It’s so overwhelming. #CarCrash 😰",
-      "field_to_change": {
-        "tone": "Emotional"
-      },
-      "change_type": "increased",
-      "application": "Reaction Post"
-    },
-    {
       "change_id": "change_003",
       "video_id": "video_1612557874131095564",
       "video_path": "media/v_1612557874131095564_hEvyM8YOgxYD8iIs.mp4",
@@ -926,6 +907,25 @@
       },
       "change_type": "increased",
       "application": "Public Reporting and Awareness"
+    },
+        {
+      "change_id": "change_002",
+      "video_id": "video_1772082398257127647",
+      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
+      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
+      "road_event_answer": "A sports car crashed at high speed, and the occupants fled the scene.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic.",
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries."
+      ],
+      "caption_A": "A car suddenly flips over, sending debris everywhere— so unsettling to watch. People rush away, unsure what just happened. 🚗💥 #Crash #RoadDrama",
+      "caption_B": "My heart races watching this—out of nowhere, a car comes crashing over a fence, metal everywhere, people running. It’s so overwhelming. #CarCrash 😰",
+      "field_to_change": {
+        "tone": "Emotional"
+      },
+      "change_type": "increased",
+      "application": "Reaction Post"
     },
     {
       "change_id": "change_004",
