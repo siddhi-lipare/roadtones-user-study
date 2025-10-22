@@ -154,16 +154,13 @@ st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Nunito+Sans:wght@400;600&display=swap');
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
-.slider-label {
-    height: 80px;
-    margin-bottom: 0;
-    font-size: 1.05rem; /* Keeps the size */
-    font-weight: 600;   /* Keeps it bold */
-    font-family: 'Nunito Sans', sans-serif; /* CHANGE FONT HERE */
+.slider-label { 
+    height: 80px; 
+    margin-bottom: 0; 
+    font-size: 1.05rem; /* <-- Larger question font */
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -191,12 +188,10 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box li { margin-bottom: 0.5rem; }
 
 /* --- ADDED: Larger font for Part 3 questions --- */
-/* For Part 3 questions */
 .part3-question-text {
-    font-size: 1.05rem; /* Keeps the size */
-    font-weight: 600;   /* Keeps it bold */
-    margin-bottom: 0.5rem;
-    font-family: 'Nunito Sans', sans-serif; /* CHANGE FONT HERE */
+    font-size: 1.05rem; 
+    font-weight: 600;
+    margin-bottom: 0.5rem; /* Add space above radio buttons */
 }
 /* --- END ADDED --- */
 
