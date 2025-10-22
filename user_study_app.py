@@ -154,6 +154,7 @@ st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Nunito+Sans:wght@400;600&display=swap');
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
@@ -161,8 +162,8 @@ st.markdown("""
     height: 80px;
     margin-bottom: 0;
     font-size: 1.05rem; /* Keeps the size */
-    font-weight: 600; /* Keeps it bold */
-    font-family: 'Roboto', sans-serif; /* CHANGE FONT HERE */
+    font-weight: 600;   /* Keeps it bold */
+    font-family: 'Nunito Sans', sans-serif; /* CHANGE FONT HERE */
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -193,9 +194,9 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 /* For Part 3 questions */
 .part3-question-text {
     font-size: 1.05rem; /* Keeps the size */
-    font-weight: 600; /* Keeps it bold */
+    font-weight: 600;   /* Keeps it bold */
     margin-bottom: 0.5rem;
-    font-family: 'Roboto', sans-serif; /* CHANGE FONT HERE */
+    font-family: 'Nunito Sans', sans-serif; /* CHANGE FONT HERE */
 }
 /* --- END ADDED --- */
 
