@@ -165,7 +165,7 @@ st.markdown("""
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
 .slider-label {
     height: 80px;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem; /* MODIFIED: Was 0 */
     font-size: 1.05rem;
     font-weight: 600; /* Semi-bold */
     font-family: 'Inter', sans-serif; /* Explicitly use Inter */
@@ -200,6 +200,7 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
     font-weight: 600; /* Semi-bold */
     margin-bottom: 0.5rem;
     font-family: 'Inter', sans-serif; /* Explicitly use Inter */
+    height: 70px; /* ADDED: To ensure alignment of radio buttons below */
 }
 
 /* --- Title font consistency --- */
@@ -1244,7 +1245,7 @@ console.log("Attaching ArrowRight key listener.");
 parent_document.addEventListener('keyup', function(event) {
     const activeElement = parent_document.activeElement;
     // PREVENT ACTION IF USER IS TYPING OR FOCUSED ON A SLIDER
-    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeTagelement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
         return;
     }
 
@@ -1273,4 +1274,3 @@ parent_document.addEventListener('keyup', function(event) {
 });
 """
 streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v2") # Reverted key if needed, or use v3
-
