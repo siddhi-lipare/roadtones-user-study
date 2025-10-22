@@ -1504,9 +1504,18 @@ if st.session_state.page == 'demographics':
     st.header("Welcome! Before you begin, please provide some basic information:")
     email = st.text_input("Please enter your email address:")
     # Use None as the default value for selectbox placeholders
-    age = st.selectbox("Age:", options=[None] + list(range(18, 61)), index=0, format_func=lambda x: "Select your age..." if x is None else x)
-    gender = st.selectbox("Gender:", options=[None, "Male", "Female", "Other / Prefer not to say"], index=0, format_func=lambda x: "Select your gender..." if x is None else x)
-
+    age = st.selectbox(
+        "Age:",
+        options=list(range(18, 61)),  # Options are just the numbers
+        index=None,                  # Nothing selected by default
+        placeholder="Select your age..." # Display text for default
+    )
+    gender = st.selectbox(
+        "Gender:",
+        options=["Male", "Female", "Other / Prefer not to say"], # Options are just the strings
+        index=None,                         # Nothing selected by default
+        placeholder="Select your gender..." # Display text for default
+    )
     if st.checkbox("I am over 18 and agree to participate in this study. I understand my responses will be recorded anonymously."):
         nav_cols = st.columns([1, 6]) # Next, Spacer
         with nav_cols[0]:
