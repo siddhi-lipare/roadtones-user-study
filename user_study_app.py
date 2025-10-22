@@ -1188,14 +1188,15 @@ def load_data():
 
 # --- UI & STYLING ---
 st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
+# --- FONT FIX: Reverted CSS styles to original ---
 st.markdown("""
 <style>
 @import url('https.fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
-.new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; } /* This is the yellow highlight */
-.slider-label { min-height: 80px; margin-bottom: 0; display: flex; align-items: center;} /* Use min-height and flex for alignment */
-.highlight-trait { color: #4f46e5; font-weight: 600; } /* This is the indigo blue highlight */
+.new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
+.slider-label { height: 80px; margin-bottom: 0; }
+.highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
 .part1-caption-box .caption-text { margin: 0.5em 0 0 0; color: #111827 !important; }
@@ -1226,17 +1227,6 @@ h2 {
     font-weight: 600 !important;
 }
 
-/* --- User Study Question Font Size --- */
-.slider-label strong, [data-testid="stRadio"] label span {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important; /* Make radio labels bold too */
-}
-.part3-question-text {
-    font-size: 1.1rem !important;
-    font-weight: 600;
-    padding-bottom: 0.5rem;
-}
-
 /* --- CUSTOM BUTTON STYLING --- */
 div[data-testid="stButton"] > button, .stForm [data-testid="stButton"] > button {
     background-color: #FAFAFA; /* Very light grey */
@@ -1261,6 +1251,7 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 }
 </style>
 """, unsafe_allow_html=True)
+# --- END FONT FIX ---
 
 # --- NAVIGATION & STATE HELPERS ---
 def go_to_previous_page(target_page):
@@ -1371,7 +1362,7 @@ def jump_to_study_part(part_number):
             st.session_state.pop(key, None)
     st.rerun()
 
-# --- NEW: Helper for sidebar navigation in main study ---
+# --- Helper for sidebar navigation in main study ---
 def jump_to_study_item(part_key, item_index):
     if part_key == 'part1':
         st.session_state.current_video_index = item_index
@@ -2416,10 +2407,12 @@ elif st.session_state.page == 'user_study_main':
 
                         col_q1, col_q2 = st.columns(2)
                         with col_q1:
-                            st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True)
+                            # FONT FIX: Reverted to st.markdown
+                            st.markdown(f'**1. {dynamic_question_raw}**', unsafe_allow_html=True)
                             choice1 = st.radio("q1_label", ["Yes", "No"], index=None, horizontal=True, key=f"{change_id}_q1", label_visibility="collapsed")
                         with col_q2:
-                            st.markdown(f"<div class='part3-question-text'>2. {q2_text}</div>", unsafe_allow_html=True)
+                            # FONT FIX: Reverted to st.markdown
+                            st.markdown(f"**2. {q2_text}**")
                             choice2 = st.radio("q2_label", ["Yes", "No"], index=None, horizontal=True, key=f"{change_id}_q2", label_visibility="collapsed")
 
                         submitted = st.form_submit_button("Submit Answers", use_container_width=True)
@@ -2464,7 +2457,7 @@ if (!parent_document.arrowKeyListenerAttached) {
     parent_document.addEventListener('keyup', function(event) {
         const activeElement = parent_document.activeElement;
         // Check if focus is inside an input, textarea, or slider
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
+        if (activeElement && (activeElement.tagName === 'INPUT' || activeAElement.tagName === 'TEXTAREA' || activeElement.getAttribute('role') === 'slider')) {
             return; // Don't trigger button clicks if typing or sliding
         }
 
