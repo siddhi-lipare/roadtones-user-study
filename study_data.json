@@ -1305,6 +1305,25 @@
       },
       "change_type": "decreased",
       "application": "Public Safety Awareness"
+    },
+        {
+      "change_id": "change_019",
+    "video_id": "video_1769884200818389269",
+    "video_path": "media/v_1769884200818389269_OM_cnGr9ZV6CKcY7.mp4",
+    "video_summary": "During daytime in clear, sunny conditions in Japan, a vehicle-mounted camera on a motorcycle captured an instance of unsafe driving behavior and a traffic violation. A car driver obstructed the path of the motorcycle and complained to the rider, despite the motorcycle legally using the road. The road was marked as one-way for other vehicles but included an exception for two-wheelers and bicycles, which the motorcycle rider was adhering to. The car driver's actions constituted obstruction of traffic and potentially failing to yield right of way to the legally present motorcycle.",
+    "road_event_answer": "A car driver obstructs and complains to a motorcyclist legally using a one-way street.",
+    "distractor_answers": [
+      "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+      "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
+      "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+    ],
+      "caption_A": "Car driver blocks legally permitted motorcycle on a one-way street, committing clear traffic obstruction.",
+      "caption_B": "A car driver aggressively blocked a motorcycle\u2019s legal route, blatantly violating right of way and safety.",
+      "field_to_change": {
+        "writing_style": "Angry"
+      },
+      "change_type": "increased",
+      "application": "Public Safety Awareness"
     }
   ]
 }
