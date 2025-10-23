@@ -1286,6 +1286,25 @@
       },
       "change_type": "increased",
       "application": "Law Enforcement Reporting"
+    },
+    {
+      "change_id": "change_018",
+      "video_id": "video_1692974964909961669",
+      "video_path": "media/v_1692974964909961669_ZLNY96YG_I7nEaxZ.mp4",
+      "video_summary": "During the daytime in the United States, a stationary camera, likely a surveillance or CCTV camera at an intersection, captured a near-miss incident between a gray BMW SUV and a jogger. The BMW SUV, with its turn signal activated, was attempting to make a right turn on red and was inching forward. Simultaneously, a jogger, wearing a gray shirt and shorts, was running across the crosswalk. The traffic light for the cross street was yellow, indicating an upcoming change. The BMW driver failed to yield to the pedestrian, causing the jogger to jump away to avoid being hit. The incident highlights unsafe driving behavior, likely due to the driver's inattention or impatience, and a failure to yield to a pedestrian in a crosswalk, potentially also running a red light if the turn on red was not permitted. The jogger may have been unaware of the approaching vehicle or assumed they had the right of way. The near-miss could have been prevented by the driver being more attentive and yielding, and by the jogger making eye contact with the driver.",
+      "road_event_answer": "An SUV attempting a right turn on red fails to yield to a jogger in the crosswalk, resulting in a near-miss.",
+      "distractor_answers": [
+        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle.",
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend."
+      ], 
+      "caption_A": "Reckless driving at its finest: BMW SUV nearly hits jogger in crosswalk, ignoring right-of-way \ud83d\udea8",
+      "caption_B": "A gray BMW SUV nearly hits a jogger in the crosswalk while turning right on red. 🚶‍♂️🚗",
+      "field_to_change": {
+        "writing_style": "Judgmental"
+      },
+      "change_type": "decreased",
+      "application": "Public Safety Awareness"
     }
   ]
 }
