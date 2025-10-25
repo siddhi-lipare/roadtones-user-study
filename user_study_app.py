@@ -36,7 +36,8 @@ JS_ANIMATION_RESET = """
         "Proceed to Summary",
         "Proceed to Question",
         "Proceed to Caption(s)",
-        "Show Questions"
+        "Show Questions",
+        "Next Question"
     ];
     const allButtons = window.parent.document.querySelectorAll('div[data-testid="stButton"] > button');
     allButtons.forEach(btn => {
@@ -592,13 +593,19 @@ elif st.session_state.page == 'quiz':
     sample = questions_for_part[current_sample_index]
     sample_id = sample.get('sample_id', f'quiz_{current_sample_index}') # Unique ID for state keys
 
+    # --- ADDED BLOCK: Check for specific quiz question to skip steps ---
+    is_part2_first_question = (current_part_key == "Part 2: Tone Controllability Evaluation" and current_sample_index == 0)
+    # --- END ADDED BLOCK ---
+
     # --- Initial video play timer ---
     timer_finished_key = f"timer_finished_quiz_{sample_id}"
     # --- Check if it's Caption Quality and NOT the first question for this sample ---
     is_second_quality_question = ("Caption Quality" in current_part_key and st.session_state.current_rating_question_index > 0)
 
     # Only play video initially if timer isn't finished AND it's not the second quality question
-    if not st.session_state.get(timer_finished_key, False) and not is_second_quality_question:
+    # --- MODIFIED: Added check for is_part2_first_question ---
+    if not st.session_state.get(timer_finished_key, False) and not is_second_quality_question and not is_part2_first_question:
+    # --- END MODIFIED ---
         st.subheader("Watch the video")
         with st.spinner(" "): # Added spinner text
             col1, _ = st.columns([1.2, 1.5])
@@ -619,6 +626,10 @@ elif st.session_state.page == 'quiz':
         if view_state_key not in st.session_state:
             # If it's the second quality question, jump directly to showing questions (step 6)
             initial_step = 6 if is_second_quality_question else 1
+            # --- ADDED BLOCK: Override initial_step for the specific quiz question ---
+            if is_part2_first_question:
+                initial_step = 5 # Jump directly to showing summary/captions
+            # --- END ADDED BLOCK ---
             st.session_state[view_state_key] = {'step': initial_step, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
         current_step = st.session_state[view_state_key]['step']
 
@@ -632,7 +643,9 @@ elif st.session_state.page == 'quiz':
             # --- Conditionally display video and summary ---
 
             # Show "Watch the video" title only if it's the first question and before step 5
-            if not is_second_quality_question and current_step < 5:
+            # --- MODIFIED: Added check for is_part2_first_question ---
+            if not is_second_quality_question and not is_part2_first_question and current_step < 5:
+            # --- END MODIFIED ---
                 st.subheader("Watch the video")
             else:
                 st.subheader("Video")
@@ -660,8 +673,12 @@ elif st.session_state.page == 'quiz':
                 summary_typed_key = f"{view_state_key}_summary_typed"
 
                 # If summary is already typed (i.e., first question done), just show it
-                if st.session_state.get(summary_typed_key, False):
+                # --- MODIFIED: Don't stream for part 2 first question ---
+                if st.session_state.get(summary_typed_key, False) or is_part2_first_question:
                     st.info(sample["video_summary"])
+                    if is_part2_first_question: # Ensure it's marked as typed if we skipped to it
+                         st.session_state[summary_typed_key] = True
+                # --- END MODIFIED ---
                 else:
                     # Otherwise, stream it for the first time
                     with st.empty(): # Use empty container for streaming
@@ -689,7 +706,9 @@ elif st.session_state.page == 'quiz':
 
             # --- Conditionally render comprehension quiz ---
             # Only show if NOT (Caption Quality part AND second question index > 0)
-            if not is_second_quality_question and (current_step == 3 or current_step == 4):
+            # --- MODIFIED: Added check for is_part2_first_question ---
+            if not is_second_quality_question and not is_part2_first_question and (current_step == 3 or current_step == 4):
+            # --- END MODIFIED ---
                 st.markdown("<br><br>", unsafe_allow_html=True)
                 render_comprehension_quiz(sample, view_state_key, proceed_step=5)
 
@@ -777,6 +796,9 @@ elif st.session_state.page == 'quiz':
 
                     st.info(f"**Explanation:** {question_data['explanation']}")
                     st.button("Next Question", key=f"quiz_next_q_{sample_id}_{st.session_state.current_rating_question_index}", on_click=handle_next_quiz_question, args=(view_state_key,)) # Unique key per question
+                    # --- ADDED LINE ---
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_next_{sample_id}")
+                    # --- END ADDED LINE ---
                 else:
                     # Display answer options form
                     # Use unique key including sample_id and question index if applicable
