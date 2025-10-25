@@ -1,0 +1,274 @@
+{
+  "part1_ratings": [
+    {
+      "video_id": "video_1740563927124296059",
+      "video_path": "media/v_1740563927124296059_EKhCnd-cJchesHdB.mp4",
+      "video_summary": "A daytime road event in Hyderabad, India, captured by a hand-held or cell-phone camera, depicts multiple traffic violations endangering pedestrian safety. The key event involved vehicles, including an orange car, failing to stop at a red light and making illegal U-turns. Other vehicles also did not stop before zebra crossings, while an auto-rickshaw was observed obstructing a lane. Pedestrians were seen crossing the road even though their signal was still red, amidst the disregard for traffic rules by drivers.",
+      "road_event_answer": "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1740563927124296059_caption1",
+          "text": "Did I just see everyone ignore the red light, or am I missing some new rule here?",
+          "control_scores": {
+            "tone": {
+              "Sarcastic": "Very Strong",
+              "Questioning": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Strong"
+            }
+          },
+          "application": "Public Commentary Post"
+        },
+        {
+          "caption_id": "video_1740563927124296059_caption2",
+          "text": "I watched drivers run red lights, ignore zebra crossings, and make illegal U-turns while pedestrians crossed on a red. It\u2019s frustrating seeing such disregard for safety.",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "Factual": "Very Strong"
+            }
+          },
+          "application": "Public Safety Awareness"
+        },
+        {
+          "caption_id": "video_1740563927124296059_caption3",
+          "text": "I just watched Hyderabad chaos\u2014wow, what a show! \ud83d\udea6\ud83e\udd2f #Hyderabad",
+          "control_scores": {
+            "tone": {
+              "Amusing": "Strong"
+            },
+            "writing_style": {
+              "Exaggeration": "Very Strong",
+              "Conversational": "Strong"
+            }
+          },
+          "application": "Urban Traffic Observation"
+        }
+      ]
+    },
+    {
+      "video_id": "video_1737449031834751231",
+      "video_path": "media/v_1737449031834751231_fTKTFF6LWCFx0fPj.mp4",
+      "video_summary": "A dashcam video captured a dangerous driving incident in Japan, involving a large truck, oncoming traffic, and the dashcam vehicle. The key road event was a hazardous overtaking maneuver performed by the large truck. The truck driver executed a dangerous overtake despite the presence of oncoming traffic, suggesting impatience or being in a rush. This action resulted in evident traffic violations, including illegal overtaking and potentially crossing solid lane markings.",
+      "road_event_answer": "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic.",
+      "distractor_answers": [
+        "A car stops beyond the designated stop line at a red light.",
+        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles.",
+        "One driver abruptly cuts off another, causing an aggressive response from the second driver."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1737449031834751231_caption1",
+          "text": "My heart nearly stopped\u2014a huge truck just decided to overtake in front of me, ignoring oncoming cars like it\u2019s nothing! Seriously, never try this chaos. Stay patient. #RoadSafety",
+          "control_scores": {
+            "tone": {
+              "Anxious": "Strong"
+            },
+            "writing_style": {
+              "Advisory": "Strong"
+            }
+          },
+          "application": "Law Enforcement Reporting"
+        },
+        {
+          "caption_id": "video_1737449031834751231_caption2",
+          "text": "That truck driver in Japan is unbelievable. Complete disregard for everyone. #JapanRoads",
+          "control_scores": {
+            "tone": {
+              "Angry": "Very Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong"
+            }
+          },
+          "application": "Driver Behavior Monitoring"
+        },
+        {
+          "caption_id": "video_1737449031834751231_caption3",
+          "text": "Reckless truck overtaking in Japan puts lives at risk, ignoring oncoming traffic and road rules. \ud83d\ude9b #TrafficViolation #Japan",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong"
+            },
+            "writing_style": {
+              "Judgmental": "Very Strong",
+              "Factual": "Strong"
+            }
+          },
+          "application": "Law Enforcement Reporting"
+        }
+      ]
+    }
+  ],
+  "part3_comparisons": [
+    {
+      "comparison_id": "comp_002",
+      "video_id": "video_1695748178056974456",
+      "video_path": "media/v_1695748178056974456_FxGj0jW1c_4xuTXE.mp4",
+      "video_summary": "A vehicle-mounted camera, providing a driver's perspective, captured a road event in Japan during daytime. The key event depicted dangerous driving behavior, specifically illegal turns and lane changes at intersections. A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately. Traffic rule violations included illegal lane changes, improper turns at intersections, and potentially running yellow lights, involving these vehicles, traffic lights, and other vehicles in traffic.",
+      "road_event_answer": "A beginner driver's car and a yellow car are seen making illegal turns/lane changes at intersections.",
+      "distractor_answers": [
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping."
+      ],
+      "control_scores": {
+        "tone": {
+          "Angry": "Very Strong",
+          "Critical": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong",
+          "Rhetorical Question": "Strong"
+        }
+      },
+      "caption_A": "Is following basic traffic rules too much to ask? \ud83e\udd28 #fail",
+      "caption_B": "Is following basic traffic rules too much to ask? \ud83e\udd28 #fail",
+      "application": "Reaction Post"
+    },
+    {
+      "comparison_id": "comp_003",
+      "video_id": "video_1620271366900703234",
+      "video_path": "media/v_1620271366900703234_12P3R9m3EqbJlb8Y.mp4",
+      "video_summary": "A severe car accident occurred during the pre-dawn hours near Kasa bridge on the Mumbai-Ahmedabad Highway in India. A white high-end car, traveling at high speed, smashed into a road divider before colliding head-on with a luxury bus. Speeding was identified as the primary cause and traffic violation. The accident resulted in multiple fatalities and injuries. The high-end car sustained severe damage, with its front end completely destroyed, hood crumpled, windshield shattered, and passenger-side door hanging open. The video, captured by a hand-held camera, shows static close-up shots of the damaged vehicle.",
+      "road_event_answer": "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+      "distractor_answers": [
+        "Cyclists, pedestrians, and vehicles are all seen respecting traffic signals and lane markings.",
+        "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic.",
+        "A beginner driver's car and a yellow car are seen making illegal turns/lane changes at intersections."
+      ],
+      "control_scores": {
+        "tone": {
+          "Passionate": "Very Strong",
+          "Reflective": "Strong"
+        },
+        "writing_style": {
+          "Motivational": "Strong",
+          "Advisory": "Strong"
+        }
+      },
+      "caption_A": "Speed\u2019s shadow can leave nothing but silence and shattered dreams. Each journey is a reminder\u2014roads demand respect, or consequences will follow. Drive as if every mile matters.",
+      "caption_B": "Speed\u2019s shadow can leave nothing but silence and shattered dreams. Each journey is a reminder\u2014roads demand respect, or consequences will follow. Drive as if every mile matters.",
+      "application": "Road Safety Education"
+    },
+    {
+      "comparison_id": "comp_004",
+      "video_id": "video_1665532513672916992",
+      "video_path": "media/v_1665532513672916992_4Dk4ik7bxkyRbXIu.mp4",
+      "video_summary": "The video, captured in Chicago, United States, from multiple street-level and elevated camera perspectives across morning, afternoon, and dusk, showcases an urban environment with various road entities. Cyclists are observed riding in designated lanes, pedestrians are using crosswalks, and vehicles including cars, trucks, and buses are moving in both directions. All road users are seen respecting traffic signals, crosswalks, and lane markings, highlighting safe cycling infrastructure and general road safety awareness. No apparent traffic rule violations are observed, as all road users appear to be following proper traffic regulations.",
+      "road_event_answer": "Cyclists, pedestrians, and vehicles are all seen respecting traffic signals and lane markings.",
+      "distractor_answers": [
+        "One driver abruptly cuts off another, causing an aggressive response from the second driver.",
+        "A car stops beyond the designated stop line at a red light.",
+        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1665532513672916992_caption1",
+          "text": "Chicago streets show how safe cycling lanes and attentive road users make a difference. \ud83d\udeb4\u200d\u2642\ufe0f Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+          "caption_B": "Chicago streets show how safe cycling lanes and attentive road users make a difference. \ud83d\udeb4\u200d\u2642\ufe0f Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+          "application": "Road Safety Education"
+        }
+      ],
+      "control_scores": {
+        "tone": {
+          "Appreciative": "Very Strong",
+          "Considerate": "Strong"
+        },
+        "writing_style": {
+          "Advisory": "Strong"
+        }
+      },
+      "caption_A": "Chicago streets show how safe cycling lanes and attentive road users make a difference. \ud83d\udeb4\u200d\u2642\ufe0f Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+      "caption_B": "Chicago streets show how safe cycling lanes and attentive road users make a difference. \ud83d\udeb4\u200d\u2642\ufe0f Pedestrians, cyclists, and vehicles all follow the rules. #RoadSafety",
+      "application": "Law Enforcement Reporting"
+    }
+  ],
+  "part2_intensity_change": [
+    {
+      "change_id": "change_003",
+      "video_id": "video_1612557874131095564",
+      "video_path": "media/v_1612557874131095564_hEvyM8YOgxYD8iIs.mp4",
+      "video_summary": "A serious accident occurred on Highway 403 near Fairview Street in Burlington, Ontario, Canada, captured by a dashcam mounted on the transport truck. The key road event involved a car turning into the path of an oncoming transport truck, resulting in a collision. The car was severely damaged with its front end crumpled and hood raised, while the transport truck was positioned behind it. Emergency vehicles, including police cars with flashing lights, were present at the scene, with responders attending to the accident. The primary reason for the accident was the car driver's failure to yield right-of-way, potentially involving an improper lane change or unsafe turning.",
+      "road_event_answer": "A car turns into the path of a transport truck, causing a collision.",
+      "distractor_answers": [
+        "One driver abruptly cuts off another, causing an aggressive response from the second driver.",
+        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles.",
+        "A driver on a highway at night has a near-miss after reacting quickly to an unexpected obstacle."
+      ],
+      "caption_A": "Did @OPP_News notice what just happened? Was this crash avoidable? #traffic #roadincident",
+      "caption_B": "@OPP_News did anyone else see that? Am I the only one worried? #Highway403",
+      "field_to_change": {
+        "tone": "Anxious"
+      },
+      "change_type": "increased",
+      "application": "Public Safety Awareness"
+    },
+        {
+      "change_id": "change_006",
+      "video_id": "video_1798581666879086946",
+      "video_path": "media/v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
+      "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
+      "road_event_answer": "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
+      "distractor_answers": [
+        "One driver abruptly cuts off another, causing an aggressive response from the second driver.",
+        "Cyclists, pedestrians, and vehicles are all seen respecting traffic signals and lane markings.",
+        "A semi-truck made an unsafe lane change, nearly colliding with another vehicle."
+      ],
+      "caption_A": "On Hyderabad\u2019s roads, wisdom is a steady hand\u2014follow traffic rules or invite chaos. #RoadSafety",
+      "caption_B": "On Hyderabad\u2019s roads, where every turn is a lesson, will wisdom ever guide the journey? ",
+      "field_to_change": {
+        "writing_style": "Rhetorical Question"
+      },
+      "change_type": "increased",
+      "application": "Law Enforcement Reporting"
+    },
+    {
+      "change_id": "change_002",
+      "video_id": "video_1749410676656030046",
+      "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
+      "video_summary": "A dashcam video from India captured a near-miss incident involving unsafe overtaking on a hairpin bend. A car and a two-wheeler were attempting to overtake on the bend, while the dashcam vehicle was driving normally. The primary reason for the near-miss was the unsafe overtaking maneuver. This event involved traffic rule violations including unsafe overtaking and potentially crossing solid lane markings. The incident could have been prevented if the car and two-wheeler drivers had refrained from overtaking on the hairpin bend and followed proper road safety guidelines.",
+      "road_event_answer": "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+      "distractor_answers": [
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall.",
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+        "A large truck performs a hazardous overtaking maneuver, ignoring oncoming traffic."
+      ],
+      "caption_A": "Trying to overtake on a hairpin bend? That’s just asking for trouble. It’s baffling how some people ignore basic safety, risking lives without a second thought. This level of carelessness is unreal.",
+      "caption_B": "Oh, brilliant move\u2014overtaking on a hairpin bend! Because who needs traffic rules or the slightest hint of common sense, right? What\u2019s next, racing on mountain cliffs for fun?",
+      "field_to_change": {
+        "tone": "Sarcastic"
+      },
+      "change_type": "increased",
+      "application": "Law Enforcement Reporting"
+    },
+    {
+      "change_id": "change_017",
+      "video_id": "video_1692974964909961669",
+      "video_path": "media/v_1692974964909961669_ZLNY96YG_I7nEaxZ.mp4",
+      "video_summary": "During the daytime in the United States, a stationary camera, likely a surveillance or CCTV camera at an intersection, captured a near-miss incident between a gray BMW SUV and a jogger. The BMW SUV, with its turn signal activated, was attempting to make a right turn on red and was inching forward. Simultaneously, a jogger, wearing a gray shirt and shorts, was running across the crosswalk. The traffic light for the cross street was yellow, indicating an upcoming change. The BMW driver failed to yield to the pedestrian, causing the jogger to jump away to avoid being hit. The incident highlights unsafe driving behavior, likely due to the driver's inattention or impatience, and a failure to yield to a pedestrian in a crosswalk, potentially also running a red light if the turn on red was not permitted. The jogger may have been unaware of the approaching vehicle or assumed they had the right of way. The near-miss could have been prevented by the driver being more attentive and yielding, and by the jogger making eye contact with the driver.",
+      "road_event_answer": "An SUV attempting a right turn on red fails to yield to a jogger in the crosswalk, resulting in a near-miss.",
+      "distractor_answers": [
+        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle.",
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend."
+      ],
+      "caption_A": "My pulse just hit the stratosphere",
+      "caption_B": "Shadows brushed past, heart pounding quietly.",
+      "field_to_change": {
+        "writing_style": "Exaggeration"
+      },
+      "change_type": "decreased",
+      "application": "Public Safety Awareness"
+    }
+  ]
+}
