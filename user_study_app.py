@@ -23,11 +23,29 @@ LOCAL_BACKUP_FILE = "responses_backup.jsonl"
 
 # --- JAVASCRIPT FOR ANIMATION ---
 JS_ANIMATION_RESET = """
+    // Reset caption highlight
     const elements = window.parent.document.querySelectorAll('.new-caption-highlight');
     elements.forEach(el => {
         el.style.animation = 'none';
         el.offsetHeight; /* trigger reflow */
         el.style.animation = null;
+    });
+
+    // Find and animate specific buttons
+    const buttonLabelsToHighlight = [
+        "Proceed to Summary",
+        "Proceed to Question",
+        "Proceed to Caption(s)",
+        "Show Questions"
+    ];
+    const allButtons = window.parent.document.querySelectorAll('div[data-testid="stButton"] > button');
+    allButtons.forEach(btn => {
+        const buttonText = btn.textContent.trim();
+        if (buttonLabelsToHighlight.includes(buttonText)) {
+            btn.style.animation = 'none';
+            btn.offsetHeight; /* trigger reflow */
+            btn.style.animation = 'highlight-button-new 1.5s ease-out forwards'; // Use the NEW button animation
+        }
     });
 """
 
@@ -209,6 +227,45 @@ h2 {
     font-weight: 600 !important;
 }
 
+/* --- ADDED FOR BUTTON HIGHLIGHT --- */
+@keyframes highlight-button-new {
+  0% {
+    border-color: #D1D5DB; /* Start with default border */
+    box-shadow: none;
+  }
+  25% {
+    border-color: #facc15; /* Golden highlight border */
+    box-shadow: 0 0 8px #facc15; /* Golden glow */
+  }
+  75% {
+    border-color: #facc15;
+    box-shadow: 0 0 8px #facc15;
+  }
+  100% {
+    border-color: #D1D5DB; /* End with default border */
+    box-shadow: none;
+  }
+}
+body[theme="dark"] @keyframes highlight-button-new {
+    0% {
+        border-color: #4B5563; /* Start with default dark border */
+        box-shadow: none;
+    }
+    25% {
+        border-color: #facc15;
+        box-shadow: 0 0 8px #facc15;
+    }
+    75% {
+        border-color: #facc15;
+        box-shadow: 0 0 8px #facc15;
+    }
+    100% {
+        border-color: #4B5563; /* End with default dark border */
+        box-shadow: none;
+    }
+}
+/* --- END ADDED BLOCK --- */
+
 /* --- CUSTOM BUTTON STYLING --- */
 div[data-testid="stButton"] > button, .stForm [data-testid="stButton"] > button {
     background-color: #FAFAFA; /* Very light grey */
@@ -358,6 +415,9 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
         if st.button("Proceed to Caption(s)", key=unique_key):
             st.session_state[view_state_key]['step'] = proceed_step
             st.rerun()
+        # --- ADDED LINE ---
+        streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_comp_{sample.get('sample_id', 'unknown')}")
+        # --- END ADDED LINE ---
     else:
         # Use a unique key for the form based on sample_id
         form_key = f"comp_quiz_form_{sample.get('sample_id', 'unknown')}"
@@ -590,6 +650,9 @@ elif st.session_state.page == 'quiz':
                 if st.button("Proceed to Summary", key=f"quiz_summary_{sample_id}"):
                     st.session_state[view_state_key]['step'] = 2
                     st.rerun()
+                # --- ADDED LINE ---
+                streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_1_{sample_id}")
+                # --- END ADDED LINE ---
 
             # Show Video Summary if step >= 2 (this now includes step 6 for the second question)
             if current_step >= 2 and "video_summary" in sample:
@@ -610,6 +673,9 @@ elif st.session_state.page == 'quiz':
                     if st.button("Proceed to Question", key=f"quiz_comp_q_{sample_id}"):
                         st.session_state[view_state_key]['step'] = 3
                         st.rerun()
+                    # --- ADDED LINE ---
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_2_{sample_id}")
+                    # --- END ADDED LINE ---
         # --- END MODIFIED BLOCK ---
 
 
@@ -644,6 +710,9 @@ elif st.session_state.page == 'quiz':
                      if st.button("Show Questions", key=f"quiz_show_q_{sample_id}"):
                         st.session_state[view_state_key]['step'] = 6
                         st.rerun()
+                     # --- ADDED LINE ---
+                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_5_{sample_id}")
+                     # --- END ADDED LINE ---
                 elif current_step == 5 and is_second_quality_question:
                     # Automatically advance if skipping to questions for 2nd quality item
                     st.session_state[view_state_key]['step'] = 6
@@ -672,7 +741,9 @@ elif st.session_state.page == 'quiz':
                     else:
                         question_text_display = raw_text # Use raw text if no application trait
                 elif question_data.get("question_type") == "multi": # Tone ID Multi-select
-                    question_text_display = "Identify the 2 dominant tones in the caption"
+                    # --- MODIFIED LINE ---
+                    question_text_display = "Identify the <span style='color: #4f46e5;'>2 most dominant</span> tones in the caption"
+                    # --- END MODIFIED LINE ---
                     terms_to_define.update(question_data['options'])
                 else: # Tone ID Single-select
                     category_text = sample.get('category', 'tone').lower()
@@ -881,6 +952,9 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 1:
                         if st.button("Proceed to Summary", key=f"proceed_summary_{video_idx}"):
                             st.session_state[view_state_key]['step'] = 2; st.rerun()
+                        # --- ADDED LINE ---
+                        streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_study_1_1_{video_idx}")
+                        # --- END ADDED LINE ---
                     elif current_step >= 2:
                         st.subheader("Video Summary")
                         if st.session_state.get(summary_typed_key, False): st.info(current_video["video_summary"])
@@ -889,6 +963,10 @@ elif st.session_state.page == 'user_study_main':
                             st.session_state[summary_typed_key] = True
                         if current_step == 2 and st.button("Proceed to Question", key=f"p1_proceed_comp_q_{video_idx}"):
                             st.session_state[view_state_key]['step'] = 3; st.rerun()
+                        # --- ADDED LINE (for step 2) ---
+                        if current_step == 2:
+                            streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_study_1_2_{video_idx}")
+                        # --- END ADDED LINE ---
                 else:
                     st.subheader("Video Summary"); st.info(current_video["video_summary"])
 
@@ -1063,6 +1141,9 @@ elif st.session_state.page == 'user_study_main':
                     # --- Key updated ---
                     if st.button("Proceed to Summary", key=f"p2_proceed_summary_{change_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    # --- ADDED LINE ---
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_study_2_1_{change_id}")
+                    # --- END ADDED LINE ---
                 if current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_change["video_summary"])
@@ -1072,6 +1153,10 @@ elif st.session_state.page == 'user_study_main':
                     # --- Key updated ---
                     if current_step == 2 and st.button("Proceed to Question", key=f"p2_proceed_captions_{change_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
+                    # --- ADDED LINE (for step 2) ---
+                    if current_step == 2:
+                        streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_study_2_2_{change_id}")
+                    # --- END ADDED LINE ---
             with col2:
                 if current_step == 3 or current_step == 4:
                     render_comprehension_quiz(current_change, view_state_key, proceed_step=5)
@@ -1079,6 +1164,9 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_change["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_change["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    # --- ADDED LINE ---
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p2_{change_id}")
+                    # --- END ADDED LINE ---
                     # --- Key updated ---
                     if current_step == 5 and st.button("Show Questions", key=f"p2_show_q_{change_id}"):
                         st.session_state[view_state_key]['step'] = 6; st.rerun()
@@ -1206,6 +1294,9 @@ elif st.session_state.page == 'user_study_main':
                      # --- Key updated ---
                     if st.button("Proceed to Summary", key=f"p3_proceed_summary_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 2; st.rerun()
+                    # --- ADDED LINE ---
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_study_3_1_{comparison_id}")
+                    # --- END ADDED LINE ---
                 if current_step >= 2:
                     st.subheader("Video Summary")
                     if st.session_state.get(summary_typed_key, False): st.info(current_comp["video_summary"])
@@ -1215,6 +1306,10 @@ elif st.session_state.page == 'user_study_main':
                     # --- Key updated ---
                     if current_step == 2 and st.button("Proceed to Question", key=f"p3_proceed_captions_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 3; st.rerun()
+                    # --- ADDED LINE (for step 2) ---
+                    if current_step == 2:
+                        streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_study_3_2_{comparison_id}")
+                    # --- END ADDED LINE ---
 
             with col2:
                 if current_step == 3 or current_step == 4:
@@ -1225,6 +1320,9 @@ elif st.session_state.page == 'user_study_main':
                 if current_step >= 5:
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption A</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
                     st.markdown(f'<div class="comparison-caption-box"><strong>Caption B</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
+                    # --- ADDED LINE ---
+                    streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p3_{comparison_id}")
+                    # --- END ADDED LINE ---
                     # --- Key updated ---
                     if current_step == 5 and st.button("Show Questions", key=f"p3_show_q_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 6; st.rerun()
