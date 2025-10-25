@@ -5,10 +5,37 @@ quiz:
 	4. 988741606391009282
 	5. 1692102872706765068
 	
+Set 1:  Part 1
+        7. 1769884200818389269 - set 1
+	8. 1749410676656030046 - set 1
+	Part 2
+	11. 1763928814290354479: emotional decrease
+	1. 1772082398257127647: advisory decrease
+	7. 1757678309222355396: sarcasm increase
+	14. 1695748178056974456: proverbial increase
+	
+	Part 3
+	1. 1781029134916784442: original: amusing cas, exagg
+	16. 1775427324160389268: original: questioning sarcasstic
+	2. 1601008232847536128: nei 1: curious appreciative conv
+	
+Set 2:
+    Part 1
+    	1. 1685698185946140672:
+	2. 1774263154723451187
+    Part 2:
+    	1. 1772082398257127647: emotional increase, 
+	3. 1290909686519091201: proverbial decrease
+	4. 1614378859859939328: bewildered decrease	
+	2. 1798581666879086946: exaggeration increase 
+     Part 3:
+	6. 1798581666879086946: nei 2: curious conv
+	7. 1724793343144837589: nei 1: humoris sarcas
+	9. 1666322163429679105: nei 1: calm factual
+    	
+	
 user study: 
    Part 1:
-	1. 1685698185946140672:
-	2. 1774263154723451187
 	
 	3. 1740563927124296059
 	4. 1737449031834751231
@@ -16,32 +43,23 @@ user study:
 	5. 1665532513672916992
 	6. 1683698289500360704
 	
-	7. 1769884200818389269
-	8. 1749410676656030046
-	
+
 	9. 1763928814290354479
 	10. 1703606261588390352
 
    Part 2:
-	1. 1772082398257127647: emotional increase, 
-	3. 1290909686519091201: proverbial decrease
-	4. 1614378859859939328: bewildered decrease	
-	2. 1798581666879086946: exaggeration increase    
+   
 	
 	5. 1612557874131095564: anxious increase
 	2. 1798581666879086946: rhetorical decrease
-	7. 1757678309222355396: sarcasm increase
+	13. 1749410676656030046: sarcastic decreased
         9. 1692974964909961669: exaggeration decrease
         
         12. 1737449031834751231: anxious decrease
 	6. 1797729718998798734: metaphor increase
 	17. 1769884200818389269: angry increase
 	9. 1692974964909961669: judgmental decrease
-	
-	11. 1763928814290354479: emotional decrease
-	1. 1772082398257127647: advisory decrease
-	13. 1749410676656030046: sarcastic decreased
-	14. 1695748178056974456: proverbial increase
+
 	
 	15. 1683698289500360704: analogy increase
 	10. 1601008232847536128: advisory increase
@@ -49,26 +67,17 @@ user study:
 	8. 1703606261588390352: sarcastic increase
 
    Part 3:
-	1. 1781029134916784442: original: amusing cas, exagg
-	16. 1775427324160389268: original: questioning sarcasstic
-	2. 1601008232847536128: nei 1: curious appreciative conv
+
+
 	
-	3. 1695748178056974456: original: angry critic
+     	3. 1695748178056974456: original: angry critic
 	4. 1620271366900703234: nei 2: passionate reflective
 	5. 1665532513672916992: original: appreciative, consider
-	
-	
-	6. 1798581666879086946: nei 2: curious conv
-	7. 1724793343144837589: nei 1: humoris sarcas
-	9. 1666322163429679105: nei 1: calm factual
-	
-	
 	
 	13. 1740563927124296059: original:questioning sarcasstic
 	8. 1789273033116692714: original: critical persuasive
 	12. 1616743651690057730: original: blunt conv
 
-	
 	
 	14. 1774263154723451187: original: criticl asertive judgmental
 	13. 1534754660984033282:           critical sarcastic
