@@ -47,45 +47,40 @@ Set 3:
 	4. 1620271366900703234: nei 2: passionate reflective
 	5. 1665532513672916992: original: appreciative, consider
      	
-	
-user study: 
-   Part 1:
-	
 
-	5. 1665532513672916992
+Set 4:
+    Part 1:
+    	5. 1665532513672916992
 	6. 1683698289500360704
-	
+
+    Part 2:
+    	15. 1683698289500360704: analogy increase
+	10. 1601008232847536128: advisory increase
+	16. 1685698185946140672: pop culture increase
+	8. 1703606261588390352: sarcastic increase
+    
+    Part 3:
+    	
+	13. 1740563927124296059: original:questioning sarcasstic
+	8. 1789273033116692714: original: critical persuasive
+	12. 1616743651690057730: original: blunt conv
+
+
+Set 5: 
+   Part 1:
 
 	9. 1763928814290354479
 	10. 1703606261588390352
 
    Part 2:
-   
-	
-	
-        
+
         12. 1737449031834751231: anxious decrease
 	6. 1797729718998798734: metaphor increase
 	17. 1769884200818389269: angry increase
 	9. 1692974964909961669: judgmental decrease
 
-	
-	15. 1683698289500360704: analogy increase
-	10. 1601008232847536128: advisory increase
-	16. 1685698185946140672: pop culture increase
-	8. 1703606261588390352: sarcastic increase
-
    Part 3:
 
-
-	
-     	
-	
-	13. 1740563927124296059: original:questioning sarcasstic
-	8. 1789273033116692714: original: critical persuasive
-	12. 1616743651690057730: original: blunt conv
-
-	
 	14. 1774263154723451187: original: criticl asertive judgmental
 	13. 1534754660984033282:           critical sarcastic
 	15. 1685698185946140672: original: adventurous conv
