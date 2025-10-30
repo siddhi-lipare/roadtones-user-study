@@ -1,59 +1,59 @@
 {
   "part1_ratings": [
-  {
-    "video_id": "video_1769884200818389269",
-    "video_path": "media/v_1769884200818389269_OM_cnGr9ZV6CKcY7.mp4",
-    "video_summary": "During daytime in clear, sunny conditions in Japan, a vehicle-mounted camera on a motorcycle captured an instance of unsafe driving behavior and a traffic violation. A car driver obstructed the path of the motorcycle and complained to the rider, despite the motorcycle legally using the road. The road was marked as one-way for other vehicles but included an exception for two-wheelers and bicycles, which the motorcycle rider was adhering to. The car driver's actions constituted obstruction of traffic and potentially failing to yield right of way to the legally present motorcycle.",
-    "road_event_answer": "A car driver obstructs and complains to a motorcyclist legally using a one-way street.",
-    "distractor_answers": [
-      "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
-      "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
-      "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
-    ],
-    "captions": [
-      {
-        "caption_id": "video_1769884200818389269_caption1",
-        "text": "Car driver blocks legally permitted motorcycle on a one-way street, committing clear traffic obstruction.",
-        "control_scores": {
-          "tone": {
-            "Critical": "Strong"
+    {
+      "video_id": "video_1769884200818389269",
+      "video_path": "media/v_1769884200818389269_OM_cnGr9ZV6CKcY7.mp4",
+      "video_summary": "During daytime in clear, sunny conditions in Japan, a vehicle-mounted camera on a motorcycle captured an instance of unsafe driving behavior and a traffic violation. A car driver obstructed the path of the motorcycle and complained to the rider, despite the motorcycle legally using the road. The road was marked as one-way for other vehicles but included an exception for two-wheelers and bicycles, which the motorcycle rider was adhering to. The car driver's actions constituted obstruction of traffic and potentially failing to yield right of way to the legally present motorcycle.",
+      "road_event_answer": "A car driver obstructs and complains to a motorcyclist legally using a one-way street.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping.",
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+      ],
+      "captions": [
+        {
+          "caption_id": "video_1769884200818389269_caption1",
+          "text": "Car driver blocks legally permitted motorcycle on a one-way street, committing clear traffic obstruction.",
+          "control_scores": {
+            "tone": {
+              "Critical": "Strong"
+            },
+            "writing_style": {
+              "Factual": "Strong"
+            }
           },
-          "writing_style": {
-            "Factual": "Strong"
-          }
+          "application": "Traffic Rule Violation"
         },
-        "application": "Traffic Rule Violation"
-      },
-      {
-        "caption_id": "video_1769884200818389269_caption2",
-        "text": "Just out here minding my ride while drama unfolds 😂🛵",
-        "control_scores": {
-          "tone": {
-            "Amusing": "Very Strong",
-            "Casual": "Strong"
+        {
+          "caption_id": "video_1769884200818389269_caption2",
+          "text": "Just out here minding my ride while drama unfolds 😂🛵",
+          "control_scores": {
+            "tone": {
+              "Amusing": "Very Strong",
+              "Casual": "Strong"
+            },
+            "writing_style": {
+              "Conversational": "Strong"
+            }
           },
-          "writing_style": {
-            "Conversational": "Strong"
-          }
+          "application": "Community Awareness Post"
         },
-        "application": "Reaction Post"
-      },
-      {
-        "caption_id": "video_1769884200818389269_caption3",
-        "text": "In Tokyo, a car blocked a motorcycle on a one-way street that’s open to two-wheelers. What makes drivers react this way even when the rules are clear? 🤔 Road moments like this really make you think. #JapanTraffic",
-        "control_scores": {
-          "tone": {
-            "Curious": "Very Strong",
-            "Reflective": "Very Strong"
+        {
+          "caption_id": "video_1769884200818389269_caption3",
+          "text": "In Tokyo, a car blocked a motorcycle on a one-way street that’s open to two-wheelers. What makes drivers react this way even when the rules are clear? 🤔 Road moments like this really make you think. #JapanTraffic",
+          "control_scores": {
+            "tone": {
+              "Curious": "Very Strong",
+              "Reflective": "Very Strong"
+            },
+            "writing_style": {
+              "Rhetorical Question": "Strong"
+            }
           },
-          "writing_style": {
-            "Rhetorical Question": "Strong"
-          }
-        },
-        "application": "Community Discussion"
-      }
-    ]
-  },
+          "application": "Community Awareness Post"
+        }
+      ]
+    },
     {
       "video_id": "video_1749410676656030046",
       "video_path": "media/v_1749410676656030046_xdazf_eJ7vCQl2YJ.mp4",
@@ -78,7 +78,7 @@
               "Factual": "Strong"
             }
           },
-          "application": "Law Enforcement Reporting"
+          "application": "Public Safety Awareness"
         },
         {
           "caption_id": "video_1749410676656030046_caption2",
@@ -105,7 +105,7 @@
               "Factual": "Strong"
             }
           },
-          "application": "Public Safety Awareness"
+          "application": "Community Awareness Post"
         }
       ]
     }
@@ -133,14 +133,14 @@
       },
       "caption_A": "Brampton nights really bringing out the creative drivers \ud83d\ude02. Wet roads and wild stops! #Brampton",
       "caption_B": "Brampton nights really bringing out the creative drivers \ud83d\ude02. Wet roads and wild stops! #Brampton",
-      "application": "Community Humor Post"
+      "application": "Community Awareness Post"
     },
     {
       "comparison_id": "comp_017",
       "video_id": "video_1775427324160389268",
       "video_path": "media/v_1775427324160389268_77JT7vEFE5ILkG6L.mp4",
       "video_summary": "A hand-held or cell-phone camera captured a public transportation disruption in Japan, where a stray dog was lying on train tracks at a station. The key event involved a train stopping to avoid hitting the dog, which appeared comfortable and unafraid on the tracks. Passengers at the station were observed interacting with and observing the dog, with train operators and passengers seemingly motivated by concern for the dog's safety. The incident involved a stray dog, train tracks, trains, trams, and passengers.",
-      "road_event_answer": "",
+      "road_event_answer": "A train in Japan stops for a stray dog lying on the tracks at a station.",
       "distractor_answers": [
         "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
         "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
@@ -157,7 +157,7 @@
       },
       "caption_A": "Japan, where even stray dogs have better public transport experiences than I do 😂",
       "caption_B": "Japan, where even stray dogs have better public transport experiences than I do 😂",
-      "application": "Public Commentary Post"
+      "application": "Community Awareness Post"
     },
     {
       "comparison_id": "comp_013",
@@ -182,7 +182,7 @@
       },
       "caption_A": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
       "caption_B": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
-      "application": "Community Discussion"
+      "application": "Community Awareness Post"
     }
   ],
   "part2_intensity_change": [
@@ -205,7 +205,7 @@
       "change_type": "decreased",
       "application": "Public Safety Awareness"
     },
-        {
+    {
       "change_id": "change_005",
       "video_id": "video_1772082398257127647",
       "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
