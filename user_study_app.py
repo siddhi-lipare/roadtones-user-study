@@ -11,6 +11,7 @@ import gspread
 import random
 from google.oauth2.service_account import Credentials
 from streamlit_js_eval import streamlit_js_eval
+# import traceback # No longer needed for standard operation
 
 # --- Configuration ---
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
@@ -37,7 +38,8 @@ JS_ANIMATION_RESET = """
         "Proceed to Question",
         "Proceed to Caption(s)",
         "Show Questions",
-        "Next Question"
+        "Next Question",
+        "Finish Quiz"
     ];
     const allButtons = window.parent.document.querySelectorAll('div[data-testid="stButton"] > button');
     allButtons.forEach(btn => {
@@ -51,7 +53,7 @@ JS_ANIMATION_RESET = """
 """
 
 # --- GOOGLE SHEETS & HELPERS ---
-@st.cache_resource
+@st.cache_resource # Re-enabled caching
 def connect_to_gsheet():
     """Connects to the Google Sheet using Streamlit secrets."""
     try:
@@ -62,8 +64,11 @@ def connect_to_gsheet():
         client = gspread.authorize(creds)
         spreadsheet = client.open("roadtones-streamlit-userstudy-responses")
         return spreadsheet.sheet1
-    except Exception:
+    except Exception as e:
+        # Keep error for connection failure, but no traceback for user
+        st.error(f"Failed to connect to Google Sheets: {e}")
         return None
+
 
 def save_response_locally(response_dict):
     """Saves a response dictionary to a local JSONL file as a fallback."""
@@ -87,21 +92,37 @@ def save_response(email, age, gender, video_data, caption_data, choice, study_ph
         'attempts_taken': 1 if study_phase == 'quiz' else 'N/A'
     }
 
-    worksheet = connect_to_gsheet()
+    worksheet = connect_to_gsheet() # Will show error if connection fails
+
     if worksheet:
         try:
             # Check if worksheet is empty to add header row
-            if not worksheet.get_all_values():
-                 worksheet.append_row(list(response_dict.keys())) # Add header row if empty
+            header_needed = False
+            try:
+                # Use a more robust check for emptiness
+                cell_list = worksheet.range('A1:A1')
+                if not cell_list[0].value:
+                    header_needed = True
+            except gspread.exceptions.APIError as api_error:
+                 st.warning(f"API Error checking sheet emptiness: {api_error}. Assuming header needed.") # Warning is okay here
+                 header_needed = True
+            except Exception as check_err:
+                 st.warning(f"Error checking sheet emptiness: {check_err}. Assuming header needed.") # Warning is okay here
+                 header_needed = True
+
+            if header_needed:
+                worksheet.append_row(list(response_dict.keys()))
+
             worksheet.append_row(list(response_dict.values()))
             return True
         except Exception as e:
-            st.warning(f"Could not save to Google Sheets ({e}). Saving a local backup.")
+            # Show error for append failure, but no traceback for user
+            st.error(f"Could not save to Google Sheets (append error): {e}. Saving a local backup.")
             return save_response_locally(response_dict)
     else:
-        st.warning("Could not connect to Google Sheets. Saving a local backup.")
+        # Error already shown in connect_to_gsheet if connection failed
+        st.error("Connection to Google Sheets failed. Saving a local backup.")
         return save_response_locally(response_dict)
-
 
 @st.cache_data
 def get_video_metadata(path):
@@ -175,6 +196,7 @@ def load_data():
     return data
 
 # --- UI & STYLING ---
+# (Keep the CSS styling block exactly as it was in the previous version)
 st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 st.markdown("""
 <style>
@@ -294,6 +316,7 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 
 
 # --- NAVIGATION & STATE HELPERS ---
+# (Keep handle_next_quiz_question, jump_to_part, jump_to_study_part, jump_to_study_item, restart_quiz functions exactly as they were)
 def handle_next_quiz_question(view_key_to_pop):
     part_keys = list(st.session_state.all_data['quiz'].keys())
     current_part_key = part_keys[st.session_state.current_part_index]
@@ -309,10 +332,11 @@ def handle_next_quiz_question(view_key_to_pop):
     else: # Tone Identification
         question_text = "Tone Identification" # Or more specific if needed
 
-    success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
-    if not success:
-        st.error("Failed to save response. Please check your connection and try again.")
-        return # Don't proceed if save fails
+    # --- MOVED SAVE RESPONSE OUTSIDE SPINNER ---
+    # success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
+    # if not success:
+    #    st.error("Failed to save response. Please check your connection and try again.")
+    #    return # Don't proceed if save fails
 
     # --- Logic to advance quiz state ---
     if "Caption Quality" in current_part_key:
@@ -415,6 +439,11 @@ def render_comprehension_quiz(sample, view_state_key, proceed_step):
         unique_key = f"proceed_to_captions_{sample.get('sample_id', 'unknown')}"
         if st.button("Proceed to Caption(s)", key=unique_key):
             st.session_state[view_state_key]['step'] = proceed_step
+            # --- ADDED: Mark video as watched ---
+            video_id = sample.get('video_id')
+            if video_id:
+                st.session_state.comprehension_passed_video_ids.add(video_id)
+            # --- END ADDED ---
             st.rerun()
         # --- ADDED LINE ---
         streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_comp_{sample.get('sample_id', 'unknown')}")
@@ -448,6 +477,7 @@ if 'page' not in st.session_state:
     st.session_state.current_caption_index = 0
     st.session_state.current_comparison_index = 0
     st.session_state.current_change_index = 0
+    st.session_state.comprehension_passed_video_ids = set() # --- ADDED ---
     st.session_state.all_data = load_data() # Load data once at the start
 
 if st.session_state.all_data is None:
@@ -455,6 +485,7 @@ if st.session_state.all_data is None:
     st.stop() # Stop execution if essential data is missing
 
 # --- Page Rendering Logic ---
+# (Keep demographics, intro_video, what_is_tone, factual_info pages exactly as they were)
 if st.session_state.page == 'demographics':
     st.title("Tone-controlled Video Captioning")
     # Debug skip button
@@ -795,7 +826,24 @@ elif st.session_state.page == 'quiz':
                         st.markdown(f'<div class="feedback-option {css_class}">{display_text}</div>', unsafe_allow_html=True)
 
                     st.info(f"**Explanation:** {question_data['explanation']}")
-                    st.button("Next Question", key=f"quiz_next_q_{sample_id}_{st.session_state.current_rating_question_index}", on_click=handle_next_quiz_question, args=(view_state_key,)) # Unique key per question
+
+                    # --- MODIFICATION: Check if it's the last question ---
+                    is_last_part = st.session_state.current_part_index == (len(part_keys) - 1)
+                    is_last_sample_in_part = st.session_state.current_sample_index == (len(questions_for_part) - 1)
+
+                    is_last_question = False
+                    if "Caption Quality" in current_part_key:
+                        is_last_sub_question = st.session_state.current_rating_question_index == (len(sample["questions"]) - 1)
+                        if is_last_part and is_last_sample_in_part and is_last_sub_question:
+                            is_last_question = True
+                    else:
+                        if is_last_part and is_last_sample_in_part:
+                            is_last_question = True
+
+                    button_text = "Finish Quiz" if is_last_question else "Next Question"
+                    # --- END MODIFICATION ---
+
+                    st.button(button_text, key=f"quiz_next_q_{sample_id}_{st.session_state.current_rating_question_index}", on_click=handle_next_quiz_question, args=(view_state_key,)) # Unique key per question
                     # --- ADDED LINE ---
                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_next_{sample_id}")
                     # --- END ADDED LINE ---
@@ -813,13 +861,21 @@ elif st.session_state.page == 'quiz':
                         else: # Single choice radio
                             choice = st.radio("Select one option:", question_data['options'], key=radio_key, index=None, label_visibility="collapsed")
 
-                        if st.form_submit_button("Submit Answer"):
-                            # Validation
-                            if not choice:
-                                st.error("Please select an option.")
-                            elif question_data.get("question_type") == "multi" and len(choice) != 2:
-                                st.error("Please select exactly 2 options.")
-                            else:
+                        submitted = st.form_submit_button("Submit Answer")
+
+                    # --- MODIFIED: Add spinner around processing ---
+                    if submitted:
+                        # Validation
+                        valid_submission = True
+                        if not choice:
+                            st.error("Please select an option.")
+                            valid_submission = False
+                        elif question_data.get("question_type") == "multi" and len(choice) != 2:
+                            st.error("Please select exactly 2 options.")
+                            valid_submission = False
+
+                        if valid_submission:
+                            with st.spinner("Saving response..."): # Spinner added here
                                 # Process correct submission
                                 st.session_state.last_choice = choice
                                 correct_answer = question_data.get('correct_answer')
@@ -827,8 +883,27 @@ elif st.session_state.page == 'quiz':
                                 is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
                                 st.session_state.is_correct = is_correct
                                 if is_correct: st.session_state.score += 1 # Increment score
-                                st.session_state.show_feedback = True # Set flag to show feedback
-                                st.rerun() # Rerun to display feedback
+
+                                # --- Save response INSIDE spinner ---
+                                question_text_for_save = "N/A"
+                                if "Tone Controllability" in current_part_key:
+                                    question_text_for_save = f"Intensity of '{sample['tone_to_compare']}' has {sample['comparison_type']}"
+                                elif "Caption Quality" in current_part_key:
+                                    question_text_for_save = question_data["question_text"]
+                                else: # Tone Identification
+                                     question_text_for_save = f"Identify dominant {'/'.join(sample.get('category','tone').split())}" # More specific default
+
+
+                                success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, choice, 'quiz', question_text_for_save, was_correct=is_correct)
+                                # --- End save response ---
+
+                                if success:
+                                    st.session_state.show_feedback = True # Set flag to show feedback AFTER saving
+                                else:
+                                     st.error("Failed to save response. Please check connection/permissions and try again.")
+                                     # Optionally reset state or prevent rerun if save fails critically
+                            st.rerun() # Rerun to display feedback or keep form if save failed
+                    # --- END MODIFIED ---
 
                 # --- Display Reference Box ---
                 if terms_to_define:
@@ -860,6 +935,7 @@ elif st.session_state.page == 'quiz_results':
         st.button("Take Quiz Again", on_click=restart_quiz)
 
 elif st.session_state.page == 'user_study_main':
+    # (Keep user_study_main page logic exactly as it was, including the skip logic for repeated videos)
     if not st.session_state.all_data: st.error("Data could not be loaded."); st.stop()
 
     ALL_DEFINITIONS = st.session_state.all_data['all_definitions']
@@ -920,8 +996,13 @@ elif st.session_state.page == 'user_study_main':
         current_video = all_videos[video_idx]
         video_id = current_video['video_id']
         timer_finished_key = f"timer_finished_{video_id}"
+        # --- ADDED ---
+        has_been_watched = video_id in st.session_state.comprehension_passed_video_ids
+        # --- END ADDED ---
 
-        if not st.session_state.get(timer_finished_key, False) and caption_idx == 0:
+        # --- MODIFIED: Added 'and not has_been_watched' ---
+        if not st.session_state.get(timer_finished_key, False) and caption_idx == 0 and not has_been_watched:
+        # --- END MODIFIED ---
             st.subheader("Watch the video")
             with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
@@ -944,8 +1025,16 @@ elif st.session_state.page == 'user_study_main':
 
             if view_state_key not in st.session_state:
                 initial_step = 5 if caption_idx > 0 else 1
+                # --- ADDED: Skip logic ---
+                if has_been_watched and caption_idx == 0:
+                    initial_step = 5 # Skip to showing captions
+                    st.session_state[summary_typed_key] = True # Mark summary as "typed"
+                # --- END ADDED ---
                 st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}, 'comp_feedback': False, 'comp_choice': None}
-                if caption_idx == 0: st.session_state[summary_typed_key] = False
+                # --- MODIFIED: Only set to false if not watched ---
+                if caption_idx == 0 and not has_been_watched:
+                    st.session_state[summary_typed_key] = False
+                # --- END MODIFIED ---
 
             current_step = st.session_state[view_state_key]['step']
 
@@ -1088,7 +1177,7 @@ elif st.session_state.page == 'user_study_main':
                                 missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
                                 validation_placeholder.warning(f"⚠️ Please move the slider for question(s): {', '.join(map(str, missing_qs))}")
                             else:
-                                with st.spinner(""):
+                                with st.spinner("Saving response..."): # Spinner added
                                     all_saved = True
                                     responses_to_save = {qid: st.session_state.get(f"ss_{qid}_cap{caption_idx}") for qid in question_ids}
                                     for q_id, choice_text in responses_to_save.items():
@@ -1119,10 +1208,16 @@ elif st.session_state.page == 'user_study_main':
         # --- End Progression update ---
 
         current_change = all_changes[change_idx]; change_id = current_change['change_id']
+        video_id = current_change.get('video_id') # --- ADDED ---
         field_to_change = current_change['field_to_change']; field_type = list(field_to_change.keys())[0]
         timer_finished_key = f"timer_finished_{change_id}" # Keep timer key based on unique change_id
+        # --- ADDED ---
+        has_been_watched = video_id in st.session_state.comprehension_passed_video_ids
+        # --- END ADDED ---
 
-        if not st.session_state.get(timer_finished_key, False):
+        # --- MODIFIED: Added 'and not has_been_watched' ---
+        if not st.session_state.get(timer_finished_key, False) and not has_been_watched:
+        # --- END MODIFIED ---
             st.subheader("Watch the video")
             with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
@@ -1140,7 +1235,17 @@ elif st.session_state.page == 'user_study_main':
             # --- State keys use 'p2' now ---
             view_state_key = f"view_state_p2_{change_id}"; summary_typed_key = f"summary_typed_p2_{change_id}"
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
+                # --- ADDED: Skip logic ---
+                initial_step = 1
+                if has_been_watched:
+                    initial_step = 5 # Skip to showing captions
+                    st.session_state[summary_typed_key] = True
+                # --- END ADDED ---
+                st.session_state[view_state_key] = {'step': initial_step, 'summary_typed': False, 'comp_feedback': False, 'comp_choice': None}
+                # --- ADDED ---
+                if not has_been_watched:
+                    st.session_state[summary_typed_key] = False
+                # --- END ADDED ---
             current_step = st.session_state[view_state_key]['step']
 
             title_col1, title_col2 = st.columns([1, 1.8])
@@ -1235,7 +1340,7 @@ elif st.session_state.page == 'user_study_main':
                                 if choice1 is None or choice2 is None:
                                     st.error("Please answer both questions.")
                                 else:
-                                    with st.spinner("Saving response..."):
+                                    with st.spinner("Saving response..."): # Spinner added
                                         # --- STUDY PHASE SWAPPED ---
                                         success1 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice1, 'user_study_part2', dynamic_question_save) # Changed phase
                                         success2 = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_change, current_change, choice2, 'user_study_part2', q2_text) # Changed phase
@@ -1261,9 +1366,15 @@ elif st.session_state.page == 'user_study_main':
         # --- End Progression update ---
 
         current_comp = all_comparisons[comp_idx]; comparison_id = current_comp['comparison_id']
+        video_id = current_comp.get('video_id') # --- ADDED ---
         timer_finished_key = f"timer_finished_{comparison_id}" # Keep timer key based on unique comparison_id
+        # --- ADDED ---
+        has_been_watched = video_id in st.session_state.comprehension_passed_video_ids
+        # --- END ADDED ---
 
-        if not st.session_state.get(timer_finished_key, False):
+        # --- MODIFIED: Added 'and not has_been_watched' ---
+        if not st.session_state.get(timer_finished_key, False) and not has_been_watched:
+        # --- END MODIFIED ---
             st.subheader("Watch the video")
             with st.spinner(""):
                 main_col, _ = st.columns([1, 1.8])
@@ -1285,8 +1396,17 @@ elif st.session_state.page == 'user_study_main':
             question_ids = [q['id'] for q in q_templates]
 
             if view_state_key not in st.session_state:
-                st.session_state[view_state_key] = {'step': 1, 'interacted': {qid: False for qid in question_ids}, 'comp_feedback': False, 'comp_choice': None}
-                st.session_state[summary_typed_key] = False
+                # --- ADDED: Skip logic ---
+                initial_step = 1
+                if has_been_watched:
+                    initial_step = 5 # Skip to showing captions
+                    st.session_state[summary_typed_key] = True
+                # --- END ADDED ---
+                st.session_state[view_state_key] = {'step': initial_step, 'interacted': {qid: False for qid in question_ids}, 'comp_feedback': False, 'comp_choice': None}
+                # --- ADDED ---
+                if not has_been_watched:
+                    st.session_state[summary_typed_key] = False
+                # --- END ADDED ---
 
             current_step = st.session_state[view_state_key]['step']
 
@@ -1415,7 +1535,7 @@ elif st.session_state.page == 'user_study_main':
                             if any(choice is None for choice in responses.values()):
                                 validation_placeholder.warning("⚠️ Please answer all four questions before submitting.")
                             else:
-                                with st.spinner(""):
+                                with st.spinner("Saving response..."): # Spinner added
                                     all_saved = True
                                     for q_id, choice in responses.items():
                                         # --- Variable updated ---
@@ -1438,7 +1558,7 @@ elif st.session_state.page == 'final_thank_you':
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
 
 # --- JavaScript ---
-# --- MODIFIED: Added ArrowLeft logic and fixed typos ---
+# (Keep js_script and streamlit_js_eval call exactly as they were)
 js_script = """
 const parent_document = window.parent.document;
 
@@ -1454,7 +1574,7 @@ parent_document.addEventListener('keyup', function(event) {
         event.preventDefault();
         const targetButtonLabels = [
             "Submit Ratings", "Submit Comparison", "Submit Answers",
-            "Submit Answer", "Next Question", "Show Questions",
+            "Submit Answer", "Next Question", "Show Questions", "Finish Quiz",
             "Proceed to Caption(s)", "Proceed to Captions", "Proceed to Caption",
             "Proceed to Summary", "Proceed to Question", "Proceed to User Study",
             "Take Quiz Again", "Submit", "Next >>", "Start Quiz >>", "Next" // Added "Start Quiz >>"
