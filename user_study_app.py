@@ -480,6 +480,9 @@ if 'page' not in st.session_state:
     st.session_state.comprehension_passed_video_ids = set() # --- ADDED ---
     st.session_state.all_data = load_data() # Load data once at the start
 
+if 'comprehension_passed_video_ids' not in st.session_state:
+    st.session_state.comprehension_passed_video_ids = set()
+
 if st.session_state.all_data is None:
     st.error("Failed to load application data. Please check file paths and ensure JSON files are valid.")
     st.stop() # Stop execution if essential data is missing
