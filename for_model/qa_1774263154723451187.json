@@ -1,0 +1,361 @@
+{
+  "Tweet_ID": "1774263154723451187",
+  "TweetURL": "https://twitter.com/heartofgoldlove/status/1774263154723451187",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1774263154723451187.json",
+  "VideoName": "QFMMJd8wYMEMl2r7.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a vehicle-mounted camera or dashcam."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured is a near-miss incident involving dangerous driving behavior."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in Japan."
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The road event occurred in Osaka."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "This event took place in an urban area on a busy city street."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The road event happened during daytime."
+    },
+    {
+      "Q": "What were the weather and visibility conditions during the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were clear with good visibility under blue skies."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved were the camera vehicle and a right-turning vehicle."
+    },
+    {
+      "Q": "Can you describe the actions of the vehicles involved in the near-miss incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The right-turning vehicle made a sudden and dangerous right turn, nearly colliding with the camera vehicle."
+    },
+    {
+      "Q": "What are the potential reasons behind the actions of the right-turning vehicle?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Generic",
+      "A": "The driver of the right-turning vehicle was likely not paying attention or being impatient, leading to the dangerous maneuver."
+    },
+    {
+      "Q": "How could the near-miss incident have been avoided?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Generic",
+      "A": "The incident could have been prevented if the right-turning vehicle had waited for a clear opportunity to turn and checked for oncoming traffic before making the turn."
+    },
+    {
+      "Q": "What traffic rule violations are evident in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violation associated with this event is failure to yield right-of-way by the right-turning vehicle."
+    },
+    {
+      "Q": "What actions should be taken if one witnesses a similar unsafe driving situation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting the dangerous driving behavior to local authorities and staying vigilant while driving to avoid potential collisions."
+    },
+    {
+      "Q": "What are some general road safety advisories related to this type of incident?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Always be attentive while driving, yield right-of-way when making turns, check for oncoming traffic before turning, and follow traffic signals and signs."
+    },
+    {
+      "Q": "What are some potential alternative outcomes if the circumstances were slightly different?",
+      "QA-group": "Imaginative",
+      "QA-task": "Counterfactual",
+      "QA-subtask": "Counterfactual",
+      "Q-type": "Generic",
+      "A": "If the camera vehicle had been driving faster, a collision could have occurred. If the right-turning vehicle had waited for a clear opportunity to turn, the near-miss incident would have been avoided."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 7 to 14 seconds."
+    },
+    {
+      "Q": "What specific type of road event occurred in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "A near-miss incident involving a vehicle making a dangerous right turn, almost colliding with the camera vehicle."
+    },
+    {
+      "Q": "In what type of urban setting did this incident take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The incident took place on a busy city street in Japan."
+    },
+    {
+      "Q": "What were the specific weather and visibility conditions during the event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The weather was clear with blue skies, providing good visibility for drivers."
+    },
+    {
+      "Q": "Which vehicles were directly involved in the near-miss incident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The vehicles involved were the camera vehicle (likely traveling straight) and a vehicle making a right turn."
+    },
+    {
+      "Q": "What specific action did the right-turning vehicle take that led to the near-miss?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The right-turning vehicle made a sudden and dangerous right turn without yielding to the oncoming camera vehicle."
+    },
+    {
+      "Q": "What are the likely reasons for the right-turning driver's dangerous maneuver?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Specific",
+      "A": "The driver was likely distracted, impatient, or failed to properly assess the traffic situation before turning."
+    },
+    {
+      "Q": "How could the driver of the right-turning vehicle have prevented this near-miss?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Specific",
+      "A": "The driver should have waited for a clear opportunity to turn, checked for oncoming traffic, and yielded the right-of-way to the camera vehicle."
+    },
+    {
+      "Q": "What specific traffic rule did the right-turning vehicle violate?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The right-turning vehicle violated the rule of yielding right-of-way to oncoming traffic when making a turn."
+    },
+    {
+      "Q": "What immediate actions should the camera vehicle driver take in response to this near-miss?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "The camera vehicle driver should remain calm, maintain control of the vehicle, and be prepared to brake or take evasive action if necessary."
+    },
+    {
+      "Q": "What specific road safety advice is crucial for preventing such right-turn incidents?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Always check for oncoming traffic before making a right turn, yield right-of-way when required, and never assume other drivers will stop for you."
+    },
+    {
+      "Q": "How might the outcome have differed if the camera vehicle was traveling at a higher speed?",
+      "QA-group": "Imaginative",
+      "QA-task": "Counterfactual",
+      "QA-subtask": "Counterfactual",
+      "Q-type": "Specific",
+      "A": "If the camera vehicle was traveling faster, the near-miss could have resulted in a serious collision, potentially causing injuries or fatalities."
+    },
+    {
+      "Q": "Was there a school bus stopped nearby when the near-miss occurred?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention or indication of a school bus being present or stopped nearby during the near-miss incident. The event involved only the camera vehicle and the right-turning vehicle on a busy city street."
+    },
+    {
+      "Q": "Did it start raining immediately after the near-miss incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show or mention any sudden change in weather conditions. It is described as having clear weather with blue skies throughout the incident, with no indication of rain starting afterward."
+    },
+    {
+      "Q": "Was there road construction or maintenance work happening at the site of the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention or indication of any road construction or maintenance work at the site of the incident. The near-miss occurred on a busy city street under normal traffic conditions."
+    },
+    {
+      "Q": "Did the traffic light turn red just before the near-miss occurred?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show or mention any traffic light changing color before the near-miss. The incident appears to be solely caused by the right-turning vehicle's dangerous maneuver, without any reference to traffic signal changes."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1774256678139260928/pu/vid/avc1/1280x692/QFMMJd8wYMEMl2r7.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View",
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Dangerous or Rash driving",
+      "Near-miss"
+    ],
+    "Country_location": [
+      "Japan"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads",
+      "Urban and Suburban Roads"
+    ],
+    "Time_of_day": [
+      "Daytime"
+    ],
+    "Weather_conditions": [
+      "High Visibility",
+      "Clear Weather",
+      "Hot/Sunny Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Traffic Safety Violations",
+      "Collisions",
+      "Dangerous Maneuvers/Driving",
+      "Unpredictable and Sudden maneuver",
+      "Turning",
+      "Near Miss",
+      " Dangerous Driving"
+    ],
+    "Traffic_Violation": [
+      "Failure to Yield & Right-of-Way Violations"
+    ]
+  },
+  "Video-level_tags": [
+    "Near-miss",
+    "Intersection incident",
+    "Right-turn violation",
+    "Failure to yield",
+    "Dangerous driving",
+    "Dashcam footage",
+    "Traffic violation",
+    "Reckless behavior",
+    "Intersection safety",
+    "Japan traffic"
+  ],
+  "caption": "#CloseCall The car turning right in front of me...\nI bet they weren't looking at all.\n\n#Dashcam #DrivingRecorder #NearAccident #DangerousDriving",
+  "qa_path": "qa_1774263154723451187.json",
+  "video_path": "v_1774263154723451187_QFMMJd8wYMEMl2r7.mp4",
+  "tweet_user": "heartofgoldlove",
+  "video_summary": "A daytime near-miss incident involving dangerous driving behavior was captured by a vehicle-mounted camera in Osaka, Japan. The key road event involved the camera vehicle and a right-turning vehicle. The right-turning vehicle made a sudden and dangerous right turn, nearly colliding with the camera vehicle. This maneuver was likely due to the driver of the right-turning vehicle not paying attention or being impatient, resulting in a failure to yield right-of-way. The incident could have been avoided if the right-turning vehicle had waited for a clear opportunity to turn and checked for oncoming traffic.",
+  "is_english": "No",
+  "lang": "ja",
+  "annotations": {
+    "Emotion": {
+      "Joy": 0.0,
+      "Anticipation": 0.3,
+      "Trust": 0.0,
+      "Anger": 0.6,
+      "Fear": 0.4,
+      "Disgust": 0.2,
+      "Surprise": 0.3,
+      "Sadness": 0.0
+    },
+    "Personality": {
+      "Critical": 0.8,
+      "Assertive": 0.6,
+      "Angry": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.2,
+      "Judgemental": 0.7,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.4,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 20,
+    "Informativeness": 0.6,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "yes"
+    }
+  }
+}
