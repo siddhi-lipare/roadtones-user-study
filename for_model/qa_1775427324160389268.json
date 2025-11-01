@@ -1,0 +1,259 @@
+{
+  "Tweet_ID": "1775427324160389268",
+  "TweetURL": "https://twitter.com/GabbbarSingh/status/1775427324160389268",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1775427324160389268.json",
+  "VideoName": "77JT7vEFE5ILkG6L.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video appears to have been captured using a hand-held camera or cell-phone camera, as it shows various scenes at a train station from different angles."
+    },
+    {
+      "Q": "What type of event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key event captured is an instance of disruption to public transportation due to a stray dog lying on the train tracks at a station."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This event took place in Japan."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "This event took place at a train station."
+    },
+    {
+      "Q": "What entities are involved in the event shown in the video?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include a stray dog, train tracks, trains, trams, and passengers at the station."
+    },
+    {
+      "Q": "Can you describe the actions or behaviors of the entities involved in the event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The dog is lying on the train tracks, causing a delay. The train has stopped to avoid hitting the dog. Passengers are seen interacting with and observing the dog."
+    },
+    {
+      "Q": "What are the potential reasons behind the actions of the entities involved?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Generic",
+      "A": "The dog's motive for lying on the tracks is unclear, but it appears comfortable and unafraid of its surroundings. The train operators and passengers seem motivated by concern for the dog's safety."
+    },
+    {
+      "Q": "What actions are recommended in response to the situation shown in the video?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "In this situation, appropriate measures include alerting station staff about the dog on the tracks, waiting patiently for the situation to be resolved, and refraining from attempting to move the dog oneself to avoid potential injury or further disruption."
+    },
+    {
+      "Q": "What general safety advisories are relevant to the situation depicted in the video?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories for this situation include: Keep pets leashed and under control near train tracks, stay behind safety lines on train platforms, do not attempt to rescue animals from tracks without proper authority, and obey all station staff instructions during such incidents."
+    },
+    {
+      "Q": "What are some potential alternative outcomes or scenarios if the circumstances were different?",
+      "QA-group": "Imaginative",
+      "QA-task": "Counterfactual",
+      "QA-subtask": "Counterfactual",
+      "Q-type": "Generic",
+      "A": "If the train operators had not been attentive, they might have hit the dog. If passengers had tried to remove the dog themselves, they could have risked their own safety or scared the dog onto active tracks. If this had occurred during peak hours, it could have caused significant delays and overcrowding on the platform."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 0 to 53 seconds."
+    },
+    {
+      "Q": "What specific type of transportation infrastructure is affected by the dog's presence?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The dog is lying on train tracks at a station, affecting the railway transportation system."
+    },
+    {
+      "Q": "How does the presence of the dog impact the normal operation of the train service?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The dog lying on the tracks causes a delay in train operations, as the train has stopped to avoid hitting the animal."
+    },
+    {
+      "Q": "What are the key entities involved in this railway station incident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The key entities involved are the stray dog, the stationary train, train tracks, station platform, and passengers observing the situation."
+    },
+    {
+      "Q": "How are the train operators and passengers responding to the dog on the tracks?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The train operators have stopped the train to avoid hitting the dog. Passengers are observing the situation and some are interacting with the dog, showing concern for its safety."
+    },
+    {
+      "Q": "What might be the reason for the dog's seemingly comfortable behavior on the train tracks?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Specific",
+      "A": "The dog appears unafraid and comfortable, possibly due to familiarity with the environment or a lack of awareness of the potential danger."
+    },
+    {
+      "Q": "What are the appropriate steps that should be taken by station staff in this situation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Station staff should safely remove the dog from the tracks, possibly using animal control measures, and ensure the tracks are clear before allowing train operations to resume."
+    },
+    {
+      "Q": "What safety precautions should passengers take during such an incident at a train station?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Passengers should stay behind safety lines on the platform, not attempt to rescue the dog themselves, and follow all instructions given by station staff or train operators."
+    },
+    {
+      "Q": "How might this situation have unfolded differently if it occurred in a country with less stringent animal welfare practices?",
+      "QA-group": "Imaginative",
+      "QA-task": "Counterfactual",
+      "QA-subtask": "Counterfactual",
+      "Q-type": "Specific",
+      "A": "In a country with less concern for animal welfare, the train might not have stopped for the dog, potentially resulting in injury or death to the animal, or the dog might have been forcibly removed from the tracks without regard for its safety."
+    },
+    {
+      "Q": "What potential risks does this incident pose to the overall railway system efficiency?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "This incident could cause significant delays in the train schedule, potentially leading to overcrowding on platforms, missed connections for passengers, and a ripple effect of delays throughout the railway network."
+    },
+    {
+      "Q": "Was there a derailment of the train due to the dog on the tracks?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There was no train derailment shown or mentioned in this video. The train had stopped to avoid hitting the dog on the tracks, causing a delay in operations. The situation appears to be managed without any accidents or derailments occurring."
+    },
+    {
+      "Q": "Was there a car accident on the train tracks?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, there was no car accident on the train tracks in this video. The video shows a dog lying on the train tracks at a station, causing a delay in train operations. There are no cars involved in this incident."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1775282101056901120/pu/vid/avc1/720x1280/77JT7vEFE5ILkG6L.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "hand-held camera",
+      "hand-held camera"
+    ],
+    "Country_location": [
+      "Japan"
+    ],
+    "Road_type": [
+      "Public Transport Area"
+    ],
+    "What/Actions_of_key_entities": [
+      "Roadway Navigation",
+      "stopping and exiting",
+      "Incident Documentation and Observation"
+    ]
+  },
+  "Video-level_tags": [
+    "Railway safety incident",
+    "Animal on tracks",
+    "Train emergency stop",
+    "Public safety response",
+    "Railway station hazard",
+    "Train operator vigilance",
+    "Animal rescue attempt",
+    "Railway safety advisory",
+    "Passenger train safety",
+    "Public transportation safety"
+  ],
+  "caption": "If it were India, someone would have slapped me by now \ud83e\udd72",
+  "qa_path": "qa_1775427324160389268.json",
+  "video_path": "v_1775427324160389268_77JT7vEFE5ILkG6L.mp4",
+  "tweet_user": "GabbbarSingh",
+  "video_summary": "A hand-held or cell-phone camera captured a public transportation disruption in Japan, where a stray dog was lying on train tracks at a station. The key event involved a train stopping to avoid hitting the dog, which appeared comfortable and unafraid on the tracks. Passengers at the station were observed interacting with and observing the dog, with train operators and passengers seemingly motivated by concern for the dog's safety. The incident involved a stray dog, train tracks, trains, trams, and passengers.",
+  "is_english": "No",
+  "lang": "gu-Latn",
+  "annotations": {
+    "Personality": {
+      "Sarcastic": 0.9,
+      "Humorous": 0.6,
+      "Cynical (Doubtful, Skeptical)": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.4,
+      "Judgemental": 0.3,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 12,
+    "Informativeness": 0.0,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    }
+  }
+}
