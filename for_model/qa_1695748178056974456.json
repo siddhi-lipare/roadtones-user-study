@@ -1,0 +1,320 @@
+{
+  "Tweet_ID": "1695748178056974456",
+  "TweetURL": "https://twitter.com/mortarfan/status/1695748178056974456",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1695748178056974456.json",
+  "VideoName": "FxGj0jW1c_4xuTXE.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a vehicle-mounted camera, providing a driver's perspective of the traffic scenes."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video is dangerous driving behavior, specifically illegal turns and lane changes at intersections."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in Japan."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place in an urban area, specifically at intersections."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The exact time is not specified, but the event appears to have happened during daytime."
+    },
+    {
+      "Q": "What were the weather conditions during the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were overcast, with the sky consistently described as cloudy."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include a beginner driver's car (possibly a Wagon R), a yellow car (possibly a Vitz), traffic lights, intersections, and other vehicles in traffic."
+    },
+    {
+      "Q": "Can you describe the actions of the drivers in the road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The beginner driver's car and the yellow car were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately."
+    },
+    {
+      "Q": "What traffic violations occurred during this road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violations include illegal lane changes, improper turns at intersections, and potentially running yellow lights."
+    },
+    {
+      "Q": "What actions should be taken if you witness unsafe driving like this?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting the violations to local authorities, honking to alert the offending drivers, and maintaining a safe distance from such vehicles."
+    },
+    {
+      "Q": "What are some road safety advisories related to this type of event?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Always follow proper lane discipline, Make turns only from designated lanes, Respect traffic signals, Be patient and avoid rushed decisions, and For beginner drivers, practice extra caution and follow traffic rules strictly."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 5 to 42 seconds."
+    },
+    {
+      "Q": "What specific dangerous driving behaviors were observed in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "Two instances of vehicles making illegal turns or lane changes at intersections were observed. One involved a beginner driver, and the other involved a yellow car."
+    },
+    {
+      "Q": "In what type of urban setting did these traffic violations occur?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The violations occurred at intersections in an Asian city, suggesting a busy urban environment with complex traffic patterns."
+    },
+    {
+      "Q": "What were the lighting conditions when these incidents took place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "The incidents took place during daylight hours, as evidenced by the visibility in the video."
+    },
+    {
+      "Q": "How did the weather conditions potentially impact the driving situation?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The weather was overcast with cloudy skies, which could potentially affect visibility and driver judgment, although not as severely as rain or fog would."
+    },
+    {
+      "Q": "What specific vehicles were involved in the illegal maneuvers?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were the main vehicles involved in the illegal maneuvers."
+    },
+    {
+      "Q": "How did the beginner driver and the yellow car violate traffic rules?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "Both vehicles made illegal turns or lane changes at intersections, cutting across lanes inappropriately and potentially running yellow lights."
+    },
+    {
+      "Q": "What specific traffic laws were broken during these incidents?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The traffic laws broken include improper lane usage, illegal turns at intersections, and potentially disregarding traffic signal rules (running yellow lights)."
+    },
+    {
+      "Q": "How should other drivers respond when witnessing such dangerous driving behaviors?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Other drivers should maintain a safe distance from the offending vehicles, use their horn to alert the drivers if necessary, and report the violations to local traffic authorities."
+    },
+    {
+      "Q": "What specific safety advice would you give to prevent such dangerous driving, especially for beginner drivers?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Advice includes: strictly adhere to lane discipline, only make turns from designated lanes, always obey traffic signals, practice patience in traffic, and for beginner drivers, exercise extra caution and strictly follow all traffic rules while gaining experience."
+    },
+    {
+      "Q": "How does the use of a vehicle-mounted camera contribute to understanding these traffic incidents?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "The vehicle-mounted camera provides a driver's perspective, allowing viewers to see the traffic violations as they would appear in real-time to other drivers on the road, enhancing the understanding of the dangers posed."
+    },
+    {
+      "Q": "Was there a traffic light malfunction causing confusion?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no indication of a traffic light malfunction in the video. The dangerous driving behaviors observed were due to drivers' actions, not traffic light issues."
+    },
+    {
+      "Q": "Did a traffic signal suddenly change from green to red without a yellow light?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention or indication of traffic signals malfunctioning or changing abruptly in the video. The focus is on drivers' behaviors, including potentially running yellow lights, not on signal issues."
+    },
+    {
+      "Q": "Was there a police car chasing a speeding vehicle?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There was no police car chasing a speeding vehicle in this video. The video depicts instances of dangerous driving behavior by regular vehicles at intersections."
+    },
+    {
+      "Q": "Did a truck lose its cargo on the highway?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any truck losing cargo on a highway. The events take place in an urban setting at intersections, involving cars making illegal maneuvers."
+    },
+    {
+      "Q": "Was there a car driving in the wrong direction on a one-way street?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any cars driving in the wrong direction on a one-way street. The dangerous behaviors observed were illegal turns and lane changes at intersections."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1695748073073647616/pu/vid/1280x720/FxGj0jW1c_4xuTXE.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Dangerous or Rash driving"
+    ],
+    "Country_location": [
+      "Japan"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads",
+      "Intersections and Junctions"
+    ],
+    "Time_of_day": [
+      "Daytime"
+    ],
+    "Weather_conditions": [
+      "Cloudy Weather",
+      "Cloudy Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Overtaking and Weaving",
+      "Driving Incorrectly",
+      "Fails to Follow Road Regulations",
+      "Lane changing",
+      "Turning",
+      "Merging and Lane Changing Violations",
+      "Lane Changing",
+      "Reckless and Unlawful Driving",
+      "violations and ignoring_signs"
+    ],
+    "Traffic_Violation": [
+      "Illegal & Unsafe Lane Changes",
+      "Yellow light violations"
+    ]
+  },
+  "Video-level_tags": [
+    "Dangerous driving",
+    "Traffic violations",
+    "Illegal turns",
+    "Reckless lane changes",
+    "Intersection safety",
+    "Urban traffic",
+    "Japanese road safety",
+    "Dashcam footage",
+    "Traffic enforcement",
+    "Driver education"
+  ],
+  "caption": "#DangerousDriving\n\nYou're only thinking about yourself, aren't you?\ud83d\ude44",
+  "qa_path": "qa_1695748178056974456.json",
+  "video_path": "v_1695748178056974456_FxGj0jW1c_4xuTXE.mp4",
+  "tweet_user": "mortarfan",
+  "video_summary": "A vehicle-mounted camera, providing a driver's perspective, captured a road event in Japan during daytime. The key event depicted dangerous driving behavior, specifically illegal turns and lane changes at intersections. A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately. Traffic rule violations included illegal lane changes, improper turns at intersections, and potentially running yellow lights, involving these vehicles, traffic lights, and other vehicles in traffic.",
+  "is_english": "No",
+  "lang": "ja",
+  "annotations": {
+    "Personality": {
+      "Critical": 0.9,
+      "Angry": 0.7,
+      "Sarcastic": 0.6,
+      "Argumentative": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.8,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 9,
+    "Informativeness": 0.1,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    }
+  }
+}
