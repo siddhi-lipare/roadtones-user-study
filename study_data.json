@@ -22,7 +22,7 @@
               "Factual": "Strong"
             }
           },
-          "application": "Traffic Rule Violation"
+          "application": "Law Enforcement Reporting"
         },
         {
           "caption_id": "video_1769884200818389269_caption2",
@@ -36,7 +36,7 @@
               "Conversational": "Strong"
             }
           },
-          "application": "Community Awareness Post"
+          "application": "Urban Traffic Observation"
         },
         {
           "caption_id": "video_1769884200818389269_caption3",
@@ -50,7 +50,7 @@
               "Rhetorical Question": "Strong"
             }
           },
-          "application": "Community Awareness Post"
+          "application": "Driver Behavior Monitoring"
         }
       ]
     },
@@ -67,7 +67,7 @@
       "captions": [
         {
           "caption_id": "video_1749410676656030046_caption1",
-          "text": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let\u2019s look out for one another. \ud83d\udeab\ud83c\udfcd\ufe0f\ud83d\ude97 #RoadSafety #DriveResponsibly",
+          "text": "Today I saw a car and two-wheeler attempt unsafe overtaking on a hairpin bend, nearly resulting in a crash. Please remember, overtaking on sharp curves puts lives at risk. Let’s look out for one another. 🚫🏍️🚗 #RoadSafety #DriveResponsibly",
           "control_scores": {
             "tone": {
               "Caring": "Strong",
@@ -77,11 +77,11 @@
               "Advisory": "Strong"
             }
           },
-          "application": "Public Safety Awareness"
+          "application": "Public Safety Education"
         },
         {
           "caption_id": "video_1749410676656030046_caption2",
-          "text": "Trying to overtake on a hairpin bend? That\u2019s just asking for trouble. It\u2019s baffling how some people ignore basic safety, risking lives without a second thought. This level of carelessness is unreal.",
+          "text": "Trying to overtake on a hairpin bend? That’s just asking for trouble. It’s baffling how some people ignore basic safety, risking lives without a second thought. This level of carelessness is unreal.",
           "control_scores": {
             "tone": {
               "Angry": "Very Strong"
@@ -90,7 +90,7 @@
               "Judgmental": "Strong"
             }
           },
-          "application": "Public Safety Awareness"
+          "application": "Public Safety Alert"
         },
         {
           "caption_id": "video_1749410676656030046_caption3",
@@ -104,7 +104,7 @@
               "Factual": "Strong"
             }
           },
-          "application": "Community Awareness Post"
+          "application": "Urban Traffic Observation"
         }
       ]
     }
