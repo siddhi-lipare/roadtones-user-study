@@ -99,7 +99,7 @@
     },
     {
       "id": "overall_relevance",
-      "text": "To what extent is the author's tone and style relevant for the given video content?"
+      "text": "How relevant are the tone and style for the given video?"
     },
     {
       "id": "factual_consistency",
