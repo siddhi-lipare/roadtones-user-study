@@ -1,0 +1,295 @@
+{
+  "Tweet_ID": "1666322163429679105",
+  "TweetURL": "https://twitter.com/rsa_trucker/status/1666322163429679105",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1666322163429679105.json",
+  "VideoName": "JVN7GXcomAkqW4_8.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a vehicle-mounted camera, showing perspectives from inside a vehicle and focusing on side mirrors."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video is a massive multiple vehicle crash involving numerous vehicles, including trucks and cars."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in South Africa."
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The road event occurred on the N12 highway near the Delmas off-ramp."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "This event took place on a highway."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The road event happened during the morning or early hours, as indicated by the foggy conditions typically present during these times."
+    },
+    {
+      "Q": "What were the weather and visibility conditions during this road event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were characterized by heavy fog, rain, and mist, resulting in significantly reduced visibility."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include multiple vehicles, large trucks, cars (including white cars and a red hatchback), a police car, and people in high-visibility vests."
+    },
+    {
+      "Q": "Can you describe the actions of the drivers in the road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The vehicles were driving slowly, stopping, or parked due to the crash and poor visibility. Some trucks were illuminating their brake lights. A person in a high-visibility vest was inspecting or interacting with the vehicles."
+    },
+    {
+      "Q": "What was the likely primary reason behind this accident?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Generic",
+      "A": "The primary reason behind the accident was poor visibility due to heavy fog, which is common in the area during winter."
+    },
+    {
+      "Q": "What safety measures should drivers take in similar driving conditions?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reducing speed, maintaining a safe distance from other vehicles, using fog lights, and avoiding unnecessary lane changes. If possible, pull over safely and wait for conditions to improve."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 0 to 58 seconds."
+    },
+    {
+      "Q": "What specific highway and location did this multiple vehicle crash occur?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The massive multiple vehicle crash occurred on the N12 highway near the Delmas off-ramp in South Africa."
+    },
+    {
+      "Q": "How many directions of traffic were affected by this crash?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The crash affected both directions of traffic on the N12 highway."
+    },
+    {
+      "Q": "What specific weather condition contributed to this accident?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The accident was primarily caused by foggy conditions, which are common in this area during winter."
+    },
+    {
+      "Q": "What time of year is this stretch of road particularly dangerous?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "This stretch of road is particularly dangerous during winter when fog is common."
+    },
+    {
+      "Q": "What were the main factors that increased the risk of accidents in this scenario?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Specific",
+      "A": "The main factors that increased the risk of accidents were reduced visibility due to fog and the dangerous nature of this stretch of road."
+    },
+    {
+      "Q": "What types of vehicles were involved in this multiple vehicle crash?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The crash involved numerous vehicles, including trucks and cars."
+    },
+    {
+      "Q": "How were emergency services responding to the crash scene?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "Emergency services were present at the scene, as indicated by the mention of a police car and people in high-visibility vests."
+    },
+    {
+      "Q": "What specific safety precautions should drivers take on this stretch of road during winter?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Drivers should reduce speed, maintain a safe distance from other vehicles, use fog lights, avoid unnecessary lane changes, and if conditions are extremely poor, safely pull over and wait for visibility to improve."
+    },
+    {
+      "Q": "How did the foggy conditions impact driver behavior at the crash site?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "Due to the foggy conditions and poor visibility, vehicles were driving slowly, stopping, or parked at the crash site. Some trucks were illuminating their brake lights to increase visibility."
+    },
+    {
+      "Q": "Did a bridge collapse cause this multiple vehicle crash?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, a bridge collapse did not cause this multiple vehicle crash. The accident was primarily caused by poor visibility due to heavy fog on the N12 highway, not by any infrastructure failure."
+    },
+    {
+      "Q": "Was there a train involved in this accident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, there was no train involved in this accident. The video shows a multiple vehicle crash on a highway involving cars and trucks, but no trains are present or mentioned."
+    },
+    {
+      "Q": "Did a helicopter land at the crash site?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show or mention any helicopter landing at the crash site. The focus is on the ground-level view of the multiple vehicle crash on the N12 highway."
+    },
+    {
+      "Q": "Were there any motorcycles involved in this crash?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show or mention any motorcycles involved in the crash. The vehicles involved were described as cars and trucks, but no motorcycles were specified."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1666322102478163969/pu/vid/352x640/JVN7GXcomAkqW4_8.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Accident"
+    ],
+    "Country_location": [
+      "South Africa"
+    ],
+    "Road_type": [
+      "Highway"
+    ],
+    "Time_of_day": [
+      "Daytime"
+    ],
+    "Weather_conditions": [
+      "Reduced Visibility",
+      "Rainy Weather",
+      "Foggy Weather",
+      "Foggy Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Movement and Passing",
+      "Traffic Safety Violations",
+      "Unsafe Driving ",
+      "stopping and exiting",
+      "vehicle parking",
+      "Normal Speed/Speed Limit"
+    ]
+  },
+  "Video-level_tags": [
+    "Multi-vehicle crash",
+    "Highway accident",
+    "Foggy conditions",
+    "Poor visibility",
+    "Winter driving",
+    "Pileup",
+    "Distracted driving",
+    "Traffic safety",
+    "Weather-related accident",
+    "Defensive driving"
+  ],
+  "caption": "Massive multiple vehicle crash on N12 near the Delmas off ramp. Both directions affected",
+  "qa_path": "qa_1666322163429679105.json",
+  "video_path": "v_1666322163429679105_JVN7GXcomAkqW4_8.mp4",
+  "tweet_user": "rsa_trucker",
+  "video_summary": "A massive multiple vehicle crash, involving numerous vehicles including large trucks, cars (such as white cars and a red hatchback), and a police car, occurred on the N12 highway near the Delmas off-ramp in South Africa. The incident took place during the morning or early hours, with poor visibility due to heavy fog identified as the primary cause. Vehicles were observed driving slowly, stopping, or parked, with some trucks illuminating their brake lights. People in high-visibility vests were present, inspecting or interacting with the vehicles. The event was captured by a vehicle-mounted camera, showing perspectives from inside a vehicle and focusing on side mirrors.",
+  "is_english": "Yes",
+  "lang": "en",
+  "annotations": {
+    "Personality": {
+      "Practical": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.1,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.7,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 14,
+    "Informativeness": 0.5,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    }
+  }
+}
