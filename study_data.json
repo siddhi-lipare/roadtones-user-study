@@ -130,6 +130,25 @@
       "change_type": "decreased",
       "application": "Public Safety Awareness"
     },
+      {
+      "change_id": "change_009",
+      "video_id": "video_1757678309222355396",
+      "video_path": "media/v_1757678309222355396_u3pTKLEanaQLVVoF.mp4",
+      "video_summary": "A dashcam captured a key road event in Japan during the daytime, depicting dangerous cycling behavior that constituted a traffic violation. The cyclist's actions likely involved disregarding traffic signals or improper use of the roadway. Other entities present included cars, pedestrians, crosswalks, and traffic lights.",
+      "road_event_answer": "A cyclist engages in dangerous behavior, potentially disregarding traffic signals or using the roadway improperly.",
+      "distractor_answers": [
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall.",
+        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles.",
+        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate."
+      ],
+      "caption_A": "Seriously, what was that cyclist thinking in Japan, @JapanPolice? #Tokyo",
+      "caption_B": "Wow, @JapanPolice, is reckless cycling just a Tokyo thing now? #Japan",
+      "field_to_change": {
+        "tone": "Sarcastic"
+      },
+      "change_type": "increased",
+      "application": "Law Enforcement Reporting"
+    },
     {
       "change_id": "change_005",
       "video_id": "video_1772082398257127647",
@@ -147,25 +166,6 @@
         "writing_style": "Advisory"
       },
       "change_type": "decreased",
-      "application": "Law Enforcement Reporting"
-    },
-    {
-      "change_id": "change_009",
-      "video_id": "video_1757678309222355396",
-      "video_path": "media/v_1757678309222355396_u3pTKLEanaQLVVoF.mp4",
-      "video_summary": "A dashcam captured a key road event in Japan during the daytime, depicting dangerous cycling behavior that constituted a traffic violation. The cyclist's actions likely involved disregarding traffic signals or improper use of the roadway. Other entities present included cars, pedestrians, crosswalks, and traffic lights.",
-      "road_event_answer": "A cyclist engages in dangerous behavior, potentially disregarding traffic signals or using the roadway improperly.",
-      "distractor_answers": [
-        "A scooter rider opens the door of a car, causing a passing pedestrian to fall.",
-        "A motorcyclist performs high-speed wheelies on a busy road with other vehicles.",
-        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate."
-      ],
-      "caption_A": "Seriously, what was that cyclist thinking in Japan, @JapanPolice? #Tokyo",
-      "caption_B": "Wow, @JapanPolice, is reckless cycling just a Tokyo thing now? #Japan",
-      "field_to_change": {
-        "tone": "Sarcastic"
-      },
-      "change_type": "increased",
       "application": "Law Enforcement Reporting"
     },
     {
