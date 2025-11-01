@@ -1,0 +1,288 @@
+{
+  "Tweet_ID": "1534754660984033282",
+  "TweetURL": "https://twitter.com/9NewsQueensland/status/1534754660984033282",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1534754660984033282.json",
+  "VideoName": "pcAqGw9_WhY6vm4e.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a dashcam"
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured is a dangerous merging incident, which could be classified as unsafe driving behavior"
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in Australia"
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The road event occurred in Queensland"
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "This event took place on a freeway"
+    },
+    {
+      "Q": "What were the weather conditions during this road event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were clear with a blue sky and some scattered clouds"
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved were a car, a truck, and another vehicle"
+    },
+    {
+      "Q": "Can you describe the actions of the drivers in the road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "A car suddenly pulled out in front of a truck, merging between another vehicle and the truck"
+    },
+    {
+      "Q": "Were any traffic violations observed during this road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violation associated with this event is unsafe merging or cutting off a vehicle"
+    },
+    {
+      "Q": "What actions should be taken if one witnesses similar unsafe driving?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting the unsafe driving to authorities and using the dashcam footage as evidence"
+    },
+    {
+      "Q": "What general road safety advice is relevant to this type of incident?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Maintain safe distances between vehicles, especially trucks. Avoid sudden merging or cutting off other vehicles. Be aware of blind spots of larger vehicles. Use proper signaling when changing lanes. Exercise patience and avoid rushed maneuvers on freeways"
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 11 to 22 seconds."
+    },
+    {
+      "Q": "What specific type of recording device captured this road incident?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "The incident was captured using a dashcam installed in a vehicle."
+    },
+    {
+      "Q": "What precise type of traffic violation occurred in this Queensland freeway incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The incident involved a dangerous merging maneuver, where a car abruptly cut in front of a truck, constituting unsafe lane changing and potentially reckless driving."
+    },
+    {
+      "Q": "In which Australian state and on what specific type of roadway did this incident occur?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "This incident took place on a freeway in Queensland, Australia."
+    },
+    {
+      "Q": "What were the exact weather conditions at the time of this dangerous merging incident?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The weather conditions during the incident were clear, with a blue sky and some scattered clouds, indicating good visibility."
+    },
+    {
+      "Q": "What specific vehicles were involved in this Queensland freeway incident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The road entities involved were a car that merged dangerously, a truck that was cut off, and another vehicle between which the car merged."
+    },
+    {
+      "Q": "Can you provide a detailed description of the dangerous merging action in this incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "A car suddenly and aggressively pulled out from its lane, cutting in front of a truck and merging into a small space between the truck and another vehicle, leaving little to no safe distance."
+    },
+    {
+      "Q": "What specific traffic laws were likely violated in this Queensland freeway incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The traffic violations likely include unsafe lane changing, failure to give way, reckless driving, and potentially violating safe following distance laws."
+    },
+    {
+      "Q": "What specific steps should a witness take if they observe such dangerous merging on a Queensland freeway?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Witnesses should safely pull over and report the incident to Queensland Police, providing details such as time, location, and vehicle descriptions. If available, dashcam footage should be preserved and submitted as evidence."
+    },
+    {
+      "Q": "What specific road safety guidelines are most relevant to prevent such dangerous merging incidents on freeways?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Key safety guidelines include: Always check blind spots before changing lanes, use turn signals well in advance of merging, maintain a safe following distance of at least 3 seconds, avoid abrupt lane changes, be extra cautious around larger vehicles like trucks, and plan lane changes well in advance to avoid rushed maneuvers."
+    },
+    {
+      "Q": "Did the truck driver honk their horn in response to the dangerous merge?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show or mention any horn honking by the truck driver. The dashcam footage focuses on the visual aspect of the dangerous merging incident, and there's no information about audible responses from the vehicles involved."
+    },
+    {
+      "Q": "Was there a motorcycle involved in the dangerous merging incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, there was no motorcycle involved in this incident. The video only shows a car merging dangerously between a truck and another vehicle on the Queensland freeway. Motorcycles are not mentioned or visible in the dashcam footage."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1534745499232010240/pu/vid/1280x720/pcAqGw9_WhY6vm4e.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Dangerous or Rash driving"
+    ],
+    "Country_location": [
+      "Australia"
+    ],
+    "Road_type": [
+      "Highway",
+      "Highway"
+    ],
+    "Weather_conditions": [
+      "Clear Weather",
+      "Cloudy Weather",
+      "Hot/Sunny Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Movement and Passing",
+      "Roadway Navigation",
+      "Traffic Safety Violations",
+      "Unsafe Driving ",
+      "Overtaking",
+      "Overtaking and Weaving",
+      "stopping and exiting",
+      "Dangerous Maneuvers/Driving",
+      "Unpredictable and Sudden maneuver",
+      "Merging and Lane Changing Violations"
+    ],
+    "Traffic_Violation": [
+      "Overtaking & Lane Changes",
+      "Merging & Overtaking Violations",
+      "Vehicle Control Issues"
+    ]
+  },
+  "Video-level_tags": [
+    "Dangerous merging",
+    "Reckless driving",
+    "Freeway safety",
+    "Near-miss incident",
+    "Truck safety",
+    "Unsafe lane change",
+    "Dashcam footage",
+    "Road safety warning",
+    "Queensland traffic",
+    "Australian road incident"
+  ],
+  "caption": "ABSOLUTE LUNACY: Shocking footage shows the moment a car suddenly pulls out in front of a truck on a Queensland freeway.\n\nThe dashcam footage, which shows the car merging between another vehicle and the truck, has been released as a warning to other drivers. #9News",
+  "qa_path": "qa_1534754660984033282.json",
+  "video_path": "v_1534754660984033282_pcAqGw9_WhY6vm4e.mp4",
+  "tweet_user": "9NewsQueensland",
+  "video_summary": "A dashcam in Queensland, Australia, captured an unsafe driving incident involving a car, a truck, and another vehicle. The car performed an unsafe merge by suddenly pulling out in front of the truck, cutting it off as it merged between the truck and the other vehicle. This action constitutes a traffic violation for unsafe merging.",
+  "is_english": "Yes",
+  "lang": "en",
+  "annotations": {
+    "Personality": {
+      "Sarcastic": 0.9,
+      "Critical": 0.7,
+      "Argumentative": 0.6,
+      "Cynical (Doubtful, Skeptical)": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.4,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.6,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 8,
+    "Informativeness": 0.3,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    }
+  }
+}

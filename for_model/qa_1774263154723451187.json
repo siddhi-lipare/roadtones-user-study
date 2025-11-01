@@ -314,16 +314,6 @@
   "is_english": "No",
   "lang": "ja",
   "annotations": {
-    "Emotion": {
-      "Joy": 0.0,
-      "Anticipation": 0.3,
-      "Trust": 0.0,
-      "Anger": 0.6,
-      "Fear": 0.4,
-      "Disgust": 0.2,
-      "Surprise": 0.3,
-      "Sadness": 0.0
-    },
     "Personality": {
       "Critical": 0.8,
       "Assertive": 0.6,
