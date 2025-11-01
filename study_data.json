@@ -127,8 +127,7 @@
       "field_to_change": {
         "tone": "Emotional"
       },
-      "change_type": "decreased",
-      "application": "Public Safety Awareness"
+      "change_type": "decreased"
     },
       {
       "change_id": "change_009",
@@ -146,8 +145,7 @@
       "field_to_change": {
         "tone": "Sarcastic"
       },
-      "change_type": "increased",
-      "application": "Law Enforcement Reporting"
+      "change_type": "increased"
     },
     {
       "change_id": "change_005",
@@ -165,8 +163,7 @@
       "field_to_change": {
         "writing_style": "Advisory"
       },
-      "change_type": "decreased",
-      "application": "Law Enforcement Reporting"
+      "change_type": "decreased"
     },
     {
       "change_id": "change_010",
@@ -184,8 +181,7 @@
       "field_to_change": {
         "writing_style": "Proverbial"
       },
-      "change_type": "increased",
-      "application": "Public Safety Awareness"
+      "change_type": "increased"
     }
   ],
     "part3_comparisons": [

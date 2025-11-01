@@ -1,0 +1,304 @@
+{
+  "Tweet_ID": "1781029134916784442",
+  "TweetURL": "https://twitter.com/401_da_sarpanch/status/1781029134916784442",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1781029134916784442.json",
+  "VideoName": "HwWaSpaenWbLCXo7.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a vehicle-mounted camera"
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured is a traffic violation where a driver stops at the incorrect position at a red light"
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in Canada"
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The road event occurred in Brampton, Ontario"
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "This event took place in an urban area at an intersection"
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "This road event happened at night"
+    },
+    {
+      "Q": "What were the weather and road conditions during the event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were rainy with wet roads"
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include a car (the one that stopped incorrectly), traffic lights, intersection, and wet road surface"
+    },
+    {
+      "Q": "Can you describe the actions of the driver in the road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The car stopped at the incorrect position at a red light, beyond the designated stop line"
+    },
+    {
+      "Q": "What traffic rule violations are evident in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violation associated with this event is stopping beyond the designated stop line at a red light"
+    },
+    {
+      "Q": "What measures could be taken to address unsafe driving situations like the one shown?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting the traffic violation to local authorities and implementing stricter driver education programs"
+    },
+    {
+      "Q": "What road safety advisories are relevant to this event?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Always stop at the designated stop line at red lights, Be extra cautious when driving in rainy conditions, and Ensure proper understanding of local traffic rules and regulations"
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 1 to 9 seconds."
+    },
+    {
+      "Q": "What type of camera recorded this road event?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "The road event was recorded using a vehicle-mounted camera, likely a dashcam."
+    },
+    {
+      "Q": "What specific traffic violation is shown in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The video shows a driver stopping beyond the designated stop line at a red light intersection."
+    },
+    {
+      "Q": "In what type of urban setting does this traffic violation occur?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "This traffic violation takes place at an intersection in an urban area of Brampton, Ontario, Canada."
+    },
+    {
+      "Q": "During which part of the day did this incident happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "The incident occurred at night."
+    },
+    {
+      "Q": "What were the specific weather and road conditions at the time of the event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The weather was rainy, resulting in wet road conditions."
+    },
+    {
+      "Q": "What are the main road elements and vehicles involved in this event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The key elements include the offending car, traffic lights, the intersection, stop line, and the wet road surface."
+    },
+    {
+      "Q": "How did the driver specifically violate traffic rules in this situation?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The driver stopped their car beyond the designated stop line at the red light, encroaching into the intersection."
+    },
+    {
+      "Q": "What specific traffic law did the driver break in this incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The driver violated the traffic law that requires vehicles to stop behind the designated stop line at a red light."
+    },
+    {
+      "Q": "What official actions should be taken to address this type of traffic violation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "This violation should be reported to local traffic authorities in Brampton. The city should consider increased enforcement at this intersection and implement targeted driver education programs about proper stopping procedures."
+    },
+    {
+      "Q": "What specific safety advice is relevant for drivers in similar situations?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Drivers should: 1) Always stop behind the designated stop line at red lights, 2) Exercise extra caution when driving at night in rainy conditions, 3) Be aware of reduced visibility and longer stopping distances on wet roads, and 4) Familiarize themselves with local traffic rules, particularly those related to intersections and traffic signals."
+    },
+    {
+      "Q": "Was there a bicycle lane visible in the video?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not mention or show any bicycle lanes. The focus is on an urban intersection where a car stopped incorrectly at a red light, and bicycle infrastructure is not relevant to the described incident."
+    },
+    {
+      "Q": "Was there a pedestrian crossing the street during the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no evidence of a pedestrian crossing the street during this incident. The video focuses on a car stopping incorrectly at a red light, and no pedestrians are mentioned or relevant to the described event."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/amplify_video/1781027759080255488/vid/avc1/720x1280/HwWaSpaenWbLCXo7.mp4?tag=14"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Traffic Violations"
+    ],
+    "Country_location": [
+      "Canada"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads",
+      "Intersections and Junctions"
+    ],
+    "Time_of_day": [
+      "Nighttime"
+    ],
+    "Weather_conditions": [
+      "Rainy Weather",
+      "Wet Surfaces / Conditions"
+    ],
+    "What/Actions_of_key_entities": [
+      "Roadway Navigation"
+    ],
+    "Traffic_Violation": [
+      "Stop line violations"
+    ]
+  },
+  "Video-level_tags": [
+    "Traffic violation",
+    "Red light violation",
+    "Stop line infraction",
+    "Urban intersection",
+    "Rainy conditions",
+    "Dashcam footage",
+    "Canadian traffic",
+    "Unsafe stopping",
+    "Driver education",
+    "Intersection obstruction"
+  ],
+  "caption": "You Can\u2019t Make This Up\ud83d\ude02\n\ud83d\udccdBrampton,ON\n.\n#brampton #peelregion #roadsafety #redlight #driverslicense #fail #drivetest #Ontario #onpoli",
+  "qa_path": "qa_1781029134916784442.json",
+  "video_path": "v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
+  "tweet_user": "401_da_sarpanch",
+  "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
+  "is_english": "No",
+  "lang": "en",
+  "annotations": {
+    "Emotion": {
+      "Joy": 0.7,
+      "Anticipation": 0.0,
+      "Trust": 0.0,
+      "Anger": 0.0,
+      "Fear": 0.0,
+      "Disgust": 0.0,
+      "Surprise": 0.3,
+      "Sadness": 0.0
+    },
+    "Personality": {
+      "Amusing": 0.9,
+      "Casual": 0.7,
+      "Playful": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 16,
+    "Informativeness": 0.0,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    }
+  }
+}
