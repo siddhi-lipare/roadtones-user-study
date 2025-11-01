@@ -1,0 +1,311 @@
+{
+  "Tweet_ID": "1789273033116692714",
+  "TweetURL": "https://twitter.com/chachamarimo/status/1789273033116692714",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1789273033116692714.json",
+  "VideoName": "4mmEvHIRSyWa2VQU.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a vehicle-mounted camera or dashcam."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video is an instance of dangerous driving and a traffic violation by an elderly driver."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in Japan."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place at an intersection in an urban area."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The exact time of day is not specified, but it occurred during daylight hours."
+    },
+    {
+      "Q": "What were the weather and visibility conditions during the event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were clear with good visibility."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved were a car driven by an elderly person, the recorder's vehicle, and lane markings indicating turn directions."
+    },
+    {
+      "Q": "Can you describe the actions of the drivers in the road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The elderly driver's car continued straight from a left-turn lane, while the recorder's vehicle honked to alert the other driver."
+    },
+    {
+      "Q": "What traffic rule violations are evident in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violation in this event was improper lane usage, specifically driving straight from a designated left-turn lane."
+    },
+    {
+      "Q": "What actions should be taken in response to unsafe driving as shown in the video?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting the incident to local authorities and advocating for license surrender for elderly drivers who demonstrate unsafe driving behaviors."
+    },
+    {
+      "Q": "What road safety advice is relevant to the scenario shown?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Always use the correct lane for your intended direction, Be aware of lane markings and follow them correctly, Elderly drivers should regularly assess their driving abilities, and Consider surrendering your license if you're no longer able to drive safely."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 11 to 18 seconds."
+    },
+    {
+      "Q": "What specific traffic violation did the elderly driver commit at the intersection?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The elderly driver continued straight from a designated left-turn lane, violating proper lane usage rules."
+    },
+    {
+      "Q": "How did the recorder react to the elderly driver's unexpected maneuver?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The recorder honked their horn to alert the elderly driver of the dangerous situation."
+    },
+    {
+      "Q": "What potential safety hazards were created by the elderly driver's actions?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "The elderly driver's action of going straight from a left-turn lane could lead to collisions with vehicles expecting them to turn left or with vehicles in the straight-ahead lanes."
+    },
+    {
+      "Q": "What signs of driver impairment or confusion were evident in the elderly driver's behavior?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The elderly driver seemed confused about correct lane usage, suggesting possible cognitive impairment or diminished driving skills."
+    },
+    {
+      "Q": "What legal and ethical considerations arise from this incident regarding elderly drivers?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "The incident raises questions about the need for regular driving assessments for elderly drivers and the potential necessity for license surrender in cases of demonstrated unsafe driving."
+    },
+    {
+      "Q": "How could road design or signage be improved to prevent similar incidents?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Clearer lane markings, additional signage, or road design improvements like physical barriers between turn lanes and straight lanes could help prevent similar incidents."
+    },
+    {
+      "Q": "What specific features of the intersection contributed to this dangerous situation?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The presence of a dedicated left-turn lane alongside straight-ahead lanes at an urban intersection created the opportunity for lane confusion."
+    },
+    {
+      "Q": "How might the time of day or lighting conditions have affected the elderly driver's decision-making?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "While the incident occurred during daylight hours with good visibility, factors like glare or shadows at certain times of day could potentially contribute to confusion for elderly drivers."
+    },
+    {
+      "Q": "What immediate actions should other drivers take when witnessing such a dangerous maneuver?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Other drivers should slow down, maintain a safe distance, use horns if necessary to alert the errant driver, and be prepared to take evasive action if needed."
+    },
+    {
+      "Q": "How does this incident highlight the importance of dashcams in modern driving?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "The dashcam footage provides clear evidence of the traffic violation and dangerous driving, which can be valuable for reporting incidents to authorities or for insurance purposes."
+    },
+    {
+      "Q": "Were there any pedestrians crossing the street during the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any pedestrians crossing the street during this incident. The focus is on the elderly driver's improper lane usage at the intersection."
+    },
+    {
+      "Q": "Did the elderly driver stop after realizing their mistake?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show the elderly driver stopping after their mistake. The footage only captures the moment of improper lane usage and the recorder's reaction."
+    },
+    {
+      "Q": "Was there a collision between any vehicles?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, the video does not show any collision between vehicles. The incident involved an elderly driver going straight from a left-turn lane, but no actual crash occurred."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1789272816585773056/pu/vid/avc1/1220x720/4mmEvHIRSyWa2VQU.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View",
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Dangerous or Rash driving",
+      "Traffic Violations"
+    ],
+    "Country_location": [
+      "Japan"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads",
+      "Intersections and Junctions"
+    ],
+    "Time_of_day": [
+      "Daytime"
+    ],
+    "Weather_conditions": [
+      "High Visibility",
+      "Clear Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Fails to Follow Road Regulations",
+      "Vehicle Driving Habits",
+      "Communication",
+      "Incorrect Lane Usage",
+      "Traffic Violations"
+    ],
+    "Traffic_Violation": [
+      "Improper Lane Use & Positioning"
+    ]
+  },
+  "Video-level_tags": [
+    "Dangerous driving",
+    "Elderly driver",
+    "Improper lane usage",
+    "Intersection safety",
+    "Traffic rule violation",
+    "Honking alert",
+    "Left turn lane misuse",
+    "Driver awareness",
+    "Road safety concern",
+    "Japan traffic incident"
+  ],
+  "caption": "#DangerousDriving\n#SurrenderLicense\n#ElderlyDriver\n\nRight lane: Straight ahead\nLeft lane: Turn left\nBut the car in the left lane coming from behind kept going straight instead of turning!\n\nI honked hard to get their attention, but the driver was an old man.\nIf he made a mistake, can't he just go straight and then turn back instead of forcing it?\nIt's dangerous, he should just surrender his license.",
+  "qa_path": "qa_1789273033116692714.json",
+  "video_path": "v_1789273033116692714_4mmEvHIRSyWa2VQU.mp4",
+  "tweet_user": "chachamarimo",
+  "video_summary": "A vehicle-mounted camera or dashcam captured a dangerous driving incident and traffic violation in Japan during daylight hours. The key road event involved an elderly driver's car, the recorder's vehicle, and lane markings. The elderly driver improperly continued straight from a lane clearly designated for left turns, while the recorder's vehicle honked to alert the driver of the violation. The traffic rule violation was improper lane usage.",
+  "is_english": "No",
+  "lang": "ja",
+  "annotations": {
+    "Emotion": {
+      "Joy": 0.0,
+      "Anticipation": 0.3,
+      "Trust": 0.0,
+      "Anger": 0.7,
+      "Fear": 0.2,
+      "Disgust": 0.4,
+      "Surprise": 0.1,
+      "Sadness": 0.0
+    },
+    "Personality": {
+      "Critical": 0.9,
+      "Assertive": 0.7,
+      "Angry": 0.6,
+      "Opinionated": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.3,
+      "Exaggeration": 0.2,
+      "Judgemental": 0.9,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.1,
+      "Rhetorical Question": 0.6,
+      "Factual": 0.4,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.8,
+      "CallToAction": 0.7,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 67,
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "yes"
+    }
+  }
+}

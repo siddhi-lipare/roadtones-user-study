@@ -1,0 +1,331 @@
+{
+  "Tweet_ID": "1616743651690057730",
+  "TweetURL": "https://twitter.com/Idiots1nCars/status/1616743651690057730",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1616743651690057730.json",
+  "VideoName": "BkObxC8SUxoD1Un0.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a dashcam from both the driver's and back seats of a car."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video is a rear-end collision, which is a type of traffic accident."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place on a road lined with trees and power lines. "
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The event happened during the daytime, as indicated by the clear blue skies mentioned in the video description."
+    },
+    {
+      "Q": "What were the weather and visibility conditions during the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were clear with good visibility, as evidenced by the mention of clear blue skies. "
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved in the key event were two cars, one of which rear-ended the other."
+    },
+    {
+      "Q": "Can you describe the actions of the drivers involved in the collision?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "One car was stationary or had come to a stop, while the other car failed to stop and collided with the rear of the stopped vehicle."
+    },
+    {
+      "Q": "What was the likely reason behind the rear-end collision?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Generic",
+      "A": "The primary reason behind the accident appears to be failure to maintain a safe following distance and possibly driver inattention by the rear vehicle."
+    },
+    {
+      "Q": "How could the rear-end collision have been avoided?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Generic",
+      "A": "The accident could have been prevented by the rear driver maintaining a safe following distance, paying attention to the road ahead, and anticipating potential stops by the vehicle in front."
+    },
+    {
+      "Q": "What traffic violations are evident in the rear-end collision?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violations associated with this event include failure to maintain a safe following distance and possibly distracted driving by the rear driver."
+    },
+    {
+      "Q": "What road safety advice is relevant to the scenario depicted in the video?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories for this situation include: Always maintain a safe following distance, Stay alert and attentive while driving, Be prepared to stop at any time, and Adjust your speed according to traffic conditions. "
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 6 to 19 seconds."
+    },
+    {
+      "Q": "What specific type of collision occurred in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The video captured a rear-end collision, where one vehicle hit another vehicle from behind."
+    },
+    {
+      "Q": "What was the environmental setting of the road where the collision took place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The collision occurred on a road lined with trees and power lines, suggesting a suburban or rural setting."
+    },
+    {
+      "Q": "What were the lighting and visibility conditions at the time of the collision?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The collision happened during daytime with clear blue skies, indicating excellent lighting and visibility conditions."
+    },
+    {
+      "Q": "How many vehicles were directly involved in the rear-end collision?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "Two vehicles were directly involved in the rear-end collision: the front vehicle that was hit and the rear vehicle that collided into it."
+    },
+    {
+      "Q": "What were the specific actions of the drivers immediately before the collision?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The front vehicle had either stopped or was in the process of stopping, while the rear vehicle failed to stop in time, resulting in the collision."
+    },
+    {
+      "Q": "What was the primary cause of the rear-end collision?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Specific",
+      "A": "The primary cause appears to be the failure of the rear driver to maintain a safe following distance, possibly compounded by inattention or distraction."
+    },
+    {
+      "Q": "What specific defensive driving technique could have prevented this collision?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Specific",
+      "A": "The collision could have been prevented if the rear driver had maintained the '3-second rule' for following distance, allowing sufficient time to react and stop."
+    },
+    {
+      "Q": "What specific traffic laws were likely violated in this rear-end collision?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The rear driver likely violated traffic laws related to maintaining a safe following distance and possibly laws against distracted driving or failure to exercise due care."
+    },
+    {
+      "Q": "What key road safety principle is most relevant to preventing this type of collision?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "The key road safety principle most relevant here is the importance of maintaining a safe following distance, which allows drivers time to react to sudden changes in traffic conditions."
+    },
+    {
+      "Q": "How might the positioning of the dashcams in the vehicle contribute to understanding the collision?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "The presence of dashcams in both the driver's seat and back seat would provide multiple angles of the collision, offering a comprehensive view of the events before, during, and after the impact."
+    },
+    {
+      "Q": "What time of day did this collision occur and how might it have influenced the incident?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "The collision occurred during daytime, which typically offers optimal visibility. This suggests that poor lighting was not a contributing factor to the incident."
+    },
+    {
+      "Q": "Did the collision occur at a traffic light intersection?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show the collision occurring at a traffic light intersection. The incident took place on a road lined with trees and power lines, suggesting a suburban or rural setting, but there's no mention of traffic lights being involved."
+    },
+    {
+      "Q": "Was there a construction zone in the area where the collision happened?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show or mention any construction zone in the area where the collision occurred. The road is described as being lined with trees and power lines, with no indication of ongoing roadwork or construction."
+    },
+    {
+      "Q": "Was there a motorcycle involved in the collision?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no evidence of a motorcycle being involved in this collision. The video shows a rear-end collision between two cars, with no mention or indication of any motorcycles present."
+    },
+    {
+      "Q": "Did heavy rain contribute to the accident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video shows clear weather conditions with blue skies, not heavy rain. The collision occurred during daytime with good visibility, so rain was not a contributing factor to this rear-end accident."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in USA."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1616743513127006214/pu/vid/1280x720/BkObxC8SUxoD1Un0.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Accident"
+    ],
+    "Road_type": [
+      "Rural and Countryside Roads"
+    ],
+    "Time_of_day": [
+      "Daytime"
+    ],
+    "Weather_conditions": [
+      "High Visibility",
+      "Clear Weather",
+      "Hot/Sunny Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Traffic Safety Violations",
+      "Collisions",
+      "stopping and exiting",
+      "Stop/Yield"
+    ],
+    "Traffic_Violation": [
+      "Driver Behavior & Distractions",
+      "Unsafe Following & Distance"
+    ],
+    "Country_location": [
+      "USA"
+    ]
+  },
+  "Video-level_tags": [
+    "Rear-end collision",
+    "Dashcam footage",
+    "Safe following distance",
+    "Driver inattention",
+    "Stopped vehicle",
+    "Traffic accident",
+    "Road safety",
+    "Defensive driving",
+    "Collision prevention",
+    "Accident evidence"
+  ],
+  "caption": "He told the police I slammed on my brakes",
+  "qa_path": "qa_1616743651690057730.json",
+  "video_path": "v_1616743651690057730_BkObxC8SUxoD1Un0.mp4",
+  "tweet_user": "Idiots1nCars",
+  "video_summary": "A rear-end collision, a type of traffic accident, occurred during the daytime in the USA, captured by a dashcam from both the driver's and back seats of a car. The key road event involved two cars, where one car was stationary or had come to a stop, and the other car failed to stop, colliding with the rear of the stopped vehicle. The primary reason for the accident appears to be the rear driver's failure to maintain a safe following distance and possibly driver inattention or distracted driving. This incident could have been prevented by the rear driver maintaining a safe following distance, paying attention to the road ahead, and anticipating potential stops by the vehicle in front.",
+  "is_english": "Yes",
+  "lang": "en",
+  "annotations": {
+    "Emotion": {
+      "Joy": 0.0,
+      "Anticipation": 0.1,
+      "Trust": 0.0,
+      "Anger": 0.6,
+      "Fear": 0.1,
+      "Disgust": 0.0,
+      "Surprise": 0.2,
+      "Sadness": 0.0
+    },
+    "Personality": {
+      "Blunt": 0.7,
+      "Argumentative": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.2,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.3,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 9,
+    "Informativeness": 0.3,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "yes"
+    }
+  }
+}

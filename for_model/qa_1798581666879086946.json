@@ -1,0 +1,304 @@
+{
+  "Tweet_ID": "1798581666879086946",
+  "TweetURL": "https://twitter.com/CYBTRAFFIC/status/1798581666879086946",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1798581666879086946.json",
+  "VideoName": "iMCA3kCEctYBK5Uc.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video appears to be captured using multiple cameras, including surveillance cameras for traffic scenes and indoor cameras for office settings."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video involves unsafe driving behavior, particularly related to improper U-turns and traffic violations."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in India."
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The road event occurred in Hyderabad city, with specific mentions of areas like Gachibowli and Abdullahpurmet."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place on urban roads and highways, including areas with U-turns and intersections."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The road events occurred during both daytime and nighttime."
+    },
+    {
+      "Q": "Describe the weather conditions and road visibility in the video.",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The video shows both wet road conditions at night and clear visibility during the day."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include cars, motorcycles, buses, pedestrians, U-turns, traffic signals, road dividers, and zebra crossings."
+    },
+    {
+      "Q": "Describe the actions of the road entities involved in the event.",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "Actions performed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping."
+    },
+    {
+      "Q": "What traffic rule violations are depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "Traffic rule violations include improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations."
+    },
+    {
+      "Q": "What measures could be taken to address the unsafe driving situations observed?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures to be taken include reporting traffic violations to local authorities, implementing stricter fines, improving road infrastructure, and enhancing driver education and awareness programs."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 3 to 5 seconds."
+    },
+    {
+      "Q": "What specific unsafe driving behavior is the main focus of the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The main focus of the video is on unsafe and improper U-turns on roads in Hyderabad."
+    },
+    {
+      "Q": "In which city do these road events take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The road events take place in Hyderabad, India."
+    },
+    {
+      "Q": "What time periods are covered in the video footage of these road events?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "The video footage covers both daytime and nighttime road events."
+    },
+    {
+      "Q": "How do weather conditions affect the visibility of the road events shown?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The video shows varying weather conditions, including wet roads at night and clear visibility during the day, which can impact driving behavior and safety."
+    },
+    {
+      "Q": "What types of vehicles are primarily involved in the unsafe U-turns?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The vehicles primarily involved in unsafe U-turns include cars, motorcycles, and buses."
+    },
+    {
+      "Q": "Besides improper U-turns, what other dangerous driving behaviors are observed?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "Other dangerous driving behaviors observed include overtaking, speeding, wrong-side driving, and red light jumping."
+    },
+    {
+      "Q": "What specific traffic rules are being violated in the instances of improper U-turns?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The traffic rules being violated include improper U-turn procedures, lane discipline violations, and potentially crossing solid lines or ignoring no U-turn signs."
+    },
+    {
+      "Q": "What infrastructure improvements could help reduce unsafe U-turns in Hyderabad?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Infrastructure improvements could include better-designed U-turn points, clearer road markings, installation of barriers to prevent illegal U-turns, and improved signage."
+    },
+    {
+      "Q": "How could law enforcement more effectively address the issue of unsafe U-turns?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Law enforcement could address unsafe U-turns more effectively by increasing patrols at known problem areas, using traffic cameras to identify and fine violators, and conducting targeted awareness campaigns."
+    },
+    {
+      "Q": "Are there any accidents or collisions shown in the video?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any actual accidents or collisions. It focuses on unsafe driving behaviors, particularly improper U-turns, but does not depict any crashes."
+    },
+    {
+      "Q": "Is there a police chase happening in any part of the video?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no police chase shown in the video. The footage primarily captures regular traffic scenes with a focus on unsafe driving behaviors, especially improper U-turns."
+    },
+    {
+      "Q": "Is there any footage of driver education or traffic safety classes in the video?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not contain any footage of driver education or traffic safety classes. It solely focuses on real-world traffic scenes and driving behaviors in Hyderabad."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1798581613627953152/pu/vid/avc1/1280x720/iMCA3kCEctYBK5Uc.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "cctv camera"
+    ],
+    "RoadEvent_Type": [
+      "Dangerous or Rash driving",
+      "Traffic Violations"
+    ],
+    "Country_location": [
+      "India"
+    ],
+    "Road_type": [
+      "Highway",
+      "Urban and Suburban Roads",
+      "Intersections and Junctions",
+      "Turns"
+    ],
+    "Time_of_day": [
+      "Daytime",
+      "Nighttime"
+    ],
+    "Weather_conditions": [
+      "High Visibility",
+      "Reduced Visibility",
+      "Wet Surfaces / Conditions",
+      "Clear Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Movement and Passing",
+      "Overtaking",
+      "Overtaking and Weaving",
+      "Maneuvering",
+      "Driving Incorrectly",
+      "Speeding/High Speed",
+      "Wrong Lane and Direction Violations",
+      "Red Light Violations"
+    ],
+    "Traffic_Violation": [
+      "Lane Discipline Violations",
+      "Unsafe Turns & Crossings",
+      "Red light violations",
+      "Speeding & Speed-related Violations",
+      "Vehicle Occupant Safety Violations",
+      "Illegal & Prohibited Driving Areas"
+    ]
+  },
+  "Video-level_tags": [
+    "Unsafe U-turn",
+    "Traffic violation",
+    "Dangerous driving",
+    "Road safety",
+    "Highway driving",
+    "Improper lane usage",
+    "Traffic management",
+    "Driver education",
+    "Accident prevention",
+    "Traffic rules enforcement"
+  ],
+  "caption": "If you don't take care, a U-turn can turn into a wrong turn.\n#RoadSafety",
+  "qa_path": "qa_1798581666879086946.json",
+  "video_path": "v_1798581666879086946_iMCA3kCEctYBK5Uc.mp4",
+  "tweet_user": "CYBTRAFFIC",
+  "video_summary": "The video, captured by multiple cameras including surveillance and indoor types, depicts key road events involving unsafe driving behavior, improper U-turns, and various traffic violations in Hyderabad, India, specifically in areas like Gachibowli and Abdullahpurmet. These events occurred during both daytime and nighttime. The road entities involved include cars, motorcycles, buses, and pedestrians, interacting with U-turns, traffic signals, road dividers, and zebra crossings. Actions observed include improper U-turns, overtaking, speeding, wrong-side driving, and red light jumping. The depicted traffic rule violations encompass improper U-turns, wrong-side driving, red light jumping, speeding, lane discipline violations, and helmet rule violations.",
+  "is_english": "No",
+  "lang": "te",
+  "annotations": {
+    "Personality": {
+      "Curious": 0.8,
+      "Casual": 0.6,
+      "Questioning": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 16,
+    "Informativeness": 0.2,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    }
+  }
+}
