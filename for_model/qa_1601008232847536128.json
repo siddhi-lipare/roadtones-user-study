@@ -1,0 +1,290 @@
+{
+  "Tweet_ID": "1601008232847536128",
+  "TweetURL": "https://twitter.com/DashCamOwnersAu/status/1601008232847536128",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1601008232847536128.json",
+  "VideoName": "NAijs2Y2B0AvUT_O.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a vehicle-mounted camera, providing a driver's perspective of the road."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video is a near-miss incident involving a motorcycle and a truck, which could have resulted in a serious accident."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in Australia."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event appears to have taken place on a highway or main road."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved in the key road event are a motorcycle, a truck, and the motorcyclist."
+    },
+    {
+      "Q": "Can you describe the actions of the entities involved in the road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The truck was turning, while the motorcyclist was approaching at high speed and performed a tactical roll to avoid collision."
+    },
+    {
+      "Q": "What is the suspected reason behind the motorcyclist's actions?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Generic",
+      "A": "The motorcyclist's actions suggest recklessness or lack of caution, as they failed to slow down when approaching the truck."
+    },
+    {
+      "Q": "What was the primary reason for the near-miss incident?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Generic",
+      "A": "The primary reason behind the near-miss incident was the motorcyclist's failure to slow down when approaching the turning truck."
+    },
+    {
+      "Q": "How could the incident have been prevented?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Generic",
+      "A": "The incident could have been prevented if the motorcyclist had slowed down upon seeing the truck turning."
+    },
+    {
+      "Q": "What traffic rule violations are associated with this road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violations associated with this event include speeding and potentially reckless driving by the motorcyclist."
+    },
+    {
+      "Q": "What road safety advisories are relevant to this situation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories for this situation include: Always slow down when approaching larger vehicles, maintain a safe following distance, and anticipate potential movements of other vehicles on the road."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 13 to 31 seconds."
+    },
+    {
+      "Q": "What specific type of near-miss incident is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The video depicts a near-miss incident between a motorcycle and a truck, where the motorcyclist narrowly avoided a collision by performing a tactical roll."
+    },
+    {
+      "Q": "What were the key vehicles involved in this near-miss incident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The key vehicles involved in the near-miss incident were a motorcycle and a truck."
+    },
+    {
+      "Q": "What specific maneuver did the motorcyclist perform to avoid the collision?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The motorcyclist performed a tactical roll to avoid colliding with the truck."
+    },
+    {
+      "Q": "What was the truck doing at the time of the incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The truck was in the process of making a turn when the incident occurred."
+    },
+    {
+      "Q": "What was the primary error made by the motorcyclist that led to this near-miss?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Specific",
+      "A": "The primary error made by the motorcyclist was failing to slow down when approaching the turning truck."
+    },
+    {
+      "Q": "What specific traffic violations did the motorcyclist likely commit?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The motorcyclist likely committed traffic violations including speeding and potentially reckless driving."
+    },
+    {
+      "Q": "How could the motorcyclist have prevented this dangerous situation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Specific",
+      "A": "The motorcyclist could have prevented this situation by slowing down upon seeing the truck turning and maintaining a safe distance."
+    },
+    {
+      "Q": "What are three key road safety advisories that apply to this specific situation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "1. Always reduce speed when approaching larger vehicles. 2. Maintain a safe following distance, especially near intersections. 3. Anticipate potential movements of other vehicles, particularly those signaling or beginning to turn."
+    },
+    {
+      "Q": "What potential consequences could the motorcyclist have faced if the tactical roll had not been successful?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Specific",
+      "A": "If the tactical roll had not been successful, the motorcyclist could have faced severe injuries or fatality due to a direct collision with the truck."
+    },
+    {
+      "Q": "What legal implications might the motorcyclist face for their actions in this incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The motorcyclist might face legal implications such as fines, license suspension, or charges related to reckless driving or endangering public safety, depending on local traffic laws."
+    },
+    {
+      "Q": "Did the motorcycle collide with any parked cars?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show the motorcycle colliding with any parked cars. The incident was a near-miss between the motorcycle and a turning truck, with no other vehicles involved."
+    },
+    {
+      "Q": "Was there a bicycle lane involved in this road event?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "From what can be seen in the video, there is no bicycle lane involved in this road event. The incident occurred on what appears to be a highway or main road without dedicated bicycle infrastructure."
+    },
+    {
+      "Q": "Did a police officer intervene immediately after the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any police officer intervening immediately after the incident. The focus is on the near-miss between the motorcycle and the truck."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1601007981478674432/pu/vid/1280x720/NAijs2Y2B0AvUT_O.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Near-miss"
+    ],
+    "Country_location": [
+      "Australia"
+    ],
+    "Road_type": [
+      "Highway",
+      "Main Roads"
+    ],
+    "What/Actions_of_key_entities": [
+      "Roadway Navigation",
+      "Speeding/High Speed",
+      "Turning"
+    ],
+    "Traffic_Violation": [
+      "Reckless & Negligent Driving",
+      "Speeding & Speed-related Violations"
+    ]
+  },
+  "Video-level_tags": [
+    "Near-miss",
+    "Unsafe overtaking",
+    "Motorcycle safety",
+    "Truck-motorcycle interaction",
+    "Reckless driving",
+    "Australian road safety",
+    "Dashcam footage",
+    "Highway safety",
+    "Evasive maneuver",
+    "Traffic violation"
+  ],
+  "caption": "\"Tactical roll saved him. Don't know abut you but when I see a truck in front of me I slow down, not try and ride through it.\"",
+  "qa_path": "qa_1601008232847536128.json",
+  "video_path": "v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
+  "tweet_user": "DashCamOwnersAu",
+  "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
+  "is_english": "Yes",
+  "lang": "en",
+  "annotations": {
+    "Personality": {
+      "Appreciative (Grateful)": 1.0,
+      "Considerate": 0.7,
+      "Curious": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.8,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.7,
+      "Factual": 0.3,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 22,
+    "Informativeness": 0.5,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "yes"
+    }
+  }
+}
