@@ -221,8 +221,8 @@
       ],
       "control_scores": {
         "tone": {
-          "Questioning": "Very Strong",
-          "Sarcastic": "Strong"
+          "Sarcastic": "Strong",
+          "Amusing": "Very Strong"
         },
         "writing_style": {
           "Conversational": "Strong"
@@ -244,8 +244,7 @@
       ],
       "control_scores": {
         "tone": {
-          "Curious": "Very Strong",
-          "Appreciative": "Strong"
+          "Curious": "Very Strong"
         },
         "writing_style": {
           "Conversational": "Strong",
