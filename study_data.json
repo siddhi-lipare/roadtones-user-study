@@ -110,81 +110,6 @@
       ]
     }
   ],
-  "part3_comparisons": [
-    {
-      "comparison_id": "comp_001",
-      "video_id": "video_1781029134916784442",
-      "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
-      "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
-      "road_event_answer": "A car stops beyond the designated stop line at a red light.",
-      "distractor_answers": [
-        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
-        "A massive multi-vehicle pileup on a highway caused by heavy fog.",
-        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping."
-      ],
-      "control_scores": {
-        "tone": {
-          "Amusing": "Strong",
-          "Casual": "Strong"
-        },
-        "writing_style": {
-          "Exaggeration": "Strong"
-        }
-      },
-      "caption_A": "Brampton nights really bringing out the creative drivers \ud83d\ude02. Wet roads and wild stops! #Brampton",
-      "caption_B": "Brampton nights really bringing out the creative drivers \ud83d\ude02. Wet roads and wild stops! #Brampton",
-      "application": "Community Awareness Post"
-    },
-    {
-      "comparison_id": "comp_017",
-      "video_id": "video_1775427324160389268",
-      "video_path": "media/v_1775427324160389268_77JT7vEFE5ILkG6L.mp4",
-      "video_summary": "A hand-held or cell-phone camera captured a public transportation disruption in Japan, where a stray dog was lying on train tracks at a station. The key event involved a train stopping to avoid hitting the dog, which appeared comfortable and unafraid on the tracks. Passengers at the station were observed interacting with and observing the dog, with train operators and passengers seemingly motivated by concern for the dog's safety. The incident involved a stray dog, train tracks, trains, trams, and passengers.",
-      "road_event_answer": "A train in Japan stops for a stray dog lying on the tracks at a station.",
-      "distractor_answers": [
-        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
-        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
-        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
-      ],
-      "control_scores": {
-        "tone": {
-          "Questioning": "Very Strong",
-          "Sarcastic": "Strong"
-        },
-        "writing_style": {
-          "Conversational": "Strong"
-        }
-      },
-      "caption_A": "Japan, where even stray dogs have better public transport experiences than I do 😂",
-      "caption_B": "Japan, where even stray dogs have better public transport experiences than I do 😂",
-      "application": "Community Awareness Post"
-    },
-    {
-      "comparison_id": "comp_013",
-      "video_id": "video_1601008232847536128",
-      "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
-      "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
-      "road_event_answer": "A motorcyclist, approaching at high speed, performs a tactical roll to avoid colliding with a turning truck.",
-      "distractor_answers": [
-        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
-        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
-        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
-      ],
-      "control_scores": {
-        "tone": {
-          "Curious": "Very Strong",
-          "Appreciative": "Strong"
-        },
-        "writing_style": {
-          "Conversational": "Strong",
-          "Rhetorical Question": "Strong"
-        }
-      },
-      "caption_A": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
-      "caption_B": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
-      "application": "Community Awareness Post"
-    }
-  ],
   "part2_intensity_change": [
     {
       "change_id": "change_012",
@@ -261,6 +186,81 @@
       },
       "change_type": "increased",
       "application": "Public Safety Awareness"
+    }
+  ],
+    "part3_comparisons": [
+    {
+      "comparison_id": "comp_001",
+      "video_id": "video_1781029134916784442",
+      "video_path": "media/v_1781029134916784442_HwWaSpaenWbLCXo7.mp4",
+      "video_summary": "A vehicle-mounted camera captured a traffic violation at night in Brampton, Ontario, Canada. A car stopped at an intersection with traffic lights, positioning itself incorrectly beyond the designated stop line while the light was red. The road surface was wet during the event.",
+      "road_event_answer": "A car stops beyond the designated stop line at a red light.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A massive multi-vehicle pileup on a highway caused by heavy fog.",
+        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping."
+      ],
+      "control_scores": {
+        "tone": {
+          "Amusing": "Strong",
+          "Casual": "Strong"
+        },
+        "writing_style": {
+          "Exaggeration": "Strong"
+        }
+      },
+      "caption_A": "Brampton nights really bringing out the creative drivers \ud83d\ude02. Wet roads and wild stops! #Brampton",
+      "caption_B": "Brampton nights really bringing out the creative drivers \ud83d\ude02. Wet roads and wild stops! #Brampton",
+      "application": "Community Awareness Post"
+    },
+    {
+      "comparison_id": "comp_017",
+      "video_id": "video_1775427324160389268",
+      "video_path": "media/v_1775427324160389268_77JT7vEFE5ILkG6L.mp4",
+      "video_summary": "A hand-held or cell-phone camera captured a public transportation disruption in Japan, where a stray dog was lying on train tracks at a station. The key event involved a train stopping to avoid hitting the dog, which appeared comfortable and unafraid on the tracks. Passengers at the station were observed interacting with and observing the dog, with train operators and passengers seemingly motivated by concern for the dog's safety. The incident involved a stray dog, train tracks, trains, trams, and passengers.",
+      "road_event_answer": "A train in Japan stops for a stray dog lying on the tracks at a station.",
+      "distractor_answers": [
+        "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
+        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
+      ],
+      "control_scores": {
+        "tone": {
+          "Questioning": "Very Strong",
+          "Sarcastic": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong"
+        }
+      },
+      "caption_A": "Japan, where even stray dogs have better public transport experiences than I do 😂",
+      "caption_B": "Japan, where even stray dogs have better public transport experiences than I do 😂",
+      "application": "Community Awareness Post"
+    },
+    {
+      "comparison_id": "comp_013",
+      "video_id": "video_1601008232847536128",
+      "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
+      "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
+      "road_event_answer": "A motorcyclist, approaching at high speed, performs a tactical roll to avoid colliding with a turning truck.",
+      "distractor_answers": [
+        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
+        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+        "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
+      ],
+      "control_scores": {
+        "tone": {
+          "Curious": "Very Strong",
+          "Appreciative": "Strong"
+        },
+        "writing_style": {
+          "Conversational": "Strong",
+          "Rhetorical Question": "Strong"
+        }
+      },
+      "caption_A": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
+      "caption_B": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
+      "application": "Community Awareness Post"
     }
   ]
 }
