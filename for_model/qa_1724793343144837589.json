@@ -1,0 +1,293 @@
+{
+  "Tweet_ID": "1724793343144837589",
+  "TweetURL": "https://twitter.com/3rdEyeDude/status/1724793343144837589",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1724793343144837589.json",
+  "VideoName": "-Jno5Mt1kFvHGx4N.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a dashcam. Specifically, it was mentioned to be a 4K dashcam."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video was a near-miss incident between a car and a motorcycle, where the biker failed to yield to the car that had the right of way."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "The road event took place in India."
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The incident occurred near Marathahalli area."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place in an urban area with intersecting roads."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The road event happened at night."
+    },
+    {
+      "Q": "What entities are involved in the near-miss incident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved in the key event were a car and a motorcycle."
+    },
+    {
+      "Q": "How did the involved entities act during the incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The car was driving straight, having the right of way. The motorcycle failed to yield to the car and almost collided with it, but managed to stop at the last moment."
+    },
+    {
+      "Q": "What are the potential reasons behind the motorcyclist's actions?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Generic",
+      "A": "The biker's actions might have been due to rushing to meet delivery targets, as it was suggested that the rider could be a delivery person."
+    },
+    {
+      "Q": "How could the near-miss incident have been avoided?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Generic",
+      "A": "The incident could have been prevented if the biker had yielded to the car that had the right of way. Additionally, defensive driving and anticipation from both parties could have helped avoid the near-miss."
+    },
+    {
+      "Q": "What traffic rule violations are evident in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The main traffic rule violation in this event was failure to yield by the motorcyclist."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 4 to 7 seconds."
+    },
+    {
+      "Q": "What specific type of dashcam was used to record this nighttime incident?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "The incident was captured using a 4K dashcam."
+    },
+    {
+      "Q": "What precise type of traffic incident is shown in the dashcam footage?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The footage shows a near-miss incident between a car and a motorcycle, where the motorcyclist failed to yield to the car that had the right of way."
+    },
+    {
+      "Q": "In what specific urban setting did this near-miss occur?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The incident took place at an intersection in an urban area."
+    },
+    {
+      "Q": "During which period of the night did this incident happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "The exact period of the night is not specified, but the incident occurred during nighttime hours."
+    },
+    {
+      "Q": "What specific vehicles were involved in this near-miss incident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The vehicles involved were a car and a motorcycle."
+    },
+    {
+      "Q": "What were the exact movements of the car and motorcycle during the incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The car was proceeding straight through the intersection with the right of way. The motorcycle approached the intersection without yielding, nearly colliding with the car before managing to stop at the last moment."
+    },
+    {
+      "Q": "What specific occupation-related factor might explain the motorcyclist's behavior?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Specific",
+      "A": "It was suggested that the motorcyclist might be a delivery person rushing to meet delivery targets, which could explain their failure to yield."
+    },
+    {
+      "Q": "What specific defensive driving techniques could have prevented this near-miss?",
+      "QA-group": "Imaginative",
+      "QA-task": "Introspection",
+      "QA-subtask": "Introspection",
+      "Q-type": "Specific",
+      "A": "The incident could have been avoided if the motorcyclist had properly yielded to the car. Additionally, both drivers could have practiced better anticipation and maintained a higher level of awareness at the intersection."
+    },
+    {
+      "Q": "What specific traffic law did the motorcyclist violate in this incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The motorcyclist violated the law requiring vehicles to yield the right of way to other vehicles already in or approaching the intersection."
+    },
+    {
+      "Q": "Did heavy rain or fog affect visibility during the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention of heavy rain or fog affecting visibility. The incident occurred at night, but no specific weather conditions were reported to have impacted the event."
+    },
+    {
+      "Q": "Was there construction work happening on the road during the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention or indication of any construction work happening on the road during the incident. The video focuses on the near-miss between the car and motorcycle at an urban intersection."
+    },
+    {
+      "Q": "Was there a bicycle involved in the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, there was no bicycle involved in the incident. The video only shows a near-miss between a car and a motorcycle."
+    },
+    {
+      "Q": "Was there a pedestrian crossing the street during the incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "No, there was no pedestrian crossing the street during the incident. The video only shows a near-miss between a car and a motorcycle at an intersection."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1724793247816671233/pu/vid/avc1/1280x720/-Jno5Mt1kFvHGx4N.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "Ego View"
+    ],
+    "RoadEvent_Type": [
+      "Near-miss"
+    ],
+    "Country_location": [
+      "India"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads",
+      "Intersections and Junctions"
+    ],
+    "Time_of_day": [
+      "Nighttime"
+    ],
+    "What/Actions_of_key_entities": [
+      "Roadway Navigation",
+      "Driving",
+      "Hazard Awareness and Safety"
+    ],
+    "Traffic_Violation": [
+      "Failure to yield or stop violations"
+    ]
+  },
+  "Video-level_tags": [
+    "Near-miss incident",
+    "Failure to yield",
+    "Intersection safety",
+    "Defensive driving",
+    "Urban traffic",
+    "Right of way violation",
+    "Dashcam footage",
+    "Biker and car interaction",
+    "Traffic rule violation",
+    "Road safety awareness"
+  ],
+  "caption": "CAUGHT ON DASHCAM - No matter how well you drive, it's always the other vehicles committing mistakes is what makes our roads unsafe. In this case, our reaction time and anticipation is what makes us safer drivers. This incident was caught on a 4K dashcam. It was the biker who did not yield to the car driver. Vehicles going straight have the right if way so the biker should have stopped for the car.\n#RoadSafety",
+  "qa_path": "qa_1724793343144837589.json",
+  "video_path": "v_1724793343144837589_-Jno5Mt1kFvHGx4N.mp4",
+  "tweet_user": "3rdEyeDude",
+  "video_summary": "A near-miss incident occurred at night near Marathahalli, India, captured by a 4K dashcam. A car, driving straight with the right of way, was almost collided with by a motorcycle. The motorcyclist failed to yield to the car, stopping at the last moment, which constituted a traffic rule violation. It was suggested that the biker might have been rushing to meet delivery targets. The incident could have been avoided if the biker had yielded and both parties had practiced defensive driving.",
+  "is_english": "Yes",
+  "lang": "en",
+  "annotations": {
+    "Personality": {
+      "Sarcastic": 0.9,
+      "Humorous": 0.7,
+      "Casual": 0.6,
+      "Playful": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.3,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 19,
+    "Informativeness": 0.5,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    }
+  }
+}
