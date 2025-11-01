@@ -96,7 +96,7 @@
     {
       "sample_id": "rating_001",
       "video_path": "media/v_1692102872706765068_GjAx5c9hRZP-JBsr.mp4",
-      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime. An unsafe overtaking attempt by a cab nearly resulted in a head-on collision. A bus also performed an unsafe overtake.",
+      "video_summary": "A dashcam captured an instance of unsafe driving behavior in India during daytime, likely afternoon. The key road event was an unsafe overtaking attempt by a cab that nearly resulted in a head-on collision with an oncoming vehicle. The cab attempted to overtake on a curve with limited visibility, forcing it to brake and swerve to avoid the collision. A bus was also involved, performing an unsafe overtake. The traffic violations included unsafe overtaking by both the cab and the bus, and the cab's overtaking on a curve with limited visibility.",
       "road_event_answer": "A cab and a bus both performed unsafe overtaking maneuvers, nearly causing a head-on collision.",
       "distractor_answers": [
         "A car at a roundabout failed to signal, nearly causing a collision with a cyclist.",
