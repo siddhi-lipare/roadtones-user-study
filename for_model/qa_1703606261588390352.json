@@ -1,0 +1,1004 @@
+{
+  "Tweet_ID": "1703606261588390352",
+  "TweetURL": "https://twitter.com/dhans4all/status/1703606261588390352",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1703606261588390352.json",
+  "VideoName": "Z2L25V3LkQdLUVxM.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was likely captured using a cell-phone camera or hand-held camera"
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured in the video is dangerous and rash driving, specifically a motorcyclist performing wheelies at high speed on a busy road with other vehicles present."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in India."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place on a busy urban road."
+    },
+    {
+      "Q": "What were the weather and road conditions during the event?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions were cloudy with wet roads, suggesting recent rainfall."
+    },
+    {
+      "Q": "What entities are involved in the road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include a motorcycle performing wheelies, other vehicles on the road, and pedestrians or bystanders who might be at risk."
+    },
+    {
+      "Q": "Can you describe the actions of the motorcyclist in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The main action was the motorcyclist performing wheelies at high speed among other moving vehicles."
+    },
+    {
+      "Q": "What might be the reason behind the motorcyclist's actions?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Generic",
+      "A": "The suspected motive behind the motorcyclist's actions could be thrill-seeking or showing off."
+    },
+    {
+      "Q": "What traffic violations are evident in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The traffic rule violations include reckless driving, performing stunts on a public road, and endangering other road users."
+    },
+    {
+      "Q": "What actions could be taken in response to witnessing this unsafe driving behavior?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting the incident to the police, imposing fines, suspending or revoking the rider's license, and potentially confiscating the vehicle."
+    },
+    {
+      "Q": "What road safety advice is relevant to this situation?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Avoid performing stunts on public roads, maintain safe speeds, be aware of other road users, and follow traffic rules at all times."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 1 to 4 seconds."
+    },
+    {
+      "Q": "What specific dangerous maneuver was the motorcyclist performing in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The motorcyclist was performing wheelies at high speed on a busy road."
+    },
+    {
+      "Q": "What type of road was this dangerous event taking place on?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The event took place on a busy urban road with other vehicles present."
+    },
+    {
+      "Q": "What were the specific weather and road conditions during this incident?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Specific",
+      "A": "The weather was cloudy with wet road conditions, indicating recent rainfall."
+    },
+    {
+      "Q": "Who were the key entities at risk during this dangerous road event?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The key entities at risk were the motorcyclist, other vehicles on the road, and potentially pedestrians or bystanders."
+    },
+    {
+      "Q": "What specific traffic laws did the motorcyclist violate in this incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The motorcyclist violated laws against reckless driving, performing stunts on a public road, and endangering other road users."
+    },
+    {
+      "Q": "What psychological factor might be driving the motorcyclist's dangerous behavior?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Intention",
+      "Q-type": "Specific",
+      "A": "The motorcyclist's actions suggest thrill-seeking behavior or a desire to show off to others."
+    },
+    {
+      "Q": "What immediate actions should be taken by authorities in response to this incident?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Authorities should report the incident, impose fines, consider suspending or revoking the rider's license, and potentially confiscate the motorcycle."
+    },
+    {
+      "Q": "What specific road safety advice would prevent such incidents in the future?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Key safety advice includes: never perform stunts on public roads, maintain appropriate speeds, always be aware of other road users, and strictly adhere to all traffic rules."
+    },
+    {
+      "Q": "How does this incident highlight the importance of responsible motorcycling?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "This incident emphasizes that irresponsible motorcycling can endanger not only the rider but also other road users, underscoring the need for safe and considerate riding practices."
+    },
+    {
+      "Q": "What type of recording device would likely capture such an incident clearly?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Specific",
+      "A": "This type of incident would likely be captured clearly by a high-quality smartphone camera or a dedicated dashcam with good motion tracking capabilities."
+    },
+    {
+      "Q": "Was there a police chase involved in this incident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no evidence of a police chase in this video. The video shows a motorcyclist performing dangerous stunts on a busy urban road, but does not depict any police involvement or pursuit."
+    },
+    {
+      "Q": "Did any emergency vehicles respond to the scene during the video?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not depict any emergency vehicles responding to the scene. The incident shows a motorcyclist performing dangerous stunts, but there's no mention or visibility of police cars, ambulances, or fire trucks arriving at the location."
+    },
+    {
+      "Q": "Did the motorcyclist collide with any other vehicles?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any collision between the motorcyclist and other vehicles. While the motorcyclist was performing dangerous wheelies at high speed, there was no actual crash or impact captured in the footage."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1703606231082958848/pu/vid/avc1/480x864/Z2L25V3LkQdLUVxM.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "hand-held camera",
+      "hand-held camera"
+    ],
+    "RoadEvent_Type": [
+      "Dangerous or Rash driving"
+    ],
+    "Country_location": [
+      "India"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads"
+    ],
+    "Weather_conditions": [
+      "Rainy Weather",
+      "Wet Surfaces / Conditions",
+      "Cloudy Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Roadway Navigation",
+      "Speeding/High Speed",
+      "Reckless and Unlawful Driving"
+    ],
+    "Traffic_Violation": [
+      "Reckless & Negligent Driving"
+    ]
+  },
+  "Video-level_tags": [
+    "Dangerous stunts",
+    "Reckless driving",
+    "Wheelie",
+    "Traffic violation",
+    "Public safety risk",
+    "Motorcycle stunts",
+    "High-speed riding",
+    "Urban road hazard",
+    "Irresponsible motorcyclist",
+    "Endangering road users"
+  ],
+  "caption": "He was doing wheelies at high speed just seconds before the accident, and while other vehicles were passing.\n\nHe is a threat to society; I hope legal action is taken against him, at least now.",
+  "qa_path": "qa_1703606261588390352.json",
+  "video_path": "v_1703606261588390352_Z2L25V3LkQdLUVxM.mp4",
+  "tweet_user": "dhans4all",
+  "video_summary": "A video, likely captured using a cell-phone or hand-held camera, depicts a dangerous and rash driving event in India. The key road event involves a motorcyclist performing wheelies at high speed on a busy road, amidst other moving vehicles and potential pedestrians. The motorcyclist's actions, suspected to be for thrill-seeking or showing off, constitute multiple traffic violations including reckless driving, performing stunts on a public road, and endangering other road users.",
+  "is_english": "No",
+  "lang": "ta",
+  "annotations": {
+    "Personality": {
+      "Adventurous": 0.9,
+      "Daring": 0.8,
+      "Playful": 0.6,
+      "Enthusiastic": 0.7,
+      "Amusing": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.4,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 26,
+    "Informativeness": 0.7,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    }
+  },
+  "qa_path_neighbour_low_sim_2": "qa_1748556062175707425.json",
+  "personality_similarity_score_2": 0.0,
+  "writing_style_similarity_score_2": 0.18,
+  "combined_similarity_score_2": 0.09,
+  "euclidean_dist_low_sim_2": 0.1016993898650043,
+  "writing_style_caption_run1_annotations": "On June 14, a motorcyclist was seen performing high-speed wheelies on a crowded road, blatantly disregarding safety. Such reckless stunts violate traffic laws and put countless lives at risk. Action against this behavior is urgent.",
+  "generated_annotations_writingstyle_run1_annotations": {
+    "Personality": {
+      "Critical": 0.9,
+      "Assertive": 0.8
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.1,
+      "Judgemental": 0.8,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.7,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.6,
+      "CallToAction": 0.3,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 36
+  },
+  "word_count_mae_generated_annotations_writingstyle_run1_annotations": 0.02857142857142857,
+  "word_count_similarity_generated_annotations_writingstyle_run1_annotations": 0.9714285714285714,
+  "informativeness_mae_generated_annotations_writingstyle_run1_annotations": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_writingstyle_run1_annotations": 0.9,
+  "factual_attributes_mae_generated_annotations_writingstyle_run1_annotations": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run1_annotations": 1.0,
+  "mae_total_stage4_run1_annotations": 0.04285714285714285,
+  "factual_alignment_score_stage4_run1_annotations": 0.9571428571428572,
+  "llm_writing_style_similarity_stage4_run1_annotations": 0.87,
+  "llm_personality_similarity_stage4_run1_annotations": 0.55,
+  "tone_alignment_score_stage4_run1_annotations": 0.71,
+  "writing_style_caption_run2_annotations": "On Sunday at 4 PM, a motorcyclist was seen performing dangerous wheelies at high speed on a busy Indian road, blatantly disregarding traffic laws and putting lives at risk. Such reckless behavior must not be tolerated.",
+  "generated_annotations_writingstyle_run2_annotations": {
+    "Personality": {
+      "Critical": 0.9,
+      "Assertive": 0.7,
+      "Angry": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.8,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.7,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.6,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 36
+  },
+  "word_count_mae_generated_annotations_writingstyle_run2_annotations": 0.02857142857142857,
+  "word_count_similarity_generated_annotations_writingstyle_run2_annotations": 0.9714285714285714,
+  "informativeness_mae_generated_annotations_writingstyle_run2_annotations": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_writingstyle_run2_annotations": 0.9,
+  "factual_attributes_mae_generated_annotations_writingstyle_run2_annotations": 0.16666666666666666,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run2_annotations": 0.8333333333333334,
+  "mae_total_stage4_run2_annotations": 0.0984126984126984,
+  "factual_alignment_score_stage4_run2_annotations": 0.9015873015873016,
+  "llm_writing_style_similarity_stage4_run2_annotations": 0.72,
+  "llm_personality_similarity_stage4_run2_annotations": 0.65,
+  "tone_alignment_score_stage4_run2_annotations": 0.685,
+  "caption_for_stage_3_key_annotations": "On June 14, a motorcyclist was seen performing high-speed wheelies on a crowded road, blatantly disregarding safety. Such reckless stunts violate traffic laws and put countless lives at risk. Action against this behavior is urgent.",
+  "annotations_for_stage_3_annotations": {
+    "Personality": {
+      "Critical": 0.9,
+      "Assertive": 0.8
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.1,
+      "Judgemental": 0.8,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.7,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.6,
+      "CallToAction": 0.3,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 36
+  },
+  "personality_caption_run1_annotations": "On June 14, a motorcyclist recklessly performed high-speed wheelies on a busy Indian road, surrounded by traffic and pedestrians. This blatant disregard for safety is outrageous and dangerous. Authorities must act immediately to stop such lawless behavior.",
+  "generated_annotations_personality_run1_annotations": {
+    "Personality": {
+      "Angry": 1.0,
+      "Aggressive": 0.7,
+      "Critical": 0.8,
+      "Assertive": 0.6,
+      "Serious": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.5,
+      "Judgemental": 1.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.3,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.7,
+      "CallToAction": 0.8,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 38
+  },
+  "word_count_mae_generated_annotations_personality_run1_annotations": 0.08571428571428572,
+  "word_count_similarity_generated_annotations_personality_run1_annotations": 0.9142857142857143,
+  "informativeness_mae_generated_annotations_personality_run1_annotations": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_personality_run1_annotations": 0.9,
+  "factual_attributes_mae_generated_annotations_personality_run1_annotations": 0.16666666666666666,
+  "factual_attributes_similarity_generated_annotations_personality_run1_annotations": 0.8333333333333334,
+  "mae_total_stage3_run1_annotations": 0.11746031746031745,
+  "factual_alignment_score_stage3_run1_annotations": 0.8825396825396825,
+  "llm_writing_style_similarity_stage3_run1_annotations": 0.56,
+  "llm_personality_similarity_stage3_run1_annotations": 0.85,
+  "tone_alignment_score_stage3_run1_annotations": 0.7050000000000001,
+  "personality_caption_run2_annotations": "On June 14, a motorcyclist recklessly performed high-speed wheelies on a crowded Indian road, blatantly endangering everyone nearby. This flagrant disregard for traffic laws and public safety demands strict consequences\u2014such dangerous behavior cannot be ignored any longer.",
+  "generated_annotations_personality_run2_annotations": {
+    "Personality": {
+      "Aggressive": 0.8,
+      "Angry": 0.9,
+      "Critical": 0.7,
+      "Assertive": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.5,
+      "Judgemental": 1.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.1,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.4,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.7,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 39
+  },
+  "word_count_mae_generated_annotations_personality_run2_annotations": 0.11428571428571428,
+  "word_count_similarity_generated_annotations_personality_run2_annotations": 0.8857142857142857,
+  "informativeness_mae_generated_annotations_personality_run2_annotations": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_personality_run2_annotations": 0.9,
+  "factual_attributes_mae_generated_annotations_personality_run2_annotations": 0.16666666666666666,
+  "factual_attributes_similarity_generated_annotations_personality_run2_annotations": 0.8333333333333334,
+  "mae_total_stage3_run2_annotations": 0.12698412698412698,
+  "factual_alignment_score_stage3_run2_annotations": 0.873015873015873,
+  "llm_writing_style_similarity_stage3_run2_annotations": 0.56,
+  "llm_personality_similarity_stage3_run2_annotations": 0.75,
+  "tone_alignment_score_stage3_run2_annotations": 0.655,
+  "final_caption_key_annotations": "writing_style_caption_run1_annotations",
+  "final_caption_annotations": "On June 14, a motorcyclist was seen performing high-speed wheelies on a crowded road, blatantly disregarding safety. Such reckless stunts violate traffic laws and put countless lives at risk. Action against this behavior is urgent.",
+  "final_llm_writing_style_similarity_annotations": 0.87,
+  "final_llm_personality_similarity_annotations": 0.55,
+  "final_word_count_similarity_annotations": 0.9714285714285714,
+  "final_informativeness_similarity_annotations": 0.9,
+  "final_factual_attributes_similarity_annotations": 1.0,
+  "final_tone_alignment_score_annotations": 0.71,
+  "final_factual_alignment_score_annotations": 0.9571428571428572,
+  "writing_style_caption_run1_annotations_neighbour_low_sim_1": "What\u2019s next on the roads? Wait and see.",
+  "generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Curious": 0.7,
+      "Playful": 0.5,
+      "Casual": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.7
+    },
+    "Informativeness": 0.0,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 8
+  },
+  "word_count_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.0,
+  "word_count_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 1.0,
+  "informativeness_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.1,
+  "informativeness_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.9,
+  "factual_attributes_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 1.0,
+  "mae_total_stage4_run1_annotations_neighbour_low_sim_1": 0.03333333333333333,
+  "factual_alignment_score_stage4_run1_annotations_neighbour_low_sim_1": 0.9666666666666667,
+  "llm_writing_style_similarity_stage4_run1_annotations_neighbour_low_sim_1": 0.48,
+  "llm_personality_similarity_stage4_run1_annotations_neighbour_low_sim_1": 0.4,
+  "tone_alignment_score_stage4_run1_annotations_neighbour_low_sim_1": 0.44,
+  "writing_style_caption_run2_annotations_neighbour_low_sim_1": "That\u2019s one wild ride, what happens next?",
+  "generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Adventurous": 0.8,
+      "Curious": 0.7,
+      "Casual": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.2,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.9
+    },
+    "Informativeness": 0.1,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 7
+  },
+  "word_count_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.125,
+  "word_count_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.875,
+  "informativeness_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.0,
+  "informativeness_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 1.0,
+  "factual_attributes_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 1.0,
+  "mae_total_stage4_run2_annotations_neighbour_low_sim_1": 0.041666666666666664,
+  "factual_alignment_score_stage4_run2_annotations_neighbour_low_sim_1": 0.9583333333333334,
+  "llm_writing_style_similarity_stage4_run2_annotations_neighbour_low_sim_1": 0.44,
+  "llm_personality_similarity_stage4_run2_annotations_neighbour_low_sim_1": 0.4,
+  "tone_alignment_score_stage4_run2_annotations_neighbour_low_sim_1": 0.42000000000000004,
+  "caption_for_stage_3_key_annotations_neighbour_low_sim_1": "What\u2019s next on the roads? Wait and see.",
+  "annotations_for_stage_3_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Curious": 0.7,
+      "Playful": 0.5,
+      "Casual": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.7
+    },
+    "Informativeness": 0.0,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 8
+  },
+  "personality_caption_run1_annotations_neighbour_low_sim_1": "Just when you thought roads couldn\u2019t get wilder\u2014watch this space.",
+  "generated_annotations_personality_run1_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Adventurous": 0.7,
+      "Exciting": 0.6,
+      "Playful": 0.5,
+      "Casual": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.3,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.6,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.7
+    },
+    "Informativeness": 0.1,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "yes"
+    },
+    "word_count": 11
+  },
+  "word_count_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.375,
+  "word_count_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.625,
+  "informativeness_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.16666666666666666,
+  "factual_attributes_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.8333333333333334,
+  "mae_total_stage3_run1_annotations_neighbour_low_sim_1": 0.18055555555555555,
+  "factual_alignment_score_stage3_run1_annotations_neighbour_low_sim_1": 0.8194444444444444,
+  "llm_writing_style_similarity_stage3_run1_annotations_neighbour_low_sim_1": 0.56,
+  "llm_personality_similarity_stage3_run1_annotations_neighbour_low_sim_1": 0.1,
+  "tone_alignment_score_stage3_run1_annotations_neighbour_low_sim_1": 0.33,
+  "personality_caption_run2_annotations_neighbour_low_sim_1": "Hold your breath\u2014today\u2019s roads have their own drama.",
+  "generated_annotations_personality_run2_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Dramatic": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.3,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.6,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.8,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.1,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 9
+  },
+  "word_count_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.125,
+  "word_count_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.875,
+  "informativeness_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.16666666666666666,
+  "factual_attributes_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.8333333333333334,
+  "mae_total_stage3_run2_annotations_neighbour_low_sim_1": 0.09722222222222221,
+  "factual_alignment_score_stage3_run2_annotations_neighbour_low_sim_1": 0.9027777777777778,
+  "llm_writing_style_similarity_stage3_run2_annotations_neighbour_low_sim_1": 0.48,
+  "llm_personality_similarity_stage3_run2_annotations_neighbour_low_sim_1": 0.55,
+  "tone_alignment_score_stage3_run2_annotations_neighbour_low_sim_1": 0.515,
+  "final_caption_key_annotations_neighbour_low_sim_1": "personality_caption_run2_annotations_neighbour_low_sim_1",
+  "final_caption_annotations_neighbour_low_sim_1": "Hold your breath\u2014today\u2019s roads have their own drama.",
+  "final_llm_writing_style_similarity_annotations_neighbour_low_sim_1": 0.48,
+  "final_llm_personality_similarity_annotations_neighbour_low_sim_1": 0.55,
+  "final_word_count_similarity_annotations_neighbour_low_sim_1": 0.875,
+  "final_informativeness_similarity_annotations_neighbour_low_sim_1": 1.0,
+  "final_factual_attributes_similarity_annotations_neighbour_low_sim_1": 0.8333333333333334,
+  "final_tone_alignment_score_annotations_neighbour_low_sim_1": 0.515,
+  "final_factual_alignment_score_annotations_neighbour_low_sim_1": 0.9027777777777778,
+  "writing_style_caption_run1_annotations_neighbour_low_sim_2": "I just witnessed a biker doing wild wheelies at breakneck speed in Mumbai traffic! @MumbaiPolice, this is insane \ud83e\udd2f #RoadSafety #MumbaiStreets",
+  "generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Excitable": 0.8,
+      "Anxious": 0.6,
+      "Critical": 0.7,
+      "Emotional": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.8,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.2,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    },
+    "word_count": 20
+  },
+  "word_count_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.23076923076923078,
+  "word_count_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.7692307692307692,
+  "informativeness_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.10000000000000009,
+  "informativeness_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.8999999999999999,
+  "factual_attributes_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage4_run1_annotations_neighbour_low_sim_2": 0.1102564102564103,
+  "factual_alignment_score_stage4_run1_annotations_neighbour_low_sim_2": 0.8897435897435897,
+  "llm_writing_style_similarity_stage4_run1_annotations_neighbour_low_sim_2": 0.68,
+  "llm_personality_similarity_stage4_run1_annotations_neighbour_low_sim_2": 0.15,
+  "tone_alignment_score_stage4_run1_annotations_neighbour_low_sim_2": 0.41500000000000004,
+  "writing_style_caption_run2_annotations_neighbour_low_sim_2": "I just witnessed a biker doing wild wheelies at high speed in Mumbai traffic\u2014absolutely unreal! @MumbaiPolice, is this even for real? #RoadSafety \ud83d\udea8",
+  "generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Curious": 0.7,
+      "Anxious": 0.6,
+      "Skeptical": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.2,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.7,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    },
+    "word_count": 23
+  },
+  "word_count_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.11538461538461539,
+  "word_count_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.8846153846153846,
+  "informativeness_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.0,
+  "informativeness_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 1.0,
+  "factual_attributes_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage4_run2_annotations_neighbour_low_sim_2": 0.038461538461538464,
+  "factual_alignment_score_stage4_run2_annotations_neighbour_low_sim_2": 0.9615384615384616,
+  "llm_writing_style_similarity_stage4_run2_annotations_neighbour_low_sim_2": 0.68,
+  "llm_personality_similarity_stage4_run2_annotations_neighbour_low_sim_2": 0.1,
+  "tone_alignment_score_stage4_run2_annotations_neighbour_low_sim_2": 0.39,
+  "caption_for_stage_3_key_annotations_neighbour_low_sim_2": "I just witnessed a biker doing wild wheelies at high speed in Mumbai traffic\u2014absolutely unreal! @MumbaiPolice, is this even for real? #RoadSafety \ud83d\udea8",
+  "annotations_for_stage_3_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Curious": 0.7,
+      "Anxious": 0.6,
+      "Skeptical": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.2,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.7,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    },
+    "word_count": 23
+  },
+  "personality_caption_run1_annotations_neighbour_low_sim_2": "Caught a biker blazing through Mumbai traffic, pulling wild wheelies like it\u2019s an action movie! That was intense and totally next level! @MumbaiPolice #RoadSafety \ud83d\udea8",
+  "generated_annotations_personality_run1_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Adventurous": 0.7,
+      "Energetic": 0.6,
+      "Exciting": 0.8,
+      "Enthusiastic": 0.7,
+      "Passionate": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.8,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.4,
+      "Conversational": 0.7,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.1,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.7,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    },
+    "word_count": 24
+  },
+  "word_count_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.07692307692307693,
+  "word_count_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.9230769230769231,
+  "informativeness_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage3_run1_annotations_neighbour_low_sim_2": 0.025641025641025644,
+  "factual_alignment_score_stage3_run1_annotations_neighbour_low_sim_2": 0.9743589743589743,
+  "llm_writing_style_similarity_stage3_run1_annotations_neighbour_low_sim_2": 0.56,
+  "llm_personality_similarity_stage3_run1_annotations_neighbour_low_sim_2": 0.62,
+  "tone_alignment_score_stage3_run1_annotations_neighbour_low_sim_2": 0.5900000000000001,
+  "personality_caption_run2_annotations_neighbour_low_sim_2": "Just saw a biker tearing through Mumbai traffic pulling wild wheelies\u2014pure adrenaline! Can\u2019t believe the guts on display. @MumbaiPolice, what a scene! #RoadSafety \ud83d\udea8",
+  "generated_annotations_personality_run2_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Adventurous": 0.9,
+      "Energetic": 0.7,
+      "Exciting": 0.8,
+      "Passionate": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.3,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.8,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.2,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.7,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "yes"
+    },
+    "word_count": 24
+  },
+  "word_count_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.07692307692307693,
+  "word_count_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.9230769230769231,
+  "informativeness_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage3_run2_annotations_neighbour_low_sim_2": 0.025641025641025644,
+  "factual_alignment_score_stage3_run2_annotations_neighbour_low_sim_2": 0.9743589743589743,
+  "llm_writing_style_similarity_stage3_run2_annotations_neighbour_low_sim_2": 0.88,
+  "llm_personality_similarity_stage3_run2_annotations_neighbour_low_sim_2": 0.55,
+  "tone_alignment_score_stage3_run2_annotations_neighbour_low_sim_2": 0.7150000000000001,
+  "final_caption_key_annotations_neighbour_low_sim_2": "personality_caption_run2_annotations_neighbour_low_sim_2",
+  "final_caption_annotations_neighbour_low_sim_2": "Just saw a biker tearing through Mumbai traffic pulling wild wheelies\u2014pure adrenaline! Can\u2019t believe the guts on display. @MumbaiPolice, what a scene! #RoadSafety \ud83d\udea8",
+  "final_llm_writing_style_similarity_annotations_neighbour_low_sim_2": 0.88,
+  "final_llm_personality_similarity_annotations_neighbour_low_sim_2": 0.55,
+  "final_word_count_similarity_annotations_neighbour_low_sim_2": 0.9230769230769231,
+  "final_informativeness_similarity_annotations_neighbour_low_sim_2": 1.0,
+  "final_factual_attributes_similarity_annotations_neighbour_low_sim_2": 1.0,
+  "final_tone_alignment_score_annotations_neighbour_low_sim_2": 0.7150000000000001,
+  "final_factual_alignment_score_annotations_neighbour_low_sim_2": 0.9743589743589743
+}

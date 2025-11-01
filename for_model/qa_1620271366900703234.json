@@ -1,0 +1,1077 @@
+{
+  "Tweet_ID": "1620271366900703234",
+  "TweetURL": "https://twitter.com/DiwakarSharmaa/status/1620271366900703234",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1620271366900703234.json",
+  "VideoName": "12P3R9m3EqbJlb8Y.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video was captured using a hand-held camera, showing static close-up shots of the damaged vehicle."
+    },
+    {
+      "Q": "What type of road event is depicted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The key road event captured is a severe car accident resulting in multiple fatalities and injuries."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "This road event took place in India."
+    },
+    {
+      "Q": "In which specific location did the road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Specific_location",
+      "Q-type": "Generic",
+      "A": "The accident occurred near Kasa bridge on the Mumbai-Ahmedabad Highway."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "This event took place on a highway."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The road event happened during the pre-dawn hours."
+    },
+    {
+      "Q": "What entities were involved in the accident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include a high-end car, a road divider, a luxury bus, and the highway."
+    },
+    {
+      "Q": "Describe the visual characteristics of the entities involved in the accident.",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Visual_characteristics",
+      "Q-type": "Generic",
+      "A": "The high-end car is white and severely damaged, with its front end completely destroyed, hood crumpled, windshield shattered, and passenger-side door hanging open."
+    },
+    {
+      "Q": "Can you describe the sequence of actions that led to the accident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "The high-end car was speeding, smashed into a road divider, and then collided head-on with a luxury bus."
+    },
+    {
+      "Q": "What was the likely cause of the accident?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Generic",
+      "A": "Speeding appears to be the primary reason behind the accident's occurrence."
+    },
+    {
+      "Q": "What were the consequences of the accident?",
+      "QA-group": "Complex",
+      "QA-task": "Consequence",
+      "QA-subtask": "Consequences/Casualities/Damage",
+      "Q-type": "Generic",
+      "A": "The accident resulted in fatalities and injuries to people, as well as severe damage to the high-end car and likely damage to the road divider and luxury bus."
+    },
+    {
+      "Q": "Were there any traffic violations involved in this road event?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "The main traffic rule violation associated with this road event is speeding."
+    },
+    {
+      "Q": "What actions could be taken to address unsafe driving situations like the one shown?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Generic",
+      "A": "Measures that should be taken include reporting speeding vehicles to the authorities and advocating for stricter enforcement of speed limits on highways."
+    },
+    {
+      "Q": "What road safety advice would you give based on this incident?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Adhere to speed limits, avoid driving during late night or early morning hours, stay alert and avoid driving when drowsy, and maintain a safe distance from other vehicles on the highway."
+    },
+    {
+      "Q": "What could have been done differently to prevent this accident?",
+      "QA-group": "Imaginative",
+      "QA-task": "Counterfactual",
+      "QA-subtask": "Counterfactual",
+      "Q-type": "Generic",
+      "A": "If the driver had not been speeding, they might have maintained control of the vehicle and avoided the collision. If the accident had occurred during busier hours, there could have been more vehicles involved and potentially more casualties."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 0 to 11 seconds."
+    },
+    {
+      "Q": "What specific type of road event is shown in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The video shows the aftermath of a severe multi-vehicle collision involving a high-end car, a road divider, and a luxury bus on the Mumbai-Ahmedabad Highway."
+    },
+    {
+      "Q": "What is the exact location of the accident?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The accident occurred on the Mumbai-Ahmedabad Highway, which is a major interstate highway in western India."
+    },
+    {
+      "Q": "At what specific time did this road event occur?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Specific",
+      "A": "The road event happened during the pre-dawn hours, though the exact time is not specified in the given information."
+    },
+    {
+      "Q": "What are the specific vehicles and road structures involved in this accident?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The entities involved are a high-end white car, a road divider, and a luxury bus. The highway itself is also a key entity in the accident."
+    },
+    {
+      "Q": "Can you provide a detailed description of the damaged high-end car?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Visual_characteristics",
+      "Q-type": "Specific",
+      "A": "The high-end car is white and severely damaged. Its front end is completely destroyed, the hood is crumpled, the windshield is shattered, and the passenger-side door is hanging open, indicating the force of the impact."
+    },
+    {
+      "Q": "What was the precise sequence of events that led to this accident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The high-end car was speeding on the Mumbai-Ahmedabad Highway. It first smashed into a road divider, losing control, and then collided head-on with an oncoming luxury bus."
+    },
+    {
+      "Q": "What specific factor is identified as the primary cause of this accident?",
+      "QA-group": "Complex",
+      "QA-task": "Why",
+      "QA-subtask": "Cause",
+      "Q-type": "Specific",
+      "A": "Excessive speeding by the driver of the high-end car is identified as the primary cause of this accident."
+    },
+    {
+      "Q": "What were the specific outcomes in terms of casualties and vehicle damage?",
+      "QA-group": "Complex",
+      "QA-task": "Consequence",
+      "QA-subtask": "Consequences/Casualities/Damage",
+      "Q-type": "Specific",
+      "A": "The accident resulted in multiple fatalities and injuries to people involved. The high-end car sustained severe damage, particularly to its front end. While not explicitly stated, it's likely that the luxury bus and road divider also suffered significant damage."
+    },
+    {
+      "Q": "What specific traffic law was violated in this incident?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "The main traffic law violation in this incident was exceeding the speed limit (speeding) on the Mumbai-Ahmedabad Highway."
+    },
+    {
+      "Q": "What specific measures should authorities implement to prevent such accidents?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Post-event/Disciplinary_measures",
+      "Q-type": "Specific",
+      "A": "Authorities should implement stricter speed limit enforcement on the Mumbai-Ahmedabad Highway, potentially including more speed cameras, increased police patrols, and harsher penalties for speeding. They should also consider installing better road dividers and improving signage about speed limits."
+    },
+    {
+      "Q": "What specific safety advice would you give to drivers on the Mumbai-Ahmedabad Highway?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "Drivers on the Mumbai-Ahmedabad Highway should: strictly adhere to posted speed limits, avoid driving during late night or early morning hours when visibility is poor and drowsiness is more likely, take regular breaks on long journeys to stay alert, and maintain a safe following distance from other vehicles, especially buses and trucks."
+    },
+    {
+      "Q": "How might the outcome have differed if the driver had followed traffic rules?",
+      "QA-group": "Imaginative",
+      "QA-task": "Counterfactual",
+      "QA-subtask": "Counterfactual",
+      "Q-type": "Specific",
+      "A": "If the driver had adhered to the speed limit, they would likely have maintained control of the vehicle, avoiding the initial collision with the road divider. This would have prevented the subsequent collision with the luxury bus, potentially saving multiple lives and avoiding injuries. The extensive damage to the vehicles and infrastructure would also have been avoided."
+    },
+    {
+      "Q": "Were there any pedestrians involved in the accident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "Based on the video, there are no pedestrians visible or mentioned as being involved in the accident. The incident appears to have only involved vehicles on the highway."
+    },
+    {
+      "Q": "Did heavy rain or flooding contribute to the accident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention or evidence of heavy rain or flooding contributing to the accident. The information provided focuses on speeding as the primary cause, without reference to adverse weather conditions."
+    },
+    {
+      "Q": "Did a tire blowout cause the initial loss of control?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no mention or evidence of a tire blowout in the video or provided information. The accident is attributed to speeding, not mechanical failure like a tire blowout."
+    },
+    {
+      "Q": "Did the accident cause a fire or explosion?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any signs of fire or explosion resulting from the accident. The focus is on the severely damaged white car, and there's no indication of additional hazards like fire or explosion."
+    },
+    {
+      "Q": "Was there a police chase involved before the accident?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There is no evidence or mention of a police chase in the video or the provided information. The accident appears to have been caused by speeding, not as a result of a pursuit."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1620271317454045186/pu/vid/640x352/12P3R9m3EqbJlb8Y.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "hand-held camera"
+    ],
+    "RoadEvent_Type": [
+      "Accident"
+    ],
+    "Country_location": [
+      "India"
+    ],
+    "Road_type": [
+      "Highway"
+    ],
+    "Time_of_day": [
+      "Nighttime"
+    ],
+    "What/Actions_of_key_entities": [
+      "Collisions",
+      "Speeding/High Speed"
+    ],
+    "Traffic_Violation": [
+      "Speeding & Speed-related Violations"
+    ]
+  },
+  "Video-level_tags": [
+    "Fatal accident",
+    "Highway collision",
+    "Speeding",
+    "Nighttime driving",
+    "Head-on crash",
+    "Multiple fatalities",
+    "Reckless driving",
+    "Bus accident",
+    "Road safety violation",
+    "Bridge accident"
+  ],
+  "caption": "Breaking: Four people died while three others got injured when the driver of a speeding high-end car smashed into a #road divider and collided head-on with a luxury bus near Kasa bridge during pre-dawn hours on Tuesday on Mumbai-Ahmedabad #Highway.",
+  "qa_path": "qa_1620271366900703234.json",
+  "video_path": "v_1620271366900703234_12P3R9m3EqbJlb8Y.mp4",
+  "tweet_user": "DiwakarSharmaa",
+  "video_summary": "A severe car accident occurred during the pre-dawn hours near Kasa bridge on the Mumbai-Ahmedabad Highway in India. A white high-end car, traveling at high speed, smashed into a road divider before colliding head-on with a luxury bus. Speeding was identified as the primary cause and traffic violation. The accident resulted in multiple fatalities and injuries. The high-end car sustained severe damage, with its front end completely destroyed, hood crumpled, windshield shattered, and passenger-side door hanging open. The video, captured by a hand-held camera, shows static close-up shots of the damaged vehicle.",
+  "is_english": "Yes",
+  "lang": "en",
+  "annotations": {
+    "Emotion": {
+      "Joy": 0.0,
+      "Anticipation": 0.3,
+      "Trust": 0.2,
+      "Anger": 0.6,
+      "Fear": 0.7,
+      "Disgust": 0.5,
+      "Surprise": 0.2,
+      "Sadness": 0.4
+    },
+    "Personality": {
+      "Serious": 1.0,
+      "Assertive": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.8,
+      "Exaggeration": 0.5,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.2,
+      "Advisory": 0.7,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.6,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 29,
+    "Informativeness": 0.2,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    }
+  },
+  "qa_path_neighbour_low_sim_2": "qa_1764264354885804161.json",
+  "personality_similarity_score_2": 0.55,
+  "writing_style_similarity_score_2": 0.0,
+  "combined_similarity_score_2": 0.275,
+  "euclidean_dist_low_sim_2": 0.1329441023430502,
+  "writing_style_caption_run1_annotations": "A fatal accident occurred around 4:30am near Kasa bridge on the Mumbai-Ahmedabad Highway. A speeding white luxury car crashed into a divider, then collided head-on with a bus, causing multiple casualties and severe vehicle damage. #MumbaiAccident #RoadSafety",
+  "generated_annotations_writingstyle_run1_annotations": {
+    "Personality": {
+      "Serious": 1.0,
+      "Objective (Detached, Impartial)": 0.8,
+      "Calm": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 1.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "word_count_mae_generated_annotations_writingstyle_run1_annotations": 0.09090909090909091,
+  "word_count_similarity_generated_annotations_writingstyle_run1_annotations": 0.9090909090909091,
+  "informativeness_mae_generated_annotations_writingstyle_run1_annotations": 0.0,
+  "informativeness_similarity_generated_annotations_writingstyle_run1_annotations": 1.0,
+  "factual_attributes_mae_generated_annotations_writingstyle_run1_annotations": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run1_annotations": 1.0,
+  "mae_total_stage4_run1_annotations": 0.030303030303030304,
+  "factual_alignment_score_stage4_run1_annotations": 0.9696969696969697,
+  "llm_writing_style_similarity_stage4_run1_annotations": 1.0,
+  "llm_personality_similarity_stage4_run1_annotations": 0.95,
+  "tone_alignment_score_stage4_run1_annotations": 0.975,
+  "writing_style_caption_run2_annotations": "A major accident took place around 4:30 am near Kasa bridge on Mumbai-Ahmedabad Highway. A speeding white luxury car hit a divider and collided head-on with a bus, causing multiple fatalities and injuries. #MumbaiAhmedabadHighway #KasaBridge #RoadAccident",
+  "generated_annotations_writingstyle_run2_annotations": {
+    "Personality": {
+      "Serious": 0.9,
+      "Objective (Detached, Impartial)": 0.8,
+      "Calm": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 1.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 39
+  },
+  "word_count_mae_generated_annotations_writingstyle_run2_annotations": 0.11363636363636363,
+  "word_count_similarity_generated_annotations_writingstyle_run2_annotations": 0.8863636363636364,
+  "informativeness_mae_generated_annotations_writingstyle_run2_annotations": 0.0,
+  "informativeness_similarity_generated_annotations_writingstyle_run2_annotations": 1.0,
+  "factual_attributes_mae_generated_annotations_writingstyle_run2_annotations": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run2_annotations": 1.0,
+  "mae_total_stage4_run2_annotations": 0.03787878787878788,
+  "factual_alignment_score_stage4_run2_annotations": 0.9621212121212122,
+  "llm_writing_style_similarity_stage4_run2_annotations": 1.0,
+  "llm_personality_similarity_stage4_run2_annotations": 0.9,
+  "tone_alignment_score_stage4_run2_annotations": 0.95,
+  "caption_for_stage_3_key_annotations": "A fatal accident occurred around 4:30am near Kasa bridge on the Mumbai-Ahmedabad Highway. A speeding white luxury car crashed into a divider, then collided head-on with a bus, causing multiple casualties and severe vehicle damage. #MumbaiAccident #RoadSafety",
+  "annotations_for_stage_3_annotations": {
+    "Personality": {
+      "Serious": 1.0,
+      "Objective (Detached, Impartial)": 0.8,
+      "Calm": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 1.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "personality_caption_run1_annotations": "A fatal accident occurred around 4:30am near Kasa bridge on the Mumbai-Ahmedabad Highway. A speeding white luxury car crashed into a divider, then collided head-on with a bus, causing multiple casualties and severe vehicle damage. #MumbaiAccident #RoadSafety",
+  "generated_annotations_personality_run1_annotations": {
+    "Personality": {
+      "Serious": 0.9,
+      "Objective (Detached, Impartial)": 0.8,
+      "Respectful": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.1,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 1.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "word_count_mae_generated_annotations_personality_run1_annotations": 0.09090909090909091,
+  "word_count_similarity_generated_annotations_personality_run1_annotations": 0.9090909090909091,
+  "informativeness_mae_generated_annotations_personality_run1_annotations": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run1_annotations": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run1_annotations": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run1_annotations": 1.0,
+  "mae_total_stage3_run1_annotations": 0.030303030303030304,
+  "factual_alignment_score_stage3_run1_annotations": 0.9696969696969697,
+  "llm_writing_style_similarity_stage3_run1_annotations": 0.95,
+  "llm_personality_similarity_stage3_run1_annotations": 1.0,
+  "tone_alignment_score_stage3_run1_annotations": 0.975,
+  "personality_caption_run2_annotations": "A fatal accident occurred around 4:30am near Kasa bridge on the Mumbai-Ahmedabad Highway. A speeding white luxury car crashed into a divider, then collided head-on with a bus, causing multiple casualties and severe vehicle damage. #MumbaiAccident #RoadSafety",
+  "generated_annotations_personality_run2_annotations": {
+    "Personality": {
+      "Serious": 1.0,
+      "Objective (Detached, Impartial)": 0.8,
+      "Calm": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.0,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 1.0,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.9,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "word_count_mae_generated_annotations_personality_run2_annotations": 0.09090909090909091,
+  "word_count_similarity_generated_annotations_personality_run2_annotations": 0.9090909090909091,
+  "informativeness_mae_generated_annotations_personality_run2_annotations": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run2_annotations": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run2_annotations": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run2_annotations": 1.0,
+  "mae_total_stage3_run2_annotations": 0.030303030303030304,
+  "factual_alignment_score_stage3_run2_annotations": 0.9696969696969697,
+  "llm_writing_style_similarity_stage3_run2_annotations": 1.0,
+  "llm_personality_similarity_stage3_run2_annotations": 0.95,
+  "tone_alignment_score_stage3_run2_annotations": 0.975,
+  "final_caption_key_annotations": "writing_style_caption_run1_annotations",
+  "final_caption_annotations": "A fatal accident occurred around 4:30am near Kasa bridge on the Mumbai-Ahmedabad Highway. A speeding white luxury car crashed into a divider, then collided head-on with a bus, causing multiple casualties and severe vehicle damage. #MumbaiAccident #RoadSafety",
+  "final_llm_writing_style_similarity_annotations": 1.0,
+  "final_llm_personality_similarity_annotations": 0.95,
+  "final_word_count_similarity_annotations": 0.9090909090909091,
+  "final_informativeness_similarity_annotations": 1.0,
+  "final_factual_attributes_similarity_annotations": 1.0,
+  "final_tone_alignment_score_annotations": 0.975,
+  "final_factual_alignment_score_annotations": 0.9696969696969697,
+  "writing_style_caption_run1_annotations_neighbour_low_sim_1": "@MumbaiPolice Another reckless tragedy on the Mumbai-Ahmedabad Highway near Kasa bridge: a high-speed luxury car crashes into a divider and slams into a bus, leaving devastation and loss. When will people learn? Stop dangerous driving! \ud83d\udeab #RoadSafety #Mumbai #SpeedKills",
+  "generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Angry": 0.9,
+      "Assertive": 0.8,
+      "Critical": 0.7,
+      "Serious": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.7,
+      "Exaggeration": 0.3,
+      "Judgemental": 0.8,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.6,
+      "Rhetorical Question": 0.7,
+      "Factual": 0.6,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.7,
+      "CallToAction": 0.9,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "word_count_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.047619047619047616,
+  "word_count_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.9523809523809523,
+  "informativeness_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.9,
+  "factual_attributes_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_1": 1.0,
+  "mae_total_stage4_run1_annotations_neighbour_low_sim_1": 0.0492063492063492,
+  "factual_alignment_score_stage4_run1_annotations_neighbour_low_sim_1": 0.9507936507936507,
+  "llm_writing_style_similarity_stage4_run1_annotations_neighbour_low_sim_1": 0.68,
+  "llm_personality_similarity_stage4_run1_annotations_neighbour_low_sim_1": 0.62,
+  "tone_alignment_score_stage4_run1_annotations_neighbour_low_sim_1": 0.65,
+  "writing_style_caption_run2_annotations_neighbour_low_sim_1": "@MumbaiPolice Another shocking display of reckless speeding near Kasa bridge on Mumbai-Ahmedabad Highway leaves a luxury car obliterated and lives shattered after a head-on crash with a bus. When will this madness stop? Demand stricter action! \ud83d\udea8 #RoadSafety #Mumbai",
+  "generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Assertive": 0.8,
+      "Serious": 0.7,
+      "Critical": 0.6,
+      "Passionate": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.7,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.0,
+      "Rhetorical Question": 1.0,
+      "Factual": 0.4,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.7,
+      "CallToAction": 0.7,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "word_count_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.047619047619047616,
+  "word_count_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.9523809523809523,
+  "informativeness_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.9,
+  "factual_attributes_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_1": 1.0,
+  "mae_total_stage4_run2_annotations_neighbour_low_sim_1": 0.0492063492063492,
+  "factual_alignment_score_stage4_run2_annotations_neighbour_low_sim_1": 0.9507936507936507,
+  "llm_writing_style_similarity_stage4_run2_annotations_neighbour_low_sim_1": 0.72,
+  "llm_personality_similarity_stage4_run2_annotations_neighbour_low_sim_1": 0.52,
+  "tone_alignment_score_stage4_run2_annotations_neighbour_low_sim_1": 0.62,
+  "caption_for_stage_3_key_annotations_neighbour_low_sim_1": "@MumbaiPolice Another reckless tragedy on the Mumbai-Ahmedabad Highway near Kasa bridge: a high-speed luxury car crashes into a divider and slams into a bus, leaving devastation and loss. When will people learn? Stop dangerous driving! \ud83d\udeab #RoadSafety #Mumbai #SpeedKills",
+  "annotations_for_stage_3_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Angry": 0.9,
+      "Assertive": 0.8,
+      "Critical": 0.7,
+      "Serious": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.7,
+      "Exaggeration": 0.3,
+      "Judgemental": 0.8,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.6,
+      "Rhetorical Question": 0.7,
+      "Factual": 0.6,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.7,
+      "CallToAction": 0.9,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "personality_caption_run1_annotations_neighbour_low_sim_1": "@MumbaiPolice Outrageous carnage on the Mumbai-Ahmedabad Highway near Kasa bridge: a speeding luxury car obliterates a divider and smashes head-on into a bus, shattering lives and bodies. Enough is enough\u2014reckless drivers must face consequences! \ud83d\uded1 #RoadSafety #Mumbai #SpeedKills",
+  "generated_annotations_personality_run1_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Outrageous": 1.0,
+      "Angry": 0.8,
+      "Assertive": 0.7,
+      "Serious": 0.6,
+      "Passionate": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.0,
+      "Exaggeration": 0.7,
+      "Judgemental": 1.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.3,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.3,
+      "Understatement": 0.0,
+      "Metaphorical": 0.4,
+      "Motivational": 0.0,
+      "Persuasive": 0.6,
+      "CallToAction": 0.7,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 40
+  },
+  "word_count_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.047619047619047616,
+  "word_count_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.9523809523809523,
+  "informativeness_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.9,
+  "factual_attributes_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_1": 1.0,
+  "mae_total_stage3_run1_annotations_neighbour_low_sim_1": 0.0492063492063492,
+  "factual_alignment_score_stage3_run1_annotations_neighbour_low_sim_1": 0.9507936507936507,
+  "llm_writing_style_similarity_stage3_run1_annotations_neighbour_low_sim_1": 0.75,
+  "llm_personality_similarity_stage3_run1_annotations_neighbour_low_sim_1": 0.55,
+  "tone_alignment_score_stage3_run1_annotations_neighbour_low_sim_1": 0.65,
+  "personality_caption_run2_annotations_neighbour_low_sim_1": "@MumbaiPolice Outrageous carnage on the Mumbai-Ahmedabad Highway near Kasa bridge: yet another high-speed luxury car obliterates a divider and plows straight into a bus. Fatalities, shattered metal, lives ruined\u2014all because of reckless speed. Enough excuses. Crack down now! \ud83d\udeab #RoadSafety #Mumbai #SpeedKills",
+  "generated_annotations_personality_run2_annotations_neighbour_low_sim_1": {
+    "Personality": {
+      "Outrageous": 1.0,
+      "Angry": 0.9,
+      "Assertive": 0.8,
+      "Critical": 0.8,
+      "Passionate": 0.7
+    },
+    "Writing Style": {
+      "Instructional": 0.3,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.9,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.0,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.5,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.8,
+      "CallToAction": 1.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.8,
+    "Factual Attributes": {
+      "User Mentions": "yes",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 44
+  },
+  "word_count_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.047619047619047616,
+  "word_count_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.9523809523809523,
+  "informativeness_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.9,
+  "factual_attributes_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_1": 1.0,
+  "mae_total_stage3_run2_annotations_neighbour_low_sim_1": 0.0492063492063492,
+  "factual_alignment_score_stage3_run2_annotations_neighbour_low_sim_1": 0.9507936507936507,
+  "llm_writing_style_similarity_stage3_run2_annotations_neighbour_low_sim_1": 0.95,
+  "llm_personality_similarity_stage3_run2_annotations_neighbour_low_sim_1": 0.68,
+  "tone_alignment_score_stage3_run2_annotations_neighbour_low_sim_1": 0.815,
+  "final_caption_key_annotations_neighbour_low_sim_1": "personality_caption_run2_annotations_neighbour_low_sim_1",
+  "final_caption_annotations_neighbour_low_sim_1": "@MumbaiPolice Outrageous carnage on the Mumbai-Ahmedabad Highway near Kasa bridge: yet another high-speed luxury car obliterates a divider and plows straight into a bus. Fatalities, shattered metal, lives ruined\u2014all because of reckless speed. Enough excuses. Crack down now! \ud83d\udeab #RoadSafety #Mumbai #SpeedKills",
+  "final_llm_writing_style_similarity_annotations_neighbour_low_sim_1": 0.95,
+  "final_llm_personality_similarity_annotations_neighbour_low_sim_1": 0.68,
+  "final_word_count_similarity_annotations_neighbour_low_sim_1": 0.9523809523809523,
+  "final_informativeness_similarity_annotations_neighbour_low_sim_1": 0.9,
+  "final_factual_attributes_similarity_annotations_neighbour_low_sim_1": 1.0,
+  "final_tone_alignment_score_annotations_neighbour_low_sim_1": 0.815,
+  "final_factual_alignment_score_annotations_neighbour_low_sim_1": 0.9507936507936507,
+  "writing_style_caption_run1_annotations_neighbour_low_sim_2": "When speed becomes a tempter, metal meets fate. Observe, learn, and pause\u2014sometimes the road tests us in ways we least expect. Let caution be your guiding compass tonight.",
+  "generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Reflective": 0.9,
+      "Serious": 0.8,
+      "Insightful": 0.6,
+      "Calm": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.7,
+      "Exaggeration": 0.3,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.8,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 1.0,
+      "Motivational": 0.6,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.3,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "yes",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 29
+  },
+  "word_count_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.0,
+  "word_count_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 1.0,
+  "informativeness_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.09999999999999998,
+  "informativeness_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.9,
+  "factual_attributes_mae_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.16666666666666666,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run1_annotations_neighbour_low_sim_2": 0.8333333333333334,
+  "mae_total_stage4_run1_annotations_neighbour_low_sim_2": 0.08888888888888886,
+  "factual_alignment_score_stage4_run1_annotations_neighbour_low_sim_2": 0.9111111111111111,
+  "llm_writing_style_similarity_stage4_run1_annotations_neighbour_low_sim_2": 0.68,
+  "llm_personality_similarity_stage4_run1_annotations_neighbour_low_sim_2": 0.55,
+  "tone_alignment_score_stage4_run1_annotations_neighbour_low_sim_2": 0.615,
+  "writing_style_caption_run2_annotations_neighbour_low_sim_2": "When speed becomes the storm that shatters steel and glass, even dawn\u2019s silence can\u2019t shield us. Let every mile be a lesson\u2014respect the road, or it will teach you.",
+  "generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Serious": 1.0,
+      "Reflective": 0.8,
+      "Passionate": 0.7,
+      "Empathetic": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.7,
+      "Exaggeration": 0.6,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.3,
+      "Advisory": 0.7,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 1.0,
+      "Motivational": 0.6,
+      "Persuasive": 0.5,
+      "CallToAction": 0.4,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.2,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 30
+  },
+  "word_count_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.034482758620689655,
+  "word_count_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.9655172413793104,
+  "informativeness_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.0,
+  "informativeness_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 1.0,
+  "factual_attributes_mae_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_writingstyle_run2_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage4_run2_annotations_neighbour_low_sim_2": 0.011494252873563218,
+  "factual_alignment_score_stage4_run2_annotations_neighbour_low_sim_2": 0.9885057471264368,
+  "llm_writing_style_similarity_stage4_run2_annotations_neighbour_low_sim_2": 0.56,
+  "llm_personality_similarity_stage4_run2_annotations_neighbour_low_sim_2": 0.55,
+  "tone_alignment_score_stage4_run2_annotations_neighbour_low_sim_2": 0.555,
+  "caption_for_stage_3_key_annotations_neighbour_low_sim_2": "When speed becomes the storm that shatters steel and glass, even dawn\u2019s silence can\u2019t shield us. Let every mile be a lesson\u2014respect the road, or it will teach you.",
+  "annotations_for_stage_3_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Serious": 1.0,
+      "Reflective": 0.8,
+      "Passionate": 0.7,
+      "Empathetic": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.7,
+      "Exaggeration": 0.6,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.3,
+      "Advisory": 0.7,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 1.0,
+      "Motivational": 0.6,
+      "Persuasive": 0.5,
+      "CallToAction": 0.4,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.2,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 30
+  },
+  "personality_caption_run1_annotations_neighbour_low_sim_2": "Speed\u2019s shadow can leave nothing but silence and shattered dreams. Each journey is a reminder\u2014roads demand respect, or consequences will follow. Drive as if every mile matters.",
+  "generated_annotations_personality_run1_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Serious": 1.0,
+      "Reflective": 0.8,
+      "Passionate": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.6,
+      "Exaggeration": 0.4,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.1,
+      "Advisory": 0.7,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 1.0,
+      "Motivational": 0.7,
+      "Persuasive": 0.3,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.2,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 28
+  },
+  "word_count_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.034482758620689655,
+  "word_count_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.9655172413793104,
+  "informativeness_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.0,
+  "informativeness_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 1.0,
+  "factual_attributes_mae_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run1_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage3_run1_annotations_neighbour_low_sim_2": 0.011494252873563218,
+  "factual_alignment_score_stage3_run1_annotations_neighbour_low_sim_2": 0.9885057471264368,
+  "llm_writing_style_similarity_stage3_run1_annotations_neighbour_low_sim_2": 0.68,
+  "llm_personality_similarity_stage3_run1_annotations_neighbour_low_sim_2": 0.65,
+  "tone_alignment_score_stage3_run1_annotations_neighbour_low_sim_2": 0.665,
+  "personality_caption_run2_annotations_neighbour_low_sim_2": "Speed\u2019s silent promise often ends in shattered steel\u2014let caution guide every journey. Roads remember every choice, and every mile demands respect.",
+  "generated_annotations_personality_run2_annotations_neighbour_low_sim_2": {
+    "Personality": {
+      "Serious": 1.0,
+      "Reflective": 0.8,
+      "Respectful": 0.6
+    },
+    "Writing Style": {
+      "Instructional": 0.6,
+      "Exaggeration": 0.7,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.2,
+      "Advisory": 0.8,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.0,
+      "Understatement": 0.0,
+      "Metaphorical": 1.0,
+      "Motivational": 0.5,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "Informativeness": 0.1,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "no",
+      "Emojis": "no",
+      "Date/Time": "no",
+      "Location": "no",
+      "First-Person Perspective": "no"
+    },
+    "word_count": 22
+  },
+  "word_count_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.2413793103448276,
+  "word_count_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.7586206896551724,
+  "informativeness_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.1,
+  "informativeness_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.9,
+  "factual_attributes_mae_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 0.0,
+  "factual_attributes_similarity_generated_annotations_personality_run2_annotations_neighbour_low_sim_2": 1.0,
+  "mae_total_stage3_run2_annotations_neighbour_low_sim_2": 0.11379310344827587,
+  "factual_alignment_score_stage3_run2_annotations_neighbour_low_sim_2": 0.8862068965517241,
+  "llm_writing_style_similarity_stage3_run2_annotations_neighbour_low_sim_2": 0.79,
+  "llm_personality_similarity_stage3_run2_annotations_neighbour_low_sim_2": 0.55,
+  "tone_alignment_score_stage3_run2_annotations_neighbour_low_sim_2": 0.67,
+  "final_caption_key_annotations_neighbour_low_sim_2": "personality_caption_run1_annotations_neighbour_low_sim_2",
+  "final_caption_annotations_neighbour_low_sim_2": "Speed\u2019s shadow can leave nothing but silence and shattered dreams. Each journey is a reminder\u2014roads demand respect, or consequences will follow. Drive as if every mile matters.",
+  "final_llm_writing_style_similarity_annotations_neighbour_low_sim_2": 0.68,
+  "final_llm_personality_similarity_annotations_neighbour_low_sim_2": 0.65,
+  "final_word_count_similarity_annotations_neighbour_low_sim_2": 0.9655172413793104,
+  "final_informativeness_similarity_annotations_neighbour_low_sim_2": 1.0,
+  "final_factual_attributes_similarity_annotations_neighbour_low_sim_2": 1.0,
+  "final_tone_alignment_score_annotations_neighbour_low_sim_2": 0.665,
+  "final_factual_alignment_score_annotations_neighbour_low_sim_2": 0.9885057471264368
+}

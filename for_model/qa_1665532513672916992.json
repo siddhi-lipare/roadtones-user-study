@@ -1,0 +1,304 @@
+{
+  "Tweet_ID": "1665532513672916992",
+  "TweetURL": "https://twitter.com/TopDriverIndia/status/1665532513672916992",
+  "RoadEventRelated": true,
+  "QA_file": "qa_1665532513672916992.json",
+  "VideoName": "4Dk4ik7bxkyRbXIu.mp4",
+  "QAs": [
+    {
+      "Q": "What type of camera was used to capture the video?",
+      "QA-group": "Factual",
+      "QA-task": "Viewpoint",
+      "QA-subtask": "Viewpoint",
+      "Q-type": "Generic",
+      "A": "The video appears to be captured using multiple cameras, including street-level and elevated perspectives."
+    },
+    {
+      "Q": "What road safety aspects are highlighted in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Generic",
+      "A": "The video showcases safe cycling infrastructure and awareness of road safety in an urban environment, highlighting the interaction between cyclists, pedestrians, and vehicles."
+    },
+    {
+      "Q": "In which country did this road event take place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Country_location",
+      "Q-type": "Generic",
+      "A": "The road event took place in the United States, specifically in Chicago."
+    },
+    {
+      "Q": "On which type of road or area, this event have taken place?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Generic",
+      "A": "The event took place in an urban area with city streets and intersections."
+    },
+    {
+      "Q": "At what time of day did this road event happen?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Time_of_day",
+      "Q-type": "Generic",
+      "A": "The video shows scenes from various times of day, including morning, afternoon, and dusk."
+    },
+    {
+      "Q": "How were the weather conditions during the recording of the video?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Weather_conditions",
+      "Q-type": "Generic",
+      "A": "The weather conditions appear to be clear and sunny with good visibility."
+    },
+    {
+      "Q": "What road entities are visible in the video?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Generic",
+      "A": "The road entities involved include cyclists, pedestrians, cars, trucks, buses, traffic lights, crosswalks, and lane markings."
+    },
+    {
+      "Q": "How do the road entities interact in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Generic",
+      "A": "Cyclists are riding in designated lanes, pedestrians are using crosswalks, and vehicles are moving in both directions while respecting traffic signals."
+    },
+    {
+      "Q": "Are any traffic violations observed in the video?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Generic",
+      "A": "There are no apparent traffic rule violations in the video. All road users seem to be following proper traffic rules and regulations."
+    },
+    {
+      "Q": "What road safety advisories are relevant to the entities shown in the video?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Generic",
+      "A": "Road safety advisories include: Cyclists should use designated bike lanes, pedestrians should use crosswalks, all road users should obey traffic signals, and vehicles should respect cyclists' right to use the road."
+    },
+    {
+      "Q": "Can you specify the approximate time interval where the key road event is observed in the video? (The time interval should be specified in the format: xx to yy seconds)",
+      "QA-group": "Complex",
+      "QA-task": "Grounding",
+      "QA-subtask": "Temporal_Grounding",
+      "Q-type": "Generic",
+      "A": "The key road event is observed between 0 to 18 seconds."
+    },
+    {
+      "Q": "How does the cycling infrastructure in Chicago differ from that in India, according to the discussion?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The discussion indicates that Chicago has safe cycling lanes, while India lacks proper safety provisions for cyclists and pedestrians."
+    },
+    {
+      "Q": "What safety concerns for cyclists and pedestrians are highlighted in the context of India?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "The discussion points out the lack of safety provisions for cyclists and pedestrians in India, suggesting a higher risk for these road users compared to Chicago."
+    },
+    {
+      "Q": "How is the treatment of different road users described in the Indian context?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "What/Actions_of_key_entities",
+      "Q-type": "Specific",
+      "A": "The conversation mentions unequal treatment of road users in India, implying that some road users, likely motorists, are given priority over others like cyclists and pedestrians."
+    },
+    {
+      "Q": "What future expectation is expressed regarding road safety in India?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The discussion expresses hope for improved conditions in the future, suggesting an anticipation of better road safety measures and infrastructure for all road users in India."
+    },
+    {
+      "Q": "What key road entities are mentioned or implied in the discussion?",
+      "QA-group": "Factual",
+      "QA-task": "Key Entities",
+      "QA-subtask": "Key_Entities",
+      "Q-type": "Specific",
+      "A": "The key road entities mentioned or implied include cyclists, pedestrians, and motorists (by inference, as other road users)."
+    },
+    {
+      "Q": "How does the discussion characterize the current state of road safety for cyclists in Chicago?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "RoadEvent_Type",
+      "Q-type": "Specific",
+      "A": "The discussion portrays cyclists in Chicago as enjoying safe lane usage, implying a positive state of road safety for cyclists in the city."
+    },
+    {
+      "Q": "What type of urban planning or infrastructure is implied to be present in Chicago but lacking in India?",
+      "QA-group": "Factual",
+      "QA-task": "Where",
+      "QA-subtask": "Road_type",
+      "Q-type": "Specific",
+      "A": "The conversation implies that Chicago has dedicated and safe cycling lanes, which are suggested to be absent or inadequate in India."
+    },
+    {
+      "Q": "What potential traffic rule violations or safety issues are indirectly addressed in the context of India?",
+      "QA-group": "Complex",
+      "QA-task": "Description",
+      "QA-subtask": "Traffic_Violation",
+      "Q-type": "Specific",
+      "A": "While not explicitly stated, the discussion implies potential issues such as lack of respect for cyclists' and pedestrians' right of way, and possibly inadequate adherence to safety norms for these vulnerable road users in India."
+    },
+    {
+      "Q": "What road safety advice can be inferred from the comparison between Chicago and India?",
+      "QA-group": "Imaginative",
+      "QA-task": "Advisory",
+      "QA-subtask": "Road_Safety_Advisory",
+      "Q-type": "Specific",
+      "A": "The implied advice is that cities should invest in safe cycling infrastructure, ensure equal treatment of all road users, and prioritize safety provisions for vulnerable road users like cyclists and pedestrians."
+    },
+    {
+      "Q": "Does the video depict any road rage incidents or aggressive driving?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not depict any road rage incidents or aggressive driving. All road users appear to be following traffic rules and interacting peacefully with one another."
+    },
+    {
+      "Q": "Does the video show any construction work happening on the roads?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "The video does not show any construction work happening on the roads. The scenes depict normal traffic flow in an urban environment without any visible road work or construction activities."
+    },
+    {
+      "Q": "Are there any accidents or near-misses shown in the video?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There are no accidents or near-misses shown in the video. The footage depicts orderly traffic flow with all road users following proper rules and regulations."
+    },
+    {
+      "Q": "Are there any street vendors or food carts visible along the roads?",
+      "QA-group": "Hallucination",
+      "QA-task": "Adversarial",
+      "QA-subtask": "Adversarial",
+      "Q-type": "Specific",
+      "A": "There are no street vendors or food carts visible along the roads in the video. The footage focuses on traffic and road infrastructure without showing any roadside commercial activities."
+    }
+  ],
+  "TweetVideoURLs": [
+    "https://video.twimg.com/ext_tw_video/1665532358722764801/pu/vid/1280x720/4Dk4ik7bxkyRbXIu.mp4?tag=12"
+  ],
+  "Task-level_tags": {
+    "Viewpoint": [
+      "cctv camera",
+      "cctv camera"
+    ],
+    "RoadEvent_Type": [
+      "Safe driving education"
+    ],
+    "Country_location": [
+      "USA"
+    ],
+    "Road_type": [
+      "Urban and Suburban Roads",
+      "Urban and Suburban Roads",
+      "Intersections and Junctions"
+    ],
+    "Time_of_day": [
+      "Evening",
+      "Daytime",
+      "Afternoon"
+    ],
+    "Weather_conditions": [
+      "High Visibility",
+      "Clear Weather",
+      "Hot/Sunny Weather"
+    ],
+    "What/Actions_of_key_entities": [
+      "Roadway Navigation",
+      "Maneuvering through Traffic and Congestion ",
+      "Movement or Standing",
+      "traffic control",
+      "Traffic Compliance and Behavior"
+    ]
+  },
+  "Video-level_tags": [
+    "Safe cycling infrastructure",
+    "Urban cycling",
+    "Dedicated bicycle lanes",
+    "Road sharing",
+    "Cyclist safety",
+    "US traffic norms",
+    "Chicago traffic",
+    "Safe urban cycling",
+    "Bicycle commuting",
+    "Cycling awareness"
+  ],
+  "caption": "Cyclists in Chicago enjoy a whole lane safely\ud83c\udf3b\ud83d\ude0a\nRemember, even in India per MVA, every road user has equal rights on the road. \n\n#bicycling\n#Road safety",
+  "qa_path": "qa_1665532513672916992.json",
+  "video_path": "v_1665532513672916992_4Dk4ik7bxkyRbXIu.mp4",
+  "tweet_user": "TopDriverIndia",
+  "video_summary": "The video, captured in Chicago, United States, from multiple street-level and elevated camera perspectives across morning, afternoon, and dusk, showcases an urban environment with various road entities. Cyclists are observed riding in designated lanes, pedestrians are using crosswalks, and vehicles including cars, trucks, and buses are moving in both directions. All road users are seen respecting traffic signals, crosswalks, and lane markings, highlighting safe cycling infrastructure and general road safety awareness. No apparent traffic rule violations are observed, as all road users appear to be following proper traffic regulations.",
+  "is_english": "No",
+  "lang": "en",
+  "annotations": {
+    "Emotion": {
+      "Joy": 0.7,
+      "Anticipation": 0.5,
+      "Trust": 0.6,
+      "Anger": 0.0,
+      "Fear": 0.0,
+      "Disgust": 0.0,
+      "Surprise": 0.0,
+      "Sadness": 0.0
+    },
+    "Personality": {
+      "Appreciative (Grateful)": 0.8,
+      "Cheerful": 0.6,
+      "Considerate": 0.7,
+      "Respectful": 0.7,
+      "Optimistic": 0.5
+    },
+    "Writing Style": {
+      "Instructional": 0.6,
+      "Exaggeration": 0.0,
+      "Judgemental": 0.0,
+      "Pop Culture References": 0.0,
+      "Conversational": 0.4,
+      "Advisory": 0.7,
+      "Rhetorical Question": 0.0,
+      "Factual": 0.4,
+      "Understatement": 0.0,
+      "Metaphorical": 0.0,
+      "Motivational": 0.0,
+      "Persuasive": 0.0,
+      "CallToAction": 0.0,
+      "Analogy": 0.0,
+      "Proverbial": 0.0,
+      "Suspense": 0.0
+    },
+    "word_count": 26,
+    "Informativeness": 0.5,
+    "Factual Attributes": {
+      "User Mentions": "no",
+      "Hashtags": "yes",
+      "Emojis": "yes",
+      "Date/Time": "no",
+      "Location": "yes",
+      "First-Person Perspective": "no"
+    }
+  }
+}
