@@ -77,7 +77,7 @@
               "Advisory": "Strong"
             }
           },
-          "application": "Public Safety Education"
+          "application": "Public Safety Alert"
         },
         {
           "caption_id": "video_1749410676656030046_caption2",
@@ -90,7 +90,7 @@
               "Judgmental": "Strong"
             }
           },
-          "application": "Public Safety Alert"
+          "application": "Law Enforcement Reporting"
         },
         {
           "caption_id": "video_1749410676656030046_caption3",
@@ -104,7 +104,7 @@
               "Factual": "Strong"
             }
           },
-          "application": "Urban Traffic Observation"
+          "application": "Driver Behavior Monitoring"
         }
       ]
     }
