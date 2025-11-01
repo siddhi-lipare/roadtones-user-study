@@ -74,8 +74,7 @@
               "Serious": "Strong"
             },
             "writing_style": {
-              "Advisory": "Strong",
-              "Factual": "Strong"
+              "Advisory": "Strong"
             }
           },
           "application": "Public Safety Awareness"
@@ -99,7 +98,7 @@
           "control_scores": {
             "tone": {
               "Observant": "Very Strong",
-              "Serious": "Very Strong"
+              "Anxious": "Very Strong"
             },
             "writing_style": {
               "Factual": "Strong"
