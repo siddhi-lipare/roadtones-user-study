@@ -55,8 +55,6 @@
     "Public Safety Alert": "Intended to inform the public about potential dangers or safety issues.",
     "Urban Traffic Observation": "A post commenting on the nature or state of traffic in a city environment.",
     "ADAS Alert": "A notification or post related to the functioning, activation, or failure of an Advanced Driver-Assistance System.",
-    "Traffic Management Insight": "Information that could help authorities or systems monitor and manage traffic flow, congestion, or road conditions in real time.",
-    "Public Safety Education": "Intended to teach or remind drivers and pedestrians about safe road practices and rule compliance.",
-    "Incident Analytics": "Used for aggregating or analyzing road incidents, near-misses, or violation data for research and safety improvement."
+    "Weather Alert": "Information or warning about hazardous weather conditions—such as rain, snow, fog, or flooding—that could impact driving safety or visibility."
   }
 }
