@@ -118,7 +118,7 @@
     "Tone": "Has the {} level {change_type} from Caption A to B?",
     "Writing Style": "Has the {} strength {change_type} from Caption A to B?"
   },
-    "part3_questions": [
+  "part3_questions": [
     {
       "id": "q1_tone",
       "text": "Which caption sounds more {}?"
