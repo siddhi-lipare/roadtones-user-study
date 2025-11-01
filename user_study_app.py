@@ -1023,8 +1023,21 @@ elif st.session_state.page == 'user_study_main':
             current_caption = current_video['captions'][caption_idx]
             view_state_key = f"view_state_p1_{current_caption['caption_id']}"; summary_typed_key = f"summary_typed_{current_video['video_id']}"
             q_templates = st.session_state.all_data['questions']['part1_questions'] # Part 1 questions
-            questions_to_ask_raw = [q for q in q_templates if q['id'] != 'overall_relevance']; question_ids = [q['id'] for q in questions_to_ask_raw]
-            options_map = {"tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],"factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"], "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"], "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]}
+            
+            # --- MODIFIED: Added 'overall_relevance' as the 3rd question ---
+            # Define the exact order of questions
+            question_ids = ["tone_relevance", "style_relevance", "overall_relevance", "factual_consistency", "usefulness", "human_likeness"]
+            # Keep questions_to_ask_raw as the full list from q_templates (it's used for lookups)
+            questions_to_ask_raw = q_templates
+            options_map = {
+                "tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                "style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                "overall_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"], # ADDED
+                "factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"],
+                "usefulness": ["Not at all", "Slightly", "Moderately", "Very", "Extremely"],
+                "human_likeness": ["Robotic", "Unnatural", "Moderate", "Very Human-like", "Natural"]
+            }
+            # --- END MODIFIED ---
 
             if view_state_key not in st.session_state:
                 initial_step = 5 if caption_idx > 0 else 1
@@ -1142,18 +1155,24 @@ elif st.session_state.page == 'user_study_main':
                     options_map['style_relevance'] = style_q_options_final # Update the options map
                     # --- End Handle Style Relevance Overrides ---
 
+                    # --- MODIFIED: Updated fallback text to match JSON ---
                     tone_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'tone_relevance'), "How {} does the caption sound?")
-                    fact_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'factual_consistency'), "How factually accurate is the caption?")
-                    useful_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'usefulness'), "How useful is this caption for {}?")
+                    overall_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'overall_relevance'), "How relevant are the tone and style for the given video?")
+                    fact_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'factual_consistency'), "How factually accurate is the caption (refer to video and summary)?")
+                    useful_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'usefulness'), "How useful would this caption be for {}?")
                     human_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'human_likeness'), "How human-like does this caption sound?")
+                    # --- END MODIFIED ---
 
+                    # --- MODIFIED: Added 'overall_relevance' ---
                     questions_to_ask = [
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
                         {"id": "style_relevance", "text": style_q_text_final},
+                        {"id": "overall_relevance", "text": overall_q_template},
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
                         {"id": "human_likeness", "text": human_q_template}
                     ]
+                    # --- END MODIFIED ---
 
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
                     question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
@@ -1167,11 +1186,14 @@ elif st.session_state.page == 'user_study_main':
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
 
+                    # --- MODIFIED: Render 6 sliders now ---
                     if questions_to_show >= 1: render_slider(questions_to_ask[0], question_cols_row1[0], 0, view_state_key)
                     if questions_to_show >= 2: render_slider(questions_to_ask[1], question_cols_row1[1], 1, view_state_key)
                     if questions_to_show >= 3: render_slider(questions_to_ask[2], question_cols_row1[2], 2, view_state_key)
                     if questions_to_show >= 4: render_slider(questions_to_ask[3], question_cols_row2[0], 3, view_state_key)
                     if questions_to_show >= 5: render_slider(questions_to_ask[4], question_cols_row2[1], 4, view_state_key)
+                    if questions_to_show >= 6: render_slider(questions_to_ask[5], question_cols_row2[2], 5, view_state_key)
+                    # --- END MODIFIED ---
 
                     if questions_to_show > len(questions_to_ask):
                         if st.button("Submit Ratings", key=f"submit_cap{caption_idx}"):
