@@ -491,13 +491,6 @@ if st.session_state.all_data is None:
 # (Keep demographics, intro_video, what_is_tone, factual_info pages exactly as they were)
 if st.session_state.page == 'demographics':
     st.title("Tone-controlled Video Captioning")
-    # Debug skip button
-    if st.button("DEBUG: Skip to Main Study"):
-        st.session_state.email = "debug@test.com"
-        st.session_state.age = 25
-        st.session_state.gender = "Prefer not to say"
-        st.session_state.page = 'user_study_main'
-        st.rerun()
     st.header("Welcome! Before you begin, please provide some basic information:")
     email = st.text_input("Please enter your email address:")
     age = st.selectbox("Age:", options=list(range(18, 61)), index=None, placeholder="Select your age...")
@@ -609,11 +602,7 @@ elif st.session_state.page == 'factual_info':
 
 elif st.session_state.page == 'quiz':
     part_keys = list(st.session_state.all_data['quiz'].keys())
-    with st.sidebar:
-        st.header("Quiz Sections")
-        for i, name in enumerate(part_keys):
-            st.button(name, on_click=jump_to_part, args=(i,), use_container_width=True)
-
+    
     # Check if quiz is completed
     if st.session_state.current_part_index >= len(part_keys):
         st.session_state.page = 'quiz_results'
@@ -668,7 +657,7 @@ elif st.session_state.page == 'quiz':
         current_step = st.session_state[view_state_key]['step']
 
         def stream_text(text):
-            for word in text.split(" "): yield word + " "; time.sleep(0.08)
+            for word in text.split(" "): yield word + " "; time.sleep(0.1)
 
         col1, col2 = st.columns([1.2, 1.5])
 
@@ -784,11 +773,12 @@ elif st.session_state.page == 'quiz':
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
                     app_trait = sample.get("application") # Get application from the main sample data
+                    question_text_display = raw_text # Default
                     if app_trait:
-                        terms_to_define.add(app_trait)
                         # Highlight if present in the question text
                         if app_trait in raw_text:
                             question_text_display = raw_text.replace(app_trait, f"<b class='highlight-trait'>{app_trait}</b>")
+                            terms_to_define.add(app_trait) # Only add if found
                         else:
                             question_text_display = raw_text # Use raw text if trait not mentioned
                     else:
@@ -944,45 +934,7 @@ elif st.session_state.page == 'user_study_main':
     ALL_DEFINITIONS = st.session_state.all_data['all_definitions']
 
     def stream_text(text):
-        for word in text.split(" "): yield word + " "; time.sleep(0.08)
-
-    # --- MODIFIED: Sidebar logic reflects new Part 2/3 order ---
-    with st.sidebar:
-        st.header("Study Sections")
-        st.button("Part 1: Caption Rating", on_click=jump_to_study_part, args=(1,), use_container_width=True)
-        # Button label says "Part 2", jumps to part 2 (Intensity Change)
-        st.button("Part 2: Tone Intensity Change", on_click=jump_to_study_part, args=(2,), use_container_width=True)
-        # Button label says "Part 3", jumps to part 3 (Comparison)
-        st.button("Part 3: Caption Comparison", on_click=jump_to_study_part, args=(3,), use_container_width=True)
-
-        st.divider()
-
-        with st.expander("Jump to Item", expanded=True):
-            if st.session_state.study_part == 1:
-                all_videos = st.session_state.all_data['study']['part1_ratings']
-                for i, video in enumerate(all_videos):
-                    video_id = video['video_id']
-                    st.button(f"`{video_id}`", key=f"jump_vid_{video_id}", use_container_width=True,
-                              on_click=jump_to_study_item, args=(1, i))
-
-            # Show Intensity Change items when study_part is 2
-            elif st.session_state.study_part == 2:
-                # Use the correct key for Intensity Change data (now part2)
-                all_changes = st.session_state.all_data['study']['part2_intensity_change']
-                for i, change in enumerate(all_changes):
-                    change_id = change['change_id']
-                    st.button(f"`{change_id}`", key=f"jump_chg_{change_id}", use_container_width=True,
-                              on_click=jump_to_study_item, args=(2, i)) # Jumps to part 2
-
-            # Show Comparison items when study_part is 3
-            elif st.session_state.study_part == 3:
-                # Use the correct key for Comparison data (now part3)
-                all_comparisons = st.session_state.all_data['study']['part3_comparisons']
-                for i, comp in enumerate(all_comparisons):
-                    comp_id = comp['comparison_id']
-                    st.button(f"`{comp_id}`", key=f"jump_comp_{comp_id}", use_container_width=True,
-                              on_click=jump_to_study_item, args=(3, i)) # Jumps to part 3
-    # --- END MODIFIED ---
+        for word in text.split(" "): yield word + " "; time.sleep(0.1)
 
     # --- MODIFIED: Main content logic swapped ---
 
