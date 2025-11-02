@@ -768,7 +768,7 @@ elif st.session_state.page == 'quiz':
                 if "Tone Controllability" in current_part_key:
                     trait = sample['tone_to_compare']
                     change_type = sample['comparison_type']
-                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> {change_type}?"
+                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> <b class='highlight-trait'>{change_type}</b>?"
                     terms_to_define.add(trait)
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
@@ -1300,7 +1300,8 @@ elif st.session_state.page == 'user_study_main':
                         # --- Form key updated ---
                         with st.form(key=f"study_form_p2_{change_idx}"):
                             highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                            dynamic_question_raw = q_template.format(highlighted_trait, change_type=current_change['change_type'])
+                            highlighted_change_type = f"<b class='highlight-trait'>{current_change['change_type']}</b>"
+                            dynamic_question_raw = q_template.format(highlighted_trait, change_type=highlighted_change_type)
                             dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
                             q2_text = "Is the core factual content consistent across both captions?"
                             col_q1, col_q2 = st.columns(2)
