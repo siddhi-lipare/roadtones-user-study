@@ -1536,7 +1536,7 @@ elif st.session_state.page == 'final_thank_you':
     st.success("You have successfully completed all parts of the study. We sincerely appreciate your time and valuable contribution to our research!")
 
 # --- JavaScript ---
-# (Keep js_script and streamlit_js_eval call exactly as they were)
+# --- JavaScript ---
 js_script = """
 const parent_document = window.parent.document;
 
@@ -1588,5 +1588,17 @@ parent_document.addEventListener('keyup', function(event) {
         }
     }
 });
+
+/* --- THIS IS THE NEW CODE TO ADD --- */
+console.log("Attaching keep-alive ping.");
+// Ping the server every 4 minutes (240000 milliseconds) to prevent sleep
+setInterval(function() {
+    fetch(window.location.href)
+        .then(() => console.log("Keep-alive ping sent."))
+        .catch(e => console.error("Keep-alive ping failed:", e));
+}, 240000);
+/* --- END OF NEW CODE --- */
+
 """
-streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v4") # Incremented key
+# Make sure to update the key so Streamlit registers the change
+streamlit_js_eval(js_expressions=js_script, key="keyboard_listener_v5")
