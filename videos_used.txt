@@ -29,8 +29,8 @@ Set 2:
 	4. 1614378859859939328: bewildered decrease	
 	2. 1798581666879086946: exaggeration increase 
      Part 3:
-	6. 1695748178056974456: original: angry critic
-	7. 1724793343144837589: nei 1: humoris sarcas
+	6. 1695748178056974456: original: critical judgmental
+	7. 1724793343144837589: nei 1: humoris sarcas pop
 	9. 1666322163429679105: nei 1: calm factual
     	
 Set 3:
@@ -43,7 +43,7 @@ Set 3:
 	13. 1749410676656030046: sarcastic increased
     9. 1692974964909961669: exaggeration decrease
     Part 3:          
-    3. 1703606261588390352: nei 2; adventurous exaggeration
+    3. 1797729718998798734: original: casaual conv
 	4. 1620271366900703234: nei 2: serious metaphorical
 	5. 1665532513672916992: original: appreciative, consider
      	
@@ -82,15 +82,15 @@ Set 5:
    Part 3:
 
 	14. 1774263154723451187: original: criticl asertive judgmental
-	13. 1534754660984033282:           critical sarcastic
+	13. 1534754660984033282: nei 2 critical sarcastic
 	15. 1685698185946140672: original: adventurous conv
 	
 	
-	11. 1797729718998798734: original: casaual conv
+	11. 
 	10.
 	1740563927124296059: original:questioning sarcasstic
 	
-
+1703606261588390352: nei 2; adventurous exaggeration
 
 
 

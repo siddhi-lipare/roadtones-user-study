@@ -227,7 +227,19 @@ body[theme="dark"] .quiz-question-box { background-color: var(--secondary-backgr
 .wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
 body[theme="dark"] .correct-answer { background-color: #064e3b; border-color: #10b981; color: #a7f3d0; }
 body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4444; color: #fecaca; }
+
+/* --- MODIFIED/ADDED FOR DARK MODE --- */
+body[theme="dark"] .highlight-trait { 
+    color: #a5b4fc; /* Lighter indigo for dark mode */
+}
 .normal-answer { background-color: white !important; border-color: #d1d5db !important; color: #111827 !important; }
+body[theme="dark"] .normal-answer { 
+    background-color: #374151 !important; /* Dark grey bg */
+    border-color: #4B5563 !important; /* Grey border */
+    color: #D1D5DB !important; /* Light grey text */
+}
+/* --- END OF MODIFICATIONS --- */
+
 .stMultiSelect [data-baseweb="tag"] { background-color: #BDE0FE !important; color: #003366 !important; }
 div[data-testid="stSlider"] { max-width: 250px; }
 .reference-box { background-color: #FFFBEB; border: 1px solid #eab308; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-top: 1.5rem; }
@@ -313,7 +325,6 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- NAVIGATION & STATE HELPERS ---
 # (Keep handle_next_quiz_question, jump_to_part, jump_to_study_part, jump_to_study_item, restart_quiz functions exactly as they were)
