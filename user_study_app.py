@@ -235,7 +235,7 @@ body[theme="dark"] .normal-answer {
 .stMultiSelect [data-baseweb="tag"] { background-color: #BDE0FE !important; color: #003366 !important; }
 div[data-testid="stSlider"] { max-width: 250px; }
 .reference-box { background-color: #FFFBEB; border: 1px solid #eab308; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-top: 1.5rem; }
-body[theme="dark"] .reference-box { background-color: var(--secondary-background-color); }
+body[theme="dark"] .reference-box { background-color: #FFFBEB; } /* Force light yellow even in dark mode */
 .reference-box h3 { margin-top: 0; padding-bottom: 0.5rem; font-size: 18px; font-weight: 600; }
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
@@ -284,30 +284,49 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
     border-color: #6B7280;
 }
 
-/* --- DARK MODE TEXT FIXES --- */
-body[theme="dark"] .highlight-trait { 
-    color: #a5b4fc !important; /* Lighter indigo for dark mode */
+/* --- DARK MODE TEXT FIXES (Take 5) --- */
+
+/* Force light gray quiz box bg even in dark mode */
+body[theme="dark"] .quiz-question-box { 
+    background-color: #F0F2F6 !important; 
 }
-body[theme="dark"] .quiz-question-box > strong { 
-    color: #FAFAFA !important; /* Make "Question:" white */
+/* Force dark text in quiz question box ALWAYS */
+.quiz-question-box > strong { 
+    color: #111827 !important; 
 }
-body[theme="dark"] .quiz-question-box .question-text-part { 
-    color: #D1D5DB !important; /* Make question text light gray */
+.quiz-question-box .question-text-part { 
+    color: #111827 !important; 
 }
-body[theme="dark"] .reference-box h3 { 
-    color: #FAFAFA !important; /* Make "Reference" white */
+/* Force dark highlight in quiz box ALWAYS */
+.quiz-question-box .highlight-trait {
+    color: #4f46e5 !important;
 }
-body[theme="dark"] .reference-box ul li { 
-    color: #D1D5DB !imporant; /* Make reference list text light gray */
+
+/* Force dark text in reference box ALWAYS */
+.reference-box h3 { 
+    color: #111827 !important; 
 }
-body[theme="dark"] .reference-box ul li strong { 
-    color: #E5E7EB !important; /* Make reference term brighter */
+.reference-box ul li { 
+    color: #374151 !important; /* Slightly lighter black for body */
 }
+.reference-box ul li strong { 
+    color: #111827 !important; 
+}
+/* Force dark highlight in reference box ALWAYS */
+.reference-box .highlight-trait {
+    color: #4f46e5 !important;
+}
+
+/* FOR CONTRAST: Keep comparison box text light in dark mode */
 body[theme="dark"] .comparison-caption-box strong { 
-    color: #FAFAFA !important; /* Make "Caption A/B" white */
+    color: #FAFAFA !important;
 }
 body[theme="dark"] .comparison-caption-box .caption-text { 
-    color: #D1D5DB !important; /* Make caption text light gray */
+    color: #D1D5DB !important;
+}
+/* ...and make its highlight light */
+body[theme="dark"] .comparison-caption-box .highlight-trait { 
+    color: #a5b4fc !important; 
 }
 /* --- END OF FIXES --- */
 
