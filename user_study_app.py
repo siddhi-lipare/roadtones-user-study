@@ -196,7 +196,6 @@ def load_data():
     return data
 
 # --- UI & STYLING ---
-# (Keep the CSS styling block exactly as it was in the previous version)
 st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 st.markdown("""
 <style>
@@ -206,10 +205,10 @@ st.markdown("""
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
 .slider-label {
     height: 80px;
-    margin-bottom: 0.5rem; /* MODIFIED: Was 0 */
+    margin-bottom: 0.5rem;
     font-size: 1.05rem;
-    font-weight: 600; /* Semi-bold */
-    font-family: 'Inter', sans-serif; /* Explicitly use Inter */
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
@@ -227,19 +226,12 @@ body[theme="dark"] .quiz-question-box { background-color: var(--secondary-backgr
 .wrong-answer { background-color: #fee2e2; border-color: #fca5a5; color: #991b1b; }
 body[theme="dark"] .correct-answer { background-color: #064e3b; border-color: #10b981; color: #a7f3d0; }
 body[theme="dark"] .wrong-answer { background-color: #7f1d1d; border-color: #ef4444; color: #fecaca; }
-
-/* --- MODIFIED/ADDED FOR DARK MODE --- */
-body[theme="dark"] .highlight-trait { 
-    color: #a5b4fc; /* Lighter indigo for dark mode */
-}
 .normal-answer { background-color: white !important; border-color: #d1d5db !important; color: #111827 !important; }
 body[theme="dark"] .normal-answer { 
     background-color: #374151 !important; /* Dark grey bg */
     border-color: #4B5563 !important; /* Grey border */
     color: #D1D5DB !important; /* Light grey text */
 }
-/* --- END OF MODIFICATIONS --- */
-
 .stMultiSelect [data-baseweb="tag"] { background-color: #BDE0FE !important; color: #003366 !important; }
 div[data-testid="stSlider"] { max-width: 250px; }
 .reference-box { background-color: #FFFBEB; border: 1px solid #eab308; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-top: 1.5rem; }
@@ -247,82 +239,78 @@ body[theme="dark"] .reference-box { background-color: var(--secondary-background
 .reference-box h3 { margin-top: 0; padding-bottom: 0.5rem; font-size: 18px; font-weight: 600; }
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
-
 .part3-question-text {
     font-size: 1.05rem;
-    font-weight: 600; /* Semi-bold */
+    font-weight: 600;
     margin-bottom: 0.5rem;
-    font-family: 'Inter', sans-serif; /* Explicitly use Inter */
-    height: 70px; /* ADDED: To ensure alignment of radio buttons below */
+    font-family: 'Inter', sans-serif;
+    height: 70px;
 }
-
-/* --- Title font consistency --- */
 h2 {
     font-size: 1.75rem !important;
     font-weight: 600 !important;
 }
-
-/* --- ADDED FOR BUTTON HIGHLIGHT --- */
 @keyframes highlight-button-new {
-  0% {
-    border-color: #D1D5DB; /* Start with default border */
-    box-shadow: none;
-  }
-  25% {
-    border-color: #facc15; /* Golden highlight border */
-    box-shadow: 0 0 8px #facc15; /* Golden glow */
-  }
-  75% {
-    border-color: #facc15;
-    box-shadow: 0 0 8px #facc15;
-  }
-  100% {
-    border-color: #D1D5DB; /* End with default border */
-    box-shadow: none;
-  }
+  0% { border-color: #D1D5DB; box-shadow: none; }
+  25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
+  75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
+  100% { border-color: #D1D5DB; box-shadow: none; }
 }
 body[theme="dark"] @keyframes highlight-button-new {
-    0% {
-        border-color: #4B5563; /* Start with default dark border */
-        box-shadow: none;
-    }
-    25% {
-        border-color: #facc15;
-        box-shadow: 0 0 8px #facc15;
-    }
-    75% {
-        border-color: #facc15;
-        box-shadow: 0 0 8px #facc15;
-    }
-    100% {
-        border-color: #4B5563; /* End with default dark border */
-        box-shadow: none;
-    }
+    0% { border-color: #4B5563; box-shadow: none; }
+    25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
+    75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; }
+    100% { border-color: #4B5563; box-shadow: none; }
 }
-/* --- END ADDED BLOCK --- */
-
-/* --- CUSTOM BUTTON STYLING --- */
 div[data-testid="stButton"] > button, .stForm [data-testid="stButton"] > button {
-    background-color: #FAFAFA; /* Very light grey */
-    color: #1F2937; /* Dark grey text for readability */
-    border: 1px solid #D1D5DB; /* Light grey border */
+    background-color: #FAFAFA;
+    color: #1F2937;
+    border: 1px solid #D1D5DB;
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 div[data-testid="stButton"] > button:hover, .stForm [data-testid="stButton"] > button:hover {
-    background-color: #F3F4F6; /* Slightly darker grey on hover */
+    background-color: #F3F4F6;
     border-color: #9CA3AF;
 }
 body[theme="dark"] div[data-testid="stButton"] > button,
 body[theme="dark"] .stForm [data-testid="stButton"] > button {
-    background-color: #262730; /* Dark background */
-    color: #FAFAFA; /* Light text */
-    border: 1px solid #4B5563; /* Grey border for dark mode */
+    background-color: #262730;
+    color: #FAFAFA;
+    border: 1px solid #4B5563;
 }
 body[theme="dark"] div[data-testid="stButton"] > button:hover,
 body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
-    background-color: #374151; /* Lighter background on hover for dark mode */
+    background-color: #374151;
     border-color: #6B7280;
 }
+
+/* --- DARK MODE TEXT FIXES --- */
+body[theme="dark"] .highlight-trait { 
+    color: #a5b4fc !important; /* Lighter indigo for dark mode */
+}
+body[theme="dark"] .quiz-question-box > strong { 
+    color: #FAFAFA !important; /* Make "Question:" white */
+}
+body[theme="dark"] .quiz-question-box .question-text-part { 
+    color: #D1D5DB !important; /* Make question text light gray */
+}
+body[theme="dark"] .reference-box h3 { 
+    color: #FAFAFA !important; /* Make "Reference" white */
+}
+body[theme="dark"] .reference-box ul li { 
+    color: #D1D5DB !imporant; /* Make reference list text light gray */
+}
+body[theme="dark"] .reference-box ul li strong { 
+    color: #E5E7EB !important; /* Make reference term brighter */
+}
+body[theme="dark"] .comparison-caption-box strong { 
+    color: #FAFAFA !important; /* Make "Caption A/B" white */
+}
+body[theme="dark"] .comparison-caption-box .caption-text { 
+    color: #D1D5DB !important; /* Make caption text light gray */
+}
+/* --- END OF FIXES --- */
+
 </style>
 """, unsafe_allow_html=True)
 
