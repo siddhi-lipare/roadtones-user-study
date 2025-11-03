@@ -16,8 +16,8 @@ Set 1:  Part 1
 	
 	Part 3
 	1. 1781029134916784442: original: amusing cas, exagg
-	16. 1775427324160389268: original: questioning sarcasstic
-	2. 1601008232847536128: nei 1: curious appreciative conv
+	16. 1775427324160389268: original: amusing sarcasstic, conv
+	2. 1601008232847536128: nei 1: curious conv
 	
 Set 2:
     Part 1
