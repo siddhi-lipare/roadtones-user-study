@@ -62,7 +62,8 @@ def connect_to_gsheet():
             scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"],
         )
         client = gspread.authorize(creds)
-        spreadsheet = client.open("roadtones-streamlit-userstudy-responses")
+        # --- Make sure this matches your sheet name ---
+        spreadsheet = client.open("roadtones-streamlit-userstudy-responses-2") 
         return spreadsheet.sheet1
     except Exception as e:
         # Keep error for connection failure, but no traceback for user
@@ -350,12 +351,6 @@ def handle_next_quiz_question(view_key_to_pop):
     else: # Tone Identification
         question_text = "Tone Identification" # Or more specific if needed
 
-    # --- MOVED SAVE RESPONSE OUTSIDE SPINNER ---
-    # success = save_response(st.session_state.email, st.session_state.age, st.session_state.gender, sample, sample, st.session_state.last_choice, 'quiz', question_text, was_correct=st.session_state.is_correct)
-    # if not success:
-    #    st.error("Failed to save response. Please check your connection and try again.")
-    #    return # Don't proceed if save fails
-
     # --- Logic to advance quiz state ---
     if "Caption Quality" in current_part_key:
         st.session_state.current_rating_question_index += 1
@@ -423,6 +418,7 @@ def restart_quiz():
     st.session_state.current_rating_question_index = 0
     st.session_state.show_feedback = False
     st.session_state.score = 0
+    st.session_state.scored_quiz_questions = set() # <-- ADD THIS LINE
     st.session_state.score_saved = False # Reset score saved flag if implemented
 
 def render_comprehension_quiz(sample, view_state_key, proceed_step):
@@ -496,6 +492,7 @@ if 'page' not in st.session_state:
     st.session_state.current_comparison_index = 0
     st.session_state.current_change_index = 0
     st.session_state.comprehension_passed_video_ids = set() # --- ADDED ---
+    st.session_state.scored_quiz_questions = set() # <-- ADD THIS LINE
     st.session_state.all_data = load_data() # Load data once at the start
 
 if 'comprehension_passed_video_ids' not in st.session_state:
@@ -858,10 +855,21 @@ elif st.session_state.page == 'quiz':
                     # --- ADDED LINE ---
                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_next_{sample_id}")
                     # --- END ADDED LINE ---
+                
+                # --- START OF CODE BLOCK TO REPLACE ---
                 else:
                     # Display answer options form
                     # Use unique key including sample_id and question index if applicable
                     form_key = f"quiz_form_{sample_id}_{st.session_state.current_rating_question_index if 'Caption Quality' in current_part_key else ''}"
+                    
+                    # --- FIX: Create a unique ID for this specific question ---
+                    question_unique_id = sample_id
+                    if "Caption Quality" in current_part_key:
+                        question_unique_id = f"{sample_id}_q{st.session_state.current_rating_question_index}"
+                    
+                    # --- FIX: Create a key to track if this specific form is submitted ---
+                    submitted_key = f"submitted_{question_unique_id}"
+
                     with st.form(form_key):
                         choice = None
                         radio_key = f"radio_{sample_id}_{st.session_state.current_rating_question_index if 'Caption Quality' in current_part_key else ''}" # Unique key
@@ -872,18 +880,25 @@ elif st.session_state.page == 'quiz':
                         else: # Single choice radio
                             choice = st.radio("Select one option:", question_data['options'], key=radio_key, index=None, label_visibility="collapsed")
 
-                        submitted = st.form_submit_button("Submit Answer")
+                        # --- FIX: Add 'disabled' flag to button ---
+                        submitted = st.form_submit_button("Submit Answer", disabled=st.session_state.get(submitted_key, False))
 
                     # --- MODIFIED: Add spinner around processing ---
                     if submitted:
+                        # --- FIX: Immediately set the submitted flag to prevent double-clicks ---
+                        st.session_state[submitted_key] = True
+                        # --- END FIX ---
+
                         # Validation
                         valid_submission = True
                         if not choice:
                             st.error("Please select an option.")
                             valid_submission = False
+                            st.session_state[submitted_key] = False # Re-enable on error
                         elif question_data.get("question_type") == "multi" and len(choice) != 2:
                             st.error("Please select exactly 2 options.")
                             valid_submission = False
+                            st.session_state[submitted_key] = False # Re-enable on error
 
                         if valid_submission:
                             with st.spinner("Saving response..."): # Spinner added here
@@ -893,7 +908,12 @@ elif st.session_state.page == 'quiz':
                                 # Check correctness (handle list or single answer)
                                 is_correct = (set(choice) == set(correct_answer)) if isinstance(correct_answer, list) else (choice == correct_answer)
                                 st.session_state.is_correct = is_correct
-                                if is_correct: st.session_state.score += 1 # Increment score
+                                
+                                # --- FIX: Check if question was already scored before incrementing ---
+                                if is_correct and (question_unique_id not in st.session_state.scored_quiz_questions):
+                                    st.session_state.score += 1 # Increment score
+                                    st.session_state.scored_quiz_questions.add(question_unique_id) # Mark as scored
+                                # --- END FIX ---
 
                                 # --- Save response INSIDE spinner ---
                                 question_text_for_save = "N/A"
@@ -912,9 +932,9 @@ elif st.session_state.page == 'quiz':
                                     st.session_state.show_feedback = True # Set flag to show feedback AFTER saving
                                 else:
                                      st.error("Failed to save response. Please check connection/permissions and try again.")
-                                     # Optionally reset state or prevent rerun if save fails critically
+                                     st.session_state[submitted_key] = False # Re-enable on save error
                             st.rerun() # Rerun to display feedback or keep form if save failed
-                    # --- END MODIFIED ---
+                # --- END OF CODE BLOCK TO REPLACE ---
 
                 # --- Display Reference Box ---
                 if terms_to_define:
