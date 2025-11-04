@@ -63,7 +63,7 @@ def connect_to_gsheet():
         )
         client = gspread.authorize(creds)
         # --- Make sure this matches your sheet name ---
-        spreadsheet = client.open("roadtones-streamlit-userstudy-responses-2") 
+        spreadsheet = client.open("roadtones-streamlit-userstudy-responses") 
         return spreadsheet.sheet1
     except Exception as e:
         # Keep error for connection failure, but no traceback for user
