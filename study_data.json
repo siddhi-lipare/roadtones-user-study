@@ -148,17 +148,17 @@
     },
     {
       "change_id": "change_005",
-      "video_id": "video_1772082398257127647",
-      "video_path": "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4",
-      "video_summary": "A severe car accident, captured by multiple cameras, occurred in Brampton, Ontario, Canada. The key road event involved a dark-colored sports car that reportedly came flying over a fence at high speed, resulting in it being severely damaged and overturned with its front end crumpled and debris scattered. The driver and passenger of the sports car fled the scene, constituting a hit-and-run. A white Toyota Tacoma pickup truck was also involved, sustaining a detached front bumper. The incident took place near two-story brick residential houses and power lines. Bystanders were observed assessing the situation and offering assistance. The traffic violations associated with this event include speeding, reckless driving, and fleeing the scene of an accident.",
-      "road_event_answer": "A sports car was severely damaged and overturned, with its front end crumpled and debris scattered.",
+      "video_id": "video_1746094819381035459",
+      "video_path": "media/v_1746094819381035459_eTAK76kBfZm7748G.mp4",
+      "video_summary": "A severe accident involving reckless driving and a traffic violation occurred during the daytime in Palghar, on the Boisar-Palghar road in Maharashtra, India. Captured by a CCTV camera, the key road event involved an auto-rickshaw and a pickup truck. The auto-rickshaw driver made a sudden U-turn without checking for oncoming traffic, leading to a collision with the pickup truck that was driving on the road. Traffic rule violations associated with this event include making an unsafe U-turn, failure to check for oncoming traffic, and reckless driving by the auto-rickshaw driver.",
+      "road_event_answer": "A reckless auto-rickshaw made an unsafe U-turn, colliding with a pickup truck in Palghar, Maharashtra.",
       "distractor_answers": [
         "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
         "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle.",
         "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend."
       ],
-      "caption_A": "Speeding and reckless driving can lead to devastating crashes. Always stay alert and drive responsibly. \ud83d\udea8 #RoadSafety #DrivingTips",
-      "caption_B": "A car suddenly flips over, sending debris everywhere\u2014 so unsettling to watch. People rush away, unsure what just happened. \ud83d\ude97\ud83d\udca5 #Crash #RoadDrama",
+      "caption_A": "A recent collision on Boisar-Palghar road highlights the dangers of making sudden U-turns without checking traffic. Is it worth risking safety for a shortcut? Let’s prioritize awareness and careful driving to prevent such accidents. Will you help make our roads safer? 🚦 #RoadSafety #DriveResponsibly",
+      "caption_B": "A serious accident on Boisar-Palghar road in Maharashtra highlights the risks of reckless driving. When will we learn to value every life on our roads? #Palghar #RoadSafety",
       "field_to_change": {
         "writing_style": "Advisory"
       },
@@ -166,17 +166,17 @@
     },
     {
       "change_id": "change_010",
-      "video_id": "video_1695748178056974456",
-      "video_path": "media/v_1695748178056974456_FxGj0jW1c_4xuTXE.mp4",
-      "video_summary": "A vehicle-mounted camera, providing a driver's perspective, captured a road event in Japan during daytime. The key event depicted dangerous driving behavior, specifically illegal turns and lane changes at intersections. A beginner driver's car (possibly a Wagon R) and a yellow car (possibly a Vitz) were observed making illegal turns or lane changes at intersections, cutting across lanes inappropriately. Traffic rule violations included illegal lane changes, improper turns at intersections, and potentially running yellow lights, involving these vehicles, traffic lights, and other vehicles in traffic.",
-      "road_event_answer": "A beginner driver's car and a yellow car are seen making illegal turns/lane changes at intersections.",
+      "video_id": "video_1801947948118610334",
+      "video_path": "media/v_1801947948118610334_GnuwF-EYCCmBjjo3.mp4",
+      "video_summary": "A dashcam or vehicle-mounted camera captured a near-miss incident involving dangerous driving behavior in Japan during the daytime in winter. A black van was driving steadily down the street when another vehicle, likely a car, suddenly emerged from a side road, nearly causing a collision. The driver of the emerging vehicle may have been inattentive, impatient, or misjudged the timing and distance, possibly only looking in one direction or misjudging the speed of the approaching vehicle. The incident could have been prevented if the driver emerging from the side road had properly stopped, looked both ways carefully, and waited for a safe gap in traffic before proceeding. Potential traffic violations include failure to yield right of way and possibly ignoring a stop sign or failing to make a complete stop before entering the main road.",
+      "road_event_answer": "A car nearly collided with a van after emerging carelessly from a side road, failing to yield during daytime winter traffic.",
       "distractor_answers": [
         "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
         "A car and a two-wheeler dangerously attempt to overtake on a hairpin bend.",
-        "A compilation shows multiple traffic violations in Hyderabad, including improper U-turns, speeding, and red light jumping."
+        "A motorcyclist performs a stunt by standing on the seat of their moving motorcycle."
       ],
-      "caption_A": "Stay alert at intersections in Japan always.",
-      "caption_B": "In Japan, haste makes waste at intersections.",
+      "caption_A": "Almost noon—did that car really just do that?",
+      "caption_B": "It\u2019s winter noon and I almost met disaster\u2014doesn\u2019t fortune favor the watchful after all?",
       "field_to_change": {
         "writing_style": "Proverbial"
       },
@@ -232,26 +232,26 @@
     },
     {
       "comparison_id": "comp_013",
-      "video_id": "video_1601008232847536128",
-      "video_path": "media/v_1601008232847536128_NAijs2Y2B0AvUT_O.mp4",
-      "video_summary": "A near-miss incident, captured by a vehicle-mounted camera from a driver's perspective in Australia, involved a motorcycle and a truck. The truck was in the process of turning when a motorcyclist approached at high speed. To avoid a collision, the motorcyclist performed a tactical roll. The primary reason for this near-miss was the motorcyclist's failure to slow down when approaching the turning truck, suggesting recklessness or lack of caution. The incident could have been prevented if the motorcyclist had reduced speed. Associated traffic rule violations include speeding and potentially reckless driving by the motorcyclist.",
-      "road_event_answer": "A motorcyclist, approaching at high speed, performs a tactical roll to avoid colliding with a turning truck.",
+      "video_id": "video_1692843245901054273",
+      "video_path": "media/v_1692843245901054273_d74XLR80R51Os8Si.mp4",
+      "video_summary": "A dashcam captured a near-miss incident involving dangerous driving behavior in Japan during the afternoon. The road event involved the dashcam vehicle and an oncoming vehicle. The dashcam vehicle stopped to avoid a collision after the oncoming vehicle performed a dangerous maneuver, requiring evasive action. The reason for the dangerous driving is not specified but could be attributed to recklessness or inattention. The incident could have been prevented if the oncoming driver had been more cautious and followed proper traffic rules.",
+      "road_event_answer": "An oncoming vehicle’s reckless maneuver caused a near-miss, forcing another driver to stop to avoid a collision.",
       "distractor_answers": [
-        "A high-speed car crash on a highway results in a severely damaged vehicle, multiple fatalities, and injuries.",
-        "Multiple vehicles run a red light and make illegal U-turns while pedestrians are crossing against their signal.",
+        "A motorcyclist rides recklessly, weaving between vehicles, riding no-handed, and hiding their license plate.",
+        "A massive multi-vehicle pileup on a highway caused by heavy fog.",
         "A scooter rider opens the door of a car, causing a passing pedestrian to fall."
       ],
       "control_scores": {
         "tone": {
-          "Curious": "Very Strong"
+          "Anxious": "Very Strong",
+          "Emotional": "Strong"
         },
         "writing_style": {
-          "Conversational": "Strong",
-          "Rhetorical Question": "Strong"
+          "Conversational": "Strong"
         }
       },
-      "caption_A": "Did anyone else catch that close call with the motorbike and turning truck? Glad everyone\u2019s okay\u2014@SafeDrivingAU, is this a common risk on the roads?",
-      "caption_B": "Did anyone else see @RoadSafetyAU\u2019s dashcam footage of that truck\u2019s close call? What a moment\u2014sometimes you just have to appreciate how things could\u2019ve gone wrong."
+      "caption_A": "My heart nearly stopped when an oncoming car swerved right at me—barely avoided disaster.",
+      "caption_B": "My heart just stopped\u2014I swear, that car nearly plowed right into me."
     }
   ]
 }
