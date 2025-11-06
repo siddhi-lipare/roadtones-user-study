@@ -15,8 +15,6 @@ from streamlit_js_eval import streamlit_js_eval
 
 # --- Configuration ---
 INTRO_VIDEO_PATH = "media/start_video_slower.mp4"
-# --- NEW VIDEO PATH ---
-TONE_INTRO_VIDEO_PATH = "media/intro_to_tone.mp4" 
 STUDY_DATA_PATH = "study_data.json"
 QUIZ_DATA_PATH = "quiz_data.json"
 INSTRUCTIONS_PATH = "instructions.json"
@@ -61,7 +59,7 @@ def connect_to_gsheet():
     try:
         creds = Credentials.from_service_account_info(
             st.secrets["gcp_service_account"],
-            scopes=["https.www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"],
+            scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"],
         )
         client = gspread.authorize(creds)
         # --- Make sure this matches your sheet name ---
@@ -165,11 +163,6 @@ def load_data():
     if not os.path.exists(INTRO_VIDEO_PATH):
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
         return None
-    # --- Check for new video ---
-    if not os.path.exists(TONE_INTRO_VIDEO_PATH):
-        st.error(f"Error: Intro video not found at '{TONE_INTRO_VIDEO_PATH}'.")
-        return None
-
 
     # Flatten definitions from JSON
     flat_definitions = {}
@@ -292,14 +285,8 @@ body[theme="dark"] .stForm [data-testid="stButton"] > button:hover {
     border-color: #6B7280;
 }
 
-/* --- NEW HIGHLIGHT CLASSES --- */
-.highlight-increased { color: #228B22; font-weight: 600; } /* ForestGreen */
-.highlight-decreased { color: #B22222; font-weight: 600; } /* Firebrick */
-body[theme="dark"] .highlight-increased { color: #32CD32; } /* LimeGreen */
-body[theme="dark"] .highlight-decreased { color: #F08080; } /* LightCoral */
-/* --- END NEW CLASSES --- */
-
 /* --- DARK MODE TEXT FIXES (Take 5) --- */
+
 /* Force light gray quiz box bg even in dark mode */
 body[theme="dark"] .quiz-question-box { 
     background-color: #F0F2F6 !important; 
@@ -315,14 +302,6 @@ body[theme="dark"] .quiz-question-box {
 .quiz-question-box .highlight-trait {
     color: #4f46e5 !important;
 }
-/* --- AND FORCE NEW HIGHLIGHTS IN QUIZ BOX --- */
-.quiz-question-box .highlight-increased { 
-    color: #228B22 !important; /* ForestGreen */
-}
-.quiz-question-box .highlight-decreased { 
-    color: #B22222 !important; /* Firebrick */
-}
-
 
 /* Force dark text in reference box ALWAYS */
 .reference-box h3 { 
@@ -524,6 +503,7 @@ if st.session_state.all_data is None:
     st.stop() # Stop execution if essential data is missing
 
 # --- Page Rendering Logic ---
+# (Keep demographics, intro_video, what_is_tone, factual_info pages exactly as they were)
 if st.session_state.page == 'demographics':
     st.title("Tone-controlled Video Captioning")
     st.header("Welcome! Before you begin, please provide some basic information:")
@@ -552,19 +532,37 @@ elif st.session_state.page == 'intro_video':
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
     if st.button("Next >>"):
-        st.session_state.page = 'intro_to_tone_video' # <-- CHANGED
+        st.session_state.page = 'what_is_tone'
         st.rerun()
 
-# --- NEW PAGE FOR THE TONE INTRO VIDEO ---
-elif st.session_state.page == 'intro_to_tone_video':
-    st.title("What is Tone and Factual Accuracy?")
-    _ , vid_col, _ = st.columns([1, 3, 1]) # Center the video column
-    with vid_col:
-        if os.path.exists(TONE_INTRO_VIDEO_PATH):
-            st.video(TONE_INTRO_VIDEO_PATH, autoplay=True, muted=True)
-        else:
-            st.warning(f"Intro video not found at {TONE_INTRO_VIDEO_PATH}")
+elif st.session_state.page == 'what_is_tone':
+    st.markdown("<h1 style='text-align: center;'>Tone and Writing Style</h1>", unsafe_allow_html=True)
 
+    st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</p>", unsafe_allow_html=True)
+
+    spacer, title = st.columns([1, 15]) # Adjust column ratio if needed
+    with title:
+        st.subheader("For example:")
+
+    # --- MODIFIED: Added gap="small" ---
+    col1, col2 = st.columns([2, 3], gap="small")
+    with col1:
+        _, vid_col, _ = st.columns([1, 1.5, 1])
+        with vid_col:
+            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
+            if os.path.exists(video_path):
+                st.video(video_path, autoplay=True, muted=True, loop=True)
+            else:
+                st.warning(f"Video not found at {video_path}")
+    with col2:
+        image_path = "media/tone_meaning2.jpg"
+        if os.path.exists(image_path):
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
+
+    # --- MODIFIED BUTTONS: Bottom Left & Right ---
     st.markdown("<br>", unsafe_allow_html=True) # Add a little space
     prev_col, _, next_col = st.columns([1, 5, 1]) # Adjust ratios for left/right placement
 
@@ -574,13 +572,47 @@ elif st.session_state.page == 'intro_to_tone_video':
             st.rerun()
 
     with next_col:
+        if st.button("Next >>"): # Small button on the right
+            st.session_state.page = 'factual_info' # Go to factual info
+            st.rerun()
+    # --- END MODIFIED BUTTONS ---
+
+
+elif st.session_state.page == 'factual_info':
+    st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
+
+    col1, col2 = st.columns([2, 3], gap="small")
+    with col1:
+        _, vid_col, _ = st.columns([1, 1.5, 1])
+        with vid_col:
+            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
+            if os.path.exists(video_path):
+                st.video(video_path, autoplay=True, muted=True, loop=True)
+            else:
+                st.warning(f"Video not found at {video_path}")
+    with col2:
+        image_path = "media/factual_info_new.jpg"
+        if os.path.exists(image_path):
+            # --- ADDED THIS LINE ---
+            st.markdown("<br>", unsafe_allow_html=True) # Add vertical space
+            # --- END ADDED LINE ---
+            st.image(image_path)
+        else:
+            st.warning(f"Image not found at {image_path}")
+
+    # --- MODIFIED BUTTONS: Bottom Left & Right ---
+    st.markdown("<br>", unsafe_allow_html=True) # Add a little space
+    prev_col, _, next_col = st.columns([1, 5, 1]) # Adjust ratios for left/right placement
+
+    with prev_col:
+        if st.button("Prev <<"): # Small button on the left
+            st.session_state.page = 'what_is_tone' # Go back to what_is_tone
+            st.rerun()
+
+    with next_col:
         if st.button("Start Quiz >>"): # Small button on the right
             st.session_state.page = 'quiz'
             st.rerun()
-# --- END NEW PAGE ---
-
-
-# --- REMOVED 'what_is_tone' and 'factual_info' PAGES ---
 
 
 elif st.session_state.page == 'quiz':
@@ -750,11 +782,8 @@ elif st.session_state.page == 'quiz':
                 # --- Determine Question Text ---
                 if "Tone Controllability" in current_part_key:
                     trait = sample['tone_to_compare']
-                    # --- NEW HIGHLIGHT LOGIC ---
                     change_type = sample['comparison_type']
-                    change_class = 'highlight-increased' if change_type == 'increased' else 'highlight-decreased'
-                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> <b class='{change_class}'>{change_type}</b>?"
-                    # --- END NEW HIGHLIGHT LOGIC ---
+                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> <b class='highlight-trait'>{change_type}</b>?"
                     terms_to_define.add(trait)
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
@@ -827,7 +856,7 @@ elif st.session_state.page == 'quiz':
                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_quiz_next_{sample_id}")
                     # --- END ADDED LINE ---
                 
-                # --- START OF CODE BLOCK TO REPLACE (Double-click/score fix) ---
+                # --- START OF CODE BLOCK TO REPLACE ---
                 else:
                     # Display answer options form
                     # Use unique key including sample_id and question index if applicable
@@ -1308,14 +1337,9 @@ elif st.session_state.page == 'user_study_main':
                     if q_template:
                         # --- Form key updated ---
                         with st.form(key=f"study_form_p2_{change_idx}"):
-                            # --- NEW HIGHLIGHT LOGIC ---
-                            change_type = current_change['change_type']
-                            change_class = 'highlight-increased' if change_type == 'increased' else 'highlight-decreased'
                             highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                            highlighted_change_type = f"<b class='{change_class}'>{change_type}</b>"
+                            highlighted_change_type = f"<b class='highlight-trait'>{current_change['change_type']}</b>"
                             dynamic_question_raw = q_template.format(highlighted_trait, change_type=highlighted_change_type)
-                            # --- END NEW HIGHLIGHT LOGIC ---
-                            
                             dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
                             q2_text = "Is the core factual content consistent across both captions?"
                             col_q1, col_q2 = st.columns(2)
