@@ -163,6 +163,12 @@ def load_data():
     if not os.path.exists(INTRO_VIDEO_PATH):
         st.error(f"Error: Intro video not found at '{INTRO_VIDEO_PATH}'.")
         return None
+        
+    # --- ADDED: Check for new instructions video ---
+    if not os.path.exists("media/intro_to_tone.mp4"):
+        st.error(f"Error: Instructions video not found at 'media/intro_to_tone.mp4'.")
+        return None
+    # --- END ADDED ---
 
     # Flatten definitions from JSON
     flat_definitions = {}
@@ -200,7 +206,7 @@ def load_data():
 st.set_page_config(layout="wide", page_title="Tone-controlled Video Captioning")
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap');
 @keyframes highlight-new { 0% { border-color: transparent; box-shadow: none; } 25% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 75% { border-color: #facc15; box-shadow: 0 0 8px #facc15; } 100% { border-color: transparent; box-shadow: none; } }
 .part1-caption-box { border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 0.5rem; border: 2px solid transparent; transition: border-color 0.3s ease; }
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
@@ -212,8 +218,8 @@ st.markdown("""
     justify-content: flex-end;
 }
 .question-super-label {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1.0rem; /* Increased font size */
+    font-weight: 700; /* Bolded */
     font-family: 'Inter', sans-serif;
     margin-bottom: 0.25rem;
     height: 1.2em; /* Reserve space even if empty */
@@ -1078,12 +1084,14 @@ elif st.session_state.page == 'user_study_main':
                     terms_to_define.update(tone_traits)
                     terms_to_define.add(application_text)
 
-                    def format_traits(traits):
-                        highlighted = [f"<b class='highlight-trait'>{trait}</b>" for trait in traits]
+                    # --- MODIFIED: format_traits function with color ---
+                    def format_traits(traits, color_hex):
+                        highlighted = [f"<b style='color:{color_hex}; font-weight: 700;'>{trait}</b>" for trait in traits]
                         if len(highlighted) > 1: return " and ".join(highlighted)
                         return highlighted[0] if highlighted else ""
+                    # --- END MODIFIED ---
 
-                    tone_str = format_traits(tone_traits)
+                    tone_str = format_traits(tone_traits, "#000099") # Apply blue
 
                     # --- Handle Style Relevance Overrides ---
                     style_q_template_obj = next((q for q in questions_to_ask_raw if q['id'] == 'style_relevance'), None)
@@ -1095,13 +1103,16 @@ elif st.session_state.page == 'user_study_main':
                     for trait in style_traits:
                         if trait in style_overrides:
                             style_q_text_final = style_overrides[trait]['text']
+                            # --- MODIFIED: Apply brown color to override trait ---
+                            style_q_text_final = style_q_text_final.replace("<b class='highlight-trait'>", "<b style='color:#663300; font-weight: 700;'>")
+                            # --- END MODIFIED ---
                             style_q_options_final = style_overrides[trait]['options']
                             terms_to_define.add(trait)
                             found_override = True
                             break
 
                     if not found_override:
-                        style_str = format_traits(style_traits)
+                        style_str = format_traits(style_traits, "#663300") # Apply brown
                         default_text = "How {} is the caption's style?"
                         default_options = ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"]
                         if style_q_template_obj:
@@ -1126,7 +1137,7 @@ elif st.session_state.page == 'user_study_main':
                     questions_to_ask = [
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
                         {"id": "style_relevance", "text": style_q_text_final},
-                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'>tone</span> and <span style='color:#663300;'>style</span> for the given video?"},
+                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'><b>Tone</b></span> and <span style='color:#663300;'><b>Style</b></span> for the given video?"},
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
                         {"id": "human_likeness", "text": human_q_template}
