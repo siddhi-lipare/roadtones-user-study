@@ -207,11 +207,27 @@ st.markdown("""
 .slider-label {
     height: 80px;
     margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.question-super-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 0.25rem;
+    height: 1.2em; /* Reserve space even if empty */
+}
+.slider-question-text {
     font-size: 1.05rem;
     font-weight: 600;
     font-family: 'Inter', sans-serif;
 }
 .highlight-trait { color: #4f46e5; font-weight: 600; }
+.highlight-increase { color: #15803d; font-weight: 600; } /* Dark Green */
+.highlight-decrease { color: #b91c1c; font-weight: 600; } /* Dark Red */
+body[theme="dark"] .highlight-increase { color: #86efac; } /* Light Green */
+body[theme="dark"] .highlight-decrease { color: #fca5a5; } /* Light Red */
 .caption-text { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 19px !important; line-height: 1.6; }
 .part1-caption-box strong { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 600; color: #111827 !important; }
 .part1-caption-box .caption-text { margin: 0.5em 0 0 0; color: #111827 !important; }
@@ -301,6 +317,12 @@ body[theme="dark"] .quiz-question-box {
 /* Force dark highlight in quiz box ALWAYS */
 .quiz-question-box .highlight-trait {
     color: #4f46e5 !important;
+}
+.quiz-question-box .highlight-increase {
+    color: #15803d !important;
+}
+.quiz-question-box .highlight-decrease {
+    color: #b91c1c !important;
 }
 
 /* Force dark text in reference box ALWAYS */
@@ -503,7 +525,7 @@ if st.session_state.all_data is None:
     st.stop() # Stop execution if essential data is missing
 
 # --- Page Rendering Logic ---
-# (Keep demographics, intro_video, what_is_tone, factual_info pages exactly as they were)
+# (Keep demographics page exactly as it was)
 if st.session_state.page == 'demographics':
     st.title("Tone-controlled Video Captioning")
     st.header("Welcome! Before you begin, please provide some basic information:")
@@ -532,87 +554,31 @@ elif st.session_state.page == 'intro_video':
     with vid_col:
         st.video(INTRO_VIDEO_PATH, autoplay=True, muted=True)
     if st.button("Next >>"):
-        st.session_state.page = 'what_is_tone'
+        st.session_state.page = 'instructions_video' # --- CHANGED ---
         st.rerun()
 
-elif st.session_state.page == 'what_is_tone':
-    st.markdown("<h1 style='text-align: center;'>Tone and Writing Style</h1>", unsafe_allow_html=True)
+# --- NEW PAGE FOR INSTRUCTIONS VIDEO ---
+elif st.session_state.page == 'instructions_video':
+    st.title("Instructions")
+    _ , vid_col, _ = st.columns([1, 3, 1]) # Center the video column
+    with vid_col:
+        st.video("media/intro_to_tone.mp4", autoplay=True, muted=True, loop=True)
 
-    st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Tone</b> refers to the author's attitude or feeling about a subject, reflecting their emotional character (e.g., Sarcastic, Angry, Caring).</p>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-size: 1.1rem;'><b>Writing Style</b> refers to the author's technique or method of writing (e.g., Advisory, Factual, Conversational).</p>", unsafe_allow_html=True)
-
-    spacer, title = st.columns([1, 15]) # Adjust column ratio if needed
-    with title:
-        st.subheader("For example:")
-
-    # --- MODIFIED: Added gap="small" ---
-    col1, col2 = st.columns([2, 3], gap="small")
-    with col1:
-        _, vid_col, _ = st.columns([1, 1.5, 1])
-        with vid_col:
-            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
-            if os.path.exists(video_path):
-                st.video(video_path, autoplay=True, muted=True, loop=True)
-            else:
-                st.warning(f"Video not found at {video_path}")
-    with col2:
-        image_path = "media/tone_meaning2.jpg"
-        if os.path.exists(image_path):
-            st.image(image_path)
-        else:
-            st.warning(f"Image not found at {image_path}")
-
-    # --- MODIFIED BUTTONS: Bottom Left & Right ---
     st.markdown("<br>", unsafe_allow_html=True) # Add a little space
     prev_col, _, next_col = st.columns([1, 5, 1]) # Adjust ratios for left/right placement
 
     with prev_col:
         if st.button("Prev <<"): # Small button on the left
-            st.session_state.page = 'intro_video' # Go back to intro video
-            st.rerun()
-
-    with next_col:
-        if st.button("Next >>"): # Small button on the right
-            st.session_state.page = 'factual_info' # Go to factual info
-            st.rerun()
-    # --- END MODIFIED BUTTONS ---
-
-
-elif st.session_state.page == 'factual_info':
-    st.markdown("<h1 style='text-align: center;'>How to measure a caption's <span style='color: #4F46E5;'>Factual Accuracy?</span></h1>", unsafe_allow_html=True)
-
-    col1, col2 = st.columns([2, 3], gap="small")
-    with col1:
-        _, vid_col, _ = st.columns([1, 1.5, 1])
-        with vid_col:
-            video_path = "media/v_1772082398257127647_PAjmPcDqmPNuvb6p.mp4"
-            if os.path.exists(video_path):
-                st.video(video_path, autoplay=True, muted=True, loop=True)
-            else:
-                st.warning(f"Video not found at {video_path}")
-    with col2:
-        image_path = "media/factual_info_new.jpg"
-        if os.path.exists(image_path):
-            # --- ADDED THIS LINE ---
-            st.markdown("<br>", unsafe_allow_html=True) # Add vertical space
-            # --- END ADDED LINE ---
-            st.image(image_path)
-        else:
-            st.warning(f"Image not found at {image_path}")
-
-    # --- MODIFIED BUTTONS: Bottom Left & Right ---
-    st.markdown("<br>", unsafe_allow_html=True) # Add a little space
-    prev_col, _, next_col = st.columns([1, 5, 1]) # Adjust ratios for left/right placement
-
-    with prev_col:
-        if st.button("Prev <<"): # Small button on the left
-            st.session_state.page = 'what_is_tone' # Go back to what_is_tone
+            st.session_state.page = 'intro_video' # --- CHANGED: Go back to first video ---
             st.rerun()
 
     with next_col:
         if st.button("Start Quiz >>"): # Small button on the right
-            st.session_state.page = 'quiz'
+            st.session_state.page = 'quiz' # --- CHANGED: Go directly to quiz ---
             st.rerun()
+# --- END NEW PAGE ---
+
+# --- DELETED 'what_is_tone' and 'factual_info' pages ---
 
 
 elif st.session_state.page == 'quiz':
@@ -783,7 +749,10 @@ elif st.session_state.page == 'quiz':
                 if "Tone Controllability" in current_part_key:
                     trait = sample['tone_to_compare']
                     change_type = sample['comparison_type']
-                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> <b class='highlight-trait'>{change_type}</b>?"
+                    # --- MODIFIED FOR COLOR ---
+                    change_class = "highlight-increase" if change_type == "increased" else "highlight-decrease"
+                    question_text_display = f"From Caption A to B, has the level of <b class='highlight-trait'>{trait}</b> <b class='{change_class}'>{change_type}</b>?"
+                    # --- END MODIFIED ---
                     terms_to_define.add(trait)
                 elif "Caption Quality" in current_part_key:
                     raw_text = question_data["question_text"]
@@ -1147,17 +1116,17 @@ elif st.session_state.page == 'user_study_main':
 
                     # --- MODIFIED: Updated fallback text to match JSON ---
                     tone_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'tone_relevance'), "How {} does the caption sound?")
-                    overall_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'overall_relevance'), "How relevant are the tone and style for the given video?")
+                    # overall_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'overall_relevance'), "How relevant are the tone and style for the given video?") # No longer needed
                     fact_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'factual_consistency'), "How factually accurate is the caption (refer to video and summary)?")
                     useful_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'usefulness'), "How useful would this caption be for {}?")
                     human_q_template = next((q['text'] for q in questions_to_ask_raw if q['id'] == 'human_likeness'), "How human-like does this caption sound?")
                     # --- END MODIFIED ---
 
-                    # --- MODIFIED: Added 'overall_relevance' ---
+                    # --- MODIFIED: Added 'overall_relevance' with new text ---
                     questions_to_ask = [
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
                         {"id": "style_relevance", "text": style_q_text_final},
-                        {"id": "overall_relevance", "text": overall_q_template},
+                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'>tone</span> and <span style='color:#663300;'>style</span> for the given video?"},
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
                         {"id": "human_likeness", "text": human_q_template}
@@ -1167,11 +1136,29 @@ elif st.session_state.page == 'user_study_main':
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
                     question_cols_row1 = st.columns(3); question_cols_row2 = st.columns(3)
 
+                    # --- MODIFIED: render_slider function ---
                     def render_slider(q, col, q_index, view_key_arg):
                         with col:
                             slider_key = f"ss_{q['id']}_cap{caption_idx}"
-                            st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                            
+                            # --- START NEW LOGIC ---
+                            super_label = ""
+                            if q['id'] == "tone_relevance":
+                                super_label = "<div class='question-super-label' style='color: #000099;'>Tone</div>"
+                            elif q['id'] == "style_relevance":
+                                super_label = "<div class='question-super-label' style='color: #663300;'>Style</div>"
+                            else:
+                                # Add an empty div to maintain alignment
+                                super_label = "<div class='question-super-label'>&nbsp;</div>" 
+                            
+                            # Add question text
+                            question_text = f"<strong>{q_index + 1}. {q['text']}</strong>"
+                            
+                            st.markdown(f"<div class='slider-label'>{super_label}<div class='slider-question-text'>{question_text}</div></div>", unsafe_allow_html=True)
+                            # --- END NEW LOGIC ---
+                            
                             st.select_slider(q['id'], options=options_map[q['id']], key=slider_key, label_visibility="collapsed", on_change=mark_interacted, args=(q['id'], view_key_arg, q_index), value=options_map[q['id']][0])
+                    # --- END MODIFIED ---
 
                     num_interacted = sum(1 for flag in interacted_state.values() if flag)
                     questions_to_show = num_interacted + 1
@@ -1337,9 +1324,16 @@ elif st.session_state.page == 'user_study_main':
                     if q_template:
                         # --- Form key updated ---
                         with st.form(key=f"study_form_p2_{change_idx}"):
+                            # --- MODIFIED FOR COLOR ---
+                            trait = field_to_change[field_type]
+                            change_type_str = current_change['change_type']
+                            change_class = "highlight-increase" if change_type_str == "increased" else "highlight-decrease"
+                            
                             highlighted_trait = f"<b class='highlight-trait'>{trait}</b>"
-                            highlighted_change_type = f"<b class='highlight-trait'>{current_change['change_type']}</b>"
+                            highlighted_change_type = f"<b class='{change_class}'>{change_type_str}</b>"
                             dynamic_question_raw = q_template.format(highlighted_trait, change_type=highlighted_change_type)
+                            # --- END MODIFIED ---
+                            
                             dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
                             q2_text = "Is the core factual content consistent across both captions?"
                             col_q1, col_q2 = st.columns(2)
