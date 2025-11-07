@@ -92,5 +92,5 @@ Set 5:
 	
 1703606261588390352: nei 2; adventurous exaggeration
 
-
+"Is the core factual content consistent across both captions (refer to video and summary)?"
 

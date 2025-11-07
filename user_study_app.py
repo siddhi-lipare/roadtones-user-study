@@ -1137,7 +1137,9 @@ elif st.session_state.page == 'user_study_main':
                     questions_to_ask = [
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
                         {"id": "style_relevance", "text": style_q_text_final},
-                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'><b>Tone</b></span> and <span style='color:#663300;'><b>Style</b></span> for the given video?"},
+                        # --- THIS IS THE MODIFIED LINE ---
+                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'><b>Tone</b></span> and <span style='color:#663300;'><b>Style</b></span> for the given video?<br><span style='font-size: 0.9rem; font-weight: 500;'>(e.g., for a Traffic Authority, social media influencer or for yourself)</span>"},
+                        # --- END OF MODIFIED LINE ---
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
                         {"id": "human_likeness", "text": human_q_template}
@@ -1346,7 +1348,7 @@ elif st.session_state.page == 'user_study_main':
                             # --- END MODIFIED ---
                             
                             dynamic_question_save = re.sub('<[^<]+?>', '', dynamic_question_raw)
-                            q2_text = "Is the core factual content consistent across both captions?"
+                            q2_text = "Is the core factual content consistent across both captions (refer to video and summary)?"
                             col_q1, col_q2 = st.columns(2)
                             with col_q1:
                                 st.markdown(f'<div class="part3-question-text">1. {dynamic_question_raw}</div>', unsafe_allow_html=True) # Kept class name for styling
@@ -1617,7 +1619,7 @@ parent_document.addEventListener('keyup', function(event) {
             }
         }
     } else if (event.key === 'ArrowLeft') {
-        event.preventDefault();
+        event.Dflt();
         const targetButtonLabels = [
             "Prev <<"
         ];
