@@ -212,7 +212,7 @@ st.markdown("""
 .new-caption-highlight { animation: highlight-new 1.5s ease-out forwards; }
 .slider-label {
     height: 80px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem; /* Increased from 0.5rem */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -225,7 +225,7 @@ st.markdown("""
     height: 1.2em; /* Reserve space even if empty */
 }
 .slider-question-text {
-    font-size: 1.05rem;
+    font-size: 1.15rem; /* Increased from 1.05rem */
     font-weight: 600;
     font-family: 'Inter', sans-serif;
 }
@@ -263,11 +263,11 @@ body[theme="dark"] .reference-box { background-color: #FFFBEB; } /* Force light 
 .reference-box ul { padding-left: 20px; margin: 0; }
 .reference-box li { margin-bottom: 0.5rem; }
 .part3-question-text {
-    font-size: 1.05rem;
+    font-size: 1.15rem; /* Increased from 1.05rem */
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-family: 'Inter', sans-serif;
-    height: 70px;
+    height: 80px; /* Increased from 70px */
 }
 h2 {
     font-size: 1.75rem !important;
@@ -1537,9 +1537,13 @@ elif st.session_state.page == 'user_study_main':
                     # --- Function name updated for clarity ---
                     def render_p3_radio(q, col, q_index, view_key_arg):
                         with col:
-                            st.markdown(f"<div class='slider-label'><strong>{q_index + 1}. {q['text']}</strong></div>", unsafe_allow_html=True)
+                            # --- MODIFIED: Use slider-question-text class for consistency ---
+                            question_text = f"<strong>{q_index + 1}. {q['text']}</strong>"
+                            st.markdown(f"<div class='slider-label'><div class='slider-question-text'>{question_text}</div></div>", unsafe_allow_html=True)
+                            # --- END MODIFIED ---
                             # --- Radio key updated ---
                             st.radio(q['text'], options, index=None, label_visibility="collapsed", key=f"p3_{comparison_id}_{q['id']}", on_change=mark_p3_interacted, args=(q['id'], view_key_arg))
+
 
                     # --- Function name and variable updated ---
                     if questions_to_show >= 1: render_p3_radio(part3_questions[0], question_cols[0], 0, view_state_key)
