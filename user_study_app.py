@@ -1138,7 +1138,7 @@ elif st.session_state.page == 'user_study_main':
                         {"id": "tone_relevance", "text": tone_q_template.format(tone_str)},
                         {"id": "style_relevance", "text": style_q_text_final},
                         # --- THIS IS THE MODIFIED LINE ---
-                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'><b>Tone</b></span> and <span style='color:#663300;'><b>Style</b></span> for the given video?<br><span style='font-size: 0.9rem; font-weight: 500;'>(e.g., for a Traffic Authority, social media influencer or for yourself)</span>"},
+                        {"id": "overall_relevance", "text": "How relevant are the <span style='color:#000099;'><b>Tone</b></span> and <span style='color:#663300;'><b>Style</b></span> for the given video? <span style='font-size: 0.9rem; font-weight: 500;'>(e.g., for a Traffic Authority, social media influencer or for yourself)</span>"},
                         # --- END OF MODIFIED LINE ---
                         {"id": "factual_consistency", "text": fact_q_template},
                         {"id": "usefulness", "text": useful_q_template.format(f"<b class='highlight-trait'>{application_text}</b>")},
@@ -1619,7 +1619,7 @@ parent_document.addEventListener('keyup', function(event) {
             }
         }
     } else if (event.key === 'ArrowLeft') {
-        event.Dflt();
+        event.preventDefault();
         const targetButtonLabels = [
             "Prev <<"
         ];
