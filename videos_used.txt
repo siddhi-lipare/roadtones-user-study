@@ -51,7 +51,7 @@ Set 3:
 Set 4:
     Part 1:
     5. 1665532513672916992
-	6. 1763928814290354479
+    6. 1763928814290354479
 
     Part 2:
     15. 1683698289500360704: analogy increase
@@ -91,6 +91,3 @@ Set 5:
 	1740563927124296059: original:questioning sarcasstic
 	
 1703606261588390352: nei 2; adventurous exaggeration
-
-"Is the core factual content consistent across both captions (refer to video and summary)?"
-
