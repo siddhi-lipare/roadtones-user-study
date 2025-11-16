@@ -1483,7 +1483,7 @@ elif st.session_state.page == 'user_study_main':
                 terms_to_define = set()
                 if current_step >= 5:
                     # --- MODIFIED: Show only one caption (caption_A) ---
-                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{current_comp["caption_A"]}</p></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="comparison-caption-box"><strong>Caption</strong><p class="caption-text">{current_comp["caption_B"]}</p></div>', unsafe_allow_html=True)
                     # --- DELETED caption_B ---
                     
                     streamlit_js_eval(js_expressions=JS_ANIMATION_RESET, key=f"anim_reset_p3_{comparison_id}")
