@@ -1413,13 +1413,15 @@ elif st.session_state.page == 'user_study_main':
         else:
             view_state_key = f"view_state_p3_{comparison_id}"; summary_typed_key = f"summary_typed_p3_{comparison_id}"
             
-            # --- MODIFIED: New question IDs for Part 3 ---
-            question_ids = ["personality_agreement", "style_agreement", "factual_consistency"]
+            # --- MODIFIED: New question IDs for Part 3, like Part 1 ---
+            question_ids = ["part3_tone_relevance", "part3_style_relevance", "part3_factual_consistency"]
             options_map = {
-                "personality_agreement": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
-                "style_agreement": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
-                "factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"]
+                "part3_tone_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                "part3_style_relevance": ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"],
+                "part3_factual_consistency": ["Contradicts", "Inaccurate", "Partially", "Mostly Accurate", "Accurate"]
             }
+            # Get question templates from Part 1
+            part1_q_templates = st.session_state.all_data['questions']['part1_questions']
             # --- END MODIFIED ---
 
             if view_state_key not in st.session_state:
@@ -1435,7 +1437,13 @@ elif st.session_state.page == 'user_study_main':
                 
             current_step = st.session_state[view_state_key]['step']
 
-            # --- DELETED old mark_p3_interacted function ---
+            # --- ADDED: mark_p3_interacted function (like part 1) ---
+            def mark_p3_interacted(q_id, view_key, question_index):
+                if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
+                    if not st.session_state[view_key]['interacted'][q_id]:
+                        st.session_state[view_key]['interacted'][q_id] = True
+                        st.session_state[view_state_key]['step'] = 6 + question_index + 1
+            # --- END ADDED ---
 
             title_col1, title_col2 = st.columns([1, 1.8])
             with title_col1:
@@ -1482,56 +1490,81 @@ elif st.session_state.page == 'user_study_main':
                     if current_step == 5 and st.button("Show Questions", key=f"p3_show_q_{comparison_id}"):
                         st.session_state[view_state_key]['step'] = 6; st.rerun()
                 
-                # --- MODIFIED: New Step 6 logic with 3 sliders ---
+                # --- MODIFIED: New Step 6 logic with 3 sliders, like Part 1 ---
                 if current_step >= 6:
-                    # Define the 'mark_interacted' function locally for Part 3
-                    def mark_p3_interacted(q_id, view_key, question_index):
-                        if view_key in st.session_state and 'interacted' in st.session_state[view_key]:
-                            if not st.session_state[view_key]['interacted'][q_id]:
-                                st.session_state[view_key]['interacted'][q_id] = True
-                                st.session_state[view_state_key]['step'] = 6 + question_index + 1
-
                     control_scores = current_comp.get("control_scores", {})
-                    tone_traits = control_scores.get("tone", {})
-                    style_traits = control_scores.get("writing_style", {})
+                    # Get traits *without* intensity
+                    tone_traits = list(control_scores.get("tone", {}).keys())
+                    style_traits = list(control_scores.get("writing_style", {}).keys())
                     
-                    terms_to_define.update(tone_traits.keys())
-                    terms_to_define.update(style_traits.keys())
+                    terms_to_define.update(tone_traits)
 
-                    def format_traits_with_intensity(traits_dict):
-                        if not traits_dict:
-                            return "None"
-                        # Use bold for trait, normal for intensity
-                        parts = [f"<b>{trait}</b>: {intensity}" for trait, intensity in traits_dict.items()]
-                        return ", ".join(parts)
+                    # Copied from Part 1: format_traits function with color
+                    def format_traits(traits, color_hex):
+                        highlighted = [f"<b style='color:{color_hex}; font-weight: 700;'>{trait}</b>" for trait in traits]
+                        if len(highlighted) > 1: return " and ".join(highlighted)
+                        return highlighted[0] if highlighted else ""
 
-                    personality_str = format_traits_with_intensity(tone_traits)
-                    style_str = format_traits_with_intensity(style_traits)
+                    tone_str = format_traits(tone_traits, "#000099") # Apply blue
+
+                    # Copied from Part 1: Handle Style Relevance Overrides
+                    style_q_template_obj = next((q for q in part1_q_templates if q['id'] == 'style_relevance'), None)
+                    style_overrides = style_q_template_obj.get('overrides', {}) if style_q_template_obj else {}
+                    found_override = False
+                    style_q_text_final = ""
+                    style_q_options_final = []
+
+                    for trait in style_traits:
+                        if trait in style_overrides:
+                            style_q_text_final = style_overrides[trait]['text']
+                            style_q_text_final = style_q_text_final.replace("<b class='highlight-trait'>", "<b style='color:#663300; font-weight: 700;'>")
+                            style_q_options_final = style_overrides[trait]['options']
+                            terms_to_define.add(trait)
+                            found_override = True
+                            break
+
+                    if not found_override:
+                        style_str = format_traits(style_traits, "#663300") # Apply brown
+                        default_text = "How {} is the caption's style?"
+                        default_options = ["Not at all", "Weak", "Moderate", "Strong", "Very Strong"]
+                        if style_q_template_obj:
+                            default_text = style_q_template_obj.get('default_text', default_text)
+                            default_options = style_q_template_obj.get('default_options', default_options)
+                        style_q_text_final = default_text.format(style_str)
+                        style_q_options_final = default_options
+                        terms_to_define.update(style_traits)
+
+                    options_map['part3_style_relevance'] = style_q_options_final # Update the options map
+                    
+                    # Copied from Part 1: Get question templates
+                    tone_q_template = next((q['text'] for q in part1_q_templates if q['id'] == 'tone_relevance'), "How {} does the caption sound?")
+                    fact_q_template = next((q['text'] for q in part1_q_templates if q['id'] == 'factual_consistency'), "How factually accurate is the caption (refer to video and summary)?")
 
                     questions_to_ask = [
-                        {"id": "personality_agreement", "text": "How much do you agree with the listed tones and intensities?"},
-                        {"id": "style_agreement", "text": "How much do you agree with the listed writing styles and intensities?"},
-                        {"id": "factual_consistency", "text": "How factually accurate is the caption (refer to video and summary)?"}
+                        {"id": "part3_tone_relevance", "text": tone_q_template.format(tone_str)},
+                        {"id": "part3_style_relevance", "text": style_q_text_final},
+                        {"id": "part3_factual_consistency", "text": fact_q_template}
                     ]
-                    
-                    super_labels = {
-                        "personality_agreement": f"<div class='question-super-label' style='color: #000099;'>Personality: {personality_str}</div>",
-                        "style_agreement": f"<div class='question-super-label' style='color: #663300;'>Writing Style: {style_str}</div>",
-                        "factual_consistency": "<div class='question-super-label'>&nbsp;</div>"
-                    }
 
                     interacted_state = st.session_state.get(view_state_key, {}).get('interacted', {})
-                    question_cols = st.columns(3) # 3 columns for 3 questions
+                    question_cols = st.columns(3) # 3 columns
 
-                    # Define render_slider locally for Part 3
+                    # Copied from Part 1: render_slider function
                     def render_p3_slider(q, col, q_index, view_key_arg):
                         with col:
                             slider_key = f"p3_ss_{q['id']}_{comparison_id}" # Unique key for part 3
-                            super_label_html = super_labels.get(q['id'], "<div class='question-super-label'>&nbsp;</div>")
+                            
+                            super_label = ""
+                            if q['id'] == "part3_tone_relevance":
+                                super_label = "<div class='question-super-label' style='color: #000099;'>Tone</div>"
+                            elif q['id'] == "part3_style_relevance":
+                                super_label = "<div class='question-super-label' style='color: #663300;'>Style</div>"
+                            else:
+                                super_label = "<div class='question-super-label'>&nbsp;</div>" 
                             
                             question_text = f"<strong>{q_index + 1}. {q['text']}</strong>"
                             
-                            st.markdown(f"<div class='slider-label'>{super_label_html}<div class='slider-question-text'>{question_text}</div></div>", unsafe_allow_html=True)
+                            st.markdown(f"<div class='slider-label'>{super_label}<div class='slider-question-text'>{question_text}</div></div>", unsafe_allow_html=True)
                             
                             st.select_slider(
                                 q['id'], 
@@ -1551,7 +1584,7 @@ elif st.session_state.page == 'user_study_main':
                     if questions_to_show >= 3: render_p3_slider(questions_to_ask[2], question_cols[2], 2, view_state_key)
                     
                     if questions_to_show > len(questions_to_ask):
-                        if st.button("Submit Ratings", key=f"submit_comp_p3_{comparison_id}"): # Changed button text
+                        if st.button("Submit Ratings", key=f"submit_comp_p3_{comparison_id}"): # Re-using button text from Part 1
                             all_interacted = all(interacted_state.get(qid, False) for qid in question_ids)
                             if not all_interacted:
                                 missing_qs = [i+1 for i, qid in enumerate(question_ids) if not interacted_state.get(qid, False)]
@@ -1563,12 +1596,6 @@ elif st.session_state.page == 'user_study_main':
                                     for q_id, choice_text in responses_to_save.items():
                                         full_q_text = next((q['text'] for q in questions_to_ask if q['id'] == q_id), "N.A.")
                                         
-                                        # Add the trait string to the saved question text for context
-                                        if q_id == "personality_agreement":
-                                            full_q_text += f" (Traits: {personality_str})"
-                                        elif q_id == "style_agreement":
-                                            full_q_text += f" (Traits: {style_str})"
-
                                         if not save_response(st.session_state.email, st.session_state.age, st.session_state.gender, current_comp, current_comp, choice_text, 'user_study_part3', full_q_text):
                                             all_saved = False
                                             break
