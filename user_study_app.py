@@ -1270,7 +1270,7 @@ elif st.session_state.page == 'user_study_main':
             with title_col2:
                 if current_step >= 5:
                      # --- Title updated ---
-                    st.subheader(f"Tone Intensity Change") # Simpler title
+                    st.subheader(f"Tone Intensity Control") # Simpler title
 
             col1, col2 = st.columns([1, 1.8])
             with col1:
@@ -1450,7 +1450,7 @@ elif st.session_state.page == 'user_study_main':
                 st.subheader("Video")
             with title_col2:
                 if current_step >= 5:
-                    st.subheader("Caption Rating") # Changed title
+                    st.subheader("Caption Quality") # Changed title
 
             col1, col2 = st.columns([1, 1.8])
             with col1:
